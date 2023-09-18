@@ -1,0 +1,178 @@
+@charset "UTF-8";
+
+.s-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
+	margin: 0 60px; /* 좌우 마진 - 60*/
+	position: absolute;
+	left: 310px; /* 메뉴 + 소메뉴 = 310px을 차지함 */
+	top: 75px; /* 위로부터 75px 떨어짐*/
+	border: solid 1px rgba(224, 224, 224);
+}
+
+#h-title {
+	margin-top: 25px;
+	margin-bottom: 5px;
+}
+
+.app-btn {
+	display: inline-block;
+	width: 130px;
+	height: 55px;
+	background-color: rgb(240, 240, 240);
+	border: 2px solid rgb(200, 200, 200);
+	border-radius: 15px;
+	font-size: 16px;
+	float: right;
+	cursor: pointer;
+}
+
+.app-btn:hover {
+  	font-size: 18px; /* 호버 시 텍스트 크기를 더 크게 설정 */
+  	font-weight: bold;
+}
+
+.type {
+	display: inline-block; /*나란히 배치, height, width, 여백 사용 가능  */
+	height: 20px;
+}
+
+.type a{
+	display: inline-block;  /*나란히 배치, height, width, 여백 사용 가능  */
+	text-decoration: none; /*link를 걸었을 때, 밑줄 제거 */
+	color: rgb(94, 94, 94);
+ 	margin-top: 30px; /*기안문서함 글자 사이 margin */
+	margin-right: 35px; /*글자 사이 기준으로, 오른쪽으로 margin*/
+}
+
+.type.active a {
+	color: black;
+	font-weight: bold;
+}
+
+.t-List{
+	margin: 20px 0; /*상하20 좌우0*/
+	font-size: 14px;
+	text-align: center;
+	border-collapse: collapse;  /*테이블 요소의 테두리(보더) : 테이블의 셀 보더를 합쳐서 표시*/
+	border-top: 2px solid rgb(200, 200, 200);
+	border-bottom: 2px solid rgb(200, 200, 200);
+}
+
+.t-List tr {
+	border-top: 1px solid rgb(200, 200, 200);
+	height: 45px;
+}
+
+.t-List tr:hover {
+	background-color: rgb(250, 250, 250);
+}
+
+.t-List th {
+	background-color: rgb(240, 240, 240);
+}
+
+.t-List .th-1 { /* 테이블 헤더 부분 간격*/
+	width: 180px;
+}
+
+.t-List .th-2 {
+	width: 630px;
+}
+
+.t-List .th-3 { /* 임시저장함: 제목*/
+	width: 810px; 
+}
+
+.t-List a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+.t-List span {
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: 1px;
+	color: white;
+}
+
+
+.status-1 { /* 기안 대기, 결재 대기 */
+	background-color: #a6c76c;
+}
+.status-2 { /* 진행, 결재 진행 */
+	background-color: rgb(117, 144, 194);
+}
+.status-3 { /* 완료 */
+	background-color: rgb(130, 130, 130);
+}
+.status-4 { /* 반려 */
+	background-color: #ff616b;
+}
+.status-5 { /* 임시, 결재 예정 */
+	background-color: rgb(161, 128, 177);
+}
+.paging {
+	display: inline-flex;
+	height: 40px;
+	width: 836px;
+	margin-left: 257px;
+	justify-content: center;
+}
+.page-btn {
+	width: 40px;
+	height: 40px;
+	border: none;
+	background-color: transparent;
+	font-size: 14px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+.page-btn:hover, .page-btn.active {
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+}
+
+
+
+/* //////////////////////////// 검색  */
+.l-search { 
+	display: inline-flex;   
+	height: 40px;
+	width:300px;
+	margin-bottom: 10px;
+	float: right;
+}
+
+.l-search form{
+	display: inline-flex; 
+	/* 	플렉스 박스를 생성하면서 동시에 해당 요소를 인라인 박스처럼 취급 
+	해당 요소를 인라인 수준 박스로 취급하여 다른 인라인 요소와 같이 한 줄에 나란히 배치될 수 있게 만듦 */
+}
+.l-select {
+	flex:1;
+	height: 40px;
+	width: 80px;
+	border-radius: 4px;
+	border: solid 1px rgb(190, 190, 190);
+	margin-right: 3px;
+	text-align: center;
+}
+.l-input {
+	display: inline-flex; 
+	height: 40px;
+	width: 170px;
+	margin-left: 3px;
+	border-radius: 8px;
+}
+.l-text {
+	width: 137px;
+	border: solid 1px rgb(190, 190, 190);
+	border-radius: 4px;
+}
+.i-search {
+	border: solid 1px rgb(190, 190, 190);
+	border-radius: 4px;
+	margin-left: 5px;
+}
+
+

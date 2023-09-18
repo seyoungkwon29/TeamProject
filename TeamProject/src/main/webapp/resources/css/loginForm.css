@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  
+  .logo {
+    width: 50%;
+  }
+
+  .logoDiv{
+    display: flex;
+    justify-content: center;
+  }
+  
+  fieldset {
+    border: 2px solid #d3c9b5;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+  }
+
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #7f7157;
+    border-radius: 5px;
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border: 2px solid #7f7157;
+    outline: none;
+  }
+  
+  .login_btn {
+    background: linear-gradient(45deg, rgba(127, 113, 87, 0.6), rgba(127, 113, 87, 0.4)); /* 그라데이션 효과 적용 */
+    border: none;
+    padding: 15px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    height: 90%;
+    width: 100%;
+    transition: background-color 0.2s ease;
+    color: #463e31;
+  }
+  
+  .login_btn:hover {
+    background-color: rgba(234, 225, 206, 0.7); /* 투명한 배경색 */
+	  border-color: #7f7157; /* 테두리 색상 변경 */
+  }
+  
+  a {
+    color: dimgray;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: rgb(25, 24, 24);
+    text-decoration: none;
+  }
+  
+.input{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.input_btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saveCheckDiv{
+  margin-left: 10px;
+  margin-top: 10px;
+  color: dimgray;
+}
+
+.passwordSearch{
+  display: flex;
+  justify-content: center;
+}

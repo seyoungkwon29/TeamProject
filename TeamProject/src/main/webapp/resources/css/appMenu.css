@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+/* //////////////////////////////////////// 소 메뉴바 생성 */
+.s-menu { /* 소 메뉴바 */
+	position: fixed;
+ 	left: 160px;  
+	width: 160px;
+	height: 100%;
+	margin-top: 25px;
+	background-color: white;
+	border-right: solid 1px rgba(224, 224, 224);
+}
+
+.s-menu-title p{ /* 소메뉴 타이틀 */
+	text-align : center;
+	font-size : 23px;
+	font-weight: bold;
+}
+
+.s-list-item a { /* 소메뉴 리스트*/
+ 	margin-left: 35px; 
+ 	display:inline-block; 
+	padding-top: 15px;
+	padding-bottom : 15px;
+	color: rgb(51, 51, 51);
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.s-list-item a:hover {
+	color: black;
+	font-weight: bold;
+}
+

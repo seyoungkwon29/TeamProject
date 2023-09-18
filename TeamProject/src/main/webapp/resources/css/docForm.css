@@ -1,0 +1,286 @@
+@charset "UTF-8";
+
+.doc-container {
+	margin:0 60px; 
+	position:absolute; 
+	left:310px; 
+	top:80px; 
+	border:solid 1px rgba(224, 224, 224);
+}
+
+.head-title {
+	margin: 30px 0;
+	text-align: center;
+}
+#table {
+	left: 300px;
+	margin: 0 50px 30px 50px;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+#table td {
+	border: 1px solid black;
+	font-size: 14.5px;
+}
+.tr-s {
+	height: 23px;
+}
+.tr-m {
+	height: 46px;
+}
+
+.td-1 { /* 왼쪽에서 첫 번째(문서번호, 기안일, 기안자...) */
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+	text-indent: 5px;
+}
+.td-2 { /* 왼쪽에서 두 번째 */
+	text-align: center;
+	width: 180px;
+}
+.td-3 { /* 결재 */
+	text-align: center;
+	letter-spacing: 15px;
+	width: 50px;
+}
+.td-4 { /* 담당, 부서 */
+	text-align: center;
+	width: 135px;
+	letter-spacing: 15px;
+	text-indent: 15px;
+}
+.td-5 { /* 이름 */
+	text-align: center;
+	letter-spacing: 5px;
+	text-indent: 5px;
+}
+.td-6 { /* 결재 상태, 결재 날짜 */
+	text-align: center;
+}
+.s-refList{ /* 참조자 리스트 텍스트 */
+	display: inline-flex;
+	padding-left: 10px;
+	width: 730px;
+}
+.td-btn { /* 참조자 선택 버튼 영역 */
+	width: 40px;
+}
+.td-content {
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	letter-spacing: 50px;
+	text-indent: 50px;
+}
+/* img { 승인/반려 이미지 */
+/* 	margin-top: 10px; */
+/* } */
+
+.btn-select-app { /* 결재자 선택 버튼 */
+	border: none;
+	background-color: rgb(230, 230, 230);
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 12px;
+	padding: 8px 18px;
+	letter-spacing: 0px;
+	border-radius: 20px;
+}
+.btn-select-ref { /* 참조자 선택 버튼 */
+	border: none;
+	background-color: rgb(230, 230, 230);
+	cursor: pointer;
+	font-size: 20px; 
+	padding: 5 15px; 
+	border-radius: 10px;
+	font-weight: bold;
+}
+.btn-select-app:hover, .btn-select-ref:hover { /* 참조자 선택 버튼 */
+	background-color: rgb(200, 200, 200);
+}
+.i-title { /* 제목 입력 필드 */
+	height: 43px;
+	width: 775px;
+	border: none;
+	padding-left: 10px;
+	font-size: 14.5px;
+}
+
+/* 파일 첨부*/
+.file-div{
+	display: flex; 
+	align-items: center;
+	margin-left: 50px;
+}
+.file-s-text { /* 파일 첨부*/
+	margin-right: 13px;	
+	font-size: 16px;
+	font-weight: bold;
+}
+label[for="select_file"] { /* 파일 선택*/
+	cursor: pointer;
+	padding: 8px 15px;
+	margin-right: 20px;
+    margin-left: 15px;
+	background-color: rgb(230, 230, 230);
+	color: #2b2b2b;
+	font-size: 12px;
+	border-radius: 15px;
+}
+label[for="select_file"]:hover {
+	background-color: rgb(200, 200, 200);
+}
+input[type="file"] { /*파일 필드 숨기기: 파일 필드를 절대적으로 작게 만들어 화면에 보이지 않기*/
+    position: absolute;
+    width: 1px; 
+    height: 1px;
+    padding: 0; 
+    margin: -1px; 
+    overflow: hidden;
+    clip: rect(0,0,0,0);  /*화면에 보이지 않도록 설정*/
+    border: 0;
+}
+.file-name {
+	border: none;
+	font-size: 13px;
+}
+.file-del {
+	display: none;
+	cursor: pointer;
+	background-color: #ffffff;
+	color: #ff0000;
+	border: none;
+	border-radius: 10%;
+	width: 16px;
+	height: 16px;
+	font-size: 14px;
+	text-align: center;
+	margin-left: 10px;
+	transition: background-color 0.3s ease-in-out;
+}
+.file-del:hover {
+	font-size: 16px;
+}
+.file-del2 { /*저장된 파일 삭제 버튼*/
+	border: none;
+	color: red;
+	background-color: transparent;
+	font-size: 16px;
+	margin: 0 10px;
+	cursor: pointer;
+}
+
+
+/* 버튼 영역*/
+.footer-div {
+	margin: 30px 50px 50px 30px;
+	float: right;
+}
+
+.footer-div input{
+	width: 100px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgb(200, 200, 200);
+	color : #3b3b3b;
+	border-radius: 10px;
+	font-size: 14px;
+	cursor: pointer;
+	margin-left: 15px;
+	font-weight: bold;
+}
+.i-btn:hover { /*버튼에 마우스를 올렸을 때 배경색 변경 */
+    background-color: rgb(230, 230, 230);
+}
+
+
+/* 휴가 신청서 */
+.leave-type { /* 휴가 종류 */
+	border: 1px solid rgb(200, 200, 200);
+	border-radius: 4px;
+	height: 37px;
+	width: 100px;
+	margin-left: 10px;
+	padding-left: 5px;
+}
+.leave-date { /* 휴가 기간 */
+	margin-left: 10px;
+	line-height: 35px;
+}
+.leave-date input[type="date"]{ /* 휴가 시작일, 종료일 */
+	border: 1px solid rgb(200, 200, 200);
+	border-radius: 4px;
+	height: 35px;
+	width: 100px;
+	padding: 0 10px;
+}
+.leave-time { /* 반차 시간 영역 */
+	margin-left: 5px;
+	vertical-align: middle;
+	height: 35px;
+}
+.leave-time input[type="radio"]{ /* 반차 시간 라디오 버튼 */
+	margin: 10px;
+	width: 17px;
+	height: 17px;
+}
+.leave-day { /* 휴가 일수 */
+	height: 35px;
+	margin-left: 15px;
+}
+#td-leave-day span{ /* 연차 일수 텍스트 */
+	margin-left: 15px;
+}
+#td-leave-day input{ /* 연차 일수 값 */
+	width: 50px;
+	height: 35px;
+	border: none;
+	font-size: 14.5px;
+}
+#td-leave-reason {
+	height: 200px;
+	padding: 0;
+}
+#td-leave-reason textarea { /* 휴가 사유 */
+	padding: 15px;
+	border: none;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+	margin-top: 3px;
+	resize: none;
+	font-size: 14.5px;
+	font-family: inherit;
+}
+
+/* 문서 상세 보기 */
+.td-content-val { /* 내용 값 기본 높이 */
+	height: 190px;
+}
+.indent { /* 왼쪽 들여쓰기 */
+	text-indent: 15px;
+}
+.div-file, .div-rej { /* 첨부 파일, 반려 사유 영역 */
+	display: flex;
+	vertical-align: middle;
+	margin-bottom: 30px;
+}
+#file-icon { /* 첨부 파일 아이콘 */
+	transform: rotate(30deg);
+	color: rgb(51, 51, 51);
+}
+.div-file span, .div-rej span:not(.div-rejReason) { /* 첨부 파일 아이콘, 텍스트 */
+	margin-right: 5px;
+}
+.div-file a { /* 첨부 파일 링크 */
+	text-decoration: none;
+	margin-left: 15px;
+	color: #109FDD;
+	font-weight: bold;
+}
+#rej-icon { /* 반려 사유 아이콘 */
+	color: rgb(192, 57, 43);
+}
+.div-rejReason { /* 반려 사유 내용 */
+	margin-left: 15px;
+}

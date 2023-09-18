@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+/* 모달 창 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 모달 배경 투명도 조절 */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    height: 500px;
+    width: 750px;
+
+    flex-direction: column;
+    justify-content: center;
+    
+    position: relative;
+    
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 모달 내부 */
+.contentTop{
+    margin-top: 10px;
+}
+
+.contentCenter{
+    display: flex;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #d3c9b5;
+}
+
+p{
+    font-size: large;
+    font-weight: bold;
+}
+
+.modal-content{
+    display: flex;
+}
+
+.contentul, .roomInfo{
+    list-style-type: none;
+    padding: 0px;
+    margin-left: 10px;
+}
+
+.contentul li, .roomInfo li{
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+.centerL{
+    width: 58%;
+}
+.centerR{
+    width: 42%;
+}
+
+
+
+#roomImg {
+    max-width: 410px; /* 이미지 최대 너비 조정 */
+    max-height: 250px; /* 이미지 최대 높이 조정 */
+    margin: 0 auto;
+}
+
+
+/* 버튼 */
+.modal-buttons {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 30px; /* 버튼과 내용 사이 여백 조정 */
+}
+
+.confirm-button,
+.delete-button {
+    padding: 10px 20px;
+    color: 222A35;
+    margin: 0 10px; /* 버튼 간 여백 조정 */
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-button:hover,
+.delete-button:hover {
+    background-color: rgba(234, 225, 206, 0.7); /* 투명한 배경색 */
+	border-color: #7f7157; /* 테두리 색상 변경 */
+}
+
+.close {
+    cursor: pointer;
+}
+

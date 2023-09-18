@@ -1,0 +1,16 @@
+-계정생성
+CREATE USER intranet IDENTIFIED BY intranet;
+
+-권한부여
+GRANT connect, resource to intranet;
+
+-계정 정보 수정
+alter USER intranet IDENTIFIED BY intranet;
+
+----------------------------------------------
+-테이블 생성
+CREATE TABLE  
+( memberNo NUMBER(4),
+memberName VARCHAR2(20),
+hiredate DATE DEFAULT SYSDATE,
+sal NUMBER(7,2))

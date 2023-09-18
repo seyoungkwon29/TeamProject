@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#s-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
+	margin: 0 60px; /* 좌우 마진 - 60*/
+	position: absolute;
+	left: 350px; /* 메뉴 + 소메뉴 = 310px을 차지함 */
+	top: 75px; /* 위로부터 75px 떨어짐*/
+    padding: 20px;
+}

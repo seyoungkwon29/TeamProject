@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 기본 : Enables the Spring MVC @Controller programming model -->
+	<annotation-driven validator="validator"/>
+	<beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	
+	<default-servlet-handler/>
+	
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- 페이지 주소 설정 -->
+<!-- 	<view-controller path="/" view-name="loginForm"/> -->
+	
+	<!-- 데이터 처리 필요 없는 주소 처리 -->
+	<view-controller path="/loginForm" view-name="loginForm"/><!-- homePage.jsp -->
+	<view-controller path="/homePage" view-name="homePage"/><!-- homePage.jsp -->
+	<view-controller path="/myPage" view-name="myPage"/><!-- myPage.jsp -->
+	<view-controller path="/meetingRoom" view-name="meetingRoom"/><!-- /meetingRoom.jsp -->
+	
+	<!-- 회원전용처리 : interceptor Bean 생성  -->
+	<beans:bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></beans:bean>
+	<!-- 회원전용처리 : interceptor 주소 처리 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/loginCheck/**"/>
+			<mapping path="/notices/**"/>
+			<mapping path="/communities/**"/>
+			<beans:ref bean="loginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- prefix / suffix -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- annotation config는 component-scan에 포함됨 -->
+	<context:component-scan base-package="com.*"></context:component-scan>
+</beans:beans>

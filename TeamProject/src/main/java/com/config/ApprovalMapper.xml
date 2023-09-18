@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ApprovalMapper">
+	
+	<select id="selectAllMemberInfo" resultType="ApprovalDTO">
+		select member_name, member_num, div_name, rank from member
+	</select>
+
+	<select id="searchByDivName" resultType="ApprovalDTO" parameterType="String">
+		select member_name, member_num, div_name, rank from member 
+		where div_name = #{div_name}
+	</select>
+	
+	<select id="searchByMemName" resultType="ApprovalDTO" parameterType="String">
+		select member_name, member_num, div_name, rank from member 
+		where member_name = #{member_name}
+ 	</select> 
+	
+	<select id="docFormName" resultType="DocFormDTO" parameterType="String">
+		 select *from app_form where form_name= #{form_name}
+	</select>
+	
+	<insert id="saveDocForm" parameterType="SaveDocFormDTO">
+	    INSERT INTO app_doc (doc_no, member_num, form_name, doc_title, doc_content, doc_date)
+	    VALUES (SEQ_DOC.nextval, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_date})
+	</insert>
+	
+
+	<select id="saveDocList" resultType="SaveDocFormDTO">
+		 select * from app_doc 
+	</select>
+	
+</mapper>

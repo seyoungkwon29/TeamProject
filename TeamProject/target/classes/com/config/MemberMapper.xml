@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+
+	<select id="login" resultType="MemberDTO"  parameterType="HashMap">
+		select * from member where member_num = #{member_num} and password = #{password}
+	</select>
+		
+	<select id="pwSearch" resultType="String" parameterType="MemberDTO">
+		select password from member 
+		where member_num = #{member_num}
+		and member_name = #{member_name}
+		and ssn = #{ssn}
+	</select>
+	
+	<insert id="memberAdd" parameterType="MemberDTO">
+		insert into member values(#{userid}, #{passwd}, #{username}, #{post}, #{addr1}, #{addr2}, 
+		#{phone1}, #{phone2}, #{phone3}, #{email1}, #{email2})
+	</insert>
+
+	<select id="myPage" resultType="MemberDTO"  parameterType="Integer">
+		select * from member where member_num = #{member_num}
+	</select>
+	
+	<update id="memberUpdate" parameterType="MemberDTO">
+		update member set post = #{post}, addr1 = #{addr1}, addr2 = #{addr2}, phone1 = #{phone1}, 
+		phone2 = #{phone2}, phone3 = #{phone3}, email1 = #{email1}, email2 = #{email2}
+		where userid = #{userid}
+	</update>
+
+	<select id="selectAllMemberList" resultType="MemberDTO">
+		SELECT * FROM member ORDER BY div_name
+	</select>
+	
+	<select id="pwCheck" parameterType="string" resultType="int"><!-- 현재비밀번호확인 -->
+		select count(*)
+		from member
+		where password = #{password}
+	</select>
+	
+	<update id="updatePwd" parameterType="MemberDTO"><!-- 비밀번호 업데이트 --> 
+		UPDATE member
+		SET password = #{password}
+		WHERE member_num = #{member_num}
+	</update>
+	
+</mapper>

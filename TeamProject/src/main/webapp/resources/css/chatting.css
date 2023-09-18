@@ -1,0 +1,215 @@
+@charset "UTF-8";
+
+.container{
+    display: flex;
+    gap : 100px;
+    margin-left: 250px;
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100vh; /* 화면 높이를 컨테이너 높이로 설정 */
+    
+}
+
+.chatList{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 80%;
+}
+
+.contents {
+    height: 70%;
+    min-height : 500px;
+    width: 400px;
+    border: 1px solid gray;
+}
+
+.contentsList{
+    width: 400px;
+    height: 80px;
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: center; /* 가로 방향 가운데 정렬 */
+    align-items: center; /* 세로 방향 가운데 정렬 */
+    overflow-y: scroll;
+}
+
+.head p{
+    font-weight: bolder;
+    font-size: large;
+}
+
+/* 채팅방 정렬 */
+.center{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 내부 요소를 오른쪽으로 정렬 */
+    text-align: right;
+}
+
+.chatImg{
+    margin: 5px;
+    width: 50px;
+}
+
+/* 버튼 */
+.chatbtn{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+    
+}
+#create, #exit{
+    padding: 7px 10px;
+    color: 222A35;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#create:hover, #exit:hover{
+    cursor: pointer;
+    background-color: rgba(196, 216, 245, 0.8);
+	border-color: #7f8c8d;
+}
+
+/* 사용자 초대 */
+.head p{
+	text-align: center;
+}
+
+.invite{
+    border: 1px solid #ccc;
+    border-radius: 6%;
+    width: 700px;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.memberList input[type="checkbox"] {
+    margin-right: 10px; /* 체크박스와 텍스트 사이의 간격 조절 */
+}
+
+.memberList{
+    border: 1px solid #ccc;
+    width: 100%;
+    height: 200px;
+    overflow: scroll;
+    
+    display: flex; /* Flexbox를 사용하여 체크박스와 텍스트를 한 줄에 배치 */
+}
+
+.memberList ul{
+	padding: 5px;
+	padding-left: 10px;
+}
+.memberList li{
+	list-style: none;	
+}
+
+.invite_center{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.invite_R{
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    min-width: 300px;
+    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center; /* 가로 방향 가운데 정렬 */
+    align-items: center; /* 세로 방향 가운데 정렬 */
+    gap: 20px;
+    
+}
+
+.invite_L {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 250px;
+}
+
+.select{
+    display: flex; /* Flexbox 레이아웃 사용 */
+    align-items: center; /* 요소들을 수직으로 가운데 정렬 */
+    width: 100%;
+}
+
+/* select 태그 스타일 */
+.select select {
+    width: auto; /* 부모 div의 크기에 자동으로 맞춤 */
+    height: auto; /* 부모 div의 크기에 자동으로 맞춤 */
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+/* input 태그 스타일 */
+.select input[type="text"] {
+    width: auto; /* 부모 div의 크기에 자동으로 맞춤 */
+    height: auto; /* 부모 div의 크기에 자동으로 맞춤 */
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+
+
+/* 화면 너비가 600px 미만일 때 스타일 변경 */
+@media (max-width: 600px) {
+    .container{
+        width: 80%; /* 작은 화면에서는 더 좁게 표시 */
+        font-size: 16px; /* 텍스트 크기 축소 */
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 60%; /* 큰 화면에서는 더 넓게 표시 */
+    }
+}
+
+
+#selected{
+	max-height: 100px;
+	min-width : 200px;
+	display: flex;
+    flex-wrap: wrap;
+}
+
+
+#selected p{
+	margin: 5px 5px 2px 7px;
+    
+}
+
+#selected p span{
+    background-color: rgba(139, 184, 139, 0.4);
+    border-radius: 1em;
+    padding: 1px;
+    font-size: small;
+}
+
+#chatTitle{
+	padding: 10px 15px;
+}
+
+
+
+
+
+
+

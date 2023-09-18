@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	
+	<!-- 1.jdbc.properties -->
+    <context:property-placeholder location="classpath:com/config/jdbc.properties"/>
+    
+	<!-- 2.DBCP2 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${my.jdbc}"></property>
+        <property name="url" value="${my.url}"></property>
+        <property name="username" value="${my.userid}"></property>
+        <property name="password" value="${my.passwd}"></property>
+    </bean>
+    
+    <!--3.SqlSessionFactoryBean  -->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/config/MemberMapper.xml</value>
+                <value>classpath:com/config/MeetingRoomMapper.xml</value>
+                <value>classpath:com/config/ApprovalMapper.xml</value>
+                <value>classpath:com/config/AttendanceMapper.xml</value>
+                <value>classpath:com/config/ChattingMapper.xml</value>
+                <value>classpath:com/config/OrganizationMapper.xml</value>
+                <value>classpath:com/config/NoticeMapper.xml</value>
+                <value>classpath:com/config/CommunityMapper.xml</value>
+                <value>classpath:com/config/ReplyMapper.xml</value>
+            </list>
+        </property>
+        <property name="typeAliases">
+            <list>
+                <value>com.dto.MemberDTO</value>
+                <value>com.dto.MeetingRoomDTO</value>
+                <value>com.dto.DocFormDTO</value>
+                <value>com.dto.SaveDocFormDTO</value>
+                <value>com.dto.ApprovalDTO</value>
+				<value>com.dto.AttendanceDTO</value>
+				<value>com.dto.ChatRoomDTO</value>
+                <value>com.dto.ChatMemberDTO</value>
+                <value>com.dto.ChatContentDTO</value>
+                <value>com.dto.OrganizationDTO</value>
+                <value>com.dto.NoticeDTO</value>
+                <value>com.dto.CommunityDTO</value>
+                <value>com.dto.ReplyDTO</value>
+            </list>
+        </property>
+        <!-- Mybatis `jdbcTypeForNull` 설정 -->
+        <property name="configuration">
+        	<bean class="org.apache.ibatis.session.Configuration">
+		      <property name="jdbcTypeForNull" value="NULL"/>
+		    </bean>
+        </property>
+    </bean>
+        
+    <!-- 4. SqlSessionTemplate : SqlSession기능 -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sessionFactory"></constructor-arg>
+	<!-- 종료 -->
+    </bean>
+</beans>

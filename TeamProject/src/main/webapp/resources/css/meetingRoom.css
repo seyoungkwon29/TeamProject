@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+#s-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
+	margin: 0 60px; /* 좌우 마진 - 60*/
+	position: absolute;
+	left: 350px; /* 메뉴 + 소메뉴 = 310px을 차지함 */
+	top: 75px; /* 위로부터 75px 떨어짐*/
+    padding: 20px;
+}
+
+ form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+ }
+
+#divLeft {
+    margin-right: 20px; /* divRight와의 간격을 설정 */
+}
+
+#divRight {
+    margin-left: 20px; /* divLeft와의 간격을 설정 */
+
+}
+
+/* 캘린더 */
+.calendar {
+    width: 450px;
+	height: 520px;
+    background-color: rgba(234, 225, 206, 0.7);
+	border: 2px solid rgba(127, 113, 87, 0.5);
+}
+
+/* 버튼 설정 */
+button {
+    padding: 10px 20px;
+    background-color: transparent; /* 버튼 배경색 투명하게 설정 */
+	color: 222A35;
+	border: 2px solid rgba(127, 113, 87, 0.8); /* 테두리 회색으로 설정 */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, color 0.1s ease;
+    margin-top: 20px;
+    
+}
+
+#buttonDiv {
+    display: flex; /* Flexbox 컨테이너로 설정합니다. */
+  	justify-content: center; /* 수평 가운데 정렬합니다. */
+	 align-items: center; /* 수직 가운데 정렬합니다. */
+	
+}
+
+button:hover {
+    background-color: rgba(234, 225, 206, 0.7); /* 투명한 배경색 */
+	border-color: #7f7157;
+}
+
+/* 날짜,회의실,시간 */
+.reserveDiv {
+    margin-bottom: 60px;
+    align-items: center;
+    gap: 10px;
+}
+
+select, .reserveDiv input[type="date"] {
+	height:35px;
+	width: 300px;
+}
+
+/* 이용안내 */
+.guide p{
+	font-size: 20px;
+	margin-left: 25px;
+}
+.guide ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.guide div li{
+	height: 100%;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.guide{
+	float: right;
+	margin-right: 60px;
+	padding: 10px 10px 10px 10px;
+	height: 200px;
+}
