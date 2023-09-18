@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from member where member_num != #{member_num}
 	</select>
 	
+	<!-- 조건으로 검색 -->
 	<select id="searchValue" resultType="MemberDTO" parameterType="hashmap">
 	select * from member
 	  <where>
@@ -53,5 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="chatroom_num != 0">
 			and chatroom_num = #{chatroom_num}
 		</if>
+		</select>
+		
+		<!-- 채팅방 번호 불러오기 -->
+		<select id="selectOnechatRoomNum" resultType="int"><!-- 채팅방 번호 불러오기 -->
+		select max(chatroom_num) from chatroom
 		</select>
 </mapper>

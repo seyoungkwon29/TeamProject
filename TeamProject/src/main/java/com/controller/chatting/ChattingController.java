@@ -60,7 +60,6 @@ public class ChattingController {
 		chatRoom.setChatroom_type(1);
 	}
       chatRoom.setChatroom_title(chatroom_title);
-      System.out.println(chatRoom);
       int result = 0; //채팅방 생성 결과를 변수 선언
       result = chatService.createChatRoom(chatRoom);
       
@@ -69,13 +68,13 @@ public class ChattingController {
     	  int registor = chatService.registor(member.getMember_num());
     	  System.out.println("registor>>>"+registor);
     	  for (int i = 0; i < chatMembers.size(); i++) {
-    		  System.out.println(chatMembers.get(i));
     		  registor = chatService.registor(chatMembers.get(i));
 		}
     	  if(registor > 0) { // 채팅방 생성자/사용자 등록 성공 시
     		//채팅방 번호 0으로 설정 -> 가장 최근에 생성됐다는 의미
     		  	chatRoom.setChatroom_num(0);
-				List<ChatMemberDTO> mList = chatService.selectAllMember(chatRoom); //// 채팅방 사용자 목록 조회
+				//여기부터 안됨......
+    		  	List<ChatMemberDTO> mList = chatService.selectAllMember(chatRoom); //// 채팅방 사용자 목록 조회
 				System.out.println("mList>>>"+mList);
 				
 				
@@ -83,12 +82,14 @@ public class ChattingController {
 				if(!mList.isEmpty()) {
 					for(int j = 0; j < mList.size(); j++) {
 						chatMemberArr[j] = mList.get(j).getDiv_name() + " " + mList.get(j).getMember_name() + " " + mList.get(j).getRank();
-						System.out.println(chatMemberArr);
 					}
 				}
+				int chatroom_num = chatService.selectOnechatRoomNum(); // 채팅방 번호 불러오기
+				System.out.println("chatroom_num>>>"+chatroom_num);
+				return chatroom_num;
     	  }
 	}//end registor
-      return chatRoom.getChatroom_num();
+      return 0;
 	}
 	
 	
@@ -96,7 +97,7 @@ public class ChattingController {
 		@RequestMapping(value = "/openChatRoom")
 		public ModelAndView chatView(ModelAndView mv, @RequestParam("chatroom_num") int chatroom_num) {
 			mv.addObject("chatroom_num", chatroom_num);
-			mv.setViewName("chat/chattingRoom");
+			mv.setViewName("chatting/chattingRoom");
 			return mv;
 		}
 	
