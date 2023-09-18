@@ -42,5 +42,10 @@ public class ChattingDAO {
 		List<MemberDTO> list = session.selectList("selectMembersExceptMe",member_num);
 		return list;
 	}
+
+	public int selectOnechatRoomNum() {
+		int num = session.selectOne("selectOnechatRoomNum");
+		return num;
+	}
 	
 }

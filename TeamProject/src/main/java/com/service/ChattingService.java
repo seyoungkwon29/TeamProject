@@ -45,4 +45,9 @@ public class ChattingService {
 		return list;
 	}
 
+	public int selectOnechatRoomNum() {
+		int num = dao.selectOnechatRoomNum();
+		return num;
+	}
+
 }

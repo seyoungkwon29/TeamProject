@@ -89,7 +89,10 @@ $(document).ready(function() {
 				    data : JSON.stringify({"chatroom_title": chatTitle,
 		    			    "chat_member": checkedValues}),
 				    contentType: "application/json; charset=utf-8", // contentType 설정
+				    dataType:"text",
 				    success: function (chatroom_num) {
+				    	console.log("넘어옴0");
+				    	console.log(chatroom_num);
 				    	window.location.reload(); // 창 리로드
 						chatPop(chatroom_num);
 
