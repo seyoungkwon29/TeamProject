@@ -2,13 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+<link href="${bootstrapCss}" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
@@ -17,7 +18,6 @@
 	    <div class="sidebar col-md-3 col-lg-2 p-0">
       		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
       	</div>
-
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 			<h1 class="mt-3 mb-3">공지사항</h1>
 			<div class="d-flex justify-content-end mb-3 gap-2">
@@ -29,7 +29,8 @@
 			        <input name="searchKeyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 			        <button class="btn btn-outline-success" type="submit">Search</button>
 		      	</form>
-				<a href="/notices/new">
+		      	<spring:url var="newNoticeUrl" value="/notices/new"/>
+				<a href="${newNoticeUrl}">
 					<button type="button" class="btn btn-outline-primary">작성</button>
 				</a>
 			</div>
@@ -46,12 +47,13 @@
 			       </thead>
 			       <tbody>               
 		        	<c:forEach var="notice" items="${pageResponse.items}">
+		        		<spring:url var="noticeDetailsUrl" value="/notices/${notice.noticeNum}"/>
 			        	<tr>
 					        <th scope="row">
-					        	<a href="/notices/${notice.noticeNum}">${notice.noticeNum}</a>
+					        	<a href="${noticeDetailsUrl}">${notice.noticeNum}</a>
 				        	</th>
 				        	<td>
-				        		<a href="/notices/${notice.noticeNum}">${notice.title}</a>
+				        		<a href="${noticeDetailsUrl}">${notice.title}</a>
 				        	</td>
 				        	<td>${notice.memberName}</td>
 				        	<td><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></td>
@@ -66,8 +68,18 @@
 				  <ul class="pagination">
 				  	<c:choose>
 				  	<c:when test="${pageResponse.hasPrevious}">
+				  		<spring:url var="previousPageUrl" value="/notices">
+				  			<spring:param name="page" value="${pageResponse.start-1}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+				  		</spring:url>
 					    <li class="page-item">
-					      <a class="page-link" href="/notices?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
+					      <a class="page-link" href="${previousPageUrl}" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
@@ -81,15 +93,25 @@
 				    </c:otherwise>
 			    	</c:choose>
 			    	<c:forEach begin="${pageResponse.start}" end="${pageResponse.end}" step="1" varStatus="status">
+			    	<spring:url var="pageUrl" value="/notices">
+				  			<spring:param name="page" value="${status.current}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+			  		</spring:url>
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="page-item active">
-					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:when>
 					    <c:otherwise>
    						<li class="page-item">
-					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:otherwise>
 				    </c:choose>					   
@@ -97,8 +119,18 @@
 				    
    				  	<c:choose>
 				  	<c:when test="${pageResponse.hasNext}">
+				  		<spring:url var="nextPageUrl" value="/notices">
+				  			<spring:param name="page" value="${pageResponse.end+1}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+				  		</spring:url>
 					    <li class="page-item">
-					      <a class="page-link" href="/notices?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
+					      <a class="page-link" href="${nextPageUrl}" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>
