@@ -2,14 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
-<link href="${bootstrapCss}" rel="stylesheet">
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -31,16 +30,13 @@
       			<p class="text-break">${notice.content}</p>
       		</article>
     		<div class="btn-group me-2 w-100">
-    			<spring:url var="editNoticeUrl" value="/notices/${notice.noticeNum}/edit" />
-				<a href="${editNoticeUrl}">
+				<a href="/notices/${notice.noticeNum}/edit">
 					<button type="button" class="btn btn-outline-primary">수정</button>
-				</a>
-				<spring:url var="deleteNoticeUrl" value="/notices/${notice.noticeNum}/delete"/>
-				<form action="${deleteNoticeUrl}" method="post">
+				</a>&nbsp;
+				<form action="/notices/${notice.noticeNum}/delete" method="post">
 					<button type="submit" class="btn btn-outline-danger">삭제</button>
-				</form>
-				<spring:url var="noticeListUrl" value="/notices"/>
-				<a href="${noticeListUrl}">
+				</form>&nbsp;
+				<a href="/notices">
 					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
 				</a>
 			</div>
