@@ -8,7 +8,6 @@
 	</script>
 </c:if>
 
-
 <%
 	//"mesg" session이 있을 경우 삭제
 	if (session.getAttribute("mesg") != null) {
@@ -101,13 +100,14 @@
                 </div>
             </div>
             <div class="saveCheckDiv">
-                로그인 상태 유지<input type="checkbox" id="saveCheck"/>
+            	<input type="checkbox" id="saveCheck"/>
+            	로그인 상태 유지
                 <label for="saveCheck"></label>
             </div>
         </fieldset>
     </div>
     <div class="passwordSearch">
-        <a href="passwordSearch.jsp"> 비밀번호 찾기 </a>
+        <a href="passwordSearch"> 비밀번호 찾기  </a>
     </div>
 </form>
 

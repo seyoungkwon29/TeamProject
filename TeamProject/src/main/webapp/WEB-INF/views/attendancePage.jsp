@@ -7,6 +7,7 @@
 <title>근태 관리</title>
 	<link rel="stylesheet" href="resources/css/sideBar.css">
 	<link rel="stylesheet" href="resources/css/attendancePage.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <!-- 왼쪽 메뉴바 -->

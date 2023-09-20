@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () { 
@@ -86,7 +87,7 @@
 
 <!-- 근무 기록 리스트 -->
 <div>
-	<table border="1">
+	<table class="table table-striped">
 		<tr>
 			<th>날짜</th>
 			<th>출근시간</th>

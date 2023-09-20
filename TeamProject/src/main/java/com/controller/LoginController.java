@@ -53,4 +53,10 @@ public class LoginController {
 		session.invalidate(); // session 삭제
 		return "redirect:../";
 	}
+	
+	// 비밀번호 찾기
+	@RequestMapping("/passwordSearch")
+	public String passwordSearch() {
+		return "passwordSearch";
+	}
 }

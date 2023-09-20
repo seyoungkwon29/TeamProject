@@ -23,6 +23,7 @@
 	<view-controller path="/homePage" view-name="homePage"/><!-- homePage.jsp -->
 	<view-controller path="/myPage" view-name="myPage"/><!-- myPage.jsp -->
 	<view-controller path="/meetingRoom" view-name="meetingRoom"/><!-- /meetingRoom.jsp -->
+	<view-controller path="/passwordSearch" view-name="passwordSearch"/><!-- /meetingRoom.jsp -->
 	
 	<!-- 회원전용처리 : interceptor Bean 생성  -->
 	<beans:bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></beans:bean>
