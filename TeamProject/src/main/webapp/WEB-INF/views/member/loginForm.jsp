@@ -86,8 +86,9 @@
 	}
 </script>
 
-<form action="login" method="get">
-    <div class="logoDiv"><img class="logo" src="resources/image/logo.png" alt=""></div>
+<form action="login" method="post">
+    <div class="logoDiv">EVERYWARE</div>
+    <br>
     <div class="fieldset">
         <fieldset>
             <div class="input">

@@ -5,7 +5,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () { 
@@ -72,13 +71,13 @@
 	<!-- 출근 -->
 	<form action="attendance/punchIn" method="post">
 		<input type="hidden" id="att_start" name="att_start">
-		<input type="submit" id="punchIn" class="btn-sub" value="출근">
+		<input type="submit" id="punchIn" class="btn btn-success" value="출근">
 	</form>
 	<!-- 출근 -->
 	<!-- 퇴근 -->
 	<form action="attendance/punchOut" method="post">
 		<input type="hidden" id="att_fin" name="att_fin">
-		<input type="submit" id="punchOut" class="btn-sub" value="퇴근">
+		<input type="submit" id="punchOut" class="btn btn-info" value="퇴근">
 	<br>
 	</form>
 	<!-- 퇴근 -->		

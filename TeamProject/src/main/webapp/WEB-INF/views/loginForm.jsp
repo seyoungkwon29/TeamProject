@@ -7,6 +7,7 @@
 
 <!-- link : css 설정 -->
 <link rel="stylesheet" href="resources/css/loginForm.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <title>로그인</title>
 </head>

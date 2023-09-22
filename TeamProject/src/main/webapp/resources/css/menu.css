@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: sans-serif, serif;
+}
+
+.container {
+	display: flex;
+}
+
+.brand {
+	font-size: 25px;
+	font-weight: bold;
+	color: #21875A;
+}
+
+.main-ul, .link-ul ul {
+	list-style-type: none;
+    display: flex;
+    padding: 0;
+/*     flex-direction: row;	 */
+}
+
+.link-ul {
+	float: right; /* 오른쪽으로 배치 */
+	margin-left: 20px; /* 좌측 여백을 주어 오른쪽과 간격을 조절 */
+}
+.link-ul li {
+	margin-right: 10px;
+}
+
+.link {
+	font-size: 13px;
+	color: black;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	padding: 14px 25px;
+	text-decoration: none;
+}
+
+.link:hover {
+	color: #21875A;
+	font-weight: bolder;
+}
+
+.link-ul li:hover {
+	border-top-color: #21875A;
+	border-top-style: solid;
+	padding: 5px;
+}
