@@ -8,7 +8,7 @@
 
 /* li 태그 전체 */
 .tree li {
-	float: left; 
+	float: left;
 	text-align: center;
 	list-style-type: none;
 	position: relative;
@@ -25,22 +25,26 @@
 }
 
 /* li 태그 사이 선 그어주기 */
-.tree li::before, .tree li::after{
+.tree li::before, .tree li::after {
 	content: '';
-	position: absolute; top: 0; right: 50%;
+	position: absolute;
+	top: 0;
+	right: 50%;
 	border-top: 1px solid #ccc;
-	width: 50%; height: 20px;
+	width: 50%;
+	height: 20px;
 }
 
-.tree li::after{
-	right: auto; left: 50%;
+.tree li::after {
+	right: auto;
+	left: 50%;
 	border-left: 1px solid #ccc;
 }
 
-
 /* 오른쪽 태그의 왼쪽 선 -> 세로 선 */
-.tree li::after{
-	right: auto; left: 50%;	
+.tree li::after {
+	right: auto;
+	left: 50%;
 	border-left: 1px solid #ccc;
 }
 
@@ -64,7 +68,7 @@
 }
 
 /* a 태그의 박스형태 및 폰트 사이즈 */
-.tree li a{
+.tree li a {
 	border: 1px solid #ccc;
 	padding: 5px 10px;
 	text-decoration: none;
@@ -73,11 +77,9 @@
 	font-size: 11px;
 	display: inline-block;
 	width: 160px;
-	
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
@@ -85,12 +87,39 @@
 
 /* hover effect */
 .tree li a:hover, .tree li a:hover+ul li a {
-	background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+	background: #c8e4f8;
+	color: #000;
+	border: 1px solid #94a0b4;
 }
 /*Connector styles on hover*/
-.tree li a:hover+ul li::after, 
-.tree li a:hover+ul li::before, 
-.tree li a:hover+ul::before, 
-.tree li a:hover+ul ul::before{
-	border-color:  #94a0b4;
+.tree li a:hover+ul li::after, .tree li a:hover+ul li::before, .tree li a:hover+ul::before,
+	.tree li a:hover+ul ul::before {
+	border-color: #94a0b4;
+}
+
+/* Modal */
+/* Modal 뒤 반투명 배경 */
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 실제 Modal 내용 */
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 45%;
+	height: 35%;
+	padding: 40px;
+	text-align: center;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	transform: translateX(-50%) translateY(-50%);
 }

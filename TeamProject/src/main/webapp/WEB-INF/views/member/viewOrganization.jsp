@@ -97,11 +97,11 @@
 <!-- tree 끝 -->
 
 <!-- Modal -->
-<div class="modal fade" id="myModal"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title fs-5">사원 정보</h4>
+        <h3>사원 정보</h3>
       </div>
       <div class="modal-body">
       	<table>
@@ -142,15 +142,14 @@
       		</tr>
       	</table>
       </div>
-      <div class="modal-footer">
-      </div>
-    </div>
+   	</div>
   </div>
 </div>
 <!-- modal -->
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		var modal = $(".modal");
 		$(".memberModal").on("click", function() {
 			var photo = $(this).data('photo');
 			var div = $(this).data('div');
@@ -163,6 +162,17 @@
 			$("#rank").html(rank);
 			$("#name").html(name);
 			$("#mail").html(mail);
+			
+			$(".modal").css("display", "block");
+			
 		});
+		
+		$(window).on("click", function(event) {
+			if (event.target == modal[0]) {
+				$(".modal").css("display", "none");
+			}
+		})
 	});
+	
+	
 </script>

@@ -45,67 +45,73 @@
 	Calendar calendar = Calendar.getInstance();
 	calendar.setTime(time); // 10분 더하기
 %>
+
 <div id="s-container">
-<!-- 검색일<input type="text" id="searchDate">  -->
-<form action="attendance/searchDate" method="post">
-   	<table class="t-search">
-	   	<tr>
-	   		<td class="t-search-title">
-	   			검색일
-	   		</td>
-	   		<td>
-	      		<input type="month" id="nowMonth" name="date">
-	      		<input type="submit" value="검색">
-	      	</td>
-	     </tr>
-   	</table>
-</form>
-<!-- 검색일 -->
+	<div class="left">
+	
+		<div id="now">
+			<%= simpleTime.format(calendar.getTime()) %>
+		</div>
+		
+		<!-- 출근 / 퇴근 버튼 -->
+		<!-- 출근 -->
+		<form action="attendance/punchIn" method="post">
+			<input type="hidden" id="att_start" name="att_start">
+			<input type="submit" id="punchIn" class="btn" value="출근">
+		</form>
+		<!-- 출근 -->
+		<!-- 퇴근 -->
+		<form action="attendance/punchOut" method="post">
+			<input type="hidden" id="att_fin" name="att_fin">
+			<input type="submit" id="punchOut" class="btn" value="퇴근">
+		<br>
+		</form>
+		<!-- 퇴근 -->		
+		<!-- 출근 / 퇴근 버튼 -->
+	</div> <!-- left -->
+	
+	<div class="right">
 
-<!-- 출근 / 퇴근 버튼 -->
-<div class="div-time-btn">
-	현재시각 
-	<div id="now">
-		<%= simpleTime.format(calendar.getTime()) %>
-	</div>
-	<!-- 출근 -->
-	<form action="attendance/punchIn" method="post">
-		<input type="hidden" id="att_start" name="att_start">
-		<input type="submit" id="punchIn" class="btn btn-success" value="출근">
-	</form>
-	<!-- 출근 -->
-	<!-- 퇴근 -->
-	<form action="attendance/punchOut" method="post">
-		<input type="hidden" id="att_fin" name="att_fin">
-		<input type="submit" id="punchOut" class="btn btn-info" value="퇴근">
+	<!-- 근무 기록 리스트 -->
+	<div>
+	
+		<!-- 검색일<input type="text" id="searchDate">  -->
+		<form action="attendance/searchDate" method="post">
+		   	<table class="t-search">
+			   	<tr>
+			   		<td class="t-search-title">
+			   			검색일
+			   		</td>
+			   		<td>
+			      		<input type="month" id="nowMonth" name="date">
+			      		<input type="submit" value="검색">
+			      	</td>
+			     </tr>
+		   	</table>
+		</form>
+		<!-- 검색일 -->
+	
+		<table class="table">
+			<tr>
+				<th>날짜</th>
+				<th>출근시간</th>
+				<th>퇴근시간</th>
+				<th>근무시간</th>
+				<th>근무상태</th>
+			</tr>
+			<c:forEach items="${ attendanceList }" var="attendance">
+			<tr>
+				<td>${ attendance.att_date }</td>
+				<td>${ attendance.att_start }</td>
+				<td>${ attendance.att_fin }</td>
+				<td>${ attendance.att_total }</td>
+				<td>${ attendance.att_status }</td>
+			</tr>
+			</c:forEach>
+		</table>
 	<br>
-	</form>
-	<!-- 퇴근 -->		
-</div>
-<!-- 출근 / 퇴근 버튼 -->
-
-<!-- 근무 기록 리스트 -->
-<div>
-	<table class="table table-striped">
-		<tr>
-			<th>날짜</th>
-			<th>출근시간</th>
-			<th>퇴근시간</th>
-			<th>근무시간</th>
-			<th>근무상태</th>
-		</tr>
-		<c:forEach items="${ attendanceList }" var="attendance">
-		<tr>
-			<td>${ attendance.att_date }</td>
-			<td>${ attendance.att_start }</td>
-			<td>${ attendance.att_fin }</td>
-			<td>${ attendance.att_total }</td>
-			<td>${ attendance.att_status }</td>
-		</tr>
-		</c:forEach>
-	</table>
-<br>
-</div>
-<!-- 근무 기록 리스트 -->
-
+	</div>
+	<!-- 근무 기록 리스트 -->
+	
+</div> <!-- right -->
 </div>

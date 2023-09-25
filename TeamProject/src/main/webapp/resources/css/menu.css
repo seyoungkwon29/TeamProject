@@ -16,17 +16,17 @@ html, body {
 	color: #21875A;
 }
 
-.main-ul, .link-ul ul {
+.link-ul ul {
 	list-style-type: none;
-    display: flex;
-    padding: 0;
-/*     flex-direction: row;	 */
+	display: flex;
+	padding: 0;
 }
 
 .link-ul {
 	float: right; /* 오른쪽으로 배치 */
 	margin-left: 20px; /* 좌측 여백을 주어 오른쪽과 간격을 조절 */
 }
+
 .link-ul li {
 	margin-right: 10px;
 }
