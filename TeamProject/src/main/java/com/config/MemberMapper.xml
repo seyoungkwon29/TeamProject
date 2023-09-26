@@ -15,35 +15,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and ssn = #{ssn}
 	</select>
 	
-	<insert id="memberAdd" parameterType="MemberDTO">
-		insert into member values(#{userid}, #{passwd}, #{username}, #{post}, #{addr1}, #{addr2}, 
-		#{phone1}, #{phone2}, #{phone3}, #{email1}, #{email2})
-	</insert>
-
-	<select id="myPage" resultType="MemberDTO"  parameterType="Integer">
+		<select id="myPage" resultType="MemberDTO"  parameterType="Integer">
 		select * from member where member_num = #{member_num}
 	</select>
 	
 	<update id="memberUpdate" parameterType="MemberDTO">
-		update member set post = #{post}, addr1 = #{addr1}, addr2 = #{addr2}, phone1 = #{phone1}, 
-		phone2 = #{phone2}, phone3 = #{phone3}, email1 = #{email1}, email2 = #{email2}
-		where userid = #{userid}
+		UPDATE member
+		SET phone = #{phone}, mail = #{mail}
+		WHERE member_num = #{member_num}
 	</update>
 
 	<select id="selectAllMemberList" resultType="MemberDTO">
 		SELECT * FROM member ORDER BY div_name
 	</select>
 	
-	<select id="pwCheck" parameterType="string" resultType="int"><!-- 현재비밀번호확인 -->
+	<!-- <select id="pwCheck" parameterType="string" resultType="int">현재비밀번호확인
 		select count(*)
 		from member
 		where password = #{password}
-	</select>
+	</select> -->
 	
 	<update id="updatePwd" parameterType="MemberDTO"><!-- 비밀번호 업데이트 --> 
 		UPDATE member
 		SET password = #{password}
 		WHERE member_num = #{member_num}
 	</update>
+	
+	<update id="photoUpdate" parameterType="map"><!-- 사진 업데이트 --> 
+		UPDATE member
+		SET photo = #{photo}
+		WHERE member_num = #{member_num}
+	</update>
+	
 	
 </mapper>

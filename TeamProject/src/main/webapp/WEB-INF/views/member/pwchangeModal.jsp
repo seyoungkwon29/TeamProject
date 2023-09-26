@@ -11,18 +11,14 @@
  
 	$(function() {
 
-		
-		// "비밀번호 변경" 버튼 클릭 시 주소실행
-	    $(".btn_btn-warning").click(function() {
-	       location.href="loginCheck/pwchange";
-	    });
-
 
 		
 		
 		
 	});//모달끝
 
+	
+	
  </script>
     
     
@@ -40,7 +36,7 @@
 
       <!-- Modal body -->
       <div class="pwchange_modal-body">
-        <form id="pwchange_form" action="/member/pwchange" method="POST">
+        <form id="pwchange_form" action="loginCheck/pwchange" method="POST">
           <input type="hidden" name="userId" value="<%=dto.getMember_num()%>">
           <table>
             <tr>
