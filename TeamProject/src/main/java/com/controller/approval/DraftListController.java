@@ -11,7 +11,7 @@ import com.dto.DocFormDTO;
 import com.service.DocFormService;
 
 @Controller
-public class DrafrListController {
+public class DraftListController {
 	
 	@Autowired
 	DocFormService service;

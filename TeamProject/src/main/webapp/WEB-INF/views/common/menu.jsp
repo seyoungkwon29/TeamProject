@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>Menu</title>
+	<link rel="stylesheet" href="/resources/css/menu.css">
 </head>
 <body>
 <div class="container">
