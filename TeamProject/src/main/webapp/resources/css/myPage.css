@@ -1,9 +1,19 @@
 @charset "UTF-8";
 
-	h3{
+	h2{
+	padding: 10px 25px 10px 0;
 		margin-left: 200px;
+		border-bottom: 1px solid #ebebeb;
 	}
 
+.link_set, .box_set {
+    display: block;
+    position: relative;
+    padding: 10px 25px 10px 0;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 16px;
+    color: #252525;
+}
 
 	.mypage-section {
 	 position: relative;
@@ -16,27 +26,26 @@
 	
 	.mypage-image{
 	object-fit: contain;
-		width:200px; 
-		height:300px;
+		width:180px; 
+		height:280px;
 		 margin-right: 20px; 
 		flex-direction: column;
 		align-items: center;
 		padding: 30px;
 		text-align: center;
+		
 	}	
 	
 .mypage-profile {
   object-fit: contain;
-  background-color: lightgray;
   width: 100%; /* 가로 길이를 100%로 설정 */
   max-height: 400px; /* 최대 높이를 400px로 제한 (선택 사항) */
-  font-size: 12px;
+  font-size: 15px;
   line-height: 2.1;
 }
 	
 
 	.mypage-image, .mypage-profile {
-		background-color:lightgray;
 		flex: 1;
 		max-width: max-content;;
         padding: 20px;
