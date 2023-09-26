@@ -8,7 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문서 양식</title>
+<title>임시저장함</title>
+<link rel="stylesheet" href="resources/css/docForm.css">
 <!-- summerNote 사용을 위한 설정 -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -16,13 +17,13 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <!-- summerNote 사용을 위한 설정 끝-->
-<link rel="stylesheet" href="resources/css/docForm.css">
 </head>
 
 <body>	
 
 	<c:set var="login" value="${login}"></c:set> 
-	<c:set var="form" value="${form}"></c:set> 
+	<c:set var="form" value="${tempDocContent}"></c:set> <!-- 임시저장함의 문서를 가져옴 -->
+	<c:set var="file" value="${fileList}"></c:set> <!-- 임시저장함의 문서를 가져옴 -->
 	<% 	
 		//오늘 날짜
         java.util.Date today = new java.util.Date(); //오늘 날짜 얻는 java코드      
@@ -32,17 +33,16 @@
 	
 	<div class="doc-container">
 	
-		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; margin: 30px 0;text-align: center;"> 
-		${form.form_name} </h1>
+		<h1 class="head-title" id="h-title"> ${form.form_name} </h1>
 		
 		<form id="myForm" action="#" method="get" enctype="multipart/form-data" onsubmit="return chkValidity()">
 		<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 => return true: 제출, return false: 제출 중지 -->
 		<!-- enctype="multipart/form-data: 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->
 			<input type="hidden" value="${form.form_name}" name="form_name" readonly>
+			<input type="hidden" value="${form.doc_no}" name="doc_no" readonly>
 			<input type="hidden" value="${login.member_num}" name="member_num" readonly>
-			<input type="hidden" value="<%= doc_date %>" name="doc_date" readonly> 			
- 			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보를 저장할 숨겨진 폼 필드 -->
- 			<input type="hidden" id="num-ref" name="refMemNum" readonly> <!-- 참조자 정보를 저장할 숨겨진 폼 필드 -->
+			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보를 저장할 숨겨진 폼 필드 -->
+			<input type="hidden" id="num-ref" name="refMemNum" readonly> <!-- 참조자 정보를 저장할 숨겨진 폼 필드 -->
 			
 			<table id="table">
 				<tr class="tr-s">
@@ -63,7 +63,9 @@
 				</tr>
 				<tr class="tr-m">
 					<td class="td-1">기안일</td>
-					<td class="td-2"><%= doc_date %> </td>
+					<td class="td-2"><%= doc_date %>
+						<input type="hidden" value="<%= doc_date %>" name="doc_date" readonly> 
+					</td>
 				</tr>
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">기안자</td>
@@ -77,16 +79,14 @@
 				</tr>
 				<tr class="tr-m">
 					<td class="td-1">참조자</td>
-					<td colspan="6" style="border-right: none;">
-						<span class="s-refList" id="ref-list"></span>
-					</td>
-					<td class="td-btn" style="border-left: none;"> <!-- border-left: none; 왼쪽 테두리 삭제 -->
+					<td colspan="6" style="border-right: none;"><span class="s-refList" id="ref-list"></span></td>
+					<td class="td-btn" style="border-left: none;"> <!-- border-left: none; 왼쪽 테두리를 삭제 -->
 						<button type="button" class="btn-select-ref" onclick="appBtn('ref')">+</button></td>
 				</tr>
-				<tr id="tr-title" class="tr-m">
+					<tr id="tr-title" class="tr-m">
 					<td class="td-1">제목</td>
 					<td colspan="7">
-						<input type="text" name="doc_title" id="td-title" class="i-title" value="">
+						<input type="text" name="doc_title" id="td-title" class="i-title" value="${form.doc_title}">
 					</td>
 				</tr>
 				
@@ -140,36 +140,37 @@
 	                </tr>
 				</c:if>
 				
-<!-- 휴가신청서가 아닐 경우에 내용 -->
+		<!-- 휴가신청서가 아닐 경우에 내용 -->
 				<c:if test="${form_name ne '휴가신청서'}">
 					<tr class="tr-m">
 						<td colspan="8" class="td-content">내용</td>
 					</tr>
 					<tr>
 						<td colspan="8">
-							<textarea id="summernote" name="doc_content"></textarea>
+							<textarea id="summernote" name="doc_content">${form.doc_content} </textarea>
 						</td>
 					</tr>
 				</c:if>
 			</table>
-				
-<!-- 파일 선택 -->	
+			
+		<!-- 파일 선택 -->	
 			<div class="file-div">
 				<span class="file-s-text">파일 첨부</span>
                 <!-- lable: 파일 입력 필드(input[type="select_file"])를 활성화하기 위한 레이블(Label) 요소(for 속성을 사용하여 연결된 입력 필드를 지정)
                 	 주의점: 입력 필드의 id와 lable for의 이름 같을 것 -->
-                <label for="select_file">파일 선택</label> 
-                <span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
+                <label for="select_file">파일 선택</label>
+				<span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
 
                	<input id="select_file" type="file" name="file_name" onchange="fileSelect(this.value)">
-				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
+               	<button type="button" id="fileDel" class="file-del" style="display: none;" onclick="fileDelBtn()">X</button>
 			</div>
 			
 			<div class="footer-div">
 				<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn" id="i-left">
 				<input type="button" value="임시 저장" onclick="tempSave()" class="footer-btn">
-				<input type="button" value="취소" onclick="location.href='draftList'" class="footer-btn">
+				<input type="button" value="취소" onclick="location.href='callTempList'" class="footer-btn">
 			</div>
+				
 		</form>	
 	</div>	
 	
@@ -177,16 +178,15 @@
 	<jsp:include page="approverModal.jsp" flush="true" />
 
 
-	<script>
+	<script>  
 
 	// 파일 선택 이벤트 리스너
 	function fileSelect(value) {
 	    if($("#select_file").val() == "") { //파일 선택 안했을 때
-	    	console.log(value);
 	        $("#fileDel").css("display", "none");
+	    	console.log(value);
 	    } 
 	    else { //파일 선택 했을 때
-	    	console.log(value);
 	        $("#fileDel").css("display", "inline-flex"); // X버튼 화면 출력 
  	        $("#fileName").text( value.slice(12) ); 
 	        //파일 이름을 나타내는 요소(fileName)에서 현재 파일 경로에서 파일 이름만 추출(value.slice(12))=  memo.text
@@ -200,6 +200,7 @@
 	    $("#fileName").text("선택된 파일이 없습니다.");
 	    fileSelect(); //파일 삭제하고 버튼 숨기기
 	}
+
 	
 	//결재 요청
     function docSave() {
@@ -207,7 +208,7 @@
       //확인(ok)클릭 result 변수에 true저장, 취소(cancel)클릭 result 변수에 false 저장
         if(result == true) { //확인(ok)버튼 클릭한 경우
         	// form 요소의 action 속성 변경
-            $("#myForm").attr("action", "SaveDocForm");
+            $("#myForm").attr("action", "SaveDocFormAndDelete");
             $("#myForm").submit();
         }
     }

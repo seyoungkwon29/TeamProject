@@ -11,34 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dto.ApprovalDTO;
-import com.service.ApprovalService;
+import com.dto.SearchMemberDTO;
+import com.service.SearchAppMemService;
 
 @Controller
 public class ApprovalController {
 
 	@Autowired
-	ApprovalService service;
+	SearchAppMemService service;
 	
-	//ApproverSelect: 결재자, 참조자 사원 정보 출력
+	//전체 멤버 정보 출력(결재자, 참조자 사원 정보)
 	@RequestMapping(value="/approverSelect", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ApprovalDTO> approverSelect(HttpSession session) {
+	public List<SearchMemberDTO> approverSelect(HttpSession session) {
 		
-		List<ApprovalDTO> list = service.selectAllMemberInfo();
+		List<SearchMemberDTO> list = service.selectAllMemberInfo();
 		System.out.println("결재자 or 참조자 정보 출력 : " + list);
 		
 		return list; 
 	}
 	
-	//searchMember: 결재자, 참조자 사원 정보 출력
+	//조건 검색 하여 재자, 참조자 사원 정보 출력
 	@RequestMapping(value="/searchMember", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ApprovalDTO> searchMember(HttpSession session, String searchCondition, String searchValue) {
+	public List<SearchMemberDTO> searchMember(HttpSession session, String searchCondition, String searchValue) {
 		
-		System.out.println("사원 검색 내용 : " + searchCondition + ", " + searchValue);
-		
-		List<ApprovalDTO> list = null;
+		List<SearchMemberDTO> list = null;
 		if(searchCondition.equals("div_name")) {// 조건이 부서인 경우	            
             list = service.searchByDivName(searchValue); //부서명     
 		} else {//조건이 이름일 경우     

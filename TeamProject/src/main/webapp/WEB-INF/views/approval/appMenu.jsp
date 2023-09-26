@@ -16,7 +16,7 @@
 		</div>		
 		<div class="s-list-item"><a href="draftList">기안 문서함</a></div>
 		<div class="s-list-item"><a href="appList">결재 문서함</a></div>
-		<div class="s-list-item"><a href="tempList">임시 저장함</a></div>
+		<div class="s-list-item"><a href="callTempList">임시 저장함</a></div>
 	</div>
 
 
