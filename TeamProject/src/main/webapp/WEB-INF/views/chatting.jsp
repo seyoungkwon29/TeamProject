@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="resources/css/sideBar.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 </head>
 <body>
 	<div>
 		<div>
-			<jsp:include page="common/sideBar.jsp" flush="true" /> <br>  <!-- 왼쪽 메뉴바 -->
+			<jsp:include page="common/menu.jsp" flush="true" /> <br> 
 		</div>
 		<div>
 			<jsp:include page="chatting/chatting.jsp" flush="true" /> <br> <!-- 채팅창 -->
