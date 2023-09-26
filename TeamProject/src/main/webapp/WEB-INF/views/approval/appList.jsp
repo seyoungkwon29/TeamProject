@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,35 +28,43 @@
 				<th class="th-1">결재상태</th>
 			</tr>
 			
-			<c:forEach items="${dList}" var="appDoc">
+			<c:forEach var="app" items="${appDocList}">
 				<tr>
-					<td>${appDoc.docDate }</td>
-					<td>${appDoc.formName }</td>
-					<c:url var="aDetail" value="/approval/detail.sw?type=${type }&docStatus=${appDoc.appStatus }">
-						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
-					</c:url>
-					<td><a href="${aDetail }">${appDoc.docTitle }</a></td>
-					<td>${appDoc.memName }</td>
-					<c:if test="${appDoc.appStatus == '대기'}">
-						<td><span class="status-1">${appDoc.appStatus }</span></td>
+					<td>${app.doc_date }</td>
+					<td>${app.form_name }</td>
+					
+					<td><a href="clickDocContent?type=app&docNo=${app.doc_no}&docStatus=${app.app_status}">
+						${app.doc_title}</a>
+					</td> <!-- 제목-->
+					
+					<td>${app.member_name}</td>
+					
+					<c:if test="${app.app_status == '대기'}"> <!-- 결재자의 결재 상태 -->
+						<td><span class="status-1">${app.app_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '예정' && appDoc.docStatus == '반려'}">
-						<td><span class="status-4">${appDoc.docStatus }</span></td>
+					
+					<c:if test="${app.app_status == '예정' && app.doc_status == '반려'}">
+						<td><span class="status-4">${app.doc_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '예정' && appDoc.docStatus != '반려'}">
-						<td><span class="status-5">${appDoc.appStatus }</span></td>
+					
+					<c:if test="${app.app_status == '예정' && app.doc_status != '반려'}">
+						<td><span class="status-5">${app.app_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '완료' && appDoc.docStatus == '진행'}">
-						<td><span class="status-2">${appDoc.docStatus }</span></td>
+					
+					<c:if test="${app.app_status == '완료' && app.doc_status == '진행'}">
+						<td><span class="status-2">${app.doc_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '완료' && appDoc.docStatus == '완료'}">
-						<td><span class="status-3">${appDoc.appStatus }</span></td>
+					
+					<c:if test="${app.app_status == '완료' && app.doc_status == '완료'}">
+						<td><span class="status-3">${app.app_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '완료' && appDoc.docStatus == '반려'}">
-						<td><span class="status-4">${appDoc.docStatus }</span></td>
+					
+					<c:if test="${app.app_status == '완료' && app.doc_status == '반려'}">
+						<td><span class="status-4">${app.doc_status }</span></td>
 					</c:if>
-					<c:if test="${appDoc.appStatus == '반려'}">
-						<td><span class="status-4">${appDoc.appStatus }</span></td>
+					
+					<c:if test="${app.app_status == '반려'}">
+						<td><span class="status-4">${app.app_status }</span></td>
 					</c:if>
 				</tr>
 			</c:forEach>
