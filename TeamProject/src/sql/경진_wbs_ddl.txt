@@ -1,0 +1,80 @@
+/* Drop Tables */
+DROP TABLE project_member CASCADE CONSTRAINTS;
+DROP TABLE project_TODO CASCADE CONSTRAINTS;
+DROP TABLE project CASCADE CONSTRAINTS;
+DROP TABLE TODO CASCADE CONSTRAINTS;
+
+
+/* Create Tables */
+CREATE TABLE project
+(
+	PROJECT_NUM number NOT NULL,
+    PROJECT_TITLE VARCHAR2(100) NOT NULL,
+	status varchar2(20) NOT NULL,
+    START_DATE DATE NOT NULL,
+	due_date date NOT NULL,
+    PROJECT_MANAGER VARCHAR2(50) NOT NULL,
+	MEMBER_NUM NUMBER, -- 사원이름 : 사원번호로
+	PRIMARY KEY (PROJECT_NUM)
+);
+
+
+CREATE TABLE project_member
+(
+	PROJECT_NUM number NOT NULL,
+	member_num number NOT NULL,
+	PRIMARY KEY (PROJECT_NUM)
+);
+
+
+CREATE TABLE project_TODO
+(
+	PROJECT_NUM number NOT NULL,
+	TODO_num number NOT NULL,
+	PRIMARY KEY (PROJECT_NUM)
+);
+
+
+CREATE TABLE TODO
+(
+	TODO_num number NOT NULL,
+   	TODO_title varchar2(100) NOT NULL,
+	status varchar2(20) NOT NULL,
+    START_DATE DATE NOT NULL,
+	due_date date NOT NULL,
+	member_name varchar2(20),
+	content varchar2(1000),
+    conversion_ratio float,
+	top_task varchar2(50),
+	PRIMARY KEY (TODO_num)
+);
+
+
+/* Create Foreign Keys */
+
+ALTER TABLE project_member
+	ADD FOREIGN KEY (member_num)
+	REFERENCES member (member_num)
+;
+
+
+ALTER TABLE project_member
+	ADD FOREIGN KEY (PROJECT_NUM)
+	REFERENCES project (PROJECT_NUM)
+;
+
+
+ALTER TABLE project_TODO
+	ADD FOREIGN KEY (PROJECT_NUM) 
+    REFERENCES project (PROJECT_NUM)
+;
+
+
+
+ALTER TABLE project_TODO
+    ADD FOREIGN KEY (TODO_num) 
+    REFERENCES TODO (TODO_num)
+;
+
+
+
