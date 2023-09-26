@@ -59,6 +59,12 @@ public class MemberDAO {
         int n = session.update("MemberMapper.memberUpdate", mdto);
 		return n;
 	}
+
+	//idcheck
+	public int idCheck(int member_num) {
+		  int n = session.selectOne("MemberMapper.memberUpdate", member_num);
+		return n;
+	}
 	
 
 
