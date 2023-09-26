@@ -12,21 +12,23 @@ import com.dto.MemberDTO;
 
 @Repository("MemberDAO")
 public class MemberDAO {
+	
 	@Autowired
 	SqlSessionTemplate session;
 
-	// 로그인
+	//로그인
 	public MemberDTO login(HashMap<String, String> map) {
 		MemberDTO dto = session.selectOne("login", map);
 		return dto;	
 	}
 
-	// 마이페이지
+	//마이페이지
 	public MemberDTO myPage(int member_num) {
 		MemberDTO dto = session.selectOne("myPage", member_num);
 		return dto;
 	}
-	
+
+
 	//주소록에 뿌려줄 모든 멤버 리스트
 	public List<MemberDTO> selectAllMemberList() {
 		List<MemberDTO> list = session.selectList("selectAllMemberList");
@@ -57,18 +59,7 @@ public class MemberDAO {
         int n = session.update("MemberMapper.memberUpdate", mdto);
 		return n;
 	}
+	
 
-	//승철씨가도와준거..
-//	public void updateImg(Map<String, String> map) {
-//		System.out.println("DAO의 map에 담겨 있는것 : "+map);
-//		int n = session.update("MemberMapper.photoUpdate", map);
-//		System.out.println("업뎃완료 : "+n);//업데이트 성공 갯수
-//	}
 
-//	public void updateImg(MemberDTO mdto) {
-//		System.out.println("DAO의 udto에 담겨 있는것 : "+mdto);
-//		int n = session.update("MemberMapper.photoUpdate", mdto);
-//		System.out.println(n);
-//	}
-
-}
+}//dao end
