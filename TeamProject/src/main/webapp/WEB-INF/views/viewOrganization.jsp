@@ -15,8 +15,8 @@
 </head>
 <body>
 <div class="wrapper" style="align-content: center">
-	<jsp:include page="common/menu.jsp" flush="true" /><br>
-	<jsp:include page="member/viewOrganization.jsp" flush="false" /><br>
+	<jsp:include page="common/menu.jsp" flush="true" />
+	<jsp:include page="member/viewOrganization.jsp" flush="false" />
 </div>
 </body>
 </html>

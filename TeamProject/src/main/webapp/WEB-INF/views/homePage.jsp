@@ -7,7 +7,6 @@
 <title>홈</title>
 
 <!-- link : css -->
-<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 <link rel="stylesheet" type="text/css" href="resources/css/homePage.css">
 
 </head>

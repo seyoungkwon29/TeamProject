@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-	<title>Menu</title>
-	<link rel="stylesheet" href="/resources/css/menu.css">
-</head>
-<body>
+<link rel="stylesheet" href="/resources/css/menu.css">
 <div class="container">
 	<div>
 		<a class="brand" href="homePage">EVERYWARE</a>
@@ -28,6 +21,3 @@
 		</ul>
 	</div>
 </div>
-	      
-</body>
-</html>
