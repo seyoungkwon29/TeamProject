@@ -20,7 +20,7 @@
 		<li><a class="main-li" href="organization">조직도</a></li>
 		<li><a class="main-li" href='<spring:url value="/notices"/>'>공지사항</a></li>
 		<li><a class="main-li" href="<spring:url value="/communities"/>">자유게시판</a></li>
-		<li><a class="main-li" href="FileBoard">자료함</a></li>
+		<li><a class="main-li" href="fileBoardList">자료함</a></li>
 		<li><a class="main-li" href="draftList">전자결재</a></li>
 		<li><a class="main-li" href="meetingRoom">회의실 예약</a></li>
 		<li><a class="main-li" href="chatting">채팅</a></li>

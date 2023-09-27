@@ -1,0 +1,110 @@
+@charset "UTF-8";
+
+.f-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
+	margin: 0 60px; /* 좌우 마진 - 60*/
+	position: absolute;
+	left: 310px; /* 메뉴 + 소메뉴 = 310px을 차지함 */
+	top: 75px; /* 위로부터 75px 떨어짐*/
+	padding:50px 40px 60px 40px;
+	border: solid 1px rgba(224, 224, 224);
+}
+
+#f-title {	/* 타이틀 */
+	margin-top: 25px;
+	margin-bottom: 10px;
+}
+
+.f-s-container{	/* 검색창 */
+	margin: 2px auto 0;
+}
+
+.f-btn {	/* 검색버튼 */
+	display: block; 
+/* 	width: 104px; 
+	height: 37px;  
+	line-height: 37px;  */
+	text-align: center; 
+	font-weight: bold; 
+	background: #d3c9b5;
+}
+
+#searchField{ /* 검색 selectbox */
+
+}
+
+table {
+  border: 1px #a39485 solid;
+  font-size: .9em;
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+}
+th {
+  text-align: left;
+}
+  
+thead {
+  font-weight: bold;
+  color: #fff;
+  background: #73685d;
+}
+  
+ td, th {
+  padding: 1em .5em;
+  vertical-align: middle;
+}
+  
+ td {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  background: #fff;
+}
+
+a {
+  color: #73685d;
+}
+  
+ @media all and (max-width: 768px) {
+    
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  th {
+    text-align: right;
+  }
+  
+  table {
+    position: relative; 
+    padding-bottom: 0;
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+  }
+  
+  thead {
+    float: left;
+    white-space: nowrap;
+  }
+  
+  tbody {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    white-space: nowrap;
+  }
+  
+  tr {
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  th {
+    border-bottom: 1px solid #a39485;
+  }
+  
+  td {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  }

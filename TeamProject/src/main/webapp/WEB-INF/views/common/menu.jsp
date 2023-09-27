@@ -21,7 +21,7 @@
 			<li><a class="link" href="organization">조직도</a></li>
 			<li><a class="link" href='<spring:url value="/notices"/>'>공지사항</a></li>
 			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
-			<li><a class="link" href="FileBoard">자료함</a></li>
+			<li><a class="link" href="fileBoardList">자료함</a></li>
 			<li><a class="link" href="draftList">전자결재</a></li>
 			<li><a class="link" href="meetingRoom">회의실</a></li>
 			<li><a class="link" href="chatting">메신저</a></li>
