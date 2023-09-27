@@ -10,15 +10,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
 <link href="${bootstrapCss}" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row">
-	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br>
-      	</div>
+<%-- 	    <div class="sidebar col-md-3 col-lg-2 p-0">
+      		<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" /> <br>
+      	</div> --%>
       	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       		<section class="mt-3 mb-3">
       			<h2>자유 게시판</h2>

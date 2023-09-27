@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
 <link href="${bootstrapCss}" rel="stylesheet">
 <title>Insert title here</title>
@@ -15,9 +16,9 @@
 <body>
 <div class="container-fluid">
 	<div class="row">
-	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
-      	</div>
+<%-- 	    <div class="menu col-md-3 col-lg-2 p-0">
+      		<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" /> <br> 
+      	</div> --%>
 
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 			<h1 class="mt-3 mb-3">자유 게시판</h1>
@@ -28,7 +29,7 @@
 			        	<option value="writer" selected >작성자</option>
 			        	<option value="content">제목 + 내용</option>
 			        </select>
-			        <input name="searchKeyword" class="form-control me-2" type="search" aria-label="Search">
+			        <input name="searchKeyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 			        <button class="btn btn-outline-success" type="submit">Search</button>
 		      	</form>
 		      	<spring:url var="newCommunityUrl" value="/communities/new"/>
