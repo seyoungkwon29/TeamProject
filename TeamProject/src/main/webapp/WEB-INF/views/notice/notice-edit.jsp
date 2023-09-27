@@ -9,42 +9,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
-<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
-<link href="${bootstrapCss}" rel="stylesheet">
-<title>Insert title here</title>
+<link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<title>공지사항/글 수정</title>
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row">
-<%-- 	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" /> <br> 
-      	</div> --%>
-      	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      		<section class="mt-3 mb-3">
-      			<spring:url var="updateNoticeUrl" value="/notices/${noticeForm.noticeNum}/edit"/>
-				<form:form action="${updateNoticeUrl}" method="post" modelAttribute="noticeForm">
-					<div class="mb-3">
-						<form:label path="title" cssClass="form-label">제목</form:label>
-						<form:input path="title" cssClass="form-control"/>
-						<form:errors path="title"/>
+	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
+	<main class="w-100 center w-60-l">
+		<section class="mw8 center flex-auto">
+			<h1 class="f3">공지사항 수정</h1>
+			<div class="flex flex-auto items-center justify-start center">
+				<spring:url var="updateNoticeUrl" value="/notices/${noticeForm.noticeNum}/edit"/>
+				<form:form action="${updateNoticeUrl}" method="post" modelAttribute="noticeForm" cssClass="flex flex-column flex-auto">
+					<div class="flex flex-column mb3">
+						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
+						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
+						<form:errors path="title" cssClass="f6 dark-red db mb2"/>
 					</div>
-					<div class="mb-3">
-						<form:label path="content" cssClass="form-label">본문</form:label>
-						<form:textarea path="content" cssClass="form-control" rows="3"/>
-						<form:errors path="content"/>
+					<div class="flex flex-column mb3">
+						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
+						<form:textarea path="content" cssClass="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="10"/>
+						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
-					
-					<div class="button-group d-flex justify-content-center gap-2">
-						<button type="submit" class="btn btn-outline-primary">수정</button>
+					<div class="flex flex-column mb3">
+						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>
 						<spring:url var="noticeDeatilsUrl" value="/notices/${noticeForm.noticeNum}"/>
-			            <a href="${noticeDeatilsUrl}" class="btn btn-outline-dark">뒤로가기</a>
+						<a href="${noticeDeatilsUrl}" class="link-reset flex w-100">
+							<input class="button-reset b ph3 pv3 ba b--black bg-transparent dim f5 dib w-100 tc" value="뒤로가기">
+						</a>
 					</div>
 				</form:form>
-			</section>
-      	</main>
-   	</div>
-</div>
-
+			</div>
+		</section>
+	</main>
 </body>
 </html>
