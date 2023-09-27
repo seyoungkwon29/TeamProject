@@ -6,6 +6,7 @@
 	position: absolute;
 	left: 400px;
 	width: 55%;
+	top : 150px;
   }
   
   table {
@@ -22,8 +23,8 @@
   }
   
   th {
-	background-color: #d3c9b5;
-	color: #5d5442;
+	background-color: rgba(33, 135, 90, 0.6);
+	color: #113626;
 	width: 20%;
   }
   
