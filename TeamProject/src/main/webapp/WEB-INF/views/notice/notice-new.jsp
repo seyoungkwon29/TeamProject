@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
@@ -9,8 +10,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+<link href="${bootstrapCss}" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -20,7 +21,8 @@
       	</div>
       	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       		<section class="mt-3 mb-3">
-				<form:form action="/notices/new" method="post" modelAttribute="noticeForm">
+      			<spring:url var="newNoticeUrl" value="/notices/new"/>
+				<form:form action="${newNoticeUrl}" method="post" modelAttribute="noticeForm">
 					<div class="mb-3">
 						<form:label path="title" cssClass="form-label">제목</form:label>
 						<form:input path="title" cssClass="form-control"/>
@@ -33,7 +35,8 @@
 					</div>
 					<div>
 						<button type="submit" class="btn btn-outline-primary">작성</button>
-			            <a href="/notices" class="btn btn-outline-dark">뒤로가기</a>
+						<spring:url var="noticeListUrl" value="/notices"/>
+			            <a href="${noticeListUrl}" class="btn btn-outline-dark">뒤로가기</a>
 					</div>
 				</form:form>
 			</section>

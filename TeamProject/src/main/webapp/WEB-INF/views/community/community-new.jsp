@@ -3,14 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+<link href="${bootstrapCss}" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -21,7 +22,8 @@
       	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       		<section class="mt-3 mb-3">
       			<h2>자유 게시판</h2>
-				<form:form action="/communities/new" method="post" modelAttribute="communityForm">
+      			<spring:url var="newCommunityUrl" value="/communities/new"></spring:url>
+				<form:form action="${newCommunityUrl}" method="post" modelAttribute="communityForm">
 					<div class="mb-3">
 						<form:label path="title" cssClass="form-label">제목</form:label>
 						<form:input path="title" cssClass="form-control"/>
@@ -34,7 +36,8 @@
 					</div>
 					<div>
 						<button type="submit" class="btn btn-outline-primary">작성</button>
-			            <a href="/communities" class="btn btn-outline-dark">뒤로가기</a>
+						<spring:url var="communityListUrl" value="/communities"/>
+			            <a href="${communityListUrl}" class="btn btn-outline-dark">뒤로가기</a>
 					</div>
 				</form:form>
 			</section>
