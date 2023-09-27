@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 	<title>Menu</title>
 	<link rel="stylesheet" href="/resources/css/menu.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="resources/js/menu.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,11 +24,26 @@
 			<li><a class="link" href="/communities">자유게시판</a></li>
 			<li><a class="link" href="FileBoard">자료함</a></li>
 			<li><a class="link" href="draftList">전자결재</a></li>
-			<li><a class="link" href="meetingRoom">회의실</a></li>
+			<li><span class="link">회의실</span>
+				<div class="dropdown">
+				<a href="meetingRoom">회의실 예약</a>			
+				<a href="meetingRoomCheck">회의실 예약 확인</a>			
+				</div>
+			</li>
 			<li><a class="link" href="chatting">메신저</a></li>
 			<li><a class="link" href="#">메일</a></li>
 		</ul>
 	</div>
+	<div class="icon-container">
+        <ul>
+            <li><a class="icon" href="#"><img
+                    src="resources/image/icon/alarm.png" alt="알람"></a></li>
+            <li><a class="icon" href="#"><img
+                    src="resources/image/icon/mail.png" alt="메일"></a></li>
+            <li><a class="icon" href="loginCheck/logout"><img
+                    src="resources/image/icon/logout.png" alt="로그아웃"></a></li>
+        </ul>
+    </div>
 </div>
 	      
 </body>

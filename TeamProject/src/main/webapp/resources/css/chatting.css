@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.container{
+.c-container{
     display: flex;
     gap : 100px;
     margin-left: 250px;
@@ -165,23 +165,6 @@
     padding: 5px;
     border: 1px solid #ccc;
 }
-
-
-
-/* 화면 너비가 600px 미만일 때 스타일 변경 */
-@media (max-width: 600px) {
-    .container{
-        width: 80%; /* 작은 화면에서는 더 좁게 표시 */
-        font-size: 16px; /* 텍스트 크기 축소 */
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        width: 60%; /* 큰 화면에서는 더 넓게 표시 */
-    }
-}
-
 
 #selected{
 	max-height: 100px;

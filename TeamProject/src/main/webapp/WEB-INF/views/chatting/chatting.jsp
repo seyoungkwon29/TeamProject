@@ -13,7 +13,7 @@
 <script src="resources/js/chatting.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="c-container">
 <div class="chatList">
         <div class="head">
             <p>채팅방 목록</p>
