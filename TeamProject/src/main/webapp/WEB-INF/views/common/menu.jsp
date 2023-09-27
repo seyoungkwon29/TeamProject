@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 	<title>Menu</title>
-	<link rel="stylesheet" href="/resources/css/menu.css">
+	<link rel="stylesheet" href="<spring:url value='/resources/css/menu.css'/>">
 </head>
 <body>
 <div class="container">
@@ -18,8 +19,8 @@
 			<li><a class="link" href="myPage">마이 페이지</a></li>
 			<li><a class="link" href="loginCheck/attendance/attendanceList">근태 관리</a></li>
 			<li><a class="link" href="organization">조직도</a></li>
-			<li><a class="link" href="/notices">공지사항</a></li>
-			<li><a class="link" href="/communities">자유게시판</a></li>
+			<li><a class="link" href='<spring:url value="/notices"/>'>공지사항</a></li>
+			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
 			<li><a class="link" href="FileBoard">자료함</a></li>
 			<li><a class="link" href="draftList">전자결재</a></li>
 			<li><a class="link" href="meetingRoom">회의실</a></li>

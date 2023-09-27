@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
 <link href="${bootstrapCss}" rel="stylesheet">
 <title>Insert title here</title>
@@ -15,9 +16,9 @@
 <body>
 <div class="container-fluid">
 	<div class="row">
-	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
-      	</div>
+<%-- 	    <div class="sidebar col-md-3 col-lg-2 p-0">
+      		<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" /> <br> 
+      	</div> --%>
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 			<h1 class="mt-3 mb-3">공지사항</h1>
 			<div class="d-flex justify-content-end mb-3 gap-2">
