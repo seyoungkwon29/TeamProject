@@ -73,12 +73,14 @@
 							<div id = "buttonDiv">
 								<input type="hidden" name="reservation" value="1">
 								<button type="submit" form="roomForm">예약하기</button>
+								<button type="button" onclick="location.href='meetingRoomCheck';">예약확인</button>
 							</div>
                             </div>
                        </form>
 				</div>
 </body>
 <script type="text/javascript">
+
 $(document).ready(function() {
     $("#roomForm").submit(function(event) {
         if ($("#roomRDate").val() === "") {
