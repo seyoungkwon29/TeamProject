@@ -6,20 +6,12 @@
 <meta charset="UTF-8">
 
 <!-- link : css -->
-<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 <link rel="stylesheet" type="text/css" href="resources/css/myPage.css">
 
 <title>마이페이지</title>
 </head>
 <body>
-	<div>
-		<div>
-			<!-- 사이드바 -->
-			<jsp:include page="common/menu.jsp" flush="true" /><br>
-		</div>
-		<div>
-			<jsp:include page="member/myPage.jsp" flush="true" /> <br>  <br>  <!-- 마이페이지 메뉴바 -->
-		</div>
-	</div>
+	<jsp:include page="common/menu.jsp" flush="true" />
+	<jsp:include page="member/myPage.jsp" flush="true" />
 </body>
 </html>

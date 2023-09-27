@@ -1,42 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ page import="com.dto.MemberDTO"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="com.dto.MemberDTO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%   if (session.getAttribute("mesg") != null) { %>
- <script type="text/javascript">
-	alert("${mesg}");
-	
-	</script>
+		<script type="text/javascript">
+			alert("${mesg}");
+		</script>
 <% session.removeAttribute("mesg"); } %>
-
  
- <% MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
- int member_num = dto.getMember_num();
- String member_name = dto.getMember_name();
- String div_name = dto.getDiv_name();
- String rank = dto.getRank();
- String address = dto.getAddress();
- String phone = dto.getPhone();
- String mail = dto.getMail();
- String hire_date = dto.getHire_date();
- String retire_date = dto.getRetire_date();
- String ssn = dto.getSsn();
- String password = dto.getPassword();
- String gender = dto.getGender();
- String photo =dto.getPhoto();
- int annual_leave = dto.getAnnual_leave();
+<% 
+	MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
+	int member_num = dto.getMember_num();
+	String member_name = dto.getMember_name();
+	String div_name = dto.getDiv_name();
+	String rank = dto.getRank();
+	String address = dto.getAddress();
+	String phone = dto.getPhone();
+	String mail = dto.getMail();
+	String hire_date = dto.getHire_date();
+	String retire_date = dto.getRetire_date();
+	String ssn = dto.getSsn();
+	String password = dto.getPassword();
+	String gender = dto.getGender();
+	String photo =dto.getPhoto();
+	int annual_leave = dto.getAnnual_leave();
 %>     
-<meta charset="UTF-8">
-<title>Insert title here</title>
-	<link href="resources/css/pwchange.css" rel="stylesheet">
-	<link href="resources/css/photochange.css" rel="stylesheet">
+<link href="resources/css/pwchange.css" rel="stylesheet">
+<link href="resources/css/photochange.css" rel="stylesheet">
 	
 	
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
- <script type="text/javascript">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
 
 	$(function() {
 		   
@@ -86,8 +81,7 @@
     });
 	
 });//윈도우 end
-	
- </script>
+</script>
 
 <!-- 마이페이지 시작 -->
 <h2>나의 정보</h2>

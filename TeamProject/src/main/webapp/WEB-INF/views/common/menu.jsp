@@ -1,15 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-	<title>Menu</title>
-	<link rel="stylesheet" href="/resources/css/menu.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="resources/js/menu.js"></script>
-</head>
-<body>
+<link rel="stylesheet" href="/resources/css/menu.css">
 <div class="container">
 	<div>
 		<a class="brand" href="homePage">EVERYWARE</a>
@@ -45,6 +36,3 @@
         </ul>
     </div>
 </div>
-	      
-</body>
-</html>
