@@ -1,9 +1,12 @@
 package com.controller.community;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,11 +22,16 @@ public class ReplyController {
 	private ReplyService replyService;
 	
 	@PostMapping("/communities/{comNum}/replies/new")
-	public String newReply(@PathVariable Long comNum, @RequestParam(required=false) Long parentReplyNum, @RequestParam String content, HttpSession session) {
+	public String newReply(@PathVariable Long comNum, @RequestParam(required=false) Long parentReplyNum, @Valid @ModelAttribute ReplyForm replyForm, BindingResult bindingResult,HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			return "redirect:/communities/{comNum}";
+		}
+		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 		
-		ReplyDTO reply = new ReplyDTO(memberNum, comNum, parentReplyNum, content);
+		ReplyDTO reply = new ReplyDTO(memberNum, comNum, parentReplyNum, replyForm.getContent());
 		
 		replyService.save(reply);
 		
@@ -31,12 +39,17 @@ public class ReplyController {
 	}
 	
 	@PostMapping("/communities/{comNum}/replies/{replyNum}/edit")
-	public String updateReply(@PathVariable Long replyNum, @PathVariable Long comNum, @RequestParam String content, HttpSession session) {
+	public String updateReply(@PathVariable Long replyNum, @PathVariable Long comNum, @Valid @ModelAttribute ReplyForm replyForm, BindingResult bindingResult, HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			return "redirect:/communities/{comNum}";
+		}
+		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 		
 		ReplyDTO updateDTO = new ReplyDTO();
-		updateDTO.setContent(content);
+		updateDTO.setContent(replyForm.getContent());
 		replyService.update(replyNum, memberNum, updateDTO);
 		
 		return "redirect:/communities/{comNum}";

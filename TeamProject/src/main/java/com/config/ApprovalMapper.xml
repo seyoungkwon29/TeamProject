@@ -4,32 +4,317 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
 	
-	<select id="selectAllMemberInfo" resultType="ApprovalDTO">
-		select member_name, member_num, div_name, rank from member
-	</select>
-
-	<select id="searchByDivName" resultType="ApprovalDTO" parameterType="String">
-		select member_name, member_num, div_name, rank from member 
-		where div_name = #{div_name}
-	</select>
-	
-	<select id="searchByMemName" resultType="ApprovalDTO" parameterType="String">
-		select member_name, member_num, div_name, rank from member 
-		where member_name = #{member_name}
- 	</select> 
-	
-	<select id="docFormName" resultType="DocFormDTO" parameterType="String">
-		 select *from app_form where form_name= #{form_name}
+	<select id="selectAllMemberInfo" resultType="SearchAppMemDTO"> <!-- 전체 멤버 조회 -->
+	    SELECT
+	        MEMBER_NAME,
+	        MEMBER_NUM,
+	        DIV_NAME,
+	        RANK
+	    FROM
+	        MEMBER
 	</select>
 	
-	<insert id="saveDocForm" parameterType="SaveDocFormDTO">
-	    INSERT INTO app_doc (doc_no, member_num, form_name, doc_title, doc_content, doc_date)
-	    VALUES (SEQ_DOC.nextval, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_date})
+	<select id="searchByDivName" resultType="SearchAppMemDTO" parameterType="String"> <!-- 부서로 조회 -->
+	    SELECT
+	        MEMBER_NAME,
+	        MEMBER_NUM,
+	        DIV_NAME,
+	        RANK
+	    FROM
+	        MEMBER
+	    WHERE
+	        DIV_NAME = #{div_name}
+	</select>
+	
+	<select id="searchByMemName" resultType="SearchAppMemDTO" parameterType="String"> <!-- 이름으로 조회 -->
+	    SELECT
+	        MEMBER_NAME,
+	        MEMBER_NUM,
+	        DIV_NAME,
+	        RANK
+	    FROM
+	        MEMBER
+	    WHERE
+	        MEMBER_NAME = #{member_name}
+	</select>
+	
+	<select id="docFormName" resultType="DocFormDTO" parameterType="String"> <!-- 문서 양식 조회 -->
+	    SELECT
+	        *
+	    FROM
+	        APP_FORM
+	    WHERE
+	        FORM_NAME = #{form_name}
+	</select>
+	
+	<insert id="saveDocForm" parameterType="AppDocumentMapDTO"> <!-- 문서 등록 -->
+	    INSERT INTO
+	        APP_DOC (DOC_NO, MEMBER_NUM, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_DATE)
+	    VALUES
+	        (SEQ_DOC.NEXTVAL, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_date})
 	</insert>
 	
-
-	<select id="saveDocList" resultType="SaveDocFormDTO">
-		 select * from app_doc 
+	<select id="saveDocFormList" resultType="AppDocumentDTO" parameterType="map"> <!-- 문서등록 리스트-->
+	    SELECT
+		    *
+		FROM
+		    APP_DOC
+		WHERE
+		    DOC_STATUS != #{temp} 
+	    AND
+	    	MEMBER_NUM = #{member_num}
+		ORDER BY
+		    DOC_NO DESC
 	</select>
+	
+	<select id="callTempList" resultType="AppDocumentDTO" parameterType="String"> <!-- 임시 저장함 -->
+	    SELECT
+	        *
+	    FROM
+	        APP_DOC
+	    WHERE
+	        DOC_STATUS = #{doc_status}
+	    ORDER BY
+	        DOC_NO DESC
+	</select>
+	
+	
+	<select id="tempDetailDocContent" resultType="AppDocumentDTO"> <!--임시저장함 안의 제목 클릭 -->
+	    SELECT
+	        *
+	    FROM
+	        APP_DOC
+	    WHERE
+	        DOC_STATUS = #{doc_status}
+	        AND DOC_NO = #{doc_no}
+	</select>
+	
+	<select id="detailDocContent" resultType="AppDocumentMapDTO">
+		SELECT
+			d.DOC_NO,
+			d.MEMBER_NUM,
+			m.MEMBER_NAME,
+			d.FORM_NAME,
+			d.DOC_TITLE,
+			d.DOC_CONTENT,
+			d.DOC_STATUS,
+			d.DOC_DATE
+		FROM
+			APP_DOC d
+		JOIN
+			MEMBER m
+		ON
+			d.MEMBER_NUM = m.MEMBER_NUM
+		WHERE
+			DOC_NO = #{doc_no}
+	</select>
+
+		
+	<insert id="saveTempDocForm" parameterType="AppDocumentDTO"> <!-- 임시저장함 안의 문서 기안 -->
+	    INSERT INTO
+	        APP_DOC (DOC_NO, MEMBER_NUM, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_STATUS, DOC_DATE)
+	    VALUES
+	        (SEQ_DOC.NEXTVAL, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_status}, #{doc_date})
+	</insert>
+	
+	<insert id="saveDocFile" parameterType="AppFileDTO"> <!-- 파일 저장 -->
+	    INSERT INTO
+	        APP_FILE (FILE_NO, DOC_NO, FILE_NAME)
+	    VALUES
+	        (SEQ_FILE.NEXTVAL, 
+        <if test="doc_no == 0">
+			SEQ_DOC.CURRVAL
+		</if>
+		<if test="doc_no != 0">
+			#{doc_no}
+		</if>
+			, #{file_name})
+	</insert>
+	
+	<delete id="tempDocDelete" parameterType="int"> <!-- 임시저장함 안의 문서 삭제-->
+	    DELETE FROM
+	        APP_DOC
+	    WHERE
+	        DOC_NO = #{doc_no}
+	</delete>
+	
+	<select id="fileContent" resultType="AppFileDTO" parameterType="int"> <!-- 파일 찾아오기 -->
+	    SELECT
+	        *
+	    FROM
+	        APP_FILE
+	    WHERE
+	        DOC_NO = #{doc_no}
+	</select>
+	
+	<delete id="draftfileCancel" parameterType="int"> <!-- 파일 삭제하기 -->
+	    DELETE FROM
+	        APP_FILE
+	    WHERE
+	        DOC_NO = #{doc_no}
+	</delete>
+	
+	<insert id="registerAppMem"> <!-- 결재자 등록 -->
+	    INSERT INTO APPROVAL VALUES 
+	    	(SEQ_APP.NEXTVAL, 
+	    
+	    <if test="doc_no == 0">
+	        SEQ_DOC.CURRVAL
+	    </if>
+	    
+	    <if test="doc_no != 0">
+	        #{doc_no}
+	    </if>
+	    
+	    	, #{member_num}, #{app_level}, NULL, #{app_status}, NULL)
+	</insert>
+
+	<insert id="registerRefMem"> <!-- 참조자 등록 -->
+	    INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 
+	    
+	    <if test="doc_no == 0">
+	        SEQ_DOC.CURRVAL
+	    </if>
+	    
+	    <if test="doc_no != 0">
+	        #{doc_no}
+	    </if>
+			, #{member_num}, #{ref_status})
+	</insert>
+	
+	<select id="searchAppMem" resultType="ApprovalMapDTO" parameterType="int"> <!-- 문서 상세 조회 : 결재자 정보 -->
+	    SELECT
+	        a.app_no,
+	        a.doc_no,
+	        m.member_name,
+	        m.member_num,
+	        m.div_name,
+	        m.rank,
+	        a.app_level,
+	        a.app_date,
+	        a.app_status,
+	        a.rej_reason
+	    FROM
+	        approval a
+	    INNER JOIN
+	        member m ON a.member_num = m.member_num
+	    WHERE
+	        a.doc_no = #{doc_no}
+	    ORDER BY a.app_level
+	</select>
+	
+	<select id="searchRefMem" resultType="AppReferMapDTO" parameterType="int"> <!-- 문서 상세 조회 : 참조자 정보 -->
+	    SELECT
+	        r.ref_no,
+	        r.doc_no,
+	        m.member_name,
+	        m.member_num,
+	        m.div_name,
+	        m.rank,
+	        r.ref_status
+	    FROM
+	        app_ref r
+	    INNER JOIN
+	        member m 
+        ON 
+        	r.member_num = m.member_num
+	    WHERE
+	        r.doc_no = #{doc_no}
+	    ORDER BY r.ref_no
+	</select>
+	
+	<delete id="draftAppMemCancel"> <!-- 결재자 삭제하기 -->
+	    DELETE FROM
+	        APPROVAL
+	    WHERE
+	        DOC_NO = #{doc_no}
+	</delete>
+	
+	<delete id="draftRefMemCancel"> <!-- 참조자 삭제 -->
+		DELETE FROM 
+			APP_REF 
+		WHERE 
+			DOC_NO = #{doc_no}
+	</delete>
+	
+	<update id="updateApp"> <!-- 결재자 상태 변경( 임시-> 대기/예정 ) -->
+		UPDATE APPROVAL 
+		SET 
+			APP_STATUS = #{app_status} 
+		WHERE 
+			DOC_NO = #{doc_no} 
+			AND MEMBER_NUM = #{member_num} 
+			AND APP_LEVEL = #{app_level}
+	</update>
+
+	<update id="updateAppMemStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
+		UPDATE 
+			APPROVAL 
+		SET 
+			APP_STATUS = #{app_status}, 
+			APP_DATE = #{app_date}
+		<if test="rej_reason != null"> <!-- 반려사유 있는 경우 -->
+			, REJ_REASON = #{rej_reason}
+		</if>		
+		WHERE 
+			DOC_NO = #{doc_no} 
+		AND 
+			MEMBER_NUM = #{member_num}
+	</update>
+	
+	<update id="updateDocStatus"><!-- 결재 승인/반려(문서 상태 변경) -->
+		UPDATE 
+			APP_DOC 
+		SET 
+			DOC_STATUS = #{doc_status} 
+		WHERE 
+			DOC_NO = #{doc_no}
+	</update>
+	
+	<select id="selectListAppDoc" resultType="AppDocumentMapDTO">
+		SELECT 
+			d.DOC_NO, 
+			d.DOC_DATE, 
+			d.FORM_NAME, 
+			d.DOC_TITLE, 
+			m.MEMBER_NAME, 
+			a.APP_STATUS, 
+			d.DOC_STATUS 
+		FROM 
+			APP_DOC d
+		INNER JOIN 
+			APPROVAL a
+		ON 
+			d.DOC_NO = a.DOC_NO
+		INNER JOIN 
+			MEMBER m
+		ON 
+			d.MEMBER_NUM = m.MEMBER_NUM
+	    WHERE a.MEMBER_NUM = #{member_num}
+    </select>
+    
+    <select id="selectAllWaitAppStatus" resultType="ApprovalMapDTO"> <!-- 다음 차례 결재자 확인 -->
+		SELECT 
+			* 
+		FROM 
+			APPROVAL 
+		WHERE 
+			DOC_NO = #{doc_no} 
+		AND 
+			APP_STATUS = '예정' 
+		ORDER BY 
+			APP_LEVEL
+	</select>
+	
+
+	<update id="modifyNextAppMemStatus"> <!-- 다음 결재자 상태 변경(예정 -> 대기) -->
+		UPDATE 
+			APPROVAL 
+		SET 
+			APP_STATUS = '대기' 
+		WHERE 
+			APP_NO = #{app_no}
+	</update>
+	
 	
 </mapper>

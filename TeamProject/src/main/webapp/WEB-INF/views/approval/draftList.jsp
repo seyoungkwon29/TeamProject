@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,34 +32,33 @@
 				<th class="th-1">결재상태</th>
 			</tr>
 			
-			<c:forEach var="docList" items="${docList}">
+			<c:forEach var="doc" items="${appDocList}">
 				<tr>
-					<td>${docList.doc_date}</td> <!-- 기안일 -->
+					<td>${doc.doc_date}</td> <!-- 기안일 -->
 					
-					<td>${docList.form_name}</td> <!-- 문서 양식 -->
+					<td>${doc.form_name}</td> <!-- 문서 양식 -->
 					
-					<c:url var="aDetail" value="/approval/detail.sw?type=${type }&docStatus=${appDoc.docStatus }">
-						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
-					</c:url>
+					<td><a href="clickDocContent?type=draft&docNo=${doc.doc_no}&docStatus=${doc.doc_status}">
+						${doc.doc_title}</a>
+					</td> <!-- 제목, 제목 클릭 시 기안문서함(type), 문서번호(doc_no), 문서 결재 정보(doc_status) 전송  -->
 					
-					<td><a href="${aDetail }">${docList.doc_title}</a></td> <!-- 제목-->
+					<td>${doc.doc_no}</td> <!-- 문서 번호-->
 					
-					<td>${docList.doc_no}</td> <!-- 문서 번호-->
-					
-					<c:if test="${docList.doc_status == '대기'}">
-						<td><span class="status-1">${docList.doc_status }</span></td>
+					<!-- 문서 결재 상태에 따라 변경 -->
+					<c:if test="${doc.doc_status == '대기'}"> <!-- 기안하고, 1번 결재자 결재 전 -->
+						<td><span class="status-1">${doc.doc_status }</span></td>
 					</c:if>
 					
-					<c:if test="${docList.doc_status == '진행'}">
-						<td><span class="status-2">${docList.doc_status }</span></td>
+					<c:if test="${doc.doc_status == '진행'}">  <!-- 1번 결재자의 결재 -->
+						<td><span class="status-2">${doc.doc_status }</span></td>
 					</c:if>
 					
-					<c:if test="${docList.doc_status == '완료'}">
-						<td><span class="status-3">${docList.doc_status }</span></td>
+					<c:if test="${doc.doc_status == '완료'}">  <!-- 결재 진행 -->
+						<td><span class="status-3">${doc.doc_status }</span></td>
 					</c:if>
 					
-					<c:if test="${docList.doc_status == '반려'}">
-						<td><span class="status-4">${docList.doc_status }</span></td>
+					<c:if test="${doc.doc_status == '반려'}">
+						<td><span class="status-4">${doc.doc_status }</span></td>
 					</c:if>
 				</tr>
 			</c:forEach>

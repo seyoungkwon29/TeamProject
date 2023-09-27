@@ -11,30 +11,28 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
 <script>
 
-$(function() {	
-	////////////////////////////////// 문서 기안: 모달창 처리하기
-	//문서 기안 버튼
-	$("#app-btn").click(function() {
+$(function() {
+	
+	//////// 모달창 시작
+	$("#app-btn").click(function() { //문서 기안 버튼
 		$("#t-modal").fadeIn(); //클릭시, 모달창 나옴
 	});
 	
-	//문서 선택
-	$("#confirm-btn").click(function() {
-		var selectedValue = $("#modal-select").val(); //선택된 값을 가져옴
+	$("#confirm-btn").click(function() { //문서 선택
+		var form_name = $("#modal-select").val(); //선택된 값을 가져옴
 		
-		if (selectedValue !== "문서를 선택하세요") { //"문서를 선택하세요"를 제외한 문서 양식 선택하면 servlet 이동
-		   var docFormServlet = "${pageContext.request.contextPath}/DocForm?selectValue=" + selectedValue; //선택된 문서종류 url에 같이 전송
-		   window.location.href = docFormServlet; //해당 서블릿으로 이동
+		if (form_name !== "문서를 선택하세요") { //"문서를 선택하세요"를 제외한 문서 양식 선택하면 servlet 이동
+		   window.location.href = "DocFormName?form_name=" + form_name; //선택된 문서종류 url에 같이 전송
 		} 
 		else { //선택된 값이 없다면, 알림창
 		   alert("문서 양식을 선택하세요!");
 		}
 	 });
 	
-	//취소
-	$("#cancel-btn").click(function(){
+	$("#cancel-btn").click(function(){ //취소
 		$("#t-modal").fadeOut(); //클릭시, 모달창이 꺼짐
 	});
+	/////// 모달창 끝
 	
 });//end script
 
@@ -56,19 +54,18 @@ $(function() {
 				<th class="th-1">문서상태</th>
 			</tr>
 			
-			<c:forEach var="docList" items="${docList}">
+			<c:forEach var="temp" items="${tempList}">
 				<tr>
-					<td>${docList.doc_date}</td> <!-- 기안일 -->
+					<td>${temp.doc_date}</td> <!-- 기안일 -->
 					
-					<td>${docList.form_name}</td> <!-- 문서 양식 -->
+					<td>${temp.form_name}</td> <!-- 문서 양식 -->
 					
-					<c:url var="aDetail" value="/approval/detail.sw?type=${type }&docStatus=${appDoc.docStatus }">
-						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
-					</c:url>
+					<td><a href="tempClickDocContent?docNo=${temp.doc_no }&docStatus=${temp.doc_status}">
+						${temp.doc_title}</a>
+					</td> <!-- 제목-->
+
 					
-					<td><a href="${aDetail }">${docList.doc_title}</a></td> <!-- 제목-->
-					
-					<td><span class="status-5">${docList.doc_status }</span></td>
+					<td><span class="status-5">${temp.doc_status }</span></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -103,12 +100,12 @@ $(function() {
 				<div class="modal-header" id="modal_header"> 기안 양식 선택 </div>
 				
 				<div class="modal-body" id="modal_body">
-					<select class="modal-select" id="modal-select" style ="height:20px; width:150px;">
+					<select class="modal-select" id="modal-select" style ="height:28px; width:170px;">
 						<option>문서를 선택하세요</option>
-						<option value="formDraft">기안서</option>
-						<option value="formApp">품의서</option>
-						<option value="formExpend">지출결의서</option>
-						<option value="formRest">휴가신청서</option>
+						<option value="기안서">기안서</option>
+						<option value="품의서">품의서</option>
+						<option value="지출결의서">지출결의서</option>
+						<option value="휴가신청서">휴가신청서</option>
 					</select>
 				</div>
 

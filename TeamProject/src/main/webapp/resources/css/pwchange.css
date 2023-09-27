@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.pwchange{
+.pwchange {
 	position: fixed;
 	z-index: 1000; /* 더 큰 값으로 변경 */
 	width: 100%;
@@ -11,37 +11,35 @@
 	display: none;
 }
 
-.pwchange_modal-content{
-	width:600px; 
-	height:300px;
-	background:#fff; 
-	border-radius:10px;
-	position:fixed; 
-	top:50%; left:50%;
-	transform:translate(-50%,-50%);
-	margin-top:-100px; 
-	margin-left:-50px;
-	text-align:center;
-	box-sizing:border-box; 
-	
-	padding:50px 0;
-	line-height:23px; 
-	cursor:pointer;
+.pwchange_modal-content {
+	width: 600px;
+	height: 300px;
+	background: #fff;
+	border-radius: 10px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -100px;
+	margin-left: -50px;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 50px 0;
+	line-height: 23px;
+	cursor: pointer;
 }
 
-.pwchange_modal-header{
-	padding-bottom : 15px;
+.pwchange_modal-header {
+	padding-bottom: 15px;
 	font-weight: bold;
 }
 
-.pwchange_modal-body{
-	padding-bottom : 20px;
+.pwchange_modal-body {
+	padding-bottom: 20px;
 	position: relative;
 	right: -80px;
 }
 
-.modal-footer{
-	padding-top : 5px;
+.modal-footer {
+	padding-top: 5px;
 }
-
-

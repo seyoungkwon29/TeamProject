@@ -2,13 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+<link href="${bootstrapCss}" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
@@ -30,7 +31,8 @@
 			        <input name="searchKeyword" class="form-control me-2" type="search" aria-label="Search">
 			        <button class="btn btn-outline-success" type="submit">Search</button>
 		      	</form>
-				<a href="/communities/new">
+		      	<spring:url var="newCommunityUrl" value="/communities/new"/>
+				<a href="${newCommunityUrl}">
 					<button type="button" class="btn btn-outline-primary">작성</button>
 				</a>
 			</div>
@@ -68,8 +70,18 @@
 				  <ul class="pagination">
 				  	<c:choose>
 				  	<c:when test="${pageResponse.hasPrevious}">
+				  		<spring:url var="previousPageUrl" value="/communities">
+					  			<spring:param name="page" value="${pageResponse.start-1}"/>
+					  			<spring:param name="size" value="${pageResponse.size}"/>
+					  			<c:if test="${not empty param.searchType}">
+					  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+					  			</c:if>
+					  			<c:if test="${not empty param.searchKeyword}">
+					  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+					  			</c:if>
+				  		</spring:url>
 					    <li class="page-item">
-					      <a class="page-link" href="/communities?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
+					      <a class="page-link" href="${previousPageUrl}" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
@@ -83,15 +95,25 @@
 				    </c:otherwise>
 			    	</c:choose>
 			    	<c:forEach begin="${pageResponse.start}" end="${pageResponse.end}" step="1" varStatus="status">
+			    	<spring:url var="pageUrl" value="/communities">
+				  			<spring:param name="page" value="${status.current}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+			  		</spring:url>
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="page-item active">
-					    	<a class="page-link" href="/communities?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:when>
 					    <c:otherwise>
    						<li class="page-item">
-					    	<a class="page-link" href="/communities?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    	<a class="page-link" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:otherwise>
 				    </c:choose>					   
@@ -99,8 +121,18 @@
 				    
    				  	<c:choose>
 				  	<c:when test="${pageResponse.hasNext}">
+					  	<spring:url var="nextPageUrl" value="/communities">
+					  			<spring:param name="page" value="${pageResponse.end+1}"/>
+					  			<spring:param name="size" value="${pageResponse.size}"/>
+					  			<c:if test="${not empty param.searchType}">
+					  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+					  			</c:if>
+					  			<c:if test="${not empty param.searchKeyword}">
+					  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+					  			</c:if>
+				  		</spring:url>
 					    <li class="page-item">
-					      <a class="page-link" href="/communities?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
+					      <a class="page-link" href="${nextPageUrl}" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>

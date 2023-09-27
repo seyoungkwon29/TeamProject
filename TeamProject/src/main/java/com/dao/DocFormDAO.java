@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.dto.DocFormDTO;
 
-@Repository("DocFormDao")
-public class DocFormDao {
+@Repository("DocFormDAO")
+public class DocFormDAO {
 	
 	@Autowired
 	SqlSessionTemplate session;

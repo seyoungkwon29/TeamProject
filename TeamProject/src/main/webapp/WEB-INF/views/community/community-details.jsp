@@ -2,13 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss"/>
+<link href="${bootstrapCss}" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
@@ -30,18 +31,22 @@
       			<p class="text-break">${communityDetails.content}</p>
       		</article>
     		<div class="btn-group me-2 w-100">
-				<a href="/communities/${communityDetails.comNum}/edit">
+    			<spring:url var="editCommunityUrl" value="/communities/${communityDetails.comNum}/edit"/>
+				<a href="${editCommunityUrl}">
 					<button type="button" class="btn btn-outline-primary">수정</button>
 				</a>&nbsp;
-				<form action="/communities/${communityDetails.comNum}/delete" method="post">
+				<spring:url var="deleteCommunityUrl" value="/communities/${communityDetails.comNum}/delete"/>
+				<form action="${deleteCommunityUrl}" method="post">
 					<button type="submit" class="btn btn-outline-danger">삭제</button>
 				</form>&nbsp;
-				<a href="/communities">
+				<spring:url var="communityListUrl" value="/communities"/>
+				<a href="${communityListUrl}">
 					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
 				</a>
 			</div>
 			<section class="mt-3 mb-3">
-				<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
+				<spring:url var="newReplyUrl" value="/communities/${communityDetails.comNum}/replies/new"/>
+				<form action="${newReplyUrl}" method="post">
 					<div class="mb-3">
 						<label for="content" class="form-label">댓글 달기</label>
 						<textarea name="content" class="form-control" rows="3"></textarea>
@@ -63,14 +68,15 @@
 	      			<div class="btn-group gap-2">
 	      				<button class="reply-toggle-button btn text-secondary p-0 m-0">댓글 달기</button>
       					<button class="edit-toggle-button btn text-secondary p-0 m-0">편집</button>
-		      			<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/delete" method="post">
+      					<spring:url var="deleteReplyUrl" value="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/delete"/>
+		      			<form action="${deleteReplyUrl}" method="post">
 	      					<button class="btn text-secondary p-0 m-0">삭제</button>
 	      				</form>
 	      			</div>
             	</article>
             	<article class="ms-${replyDetails.level} mr-6 mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="edit">
-            		
-            		<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit" method="post">
+            		<spring:url var="updateReplyUrl" value="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit"/>
+            		<form action="${updateReplyUrl}" method="post">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${replyDetails.memberName}</p>
 						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
@@ -83,7 +89,8 @@
 	      			</form>
             	</article>
             	<article class="ms-${replyDetails.level} mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="reply">
-            		<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
+            		<spring:url var="newReplyUrl" value="/communities/${communityDetails.comNum}/replies/new"/>
+            		<form action="${newReplyUrl}" method="post">
 	        		  <input type="hidden" name="parentReplyNum" value="${replyDetails.replyNum}">
 	        		<div class="d-flex gap-2 align-items-center">
 		      			<p class="fw-bold">${login.member_name}</p>

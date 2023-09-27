@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-
-
 .div_container {
 	display: flex;
 	justify-content: space-between; /* 요소 간 간격을 최대한 넓게 설정 */
@@ -31,7 +29,7 @@
 
 .photochange_modal-content {
 	width: 600px;
-	height: 400px;
+	height: auto;
 	background: #fff;
 	border-radius: 10px;
 	position: fixed;
@@ -39,7 +37,6 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	margin-top: -100px;
-	margin-left: -50px;
 	text-align: center;
 	box-sizing: border-box;
 	padding: 50px 0;

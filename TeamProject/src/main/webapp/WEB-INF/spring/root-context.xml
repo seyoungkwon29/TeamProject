@@ -48,6 +48,15 @@
                 <value>com.dto.NoticeDTO</value>
                 <value>com.dto.CommunityDTO</value>
                 <value>com.dto.ReplyDTO</value>
+                <value>com.dto.DocFormDTO</value>
+                <value>com.dto.AppDocumentDTO</value>
+                <value>com.dto.AppDocumentMapDTO</value>
+                <value>com.dto.SearchMemberDTO</value>
+                <value>com.dto.AppFileDTO</value>
+                <value>com.dto.ApprovalDTO</value>
+                <value>com.dto.ApprovalMapDTO</value>
+                <value>com.dto.AppReferDTO</value>
+                <value>com.dto.AppReferMapDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->
@@ -63,4 +72,12 @@
         <constructor-arg name="sqlSessionFactory" ref="sessionFactory"></constructor-arg>
 	<!-- 종료 -->
     </bean>
+    
+       
+    <!-- MultipartResolver 설정 --> 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		<property name="maxUploadSize" value="100000000" /> 
+		<property name="maxInMemorySize" value="100000000" /> 
+	</bean> 
+	
 </beans>

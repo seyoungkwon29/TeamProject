@@ -54,7 +54,7 @@
 <script>
 	var varType; //결재자/참조자 구분 넣을 변수 선언
 	var appArr = new Array(); //선택한 결재자 담을 배열 선언
-	var refArr = new Array(); //선택한 참조자` 담을 배열 선언
+	var refArr = new Array(); //선택한 참조자 담을 배열 선언
 	var appArrText = new Array(); //화면에 보여줄 결재자 리스트 배열 선언
 	var refArrText = new Array(); //화면에 보여줄 참조자 리스트 배열 선언
 	
@@ -104,9 +104,8 @@
 	//검색 내용 입력 후 엔터 눌러도 검색되도록 처리
 	$("#s-value").keyup(function (e) { //s-value창에서 키가 떼어질 때 이벤트 발생
 		e.preventDefault(); //기본 동작 방지: 현재 입력란 내용을 제출 방지
-		var code = e.keyCode ? e.keyCode : e.which; 
-		//key 이벤트 처리시 1.대부분의 브라우저: e.which, 2.e.keyCode: 오래된 브라우저
-		if(code == 13) { //엔터 키(키 코드 13)를 눌렀을 때
+
+		if(e.keyCode == 13) { //엔터 키(키 코드 13)를 눌렀을 때
 			$("#search-btn").click(); //검색 버튼이 클릭 실행
 		}
 	})
@@ -136,18 +135,18 @@
 	
 	//사원 목록에 저장된 사원 정보 불러오기
 	function appList(mList, type) { //mList: 사원 목록, type: 결재자/참조자 변수
-		$("#m-list-table").html(""); //이전에 표시되었던 테이블 내용 삭제
+		$("#m-list-table").html(""); //이전에 표시되었던 테이블 내용(사원 목록을 표시하는 테이블) 삭제
 		var tr; //테이블의 행(row)을 생성할 때 사용될 문자열을 담을 것
 		
 		$.each(mList, function(i) { //$.each() 반복문: mList 배열을 순회하며 사원 정보 추출
 			tr += '<tr class="tr"><td style="display:none;">'  
-					+ mList[i].member_num + '&nbsp;' //숨긴 셀은 화면 출력X
+					+ mList[i].member_num //숨긴 셀은 화면 출력X
 					+ '</td><td>' + mList[i].div_name + '&nbsp;'
 					+ '</td><td>' + mList[i].member_name + '&nbsp;'
 					+ '</td><td>' + mList[i].rank + '</td></tr>';
 		});
 		
-		$("#m-list-table").append(tr); //테이블에 + 생성한 행(tr 변수에 저장된 HTML 문자열)을 추가
+		$("#m-list-table").append(tr); //생성한 행(tr 변수에 저장된 HTML 문자열)을 추가
 		//append: HTML 요소에 새로운 내용을 추가
 		
 		appSelect(type); //결재자 or 참조자 선택
@@ -168,6 +167,7 @@
 			td.each( function(i){ //=$("td").each(): 각 셀의 데이터를 추출하고, tdArr 배열에 순서대로 push
 				tdArr.push( td.eq(i).text() ); //td.eq(i).text(): 현재 td의 텍스트값 가져옴
 			}); //tdArr배열에 td 텍스트 값을 저장
+			console.log("tdArr : " + tdArr);
 			
 			
 			//td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
@@ -175,6 +175,8 @@
 			trArr.division = td.eq(1).text();
 			trArr.memberName = td.eq(2).text();
 			trArr.rank = td.eq(3).text();
+			
+			console.log("trArr : " + trArr);
 			
 			//객체에 데이터가 있는지 여부 판단
 			if(type == "app") { //결재자인 경우 동작 정의
@@ -197,7 +199,7 @@
 				}
 				
 				appArr.forEach(function(ele, index) {//appArr순회 => 배열 내의 객체 정보를 appArrText배열에 문자열 추가
-					appArrText.push(ele.division + " " + ele.memberName + " " + ele.rank); //화면에 표시할 결재자 목록 저장
+					appArrText.push(ele.division+ " " +ele.memberName+ " " +ele.rank); //화면에 표시할 결재자 목록 저장
 				});
 				
 				$("#s-list").html(appArrText.join("<br>")); //join("<br>")을 통해 개행을 추가하여 s-list 영역에 텍스트를 출력
@@ -215,7 +217,7 @@
 				}
 				
 				refArr.forEach(function(el, index) {
-					refArrText.push(el.division +" "+ el.memberName +" "+ el.rank);
+					refArrText.push(el.division+" "+ el.memberName+" "+ el.rank);
 				});
 				
 				$("#s-list").html(refArrText.join("<br>")); // 개행해서 s-list 영역에 출력

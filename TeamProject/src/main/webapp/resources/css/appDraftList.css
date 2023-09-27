@@ -15,19 +15,19 @@
 
 .app-btn {
 	display: inline-block;
-	width: 130px;
-	height: 55px;
-	background-color: rgb(240, 240, 240);
-	border: 2px solid rgb(200, 200, 200);
-	border-radius: 15px;
-	font-size: 16px;
-	float: right;
-	cursor: pointer;
+    width: 110px;
+    height: 45px;
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(200, 200, 200);
+    border-radius: 15px;
+    font-size: 14px;
+    float: right;
+    cursor: pointer;
 }
 
 .app-btn:hover {
-  	font-size: 18px; /* 호버 시 텍스트 크기를 더 크게 설정 */
-  	font-weight: bold;
+    font-weight: bold;
+    background-color: rgb(230, 230, 230);
 }
 
 .type {
