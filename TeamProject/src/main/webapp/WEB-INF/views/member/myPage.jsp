@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ page import="com.dto.MemberDTO"%>
-     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<%   if (session.getAttribute("mesg") != null) { %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+ 
+ <%   if (session.getAttribute("mesg") != null) { %>
  <script type="text/javascript">
 	alert("${mesg}");
 	
 	</script>
 <% session.removeAttribute("mesg"); } %>
-
+ 
+ 
  
  <% MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
  int member_num = dto.getMember_num();
@@ -33,57 +34,61 @@
 	<link href="resources/css/pwchange.css" rel="stylesheet">
 	<link href="resources/css/photochange.css" rel="stylesheet">
 	
-	
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
  <script type="text/javascript">
 
 	$(function() {
-		   
-		$(".close").click(function(){
-			$("#pwchange").fadeOut(); /*클릭시, 모달창이 꺼짐*/
-	    });//모달창위에 x
 		
-		
+	    /*클릭시, 패스워드 모달창이 나옴*/
 		$("#pw_change").click(function() {
-	 		$("#pwchange").fadeIn(); /*클릭시, 모달창이 나옴*/
-		});//클릭시 모달시작
+	 		$("#pwchange").fadeIn(); 
+		});//클릭시 모달시작   
 		
-	//이메일 주소 입력방식? 
+		
+		/*클릭시, 모달창이 꺼짐*/
+		$(".close").click(function(){
+			$("#pwchange").fadeOut(); 
+	    });//패스워드 jsp 모달창 닫기버튼
+		
+		
+		/*클릭시, 프로필사진 모달창이 나옴*/
+		$("#profile_pic").click(function() {
+			$("#photochange").fadeIn(); 
+		});//클릭시 모달시작
+
+		
+		$(".close").click(function(){
+			$("#photochange").fadeOut(); /*클릭시, 모달창이 꺼짐*/
+	 	});//플필사진 jsp 모달창 닫기버튼
+	 	
+		
+	// 이메일 주소 입력방식? 
 		$("#mail").blur(function(){
 			console.log("dddddd");
 		var emailInput = document.getElementById("mail");
 		   var email = this.value;
-           var isValid = validateEmail(email);
+        var isValid = validateEmail(email);
 			
-           function validateEmail(email) {
-               // 이메일 유효성을 검사하는 정규 표현식
-               var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-               return regex.test(email);
-           }
-           
-           if (!isValid) {
-               alert("유효한 이메일 주소를 입력하세요.");
-               this.value = "";
-           }
-       });
-	
-	$("#profile_pic").click(function() {
- 		$("#photochange").fadeIn(); /*클릭시, 모달창이 나옴*/
-	});//클릭시 모달시작
-
-	
-	$(".close").click(function(){
-		$("#photochange").fadeOut(); /*클릭시, 모달창이 꺼짐*/
-    });//모달창위에 x
-	
-    //휴대폰 입력 방식
-    document.getElementById("phone").addEventListener("input", function() {
-        var input = this.value.replace(/\D/g, ""); // 숫자만 남기도록 정규식 사용
-        var formatted = input.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 하이픈 추가
-        this.value = formatted;
-        console.log("버노잘들어갔나??")
+        function validateEmail(email) {
+            // 이메일 유효성을 검사하는 정규 표현식
+            var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return regex.test(email);
+        }
+        
+        if (!isValid) {
+            alert("유효한 이메일 주소를 입력하세요.");
+            this.value = "";
+        }
     });
+	
+		
+	 //휴대폰 입력 방식
+		 document.getElementById("phone").addEventListener("input", function() {
+	     var input = this.value.replace(/\D/g, ""); // 숫자만 남기도록 정규식 사용
+	     var formatted = input.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 하이픈 추가
+	     this.value = formatted;
+	     console.log("버노잘들어갔나??")
+	 });
 	
 });//윈도우 end
 	
@@ -96,8 +101,9 @@
 <form action="loginCheck/update" method="post">
 	<div class="mypage-section">
 		<div class="mypage-image">
-			<img src="/profilepic/<%=dto.getPhoto()%>"
-				width="250" height="auto"><br> <br> <!--server.xml에서 /profilepic경로 지정해줌ㄴ -->
+		<!--  server에서 추가할것 <Context docBase="C:/profilephoto" path="/profilepic" reloadable="true"></Context> 
+			경로지정 제대로안하면 업로드가 잘되도 엑박뜸.. ㅠ-->
+			<img src="/profilepic/<%=dto.getPhoto()%>"	width="250" height="auto"><br>
 				<a class="profile_pic" id="profile_pic">프로필사진변경</a><br> 
 				<a class="pw_change" id="pw_change">비밀번호변경</a>
 		</div>

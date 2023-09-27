@@ -1,60 +1,54 @@
 @charset "UTF-8";
 
-	h2{
+h2 { /* 나의정보 */
 	padding: 10px 25px 10px 0;
-		margin-left: 200px;
-		border-bottom: 1px solid #ebebeb;
-	}
+	margin-left: 200px;
+	border-bottom: 1px solid #ebebeb;
+}
 
 .link_set, .box_set {
-    display: block;
-    position: relative;
-    padding: 10px 25px 10px 0;
-    border-bottom: 1px solid #ebebeb;
-    font-size: 16px;
-    color: #252525;
+	display: block;
+	position: relative;
+	padding: 10px 25px 10px 0;
+	border-bottom: 1px solid #ebebeb;
+	font-size: 16px;
+	color: #252525;
 }
 
-	.mypage-section {
-	 position: relative;
-		margin-left: 200px;
-		width: 100%;
-       	height: 100%;	
-	   	display: flex;	
-	}
+.mypage-section {
+	position: relative;
+	margin-left: 200px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
 
-	
-	.mypage-image{
+.mypage-image {
 	object-fit: contain;
-		width:180px; 
-		height:280px;
-		 margin-right: 20px; 
-		flex-direction: column;
-		align-items: center;
-		padding: 30px;
-		text-align: center;
-		
-	}	
-	
-.mypage-profile {
-  object-fit: contain;
-  width: 100%; /* 가로 길이를 100%로 설정 */
-  max-height: 400px; /* 최대 높이를 400px로 제한 (선택 사항) */
-  font-size: 15px;
-  line-height: 2.1;
+	width: 180px;
+	height: 280px;
+	margin-right: 20px;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px;
+	text-align: center;
 }
-	
 
-	.mypage-image, .mypage-profile {
-		flex: 1;
-		max-width: max-content;;
-        padding: 20px;
-	}
-	
-  .horizontal-container {
-    display: flex;
-    align-items: center; /* 수직 정렬 설정 */
-  }
-  
-  
-	
+.mypage-profile {
+	object-fit: contain;
+	width: 100%; /* 가로 길이를 100%로 설정 */
+	max-height: 400px; /* 최대 높이를 400px로 제한 (선택 사항) */
+	font-size: 15px;
+	line-height: 2.1;
+}
+
+.mypage-image, .mypage-profile {
+	flex: 1;
+	max-width: max-content;;
+	padding: 20px;
+}
+
+.horizontal-container {
+	display: flex;
+	align-items: center; /* 수직 정렬 설정 */
+}
