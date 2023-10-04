@@ -11,6 +11,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select" resultType="MeetingRoomDTO"  parameterType="int">
 		select * from meeting_room where member_num = #{member_num}
 		and reservation='1'
+		AND (
+        meeting_date > TRUNC(SYSDATE)
+        OR (
+            meeting_date = TRUNC(SYSDATE)
+            AND TO_DATE(SUBSTR(meeting_time, INSTR(meeting_time, '~') + 1), 'HH24:MI') > SYSDATE
+        )
+    )
+		order by meeting_date
 	</select>
 	
 	<update id="delete" parameterType="MeetingRoomDTO">

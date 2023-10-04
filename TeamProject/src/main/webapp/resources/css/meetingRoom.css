@@ -2,10 +2,10 @@
 
 #s-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
 	margin: 0 60px; /* 좌우 마진 - 60*/
-	position: absolute;
-	left: 200px; /* 메뉴 + 소메뉴 = 310px을 차지함 */
-	top: 150px; /* 위로부터 75px 떨어짐*/
+    display: flex;
+    justify-content: center;
     padding: 50px;
+    margin-top: 100px
 }
 
  form {
@@ -37,7 +37,7 @@ button {
     padding: 10px 20px;
     background-color: transparent; /* 버튼 배경색 투명하게 설정 */
 	color: 222A35;
-	border: 2px solid rgba(127, 113, 87, 0.8); /* 테두리 회색으로 설정 */
+	border: 2px solid rgba(33, 135, 90, 0.8); /* 테두리 회색으로 설정 */
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.1s ease, color 0.1s ease;
@@ -47,14 +47,14 @@ button {
 
 #buttonDiv {
     display: flex; /* Flexbox 컨테이너로 설정합니다. */
+    gap : 10px;
   	justify-content: center; /* 수평 가운데 정렬합니다. */
-	 align-items: center; /* 수직 가운데 정렬합니다. */
+	align-items: center; /* 수직 가운데 정렬합니다. */
 	
 }
 
 button:hover {
-    background-color: rgba(234, 225, 206, 0.7); /* 투명한 배경색 */
-	border-color: #7f7157;
+    background-color: rgba(33, 135, 90, 0.3); /* 투명한 배경색 */
 }
 
 /* 날짜,회의실,시간 */

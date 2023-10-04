@@ -22,6 +22,12 @@ html, body {
 	padding: 14px 25px;
 }
 
+.link a{
+	text-decoration: none;
+	color: black;
+}
+
+
 .link-ul ul {
 	list-style-type: none;
 	display: flex;
@@ -41,7 +47,7 @@ html, body {
 .link {
 	font-size: 13px;
 	color: black;
-	padding: 14px 25px;
+	padding: 14px 20px;
 }
 
 .link:link, .link:visited, .brand:link, .brand:visited {
@@ -64,18 +70,21 @@ html, body {
 	display: none;
 	flex-direction: column;
 	position: absolute;
-	z-index: 1;
+	z-index: 1000;
 	padding: 15px;
-	background-color: rgb(184, 188, 192, 0.4);
+	background-color: rgba(217, 220, 218, 0.5);
+	border-radius: 1rem;
     margin-top: 28px;
+    transform: translateX(-10%);
 }
 .dropdown a{
 	font-style: none;
-	color: black;
+	color: rgb(127, 124, 124);
 	text-decoration: none;
 	display: block;
 	margin: 5px 0;
 	text-align: center;
+	padding: 5px;
 }
 
 .dropdown a:hover{
