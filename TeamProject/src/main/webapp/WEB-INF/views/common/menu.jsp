@@ -24,7 +24,15 @@
 				</div>
 			</li>
 			<li><a class="link" href="chatting">메신저</a></li>
-			<li><a class="link" href="#">메일</a></li>
+			
+			<li><span class="link">메일</span>
+				<div class="dropdown">
+				<a href="writeMail">메일쓰기</a>			
+				<a href="mailReceiveList">받은 메일함</a>
+				<a href="mailSendList">보낸 메일함</a>
+				<a href="mailSelfList">내게 쓴 메일함</a>
+				</div>
+			</li>
 		</ul>
 	</div>
 	<div class="icon-container">
