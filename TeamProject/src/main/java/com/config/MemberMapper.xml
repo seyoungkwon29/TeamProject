@@ -47,5 +47,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE member_num = #{member_num}
 	</update>
 	
+	  <!-- 아이디로 회원 정보 조회 email용-->
+    <select id="readMember" resultType="MemberDTO">
+        SELECT * FROM member WHERE member_num = #{member_num}
+    </select>
+
+    <!-- 아이디 체크 email용-->
+    <select id="pwidCheck" resultType="MemberDTO">
+        SELECT * FROM member WHERE member_num = #{member_num}
+    </select>
+
+    <!-- 비밀번호 업데이트 email용-->
+    <update id="updatePw">
+        UPDATE member SET password = #{password} WHERE member_num = #{member_num}
+    </update>
+
 	
 </mapper>
