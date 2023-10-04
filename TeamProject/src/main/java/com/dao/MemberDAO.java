@@ -58,17 +58,26 @@ public class MemberDAO {
 		return n;
 	}
 
-	//승철씨가도와준거..
-//	public void updateImg(Map<String, String> map) {
-//		System.out.println("DAO의 map에 담겨 있는것 : "+map);
-//		int n = session.update("MemberMapper.photoUpdate", map);
-//		System.out.println("업뎃완료 : "+n);//업데이트 성공 갯수
-//	}
+//	마이페이지 수정을 위한 idcheck
+	public int idCheck(int member_num) {
+		  int n = session.selectOne("MemberMapper.memberUpdate", member_num);
+		return n;
+	}
 
-//	public void updateImg(MemberDTO mdto) {
-//		System.out.println("DAO의 udto에 담겨 있는것 : "+mdto);
-//		int n = session.update("MemberMapper.photoUpdate", mdto);
-//		System.out.println(n);
-//	}
+	//임시비번업데이트
+    public MemberDTO readMember(int i) {
+        return session.selectOne("MemberMapper.readMember", i);
+    }
 
-}
+    public MemberDTO pwidCheck(int membernum) {
+        return session.selectOne("MemberMapper.pwidCheck", membernum);
+    }
+
+    public void updatePw(MemberDTO member) {
+        session.update("MemberMapper.updatePw", member);
+    }
+    
+    
+    
+    
+}//end dao

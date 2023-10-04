@@ -3,12 +3,14 @@ package com.controller;
 import java.io.File;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -132,31 +134,16 @@ public class MemberController {
 //		 return "forward:myPage";
     }
     
-	 // 데이터베이스에 파일 경로를 저장
-//	String photo = saveFile.getAbsolutePath();//절대경로
-//  System.out.println(photo);
-//  service.setphoto(udto.getMember_num(), photo);
-	
-    //    
-//    //프로필사진 수정
-//    @RequestMapping(value = "/loginCheck/profilepisc", method = RequestMethod.POST)
-//    
-//    public String updateImg(MultipartHttpServletRequest mpRequest, HttpSession session , String member_num)throws Exception {
-//		System.out.println("updateImg 함수호출");
-//    	String memberImg = FileUtils.updateImg(mpRequest); //올리는 이미지, utillfile에서 중복이름 검사.(중복사진을올리지않기위해 uu어쩌고로 이름자동생성)
-//    	System.out.println("memberImg의 이미지의 주소가 불러와졌는가?"+memberImg);
-//		MemberDTO mdto = (MemberDTO) session.getAttribute("login");
-//		
-//		service.updateImg(memberImg, member_num);//올린이미지와 가져올 멤버아이디,
-//		
-//		mdto.setPhoto(memberImg);//photo에 set
-//		
-//		System.out.println("mdto에 현재들어있는것"+mdto);
-//		session.setAttribute("login", mdto);
-//				
-//		return "redirect:../myPage";
-//	}
-    
+    /* 비밀번호 찾기 */
+    @RequestMapping(value = "findpw", method = RequestMethod.GET)
+    public void findPwGET() throws Exception{
+    }
+
+    @RequestMapping(value = "findpw", method = RequestMethod.POST)
+    public void findPwPOST(@ModelAttribute MemberDTO member, HttpServletResponse response) throws Exception{
+    	service.findPw(response, member);
+    	
+    }
     
     
     
