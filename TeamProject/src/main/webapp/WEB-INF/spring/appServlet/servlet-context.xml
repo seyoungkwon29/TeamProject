@@ -24,6 +24,8 @@
 	<view-controller path="/myPage" view-name="myPage"/><!-- myPage.jsp -->
 	<view-controller path="/meetingRoom" view-name="meetingRoom"/><!-- /meetingRoom.jsp -->
 	<view-controller path="/passwordSearch" view-name="passwordSearch"/><!-- /meetingRoom.jsp -->
+	<view-controller path="/writeMail" view-name="mailForm"/><!-- /mailForm.jsp -->
+	<view-controller path="/writeSelfMail" view-name="selfMail"/><!-- /mailForm.jsp -->
 	
 	<!-- 회원전용처리 : interceptor Bean 생성  -->
 	<beans:bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></beans:bean>
@@ -45,4 +47,18 @@
 	
 	<!-- annotation config는 component-scan에 포함됨 -->
 	<context:component-scan base-package="com.*"></context:component-scan>
+	
+	<!-- MultipartResolver -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="uploadTempDir" value="file:/C:/mail_upload"></beans:property>
+		<beans:property name="maxUploadSize" value="100000000"></beans:property>
+		<beans:property name="maxInMemorySize" value="100000000"></beans:property>
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+	
+	<!-- BeanNameViewResolver -->
+	<!-- 뷰의 이름과 동일한 이름을 가지는 빈을 view로 사용 -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    	<beans:property name="order" value="0"/>
+  	</beans:bean>
 </beans:beans>
