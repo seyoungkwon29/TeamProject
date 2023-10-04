@@ -7,99 +7,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-<title>Insert title here</title>
+<link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<title>${communityDetails.title}</title>
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row">
-	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
-      	</div>
-      	
-      	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      		<article class="mt-3 mb-3 pb-3">
-      			<h2 class="h2 mb-3">${communityDetails.title}</h2>
-      			<div class="d-flex gap-2">
-      				<p>글번호: ${communityDetails.comNum}
-	      			<p>작성자: ${communityDetails.memberName}</p>
-					<p>작성일: <fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
-					<p>조회수: ${communityDetails.views}</p>
+	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
+	<main class="w-100 center w-60-l">
+		<section class="mw8 center flex-auto">
+			<h1 class="f3">자유게시판</h1>
+			<article class="pb3">
+				<h2 class="f4">${communityDetails.title}</h2>
+				<p class="dib mv0 mr2 f5"><small class="mr1">작성자</small>${communityDetails.memberName}</p>
+				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
+				<p class="measure lh-copy">${communityDetails.content}</p>
+			</article>
+		</section>
+		
+		<section class="mw8 center flex-auto">
+			<article class="flex flex-column bb b--light-silver mt3">
+        		<spring:url var="newReplyUrl" value="/communities/${communityDetails.comNum}/replies/new"/>
+        		<form action="${newReplyUrl}" method="post">
+					<label for="content" class="form-label f5">새 댓글</label>
+					<textarea name="content" class="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="3"></textarea>
+	      			<button type="submit" class="button-reset b ph3 pv3 ba b--gray gray bg-transparent dim f5 dib w-100 mb3">새 댓글 달기</button>
+      			</form>
+           	</article>
+		</section>
+		
+		<section class="mw8 center flex-auto flex flex-column items-end pt3">
+           	<c:forEach var="replyDetails" items="${replyDetailsList}">
+           	
+           	<article class="w-${100 - 5 * (replyDetails.level-1) } flex flex-column bb b--light-silver mt3" data-reply-num="${replyDetails.replyNum}" data-article-type="content">
+        		<div class="flex flex-row flex-wrap">
+	      			<p class="dib mv1 mr2">${replyDetails.memberName}</p>
+					<p class="dib mv1 mr2"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
+					<%-- <p class="dib mv1">댓글 깊이 : ${replyDetails.level}</p> --%>
       			</div>
-      			<p class="text-break">${communityDetails.content}</p>
-      		</article>
-    		<div class="btn-group me-2 w-100">
-				<a href="/communities/${communityDetails.comNum}/edit">
-					<button type="button" class="btn btn-outline-primary">수정</button>
-				</a>&nbsp;
-				<form action="/communities/${communityDetails.comNum}/delete" method="post">
-					<button type="submit" class="btn btn-outline-danger">삭제</button>
-				</form>&nbsp;
-				<a href="/communities">
-					<button type="button" class="btn btn-outline-dark">뒤로가기</button>
+				<p class="dib mv1 pv2 w-100">${replyDetails.content}</p>
+      			<div class="flex flex-row item-start pb2">
+      				<button class="reply-toggle-button button-reset dib ml0 pl0 b--transparent bg-transparent dim dib">댓글 달기</button>
+   					<button class="edit-toggle-button button-reset dib b--transparent bg-transparent dim dib">편집</button>
+   					<spring:url var="deleteReplyUrl" value="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/delete"/>
+	      			<form action="${deleteReplyUrl}" method="post">
+      					<button class="button-reset button-reset dib b--transparent bg-transparent dim dib">삭제</button>
+      				</form>
+      			</div>
+           	</article>
+        	<article class="w-${100 - 5 * (replyDetails.level-1) } flex flex-column bb b--light-silver dn mt3" data-reply-num="${replyDetails.replyNum}" data-article-type="edit">
+        		<spring:url var="updateReplyUrl" value="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit"/>
+        		<form action="${updateReplyUrl}" method="post">
+        		<div class="flex flex-row flex-wrap">
+	      			<p class="dib mv0 mr2">${replyDetails.memberName}</p>
+					<p class="dib mv0 mr2"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
+      			</div>
+				<textarea name="content" class="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="3">${replyDetails.content}</textarea>
+      			<div class="flex flex-row item-start">
+      				<button type="submit" class="rbutton-reset dib ml0 pl0 b--transparent bg-transparent dim dib">수정</button>
+   					<button class="edit-toggle-button button-reset dib b--transparent bg-transparent dim dib">취소</button>
+      			</div>
+	      		</form>
+           	</article>
+           	<article class="w-${100 - 5 * (replyDetails.level) } flex flex-column bb b--light-silver dn mt3" data-reply-num="${replyDetails.replyNum}" data-article-type="reply">
+        		<spring:url var="newReplyUrl" value="/communities/${communityDetails.comNum}/replies/new"/>
+        		<form action="${newReplyUrl}" method="post">
+        		<input type="hidden" name="parentReplyNum" value="${replyDetails.replyNum}">
+        		<div class="flex flex-row flex-wrap">
+	      			<p class="dib mv0 mr2">${login.member_name}</p>
+      			</div>
+				<textarea name="content" class="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="3"></textarea>
+      			<div class="flex flex-row item-start">
+      				<button type="submit" class="button-reset dib ml0 pl0 b--transparent bg-transparent dim dib">대댓글 달기</button>
+   					<button class="reply-toggle-button button-reset dib b--transparent bg-transparent dim dib">취소</button>
+      			</div>
+      			</form>
+           	</article>
+           	</c:forEach>
+		</section>
+			
+		
+		<section class="mw8 center flex-auto">
+			<div class="flex flex-row">
+				<spring:url var="editCommunityUrl" value="/communities/${communityDetails.comNum}/edit"/>
+				<a href="${editCommunityUrl}" class="link-reset flex w-50">
+					<button type="button" class="button-reset b ph3 pv3 ba b--green green bg-transparent dim f5 dib w-100 mt3 mb3">수정</button>
 				</a>
-			</div>
-			<section class="mt-3 mb-3">
-				<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
-					<div class="mb-3">
-						<label for="content" class="form-label">댓글 달기</label>
-						<textarea name="content" class="form-control" rows="3"></textarea>
-					</div>
-					<div>
-						<button type="submit" class="btn btn-outline-primary">작성</button>
-					</div>
+				<spring:url var="deleteCommunityUrl" value="/communities/${communityDetails.comNum}/delete"/>
+				<form action="${deleteCommunityUrl}" method="post" class="w-50">
+					<button type="submit" class="button-reset b ph3 pv3 ba b--dark-red dark-red bg-transparent dim f5 dib w-100 mt3 mb3">삭제</button>
 				</form>
-			</section>
-			<section>
-            	<c:forEach var="replyDetails" items="${replyDetailsList}">
-            	<article class="ms-${replyDetails.level} mb-3 pb-3 border-bottom" data-reply-num="${replyDetails.replyNum}" data-article-type="content">
-	        		<div class="d-flex gap-2 align-items-center">
-		      			<p class="fw-bold">${replyDetails.memberName}</p>
-						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
-						<%-- <p class="text-secondary">댓글 깊이 : ${replyDetails.level}</p> --%>
-	      			</div>
-	      			<p class="text-break">${replyDetails.content}</p>
-	      			<div class="btn-group gap-2">
-	      				<button class="reply-toggle-button btn text-secondary p-0 m-0">댓글 달기</button>
-      					<button class="edit-toggle-button btn text-secondary p-0 m-0">편집</button>
-		      			<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/delete" method="post">
-	      					<button class="btn text-secondary p-0 m-0">삭제</button>
-	      				</form>
-	      			</div>
-            	</article>
-            	<article class="ms-${replyDetails.level} mr-6 mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="edit">
-            		
-            		<form action="/communities/${communityDetails.comNum}/replies/${replyDetails.replyNum}/edit" method="post">
-	        		<div class="d-flex gap-2 align-items-center">
-		      			<p class="fw-bold">${replyDetails.memberName}</p>
-						<p class="text-secondary"><fmt:formatDate value="${replyDetails.createdAt}" pattern="YYYY/MM/dd h:m"/></p>
-	      			</div>
-					<textarea name="content" class="form-control" rows="3">${replyDetails.content}</textarea>
-	      			<div class="btn-group gap-2">
-      					<button type="submit" class="btn text-secondary p-0 m-0">수정</button>
-      					<button class="edit-toggle-button btn text-secondary p-0 m-0">취소</button>
-	      			</div>
-	      			</form>
-            	</article>
-            	<article class="ms-${replyDetails.level} mt-3 mb-3 pb-3 border-bottom d-none" data-reply-num="${replyDetails.replyNum}" data-article-type="reply">
-            		<form action="/communities/${communityDetails.comNum}/replies/new" method="post">
-	        		  <input type="hidden" name="parentReplyNum" value="${replyDetails.replyNum}">
-	        		<div class="d-flex gap-2 align-items-center">
-		      			<p class="fw-bold">${login.member_name}</p>
-	      			</div>
-					<textarea name="content" class="form-control" rows="3"></textarea>
-	      			<div class="btn-group gap-2">
-      					<button type="submit" class="btn text-secondary p-0 m-0">대댓달기</button>
-      					<button class="reply-toggle-button btn text-secondary p-0 m-0">취소</button>
-	      			</div>
-	      			</form>
-            	</article>
-            	</c:forEach>
-			</section>	
-      	</main>
-   	</div>
-</div>
+			</div>
+			<spring:url var="communityListUrl" value="/communities"/>
+			<a href="${communityListUrl}" class="link-reset flex w-100">
+				<input class="button-reset b ph3 pv3 ba b--black bg-transparent dim f5 dib w-100 tc" value="뒤로가기">
+			</a>
+		</section>
+	</main>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 	console.log("DOMContentLoaded");
@@ -114,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				for (let article of articles) {
 					if (article.dataset.replyNum === event.currentTarget.dataset.replyNum &&
 						(article.dataset.articleType === "edit" || article.dataset.articleType === "content")) {
-						article.classList.toggle('d-none');
+						article.classList.toggle('dn');
 					}
 				}
 			}
@@ -129,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				for (let article of articles) {
 					if (article.dataset.replyNum === event.currentTarget.dataset.replyNum &&
 						article.dataset.articleType === "reply") {
-						article.classList.toggle('d-none');
+						article.classList.toggle('dn');
 					}
 				}
 			}
