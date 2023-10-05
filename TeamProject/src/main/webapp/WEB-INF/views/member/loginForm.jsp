@@ -14,7 +14,7 @@
 		session.removeAttribute("mesg"); 
 	}
 %>
-
+<link rel="stylesheet" href="/resources/css/loginForm.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -87,8 +87,7 @@
 </script>
 
 <form action="login" method="post">
-    <div class="logoDiv">EVERYWARE</div>
-    <br>
+    <div class="logoDiv"><img class="logo" src="resources/image/logo.png" alt=""></div>
     <div class="fieldset">
         <fieldset>
             <div class="input">
@@ -101,8 +100,7 @@
                 </div>
             </div>
             <div class="saveCheckDiv">
-            	<input type="checkbox" id="saveCheck"/>
-            	로그인 상태 유지
+                로그인 상태 유지<input type="checkbox" id="saveCheck"/>
                 <label for="saveCheck"></label>
             </div>
         </fieldset>

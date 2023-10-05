@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MailMapper">
+	<insert id="mailSendProcess" parameterType="MailDTO">
+		INSERT INTO mail VALUES(
+			mail_mailnum_seq.nextval,
+			#{mail_title},
+			#{mail_content},
+			#{mail_sender},
+			#{member_num},
+			sysdate,
+			null,
+			mail_filenum_seq.nextval,
+			#{mail_fileName, jdbcType=VARCHAR},
+			#{mail_filePath, jdbcType=VARCHAR},
+			#{mail_fileReName, jdbcType=VARCHAR}			
+		)
+	</insert>
+	
+	<insert id="insertReceiveTable" parameterType="MailRecDTO">
+		INSERT INTO mail_rec VALUES(
+			#{mail_num},
+			#{mail_receiver},
+			#{rec_num},
+			'N'
+		)
+		
+	</insert>
+	
+	
+	<select id="recentEmailNum" resultType="int">
+		SELECT mail_mailnum_seq.CURRVAL FROM DUAL
+	</select>
+	
+	
+	<select id="selectByEmail" parameterType="String" resultType="MemberDTO">
+		SELECT * FROM member WHERE mail = #{email}
+	</select>
+	
+	
+	<select id="selectAllMemberListExceptMe" resultType="MemberDTO" parameterType="int">
+		SELECT * FROM member WHERE member_num NOT IN(#{user_num}) ORDER BY div_name
+	</select>
+	
+	<select id="findMemberNumByEmail" parameterType="String" resultType="int">
+		SELECT MEMBER_NUM FROM member WHERE mail = #{email}
+	</select>
+	
+	<select id="receiveMailList" parameterType="int" resultType="MailDTO">
+		SELECT *
+		FROM mail
+		WHERE member_num != #{member_num} AND mail_num IN
+		        (SELECT mail_num
+		        FROM mail_rec
+		        WHERE rec_num = #{member_num})
+		ORDER BY mail_from_date DESC
+	</select>
+	
+	<select id="sentMailList" parameterType="int" resultType="MailDTO">
+		SELECT *
+		FROM mail 
+		WHERE mail_num IN(
+	        SELECT mail_num
+	        FROM mail_rec
+	        WHERE rec_num != #{member_num} AND mail_num IN
+	            (SELECT MAIL_NUM
+	            FROM  mail
+	            WHERE member_num = #{member_num}
+	            )
+		)
+		ORDER BY mail_from_date DESC
+	</select>
+	
+	<select id="selectMailRecDTOByMailNumAndMemberNum" parameterType="MailRecDTO" resultType="MailRecDTO">
+		SELECT *
+		FROM mail_rec
+		WHERE mail_num = #{mail_num} AND rec_num = #{rec_num}	
+	</select>
+	
+	<select id="selectMailRecDTOByMailNum" parameterType="int" resultType="MailRecDTO">
+		SELECT * 
+		FROM mail_rec 
+		WHERE mail_num = #{mail_num}
+	</select>
+	
+	
+	
+	<select id="selectMailDTOByMailNum" parameterType="int" resultType="MailDTO">
+		SELECT *
+		FROM mail
+		WHERE mail_num = #{mail_num}
+	</select>
+	
+	
+	<select id="selfMailList" parameterType="int" resultType="MailDTO">
+		SELECT *
+		FROM mail
+		WHERE member_num = #{member_num} AND mail_num IN
+		        (SELECT mail_num
+		        FROM mail_rec
+		        WHERE rec_num = #{member_num})
+		ORDER BY mail_from_date DESC
+	</select>
+	
+	
+	<update id="checkMail_rec_status" parameterType="MailRecDTO">
+		UPDATE mail_rec
+		SET rec_status = 'Y'
+		WHERE mail_num = #{mail_num} AND rec_num = #{rec_num}
+	</update>
+	
+	<delete id="deleteRecMail" parameterType="MailRecDTO">
+		DELETE mail_rec 
+		WHERE rec_num = #{rec_num} AND mail_num = #{mail_num}
+	</delete>
+	
+</mapper>

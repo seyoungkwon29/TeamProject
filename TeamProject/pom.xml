@@ -194,8 +194,33 @@
 			 <artifactId>commons-fileupload</artifactId>
 			 <version>1.2.2</version>
 		 </dependency>
-		
 		<!-- 첨부파일 END -->
+		
+	<!-- 메일 api -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version> <!-- BCrypt 라이브러리 버전 -->
+		</dependency>
+		
+		<dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-email</artifactId>
+        <version>1.2</version>
+    </dependency>
+	<!-- 메일 api end-->
 	</dependencies>
     <build>
         <plugins>

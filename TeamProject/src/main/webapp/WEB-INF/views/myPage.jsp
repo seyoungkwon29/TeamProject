@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 
 <!-- link : css -->
+	<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 <link rel="stylesheet" type="text/css" href="resources/css/myPage.css">
 
 <title>마이페이지</title>
