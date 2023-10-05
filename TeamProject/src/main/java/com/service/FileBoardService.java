@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.common.PageDTO;
 import com.dao.FileBoardDAO;
 import com.dto.FileBoardDTO;
 
@@ -26,21 +27,21 @@ public class FileBoardService {
 		return dto;
 	}
 
-	public int fileBoardInsert(int writerNumber, String title, String content) {
+	public int fileBoardInsert(int writerNumber, String title, String editor) {
 		FileBoardDTO dto = new FileBoardDTO();
 		dto.setMember_num(writerNumber);
 		dto.setFile_board_title(title);
-		dto.setFile_board_content(content);
+		dto.setFile_board_content(editor);
 		int n =dao.fileBoardInsert(dto);                                            
 		return n;
 	}
 
-	public int fileBoardUpdate(int no, int writerNumber, String title, String content) {
+	public int fileBoardUpdate(int no, int writerNumber, String title, String editor) {
 		FileBoardDTO dto = new FileBoardDTO();
 		dto.setFile_board_no(no);
 		dto.setMember_num(writerNumber);
 		dto.setFile_board_title(title);
-		dto.setFile_board_content(content);
+		dto.setFile_board_content(editor);
 		
 		int n = dao.fileBoardUpdate(dto);
 		System.out.println("업데이트 >>> "+n);
@@ -57,6 +58,12 @@ public class FileBoardService {
 	public int boardViews(int file_board_no) throws Exception {
 		int n = dao.boardViews(file_board_no);
 		return n;
+	}
+	
+	//페이징-게시글 조회 
+	public PageDTO ListCount(String page) {
+		PageDTO pageDTO = dao.ListCount(page);
+		return pageDTO;
 	}
 	
 }

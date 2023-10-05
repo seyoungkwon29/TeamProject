@@ -1,9 +1,11 @@
 package com.dto;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 @Alias("FileBoardDTO")
-public class FileBoardDTO{
+public class FileBoardDTO implements Serializable {
 	
 	private int file_board_no;
 	private int member_num;

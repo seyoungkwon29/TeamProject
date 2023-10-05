@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.common.PageDTO;
 import com.dto.FileBoardDTO;
 import com.google.gson.JsonObject;
 import com.service.FileBoardService;
@@ -28,16 +30,43 @@ public class FileBoardController {
 	@Autowired
 	FileBoardService service;
 	
-	//목록조회
-	@RequestMapping("/fileBoardList")
-	public ModelAndView fileBoardList() {
-		List<FileBoardDTO> list = service.fileBoardList();
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("fileBoardList", list);
-		mv.setViewName("/fileBoardList");
-		System.out.println(">>list ... "+ list);
-		return mv;
-	}
+	// 목록조회
+		@RequestMapping("/fileBoardList")
+		public ModelAndView fileBoardList(HttpServletRequest request, HttpSession session) {
+			String page = (String) session.getAttribute("page");
+
+			List<FileBoardDTO> list = service.fileBoardList();
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("fileBoardList", list);
+			mv.setViewName("/fileBoardList");
+			System.out.println(">>list ... " + list);
+
+			// paging
+			if (page == null) {
+				page = "1";
+			}
+
+			// 페이징 처리를 위해서 service에서 게시글이 총 몇인지 만들기
+			PageDTO pageDTO = service.ListCount(page);
+			System.out.println("page 유무 >>> "+pageDTO);
+			session.setAttribute("pagefileBoardList", pageDTO.getFileBoardDTOList());
+			
+			// 페이징 처리 객체 계산
+			int range = (pageDTO.getPage() - 1) / pageDTO.getRangeSize() + 1;
+			pageDTO.pageInfo(Integer.parseInt(page), range, pageDTO.getListCnt());
+
+			System.out.println("시작 페이지 : " + pageDTO.getStartPage());
+			System.out.println("pageDTO : " + pageDTO.toString());
+			System.out.println("pagefileBoardList : " + pageDTO.getFileBoardDTOList());
+			System.out.println("getFileBoardDTOList개수 : " + pageDTO.getFileBoardDTOList().size());
+			System.out.println("전체 리스트 개수 : " + pageDTO.getListCnt());
+			System.out.println("전체 페이지 개수 : " + pageDTO.getPageCnt());
+			System.out.println("현재 Range : " + pageDTO.getRange());
+
+			session.setAttribute("pageDTO", pageDTO);
+			session.setAttribute("getFileBoardDTOList", pageDTO.getFileBoardDTOList());
+			return mv;
+		}
 	
 	//상세페이지정보
 	@RequestMapping("/fileBoardDetail")
