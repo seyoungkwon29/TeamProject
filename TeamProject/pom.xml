@@ -118,7 +118,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency> 
-		
 				
 		<!-- 추가부분 -->			
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
@@ -178,7 +177,6 @@
 			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<!-- Validation end -->
-			<!-- Validation end -->
 		<!-- 첨부파일 START-->
 
 		<!-- fileupload -->
@@ -223,7 +221,26 @@
 	<!-- 메일 api end-->
 	</dependencies>
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>                      
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
         <plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+			</plugin>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
@@ -260,4 +277,29 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<file.basedir>file:/C:/mail_upload</file.basedir>
+			</properties>
+		</profile>
+		<profile>
+			<id>mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<file.basedir>${basedir}/files/</file.basedir>
+			</properties>
+		</profile>
+	</profiles>
 </project>
