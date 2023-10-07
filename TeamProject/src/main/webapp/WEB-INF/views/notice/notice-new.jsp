@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
-	<main class="w-100 center w-60-l">
+	<main class="mt6 w-100 center w-60-l">
 		<section class="mw8 center flex-auto">
 			<h1 class="f3">공지사항 새 글쓰기</h1>
 			<div class="flex flex-auto items-center justify-start center">
