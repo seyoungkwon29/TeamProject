@@ -12,8 +12,11 @@
 		<org.springframework-version>4.3.22.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<!-- Validation -->
 		<javax-validation.version>2.0.1.Final</javax-validation.version>
 		<hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+		<el-api.version>3.0.0</el-api.version>
+		<javax-el.version>3.0.1-b12</javax-el.version>
 		<!-- Test -->
 		<junit.version>4.13.2</junit.version>
 		<assertj.version>3.20.2</assertj.version>
@@ -173,6 +176,18 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>${el-api.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>${javax-el.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- Validation end -->
 		<!-- 첨부파일 START-->
