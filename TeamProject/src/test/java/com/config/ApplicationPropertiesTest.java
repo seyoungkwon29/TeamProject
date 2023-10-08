@@ -1,8 +1,10 @@
 package com.config;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assume.assumeThat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +24,18 @@ public class ApplicationPropertiesTest {
 	String basedir;
 	
 	@Test
-	public void testFileBaseDir() {
-		Assertions.assertThat(basedir).endsWith("/files/");
+	public void testFileBaseDirOnWindows() {
+		assumeThat(getOsName(), containsString("windows"));
+		assertThat(basedir).isEqualTo("file:/C:/mail_upload");
 	}
-
+	
+	@Test
+	public void testFileBaseDirOnMac() {
+		assumeThat(getOsName(), containsString("mac"));
+		assertThat(basedir).endsWith("/files/");
+	}
+	
+	private String getOsName() {
+		return System.getProperty("os.name").toLowerCase(); 
+	}
 }
