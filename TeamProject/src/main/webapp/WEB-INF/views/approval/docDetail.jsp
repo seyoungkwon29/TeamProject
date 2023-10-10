@@ -1,5 +1,4 @@
-<%@page import="com.dto.DocFormDTO"%>
-<%@page import="com.dto.MemberDTO"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,11 +9,6 @@
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" href="resources/css/docDetail.css">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> <!-- 시작 : summerNote 사용을 위한 설정 -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> <!-- 끝 : summerNote 사용을 위한 설정 -->
 </head>
 
 <body>
@@ -129,7 +123,7 @@
 			</tr>
 			
 <!-- 문서 양식 : 휴가 신청서일 경우 -->
-			<c:set var="form_name" value="${form.form_name}" />		
+			<c:set var="form_name" value="${doc.form_name}" />		
 			<c:if test="${form_name eq '휴가신청서'}">
                 <tr class="tr-m">
                     <td class="td-1">휴가종류</td>
@@ -169,13 +163,12 @@
 					<td colspan="7" class="td-content">내용</td>
 				</tr>
 				<tr>
-					<td colspan="7" class="td-content-val" style="padding-left: 15px;npadding-top: 15px; padding-bottom: 15px">
+					<td colspan="7" class="td-content-val" style="padding-left: 10px; padding-bottom: 15px">
 						${doc.doc_content} <!-- 문서 내용 -->
 					</td>
 				</tr>
 			</c:if>
 		</table>
-
 <!-- 파일 첨부 -->
 		<div class="div-span">
 			<c:if test="${file.file_path != null}">
@@ -214,16 +207,17 @@
 				<c:if test="${doc.doc_status == '반려' }">
 					<input type="button" value="재상신" class="i-left" 
 					 onclick="location.href='clickDocContent?type=rej&docNo=${doc.doc_no}&docStatus=${doc.doc_status }'">
+					<input type="button" value="삭제" id="rej-delete">
 				</c:if>
 			</c:if>
 			
 <!-- 목록 버튼 -->
 			<c:if test="${type == 'draft'}">
-				<input type="button" value="목록" onclick="location.href='draftList'"> <!-- 기안 문서함 -->
+				<input type="button" value="목록" onclick="location.href='draftList?parameter=draft'"> <!-- 기안 문서함 -->
 			</c:if>
 			
-			<c:if test="${type == 'app' || type == 'rej' }">
-				<input type="button" value="목록" onclick="location.href='appList'">  <!-- 결재 문서함 -->
+			<c:if test="${type == 'app' || type == 'rej' }"> <!-- 반려 등록 시, 결재문서함 -->
+				<input type="button" value="목록" onclick="location.href='draftList?parameter=app'">  <!-- 결재 문서함 -->
 			</c:if>
 			
 			
@@ -251,12 +245,21 @@
 			}
 		})
 		
-		$("#btn-cancel").click(function() { // 상신 취소
+		$("#btn-cancel").click(function() { //상신 취소
 			var result = confirm("기안 상신을 취소하시겠습니까?"); // 메시지를 포함한 확인 상자(확인, 취소 버튼) 표시
 			 // 확인(ok)클릭 => result 변수에 true저장, 취소(cancel)클릭 => result 변수에 false 저장
 			 
 			if(result == true) { //확인(ok)버튼 클릭한 경우
-				location.href = 'draftDocCancel?doc_no=${doc.doc_no}';
+				location.href = 'draftDocCancel?type=draft&docNo=${doc.doc_no}';
+			}
+		})
+		
+		$("#rej-delete").click(function() { //반려 문서 삭제
+			var result = confirm("문서를 삭제하시겠습니까?"); // 메시지를 포함한 확인 상자(확인, 취소 버튼) 표시
+			 // 확인(ok)클릭 => result 변수에 true저장, 취소(cancel)클릭 => result 변수에 false 저장
+			 
+			if(result == true) { //확인(ok)버튼 클릭한 경우
+				location.href = 'draftDocCancel?docNo=${doc.doc_no}&type=draft';
 			}
 		})
 		

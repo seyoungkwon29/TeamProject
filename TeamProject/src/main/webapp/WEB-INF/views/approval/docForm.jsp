@@ -1,22 +1,13 @@
-<%@page import="com.dto.DocFormDTO"%>
-<%@page import="com.dto.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>문서 양식</title>
-<!-- summerNote 사용을 위한 설정 -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<!-- summerNote 사용을 위한 설정 끝-->
 <link rel="stylesheet" href="resources/css/docForm.css">
+<script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 </head>
 
 <body>	
@@ -30,19 +21,22 @@
         String doc_date = sdf.format(today);	
 	%>
 	
-	<div class="doc-container">
+	<div class="doc-form-container">
 	
-		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; margin: 30px 0;text-align: center;"> 
+		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; text-align: center;"> 
 		${form.form_name} </h1>
 		
-		<form id="myForm" action="#" method="get" enctype="multipart/form-data" onsubmit="return chkValidity()">
+		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form">
 		<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 => return true: 제출, return false: 제출 중지 -->
 		<!-- enctype="multipart/form-data: 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->
 			<input type="hidden" value="${form.form_name}" name="form_name" readonly>
+			<input type="hidden" value="${form.form_no}" name="form_no" readonly>
 			<input type="hidden" value="${login.member_num}" name="member_num" readonly>
 			<input type="hidden" value="<%= doc_date %>" name="doc_date" readonly> 			
  			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보를 저장할 숨겨진 폼 필드 -->
  			<input type="hidden" id="num-ref" name="refMemNum" readonly> <!-- 참조자 정보를 저장할 숨겨진 폼 필드 -->
+ 			<input type="hidden" id="parameter" value="" name="parameter" readonly> <!-- 문서 정보 -->
+			
 			
 			<table id="table">
 				<tr class="tr-s">
@@ -135,7 +129,7 @@
 	                <tr>
 	                    <td class="td-1">휴가사유</td>
 	                    <td colspan="7" id="td-leave-reason">
-	                    	<textarea name="doc_content" style="white-space: pre;"></textarea>
+	                    	<textarea name="doc_content"></textarea>
                     	</td>
 	                </tr>
 				</c:if>
@@ -147,7 +141,7 @@
 					</tr>
 					<tr>
 						<td colspan="8">
-							<textarea id="summernote" name="doc_content"></textarea>
+							<textarea name="doc_content"></textarea>
 						</td>
 					</tr>
 				</c:if>
@@ -161,14 +155,14 @@
                 <label for="select_file">파일 선택</label> 
                 <span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
 
-               	<input id="select_file" type="file" name="file_name" onchange="fileSelect(this.value)">
+               	<input type="file" id="select_file" name="upload" onchange="fileSelect(this.value)">
 				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
 			</div>
 			
 			<div class="footer-div">
 				<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn" id="i-left">
 				<input type="button" value="임시 저장" onclick="tempSave()" class="footer-btn">
-				<input type="button" value="취소" onclick="location.href='draftList'" class="footer-btn">
+				<input type="button" value="취소" onclick="location.href='draftList?parameter=draft'" class="footer-btn">
 			</div>
 		</form>	
 	</div>	
@@ -177,9 +171,9 @@
 	<jsp:include page="approverModal.jsp" flush="true" />
 
 
-	<script>
+<script>
 
-	// 파일 선택 이벤트 리스너
+	//파일 선택 이벤트 리스너
 	function fileSelect(value) {
 	    if($("#select_file").val() == "") { //파일 선택 안했을 때
 	    	console.log(value);
@@ -189,7 +183,7 @@
 	    	console.log(value);
 	        $("#fileDel").css("display", "inline-flex"); // X버튼 화면 출력 
  	        $("#fileName").text( value.slice(12) ); 
-	        //파일 이름을 나타내는 요소(fileName)에서 현재 파일 경로에서 파일 이름만 추출(value.slice(12))=  memo.text
+	        //파일 이름을 나타내는 요소(fileName)에서 현재 파일 경로에서 파일 이름만 추출(value.slice(12))= memo.text
 	        //그냥 value값만 출력= C:\fakepath:memo.text
 	    }
 	}
@@ -206,11 +200,21 @@
         var result = confirm("결재 요청하시겠습니까?"); //메시지를 포함한 확인 상자(확인, 취소 버튼) 표시
       //확인(ok)클릭 result 변수에 true저장, 취소(cancel)클릭 result 변수에 false 저장
         if(result == true) { //확인(ok)버튼 클릭한 경우
-        	// form 요소의 action 속성 변경
+            $("#parameter").val("Doc"); //parameter 필드의 값을 "Doc"로 설정
+        
+        	//form 요소의 action 속성 변경
             $("#myForm").attr("action", "SaveDocForm");
             $("#myForm").submit();
         }
     }
+	
+    //임시 저장
+    function tempSave() {
+		$("#parameter").val("Temporary"); //parameter 필드의 값을 "Temporary"로 설정
+		
+        $("#myForm").attr("action", "SaveDocForm");
+        $("#myForm").submit();
+    } 
 	
     //$("#form").submit() 전에 유효성 체크
     function chkValidity() {
@@ -224,26 +228,17 @@
             return false; //제출 중지 
         }
     }
-    
-    
-    //임시 저장
-    function tempSave() {
-        $("#myForm").attr("action", "saveTempDocForm");
-        $("#myForm").submit();
-    } 
-    
-	//썸머노트 기능
- 	$("#summernote").summernote({
-        placeholder: '내용을 입력해 주세요',
-        tabsize: 2,
-        height: 240
-    });
+	
+	if("${form.form_name}" !== "휴가신청서"){
+		CKEDITOR.replace( 
+			'doc_content', 
+		{
+			height: 300,
+			removePlugins: "exportpdf"
+		} );
+	}
 
-	</script>
-
-
-
-
+</script>
 </body>
 
 </html>

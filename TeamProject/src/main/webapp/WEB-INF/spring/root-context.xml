@@ -38,9 +38,6 @@
             <list>
                 <value>com.dto.MemberDTO</value>
                 <value>com.dto.MeetingRoomDTO</value>
-                <value>com.dto.DocFormDTO</value>
-                <value>com.dto.SaveDocFormDTO</value>
-                <value>com.dto.ApprovalDTO</value>
 				<value>com.dto.AttendanceDTO</value>
 				<value>com.dto.ChatRoomDTO</value>
                 <value>com.dto.ChatMemberDTO</value>
@@ -49,17 +46,15 @@
                 <value>com.dto.NoticeDTO</value>
                 <value>com.dto.CommunityDTO</value>
                 <value>com.dto.ReplyDTO</value>
-                <value>com.dto.DocFormDTO</value>
-                <value>com.dto.AppDocumentDTO</value>
-                <value>com.dto.AppDocumentMapDTO</value>
-                <value>com.dto.SearchMemberDTO</value>
-                <value>com.dto.AppFileDTO</value>
-                <value>com.dto.ApprovalDTO</value>
-                <value>com.dto.ApprovalMapDTO</value>
-                <value>com.dto.AppReferDTO</value>
-                <value>com.dto.AppReferMapDTO</value>
                 <value>com.dto.MailDTO</value>
                 <value>com.dto.MailRecDTO</value>
+                <value>com.dto.ApprovalDTO</value>
+                <value>com.dto.AppDocFormDTO</value>
+                <value>com.dto.AppDocumentDTO</value>
+                <value>com.dto.AppFileDTO</value>
+                <value>com.dto.ApprovalDTO</value>
+                <value>com.dto.AppReferDTO</value>
+                <value>com.dto.AppSearchConditionDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->

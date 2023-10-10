@@ -6,42 +6,37 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<!-- summerNote 사용을 위한 설정 -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<!-- summerNote 사용을 위한 설정 끝-->
+<script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 <link rel="stylesheet" href="resources/css/docForm.css">
 </head>
 
 <body>
-	
 	<c:set var="login" value="${login}"></c:set> <!-- 본인 로그인 정보 -->
 	<c:set var="doc" value="${docDetail}"></c:set> <!-- 문서 상세 내용 -->
 	<c:set var="file" value="${fileList}"></c:set>  <!-- 파일 -->
 	<c:set var="app" value="${appMemList}"></c:set>  <!-- 결재자 -->
 	<c:set var="ref" value="${refMemList}"></c:set>  <!-- 참조자 -->
 
-	<div class="doc-container">
+	<div class="doc-form-container">
 	
 		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; margin: 30px 0;text-align: center;"> 
 		${doc.form_name } </h1>
 
-		<form id="myForm" action="#" method="post" enctype="multipart/form-data" onsubmit="return chkValidity()">
+		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form">
 		<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 => return true: 제출, return false: 제출 중지 -->
 		<!-- enctype="multipart/form-data: 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->	
 			<input type="hidden" value="${doc.form_name}" name="form_name" readonly> <!-- 문서 양식 -->
 			<input type="hidden" value="${nowDate }" name="doc_date" readonly> <!-- 기안일 -->
 			<input type="hidden" value="${doc.member_name }" name="member_name" readonly> <!-- 기안자 -->
+			<input type="hidden" value="${doc.member_num }" name="member_num" readonly> <!-- 기안자 사번 -->
  			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보 -->
  			<input type="hidden" id="num-ref" name="refMemNum" readonly> <!-- 참조자 정보 -->
-			
+ 			<input type="hidden" id="parameter" name="parameter" readonly> <!-- 문서정보 -->
+
 			<table id="table">
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">문서번호</td>
-					<c:if test="${type == 'tem' }">
+					<c:if test="${type == 'temp' }">
 						<td class="td-2" rowspan="2">${doc.doc_no }
 						<input type="hidden" name="doc_no" value="${doc.doc_no }" readonly>
 						</td>
@@ -175,7 +170,7 @@
 				<span class="file-s-text">파일 첨부</span>
 				
 				<!-- 임시 저장 -->
-				<c:if test="${type == 'tem' }">
+				<c:if test="${type == 'temp' }">
 					<c:if test="${file.file_name == null }">
 						<label for="select_file" id="file-label">파일 선택</label>
 					</c:if>
@@ -185,6 +180,7 @@
 						<c:if test="${file.file_name != null }">
 							${file.file_name }
 						</c:if>
+						
 						<c:if test="${file.file_name == null }">
 							선택된 파일이 없습니다.
 						</c:if>
@@ -203,20 +199,22 @@
 				<button type="button" id="fileDel" class="file-del" style="display: none;" onclick="fileDelBtn()">X</button>
 			</div>
 <!-- 각종 버튼-->			
-			<c:if test="${type == 'tem' }">
+			<c:if test="${type == 'temp' }">
 				<div class="foot-div" style="margin: 30px 50px 50px 30px; float: right;">
 					<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn">
-					<input type="button" value="임시 저장" onclick="temSave()" class="footer-btn">
-					<input type="button" id="btn-cancel" value="삭제">
-					<input type="button" value="취소" onclick="location.href='tempList'" class="footer-btn">
+					<input type="button" value="임시 저장" onclick="tempSave()" class="footer-btn">
+					<input type="button" id="btn-cancel" class="footer-btn" value="삭제">
+					<input type="button" value="취소" onclick="location.href='draftList?parameter=temp'" class="footer-btn">
 				</div>
 
 			</c:if>
+			
+			<!-- 반려 재상신 -->
 			<c:if test="${type == 'rej' }">
 				<div class="foot-div" style="margin: 30px 50px 50px 30px; float: right;">
 					<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn">
-					<input type="button" value="임시 저장" onclick="rejTemSave()" class="footer-btn">
-					<input type="button" value="취소" onclick="location.href='draftList'" class="footer-btn">
+					<input type="button" value="임시 저장" onclick="rejTempSave()" class="footer-btn">
+					<input type="button" value="취소" onclick="location.href='parameter=draft'" class="footer-btn">
 				</div> 
 			</c:if>
 		</form>
@@ -260,15 +258,22 @@
 	
 	//반려 문서 재상신
 	if( "${type}" == "rej") {
-		$("#myForm").attr("action", "/approval/saveRejDoc.sw");
+		$("#parameter").val("rejDoc");
+		
+		$("#myForm").attr("action", "SaveDocForm");
 	}
 
 	//결재 요청
 	function docSave() {
+		if ( $("#num-app").val() == "" )  { //결재자 선택 안했을 경우
+			$("#parameter").val("tempRedraft");
+    	} else { //결재자 선택 시
+    		$("#parameter").val("Doc")
+    	}
 	    var result = confirm("결재 요청하시겠습니까?"); //메시지를 포함한 확인 상자(확인, 취소 버튼) 표시
 	 	 //확인(ok)클릭 result 변수에 true저장, 취소(cancel)클릭 result 변수에 false 저장
 		if(result == true) { //확인(ok)버튼 클릭한 경우
-			$("#myForm").attr("action", "SaveDocForm?type=rejDoc");
+			$("#myForm").attr("action", "SaveDocForm");
 			$("#myForm").submit();
 		}
 	}
@@ -282,19 +287,26 @@
         } 
         else if( "${app[0].member_name}".length === 0) { //결재자 안했을 경우
             alert("결재자를 선택해주세요.");
-            return false; //제출 중지  // $("#num-app").val() == ""
+            return false; //제출 중지 
         }
     }
 	
     //임시 저장
     function tempSave() {
-        $("#myForm").attr("action", "saveTempDocForm");
+    	if ( $("#num-app").val() == "" )  { //결재자 선택 안했을 경우
+			$("#parameter").val("tempTemp");
+    	} else { //결재자 선택 시
+    		$("#parameter").val("Temporary")
+    	}
+        $("#myForm").attr("action", "SaveDocForm");
         $("#myForm").submit();
     } 
 	
 	//반려 문서 임시 저장
-	function rejTemSave() {
-		$("#myForm").attr("action", "/approval/saveRejTem.sw");
+	function rejTempSave() {
+		$("#parameter").val("RejTemp");
+		
+		$("#myForm").attr("action", "SaveDocForm");
 		$("#myForm").submit();
 	}
 	
@@ -307,11 +319,20 @@
 	})
 	
 	//썸머노트 기능
- 	$("#summernote").summernote({
-        placeholder: '내용을 입력해 주세요',
-        tabsize: 2,
-        height: 250
-    });
+//  	$("#summernote").summernote({
+//         placeholder: '내용을 입력해 주세요',
+//         tabsize: 2,
+//         height: 250
+//     });
+	
+	if("${form.form_name}" !== "휴가신청서"){
+		CKEDITOR.replace( 
+			'doc_content', 
+		{
+			height: 300,
+			removePlugins: "exportpdf"
+		} );
+	}
 	
 	// 휴가신청서
 	if("${appDoc.formName }" === "휴가신청서"){

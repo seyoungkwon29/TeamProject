@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.dao.AppReferDAO;
 import com.dto.AppReferDTO;
-import com.dto.AppReferMapDTO;
-import com.dto.ApprovalMapDTO;
 
 @Service("AppReferService")
 public class AppReferService {
@@ -21,8 +19,8 @@ public class AppReferService {
 		return num;
 	}
 
-	public List<AppReferMapDTO> searchRefMem(int doc_no) {
-		List<AppReferMapDTO> list = dao.searchRefMem(doc_no);
+	public List<AppReferDTO> searchRefMem(int doc_no) {
+		List<AppReferDTO> list = dao.searchRefMem(doc_no);
 		return list;
 	}
 

@@ -2,20 +2,19 @@ package com.dto;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias("DocFormDTO")
-public class DocFormDTO {
+@Alias("AppDocFormDTO")
+public class AppDocFormDTO {
 	
 	private int form_no;
 	private String form_name;
 	private String form_content;
 	
 	
-	public DocFormDTO() {
+	public AppDocFormDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public DocFormDTO(int form_no, String form_name, String form_content) {
+	public AppDocFormDTO(int form_no, String form_name, String form_content) {
 		super();
 		this.form_no = form_no;
 		this.form_name = form_name;
@@ -48,7 +47,7 @@ public class DocFormDTO {
 
 	@Override
 	public String toString() {
-		return "DocFormDTO [form_no=" + form_no + ", form_name=" + form_name + ", form_content=" + form_content + "]";
+		return "AppDocFormDTO [form_no=" + form_no + ", form_name=" + form_name + ", form_content=" + form_content + "]";
 	}
 	
 	

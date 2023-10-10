@@ -1,12 +1,12 @@
 package com.dao;
 
 import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ApprovalDTO;
-import com.dto.ApprovalMapDTO;
 
 @Repository("ApprovalDAO")
 public class ApprovalDAO {
@@ -14,13 +14,13 @@ public class ApprovalDAO {
 	@Autowired
 	SqlSessionTemplate session;
 
-	public int registerAppMem(ApprovalMapDTO app) {
+	public int registerAppMem(ApprovalDTO app) {
 		int num = session.insert("ApprovalMapper.registerAppMem", app);
 		return num;
 	}
 
-	public List<ApprovalMapDTO> searchAppMem(int doc_no) {
-		List<ApprovalMapDTO> list = session.selectList("ApprovalMapper.searchAppMem", doc_no);
+	public List<ApprovalDTO> searchAppMem(int doc_no) {
+		List<ApprovalDTO> list = session.selectList("ApprovalMapper.searchAppMem", doc_no);
 		return list;
 	}
 
@@ -34,8 +34,8 @@ public class ApprovalDAO {
 		return num;
 	}
 
-	public List<ApprovalMapDTO> selectAllWaitAppStatus(int doc_no) {
-		List<ApprovalMapDTO> list = session.selectList("ApprovalMapper.selectAllWaitAppStatus", doc_no);
+	public List<ApprovalDTO> selectAllWaitAppStatus(int doc_no) {
+		List<ApprovalDTO> list = session.selectList("ApprovalMapper.selectAllWaitAppStatus", doc_no);
 		return list;
 	}
 
@@ -43,12 +43,12 @@ public class ApprovalDAO {
 		session.update("ApprovalMapper.modifyNextAppMemStatus", app_no);	
 	}
 
-	public int updateAppMemStatus(ApprovalMapDTO app) {
+	public int updateAppMemStatus(ApprovalDTO app) {
 		int num = session.update("ApprovalMapper.updateAppMemStatus", app);
 		return num;
 	}
 
-	public int updateDocStatus(ApprovalMapDTO app) {
+	public int updateDocStatus(ApprovalDTO app) {
 		int num = session.update("ApprovalMapper.updateDocStatus", app);
 		return num;
 	}
