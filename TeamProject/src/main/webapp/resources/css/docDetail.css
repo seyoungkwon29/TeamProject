@@ -1,11 +1,10 @@
 @charset "UTF-8";
 
 .doc-container {
-	margin:0 60px; 
-	position:absolute; 
-	left:310px; 
-	top:80px; 
-	border:solid 1px rgba(224, 224, 224);
+    margin: 0 60px;
+    position: absolute;
+    left: 300px;
+    padding-top: 100px;
 }
 
 .head-title {

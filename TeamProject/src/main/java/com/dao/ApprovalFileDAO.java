@@ -26,5 +26,10 @@ public class ApprovalFileDAO {
 		int num = session.delete("ApprovalMapper.draftfileCancel", doc_no);
 		return num;
 	}
+
+	public int insertFile(AppFileDTO file) {
+		int result = session.insert("ApprovalMapper.insertFile", file);
+		return result;
+	}
 	
 }

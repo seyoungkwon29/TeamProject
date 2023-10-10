@@ -20,6 +20,11 @@
 			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
 			<li><a class="link" href="FileBoard">자료함</a></li>
 			<li><a class="link" href="draftList">전자결재</a></li>
+				<div class="dropdown">
+					<a href="draftList?parameter=draft">기안 문서함</a>			
+					<a href="draftList?parameter=app">결재 문서함</a>			
+					<a href="draftList?parameter=temp">임시 저장함</a>			
+				</div>
 			<li><span class="link"><a href="meetingRoom">회의실</a></span>
 				<div class="dropdown">
 				<a href="meetingRoom">회의실 예약</a>			

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
 	
-	<select id="selectAllMemberInfo" resultType="SearchAppMemDTO"> <!-- 전체 멤버 조회 -->
+	<select id="selectAllMemberInfo" resultType="ApprovalDTO"> <!-- 전체 멤버 조회 -->
 	    SELECT
 	        MEMBER_NAME,
 	        MEMBER_NUM,
@@ -14,19 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        MEMBER
 	</select>
 	
-	<select id="searchByDivName" resultType="SearchAppMemDTO" parameterType="String"> <!-- 부서로 조회 -->
-	    SELECT
-	        MEMBER_NAME,
-	        MEMBER_NUM,
-	        DIV_NAME,
-	        RANK
-	    FROM
-	        MEMBER
-	    WHERE
-	        DIV_NAME = #{div_name}
-	</select>
-	
-	<select id="searchByMemName" resultType="SearchAppMemDTO" parameterType="String"> <!-- 이름으로 조회 -->
+	<select id="searchModalMemberInfo" resultType="ApprovalDTO"> <!-- 모달 멤버 조회 -->
 	    SELECT
 	        MEMBER_NAME,
 	        MEMBER_NUM,
@@ -35,10 +23,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    FROM
 	        MEMBER
 	    WHERE
-	        MEMBER_NAME = #{member_name}
+	    <if test="searchCondition == 'div_name'">
+			div_name LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'member_name'">
+			member_name LIKE '%' || #{searchValue} || '%'
+		</if>
+			<if test="searchCondition == 'all'">
+			div_name LIKE '%' || #{searchValue} || '%'
+			OR 
+			member_name LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
+
 	
-	<select id="docFormName" resultType="DocFormDTO" parameterType="String"> <!-- 문서 양식 조회 -->
+	<select id="docFormName" resultType="AppDocFormDTO" parameterType="String"> <!-- 문서 양식 조회 -->
 	    SELECT
 	        *
 	    FROM
@@ -47,25 +46,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        FORM_NAME = #{form_name}
 	</select>
 	
-	<insert id="saveDocForm" parameterType="AppDocumentMapDTO"> <!-- 문서 등록 -->
-	    INSERT INTO
-	        APP_DOC (DOC_NO, MEMBER_NUM, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_DATE)
+	<insert id="saveDocForm" parameterType="AppDocumentDTO"> <!-- 문서 등록 -->
+	    INSERT INTO 
+    		APP_DOC 
+	    		(DOC_NO, 
+    			 MEMBER_NUM, 
+	    		 FORM_NAME, 
+	     		 DOC_TITLE, 
+	     		 DOC_CONTENT,
+	     		 DOC_STATUS, 
+	     		 DOC_DATE)
 	    VALUES
-	        (SEQ_DOC.NEXTVAL, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_date})
+	        (SEQ_DOC.NEXTVAL, 
+	        #{member_num}, 
+	        #{form_name}, 
+	        #{doc_title}, 
+	        #{doc_content}, 
+	        #{doc_status},
+	        #{doc_date})
 	</insert>
 	
-	<select id="saveDocFormList" resultType="AppDocumentDTO" parameterType="map"> <!-- 문서등록 리스트-->
-	    SELECT
-		    *
-		FROM
-		    APP_DOC
-		WHERE
-		    DOC_STATUS != #{temp} 
-	    AND
-	    	MEMBER_NUM = #{member_num}
-		ORDER BY
-		    DOC_NO DESC
+	<select id="saveDocFormList" resultType="AppDocumentDTO"> <!-- 결재문서함 -->
+	    SELECT 
+			DOC_DATE, 
+	    	FORM_NAME, 
+	    	DOC_TITLE, 
+	    	DOC_NO, 
+	    	DOC_STATUS 
+    	FROM 
+    		APP_DOC
+    	WHERE 
+    		MEMBER_NUM = #{member_num}   		
+		<if test="doc_status != '전체'">
+			AND DOC_STATUS = #{doc_status}
+		</if>
+		<if test="doc_status == '전체'">
+			AND DOC_STATUS != '임시'
+		</if>
+		ORDER BY 
+			DOC_NO 
+		DESC
 	</select>
+	
+	<select id="getListCount" resultType="int"> <!-- 문서함에 있는 문서의 개수, 페이징 -->
+		SELECT 
+			COUNT(*) 
+		FROM 
+			APP_DOC 
+		WHERE 
+			MEMBER_NUM = #{member_num}
+		
+		<if test="doc_status != '전체'">
+			AND DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '전체'">
+			AND DOC_STATUS != '임시'
+		</if>
+	</select>
+	
 	
 	<select id="callTempList" resultType="AppDocumentDTO" parameterType="String"> <!-- 임시 저장함 -->
 	    SELECT
@@ -89,11 +127,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        AND DOC_NO = #{doc_no}
 	</select>
 	
-	<select id="detailDocContent" resultType="AppDocumentMapDTO">
+	<select id="detailDocContent" resultType="AppDocumentDTO">
 		SELECT
 			d.DOC_NO,
 			d.MEMBER_NUM,
 			m.MEMBER_NAME,
+			f.FORM_NO,
 			d.FORM_NAME,
 			d.DOC_TITLE,
 			d.DOC_CONTENT,
@@ -105,6 +144,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEMBER m
 		ON
 			d.MEMBER_NUM = m.MEMBER_NUM
+		JOIN
+			APP_FORM f
+		ON 
+			d.FORM_NAME = f.FORM_NAME	
 		WHERE
 			DOC_NO = #{doc_no}
 	</select>
@@ -182,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, #{member_num}, #{ref_status})
 	</insert>
 	
-	<select id="searchAppMem" resultType="ApprovalMapDTO" parameterType="int"> <!-- 문서 상세 조회 : 결재자 정보 -->
+	<select id="searchAppMem" resultType="ApprovalDTO" parameterType="int"> <!-- 문서 상세 조회 : 결재자 정보 -->
 	    SELECT
 	        a.app_no,
 	        a.doc_no,
@@ -197,13 +240,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    FROM
 	        approval a
 	    INNER JOIN
-	        member m ON a.member_num = m.member_num
+	        member m 
+        ON a.member_num = m.member_num
 	    WHERE
 	        a.doc_no = #{doc_no}
 	    ORDER BY a.app_level
 	</select>
 	
-	<select id="searchRefMem" resultType="AppReferMapDTO" parameterType="int"> <!-- 문서 상세 조회 : 참조자 정보 -->
+	<select id="searchRefMem" resultType="AppReferDTO" parameterType="int"> <!-- 문서 상세 조회 : 참조자 정보 -->
 	    SELECT
 	        r.ref_no,
 	        r.doc_no,
@@ -271,7 +315,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			DOC_NO = #{doc_no}
 	</update>
 	
-	<select id="selectListAppDoc" resultType="AppDocumentMapDTO">
+	<select id="selectListAppDoc" resultType="AppDocumentDTO">
 		SELECT 
 			d.DOC_NO, 
 			d.DOC_DATE, 
@@ -290,10 +334,73 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEMBER m
 		ON 
 			d.MEMBER_NUM = m.MEMBER_NUM
-	    WHERE a.MEMBER_NUM = #{member_num}
+	    WHERE 
+	    	a.MEMBER_NUM = #{member_num}
+
+		<if test="doc_status == '대기'">
+			AND a.APP_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '예정' or doc_status == '완료'">
+			AND a.APP_STATUS = '${doc_status}' AND d.DOC_STATUS != '반려'
+		</if>
+		<if test="doc_status == '완료'">
+			AND a.APP_STATUS = '${doc_status}' AND d.DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '진행'">
+			AND a.APP_STATUS = '완료' AND d.DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '반려'">
+			AND d.DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '전체'">
+			AND a.APP_STATUS != '임시'
+		</if>
+		ORDER BY 
+	    	a.DOC_NO 
+    	DESC
+	    	
     </select>
     
-    <select id="selectAllWaitAppStatus" resultType="ApprovalMapDTO"> <!-- 다음 차례 결재자 확인 -->
+    <!-- 결재 문서함 페이징 -->
+   	<select id="getListCountApp" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			APP_DOC d
+		INNER JOIN 
+			APPROVAL a
+		ON 
+			d.DOC_NO = a.DOC_NO
+		INNER JOIN 
+			MEMBER m
+		ON 
+			d.MEMBER_NUM = m.MEMBER_NUM
+	    WHERE 
+	    	a.MEMBER_NUM = #{member_num}
+
+		<if test="doc_status == '대기'">
+			AND APP_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '예정' or doc_status == '완료'">
+			AND APP_STATUS = '${doc_status}' AND DOC_STATUS != '반려'
+		</if>
+		<if test="doc_status == '완료'">
+			AND APP_STATUS = '${doc_status}' AND DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '진행'">
+			AND APP_STATUS = '완료' AND DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '반려'">
+			AND DOC_STATUS = '${doc_status}'
+		</if>
+		<if test="doc_status == '전체'">
+			AND APP_STATUS != '임시'
+		</if>
+	</select>
+	
+    
+    
+    <select id="selectAllWaitAppStatus" resultType="ApprovalDTO"> <!-- 다음 차례 결재자 확인 -->
 		SELECT 
 			* 
 		FROM 
@@ -315,6 +422,212 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE 
 			APP_NO = #{app_no}
 	</update>
+	
+	<insert id="insertFile"><!-- 파일 등록 -->
+		INSERT INTO 
+			APP_FILE 
+		VALUES
+			(SEQ_FILE.NEXTVAL, 
+		<if test="doc_no == 0">
+			SEQ_DOC.CURRVAL
+		</if>
+		<if test="doc_no != 0">
+			#{doc_no}
+		</if>
+		, #{file_name}, #{file_rename}, #{file_path})
+	</insert>
+	
+	<select id="searchDraftCount" parameterType="AppSearchConditionDTO" resultType="int"> <!-- 기안, 임시 문서함 검색 페이징 -->
+	    SELECT 
+	        COUNT(*) 
+   	    FROM
+	        APP_DOC d
+	    INNER JOIN
+	        APP_FORM f 
+        ON 
+        	f.FORM_NAME = d.FORM_NAME
+	    WHERE 
+	        d.MEMBER_NUM = #{member_num}
+	    <if test="type == '기안'">
+	        AND d.DOC_STATUS != '임시'
+	    </if>
+	    <if test="type == '임시'">
+	        AND d.DOC_STATUS = '임시'
+	    </if>
+	    <if test="searchCondition == 'doc_date'">
+	        AND d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'form_name'">
+	        AND d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'doc_title'">
+	        AND d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'doc_no'">
+	        AND d.DOC_NO LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'all'">
+	        AND (
+	            d.DOC_NO LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+	        )
+	    </if>
+	</select>
+	
+	
+	<select id="allSearchDraft" parameterType="AppSearchConditionDTO" resultType="AppDocumentDTO"><!-- 문서함 검색 -->
+	    SELECT 
+	    	d.DOC_NO,
+	    	d.FORM_NAME,
+			d.MEMBER_NUM,
+			d.DOC_TITLE,
+			d.DOC_STATUS,
+	        d.DOC_DATE  
+   	    FROM
+	        APP_DOC d
+	    INNER JOIN
+	        APP_FORM f 
+        ON 
+        	f.FORM_NAME = d.FORM_NAME
+	    WHERE 
+	        d.MEMBER_NUM = #{member_num}
+   	    <if test="type == '기안'">
+	        AND d.DOC_STATUS != '임시'
+	    </if>
+	    <if test="type == '임시'">
+	        AND d.DOC_STATUS = '임시'
+	    </if>
+	    <if test="searchCondition == 'doc_date'">
+	        AND d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'form_name'">
+	        AND d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'doc_title'">
+	        AND d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'doc_no'">
+	        AND d.DOC_NO LIKE '%' || #{searchValue} || '%'
+	    </if>
+	    <if test="searchCondition == 'all'">
+	        AND (
+	            d.DOC_NO LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+	            OR 
+	            d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+	        )
+	    </if>
+
+	    ORDER BY 
+	        d.DOC_NO 
+        DESC
+	</select>
+	
+	<select id="searchAppCount" resultType="int"> <!-- 결재 문서함: 검색 페이징 -->
+		SELECT 
+			COUNT(*) 
+		FROM 
+			APP_DOC d
+		INNER JOIN 
+			MEMBER m
+		ON 
+			m.member_num = d.member_num
+		INNER JOIN  
+			APPROVAL a
+		ON 
+			a.doc_no = d.doc_no 
+		WHERE 
+			a.MEMBER_NUM = #{member_num} 
+		AND 
+			APP_STATUS != '임시'
+			
+		<if test="searchCondition == 'doc_date'">
+			AND d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'form_name'">
+			AND d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'doc_title'">
+			AND d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'member_name'">
+			AND m.MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'all'">
+			AND 
+			(
+				m.MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+			)
+		</if>
+	</select>
+	
+	<select id="allSearchApp"  parameterType="AppSearchConditionDTO" resultType="AppDocumentDTO"><!-- 결재 문서함 검색 -->
+		SELECT 
+			d.DOC_NO, 
+			d.FORM_NAME,  
+			m.MEMBER_NAME,
+			m.MEMBER_NUM,
+			d.DOC_TITLE,
+			d.DOC_DATE,  
+			a.APP_STATUS, 
+			d.DOC_STATUS 
+		FROM 
+			APP_DOC d
+		INNER JOIN 
+			MEMBER m
+		ON 
+			m.member_num = d.member_num
+		INNER JOIN  
+			APPROVAL a
+		ON 
+			a.doc_no = d.doc_no 
+		WHERE 
+			a.MEMBER_NUM = #{member_num} 
+		AND 
+			APP_STATUS != '임시'
+			
+		<if test="searchCondition == 'doc_date'">
+			AND d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'form_name'">
+			AND d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'doc_title'">
+			AND d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'member_name'">
+			AND m.MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'all'">
+			AND 
+			(
+				m.MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.DOC_DATE LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.FORM_NAME LIKE '%' || #{searchValue} || '%'
+				OR 
+				d.DOC_TITLE LIKE '%' || #{searchValue} || '%'
+			)
+		</if>	
+		ORDER BY 
+			d.DOC_NO 
+		DESC
+	</select>
 	
 	
 </mapper>

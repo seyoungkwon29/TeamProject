@@ -1,11 +1,12 @@
 package com.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.dao.ApprovalDAO;
 import com.dto.ApprovalDTO;
-import com.dto.ApprovalMapDTO;
 
 @Service("ApprovalService")
 public class ApprovalService {
@@ -13,13 +14,13 @@ public class ApprovalService {
 	@Autowired
 	ApprovalDAO dao;
 
-	public int registerAppMem(ApprovalMapDTO app) {
+	public int registerAppMem(ApprovalDTO app) {
 		int num = dao.registerAppMem(app);
 		return num ;
 	}
 
-	public List<ApprovalMapDTO> searchAppMem(int doc_no) {
-		List<ApprovalMapDTO> list = dao.searchAppMem(doc_no);
+	public List<ApprovalDTO> searchAppMem(int doc_no) {
+		List<ApprovalDTO> list = dao.searchAppMem(doc_no);
 		return list;
 	}
 
@@ -33,8 +34,8 @@ public class ApprovalService {
 		return num ;
 	}
 
-	public List<ApprovalMapDTO> selectAllWaitAppStatus(int doc_no) {
-		List<ApprovalMapDTO> list = dao.selectAllWaitAppStatus(doc_no);
+	public List<ApprovalDTO> selectAllWaitAppStatus(int doc_no) {
+		List<ApprovalDTO> list = dao.selectAllWaitAppStatus(doc_no);
 		return list;
 	}
 
@@ -42,12 +43,12 @@ public class ApprovalService {
 		 dao.modifyNextAppMemStatus(app_no);	
 	}
 
-	public int updateAppMemStatus(ApprovalMapDTO app) {
+	public int updateAppMemStatus(ApprovalDTO app) {
 		int num = dao.updateAppMemStatus(app);
 		return num ;
 	}
 
-	public int updateDocStatus(ApprovalMapDTO app) {
+	public int updateDocStatus(ApprovalDTO app) {
 		int num = dao.updateDocStatus(app);
 		return num ;
 	}

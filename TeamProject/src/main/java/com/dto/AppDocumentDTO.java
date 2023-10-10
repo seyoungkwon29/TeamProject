@@ -6,33 +6,39 @@ import org.apache.ibatis.type.Alias;
 public class AppDocumentDTO {
 	
 	int doc_no;
-    int member_num;
-    String form_name;
-    String doc_title;
-    String doc_content;
-    String doc_status;
-    String doc_date;
+	int member_num;
+	String member_name;
+	int form_no;
+	String form_name;
+	String doc_title;
+	String doc_content;
+	String doc_status;
+	String doc_date;
     String leave_type;
     String leave_start;
     String leave_end;
     String leave_time;
     int leave_date;
     int leave_left;
-    int leave_apply;
-    
-    
+    int leave_apply;  
+	String app_status;
+	
+	
 	public AppDocumentDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public AppDocumentDTO(int doc_no, int member_num, String form_name, String doc_title, String doc_content,
-			String doc_status, String doc_date, String leave_type, String leave_start, String leave_end,
-			String leave_time, int leave_date, int leave_left, int leave_apply) {
+	public AppDocumentDTO(int doc_no, int member_num, String member_name, int form_no, String form_name,
+			String doc_title, String doc_content, String doc_status, String doc_date, String leave_type,
+			String leave_start, String leave_end, String leave_time, int leave_date, int leave_left, int leave_apply,
+			String app_status) {
 		super();
 		this.doc_no = doc_no;
 		this.member_num = member_num;
+		this.member_name = member_name;
+		this.form_no = form_no;
 		this.form_name = form_name;
 		this.doc_title = doc_title;
 		this.doc_content = doc_content;
@@ -45,6 +51,7 @@ public class AppDocumentDTO {
 		this.leave_date = leave_date;
 		this.leave_left = leave_left;
 		this.leave_apply = leave_apply;
+		this.app_status = app_status;
 	}
 
 
@@ -65,6 +72,26 @@ public class AppDocumentDTO {
 
 	public void setMember_num(int member_num) {
 		this.member_num = member_num;
+	}
+
+
+	public String getMember_name() {
+		return member_name;
+	}
+
+
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+
+
+	public int getForm_no() {
+		return form_no;
+	}
+
+
+	public void setForm_no(int form_no) {
+		this.form_no = form_no;
 	}
 
 
@@ -188,20 +215,36 @@ public class AppDocumentDTO {
 	}
 
 
+	public String getApp_status() {
+		return app_status;
+	}
+
+
+	public void setApp_status(String app_status) {
+		this.app_status = app_status;
+	}
+
+
 	@Override
 	public String toString() {
-		return "AppDocumentDTO [doc_no=" + doc_no + ", member_num=" + member_num + ", form_name=" + form_name
-				+ ", doc_title=" + doc_title + ", doc_content=" + doc_content + ", doc_status=" + doc_status
-				+ ", doc_date=" + doc_date + ", leave_type=" + leave_type + ", leave_start=" + leave_start
-				+ ", leave_end=" + leave_end + ", leave_time=" + leave_time + ", leave_date=" + leave_date
-				+ ", leave_left=" + leave_left + ", leave_apply=" + leave_apply + "]";
+		return "AppDocumentDTO [doc_no=" + doc_no + ", member_num=" + member_num + ", member_name=" + member_name
+				+ ", form_no=" + form_no + ", form_name=" + form_name + ", doc_title=" + doc_title + ", doc_content="
+				+ doc_content + ", doc_status=" + doc_status + ", doc_date=" + doc_date + ", leave_type=" + leave_type
+				+ ", leave_start=" + leave_start + ", leave_end=" + leave_end + ", leave_time=" + leave_time
+				+ ", leave_date=" + leave_date + ", leave_left=" + leave_left + ", leave_apply=" + leave_apply
+				+ ", app_status=" + app_status + "]";
 	}
 
 
 
-    
+
+
 	
-    
+
 	
+	
+	
+	
+
 	
 }

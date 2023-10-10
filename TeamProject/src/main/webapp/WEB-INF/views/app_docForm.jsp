@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<jsp:include page="approval/all_sideBar.jsp" flush="true" /> <br>  <!-- 전체 + 결재 메뉴바 -->
+	<jsp:include page="common/menu.jsp" flush="true" /> <br>  <!-- 전체 메뉴바 -->
 	<jsp:include page="approval/docForm.jsp" flush="true" /> <br>  <!-- -->
 
 </body>
