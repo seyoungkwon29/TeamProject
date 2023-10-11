@@ -1,10 +1,13 @@
 package com.controller.community;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,19 +19,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.common.FileStore;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.dto.CommunityDTO;
 import com.dto.MemberDTO;
 import com.dto.ReplyDTO;
+import com.dto.UploadFileDTO;
 import com.service.CommunityService;
 import com.service.ReplyService;
 
 @Controller
 public class CommunityController {
 	
+	private final static Logger log = LoggerFactory.getLogger(CommunityController.class);
+	
 	@Autowired
 	private CommunityService communityService;
+	
+	@Autowired
+	private FileStore fileStore;
 	
 	@Autowired
 	private ReplyService replyService;
@@ -67,7 +77,7 @@ public class CommunityController {
 	@PostMapping("/communities/new")
 	public String newCommunity(@Valid @ModelAttribute CommunityForm communityForm, BindingResult bindingResult,
 		HttpSession session, 
-		RedirectAttributes redirectAttributes) {
+		RedirectAttributes redirectAttributes) throws IOException {
 		
 		if (bindingResult.hasErrors()) {
 			return "community/community-new";
@@ -77,7 +87,24 @@ public class CommunityController {
 		Long memberNum = Long.valueOf(member.getMember_num());
 		CommunityDTO community = new CommunityDTO(memberNum, communityForm.getTitle(), communityForm.getContent());
 		
+		List<UploadFileDTO> files = fileStore.storeFiles(communityForm.getFiles());
+		List<UploadFileDTO> images = fileStore.storeFiles(communityForm.getImages());
+		
+		community.setFiles(files);
+		community.setImages(images);
+		
 		communityService.save(community);
+		List<UploadFileDTO> savedFiles = community.getFiles();
+		List<UploadFileDTO> savedImages = community.getImages();
+		
+		for (UploadFileDTO file : savedFiles) {
+			String savedPath = fileStore.getFullPath(file.getStoreFilename());
+			log.debug("[{}][{}]", file.getOriginalFilename(),savedPath);
+		}
+		for (UploadFileDTO image : savedImages) {
+			String savedPath = fileStore.getFullPath(image.getStoreFilename());
+			log.debug("[{}][{}]", image.getOriginalFilename(),savedPath);
+		}
 		
 		redirectAttributes.addAttribute("comNum",community.getComNum());
 		return "redirect:/communities/{comNum}";

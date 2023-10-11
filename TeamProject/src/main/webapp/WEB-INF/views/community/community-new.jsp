@@ -11,6 +11,7 @@
 <title>자유게시판/글쓰기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
@@ -19,7 +20,7 @@
 			<h1 class="f3">자유게시판 새 글쓰기</h1>
 			<div class="flex flex-auto items-center justify-start center">
 				<spring:url var="newCommunityUrl" value="/communities/new"></spring:url>
-				<form:form action="${newCommunityUrl}" method="post" modelAttribute="communityForm" cssClass="flex flex-column flex-auto">
+				<form:form action="${newCommunityUrl}" method="post" enctype="multipart/form-data" modelAttribute="communityForm" cssClass="flex flex-column flex-auto">
 					<div class="flex flex-column mb3">
 						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
 						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
@@ -27,9 +28,16 @@
 					</div>
 					<div class="flex flex-column mb3">
 						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
-						<form:textarea path="content" cssClass="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="10"/>
+						<textarea id="summernote" name="content"></textarea>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
+					<div class="flex flex-column mb3">
+						<label for="files">첨부파일</label>
+						<input name="files" type="file" multiple>
+						<label for="images">첨부파일</label>
+						<input name="images" type="file" multiple>
+					</div>
+					
 					<div class="flex flex-column mb3">
 						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>
 						<spring:url var="communityListUrl" value="/communities"/>
@@ -41,5 +49,34 @@
 			</div>
 		</section>
 	</main>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	<script>
+	 $(document).ready(function() {
+	        $('#summernote').summernote({
+	        	height: 300,
+	        	lang: "ko-KR",
+	        	callbacks: {
+	        		onImageUpload: function(files) {
+	        			uploadImageFile(files[0], this);
+	        		}
+	        	}
+	        });
+   	 });
+	 function uploadImageFile(file, editor) {
+		 data = new FormData();
+		 data.append("image", file);
+		 $.ajax({
+			 data: data,
+			 type: "POST",
+			 url: "images",
+			 contentType: false,
+			 processData: false,
+			 success: function(data) {
+				 console.log(data);
+				 $(editor).summernote('insertImage', data.url);
+			 }
+		 });
+	 };
+    </script>
 </body>
 </html>

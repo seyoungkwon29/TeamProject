@@ -1,7 +1,6 @@
 package com.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dto.CommunityDTO;
 import com.dto.UploadFileDTO;
 
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
 	"file:src/main/webapp/WEB-INF/spring/root-context.xml",

@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	
-	<!-- 1.jdbc.properties -->
+	<!-- 1.properties -->
     <context:property-placeholder location="classpath:com/config/jdbc.properties,classpath:com/config/file.properties"/>
     
 	<!-- 2.DBCP2 -->
