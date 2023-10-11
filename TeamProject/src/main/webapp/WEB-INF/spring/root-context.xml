@@ -58,6 +58,7 @@
                 <value>com.dto.AppReferDTO</value>
                 <value>com.dto.AppSearchConditionDTO</value>
                 <value>com.dto.ProjectManagementDTO</value>
+                <value>com.dto.UploadFileDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->
