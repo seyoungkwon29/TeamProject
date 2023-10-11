@@ -7,7 +7,7 @@
 	
 	
 	<!-- 1.jdbc.properties -->
-    <context:property-placeholder location="classpath:com/config/jdbc.properties"/>
+    <context:property-placeholder location="classpath:com/config/jdbc.properties,classpath:com/config/file.properties"/>
     
 	<!-- 2.DBCP2 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">

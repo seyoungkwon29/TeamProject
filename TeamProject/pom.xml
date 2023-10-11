@@ -366,6 +366,8 @@
 										<versionRange>[3.0.0,)</versionRange>
 										<goals>
 											<goal>resources</goal>
+											<goal>testResources</goal>
+											<goal>copy-resources</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
