@@ -16,6 +16,12 @@
 			<li><a class="link" href="myPage">마이 페이지</a></li>
 			<li><a class="link" href="loginCheck/attendance/attendanceList">근태 관리</a></li>
 			<li><a class="link" href="organization">조직도</a></li>
+			<li><span class="link"><a href="viewList">프로젝트 관리</a></span>
+				<div class="dropdown">
+				<a href="viewList">캘린더</a>			
+				<a href="">타임라인</a>			
+				</div>
+			</li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>
 			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
 			<li><a class="link" href="FileBoard">자료함</a></li>

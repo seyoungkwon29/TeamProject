@@ -12,7 +12,6 @@
 		<ol>공지사항</ol>
 		<ol>게시판</ol>
 		<ol>전자결재</ol>
-		<ol> <a href="calendar">캘린더</a> </ol>
 		<ol> <a href="loginCheck/logout">로그아웃</a> </ol>
 	</ul>
 </div>
