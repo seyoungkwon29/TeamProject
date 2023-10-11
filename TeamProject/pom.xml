@@ -383,4 +383,29 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<file.basedir>file:/C:/mail_upload</file.basedir>
+			</properties>
+		</profile>
+		<profile>
+			<id>mac</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<file.basedir>${basedir}/files/</file.basedir>
+			</properties>
+		</profile>
+	</profiles>
 </project>
