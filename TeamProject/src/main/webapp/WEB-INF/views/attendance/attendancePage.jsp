@@ -47,33 +47,41 @@
 %>
 
 <div id="s-container">
+	<div class="attend-head">
+		<h1 style="margin: 0; color: #333;">근태 관리</h1>
+<!-- 		<p class="attend-modify">출근과 퇴근 기록하기</p> -->
+	</div>
+	
+	<div class="attend-body">	
 	<div class="left">
 	
 		<div id="now">
 			<%= simpleTime.format(calendar.getTime()) %>
 		</div>
 		
-		<!-- 출근 / 퇴근 버튼 -->
-		<!-- 출근 -->
-		<form action="attendance/punchIn" method="post">
-			<input type="hidden" id="att_start" name="att_start">
-			<input type="submit" id="punchIn" class="btn" value="출근">
-		</form>
-		<!-- 출근 -->
-		<!-- 퇴근 -->
-		<form action="attendance/punchOut" method="post">
-			<input type="hidden" id="att_fin" name="att_fin">
-			<input type="submit" id="punchOut" class="btn" value="퇴근">
-		<br>
-		</form>
-		<!-- 퇴근 -->		
-		<!-- 출근 / 퇴근 버튼 -->
+		<div class="attend-btn">
+			<!-- 출근 / 퇴근 버튼 -->
+			<!-- 출근 -->
+			<form action="attendance/punchIn" method="post">
+				<input type="hidden" id="att_start" name="att_start">
+				<input type="submit" id="punchIn" class="btn" value="출근">
+			</form>
+			<!-- 출근 -->
+			<!-- 퇴근 -->
+			<form action="attendance/punchOut" method="post">
+				<input type="hidden" id="att_fin" name="att_fin">
+				<input type="submit" id="punchOut" class="btn" value="퇴근">
+			<br>
+			</form>
+			<!-- 퇴근 -->		
+			<!-- 출근 / 퇴근 버튼 -->
+		</div>
 	</div> <!-- left -->
 	
 	<div class="right">
 
 	<!-- 근무 기록 리스트 -->
-	<div>
+	<div class="attend-list">
 	
 		<!-- 검색일<input type="text" id="searchDate">  -->
 		<form action="attendance/searchDate" method="post">
@@ -91,7 +99,7 @@
 		</form>
 		<!-- 검색일 -->
 	
-		<table class="table">
+		<table class="attdance-table">
 			<tr>
 				<th>날짜</th>
 				<th>출근시간</th>
@@ -114,4 +122,5 @@
 	<!-- 근무 기록 리스트 -->
 	
 </div> <!-- right -->
+</div>
 </div>

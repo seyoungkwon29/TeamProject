@@ -1,48 +1,132 @@
-@charset "UTF-8";
 
-#s-container{
-	min-height: 1000vh;	
-	margin: auto;
+/* 스타일 적용 대상: 출근 / 퇴근 버튼 */
+
+#s-container {
+	margin: 0 auto; /* 가운데 정렬을 위해 margin 값 수정 */
+	padding-top: 130px;
+    padding-bottom: 200px;
+    width: 90%;
 }
 
-#s-container > div {
-	float: left;
-	padding: 50px;
-  	font-weight: 300;
+.attend-head{
+	display: flex; /* Flexbox를 사용하여 요소를 나란히 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    padding-left: 100px;
 }
 
-.btn {
-	float: left;
-	width: 100px;
-	height: 50px;
-	font-size: 20px;
-}
-
-#now {
-	font-size: 40px;
-	font-family: sans-serif;
+.attend-modify{
+	margin-left: 30px;
+    color: #474747;
+    font-size:13px;	
 }
 
 .left {
-	width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .right {
-	width: 60%;	
+    padding: 5px 80px 20px 20px;
 }
 
-.table th, .table td {
-	text-align: center;
-	
-	height: 10px;
-	vertical-align: middle;
-	padding: 5px 15px; /* 상하, 좌우 */
-	
-	border-collapse: collapse;
-	border-bottom: 1px solid #ddd; /* 행 설정 */
+#now{
+	font-size: 32px;
+    padding-bottom: 7px;
+	text-align: center; /* 텍스트 가운데 정렬 */
+	color: #333;
+	letter-spacing: 3px;
 }
 
-th { /* 테이블 헤드 설정 */
-  background-color: #888888;
-  color: white;
+.attend-btn {
+    display: flex; /* 내부 버튼을 가로로 배치 */
+    gap: 15px; /* 버튼 사이의 간격 설정 */
+    margin-top: 5px; /* 위쪽 여백 설정 */
+    justify-content: center; /* 가로 가운데 정렬 */
 }
+
+.btn {
+    border: 1px solid #bfbfbf;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 12px 20px; /* 패딩 설정 */
+    cursor: pointer; /* 커서를 포인터로 변경하여 버튼임을 나타냄 */
+}
+
+.btn:hover{
+	color: #000000;
+    font-weight: bold;
+}
+
+.t-search {
+	float: right;
+    padding-bottom: 20px;
+}
+
+.t-search-title {
+	padding-right: 14px;
+	font-weight: bold;
+}
+
+/* 스타일 적용 대상: 검색일 입력 폼 */
+.t-search input[type="month"] {
+    width: 170px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.t-search input[type="submit"] {
+    background-color: #f2f2f2; /* 배경색을 원하는 색상으로 설정 */
+    color: #333; /* 글자색을 흰색으로 설정 */
+    border: 1px solid #bfbfbf;
+    padding: 8px 12px; /* 패딩 설정 */
+    border-radius: 5px; /* 테두리 둥글게 설정 */
+    cursor: pointer; /* 커서를 포인터로 변경하여 버튼임을 나타냄 */
+    margin-left: 3px;
+    font-size: 12px;
+}
+
+.t-search input[type="submit"]:hover{
+	color: #000000;
+    font-weight: bold;
+}
+
+.attend-list{
+	padding-left: 80px;
+}
+/* 스타일 적용 대상: 근무 기록 테이블 */
+.attdance-table {
+    width: 100%; /* 테이블을 가득 채우도록 설정 */
+    border-collapse: collapse; /* 테이블 테두리 병합 */
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: center;
+    border-top: 2px solid rgb(200, 200, 200);
+    border-bottom: 2px solid rgb(200, 200, 200);
+}
+
+.attdance-table th, .table td {
+/*     border: 1px solid #ccc; 셀 테두리 설정 */
+    padding: 10px; /* 패딩 설정 */
+}
+
+.attdance-table th {
+    background-color: #f2f2f2; /* 테이블 헤더 배경색 설정 */
+    text-align: center; /* 가운데 정렬 */
+}
+
+/* 스타일 적용 대상: 근무 기록 리스트 각 행 */
+.attdance-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* 짝수 행 배경색 설정 */
+}
+
+.attdance-table tr:nth-child(odd) {
+    background-color: #fff; /* 홀수 행 배경색 설정 */
+}
+
+
+
+
