@@ -1,24 +1,30 @@
 package com.controller.approval;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.dto.AppDocFormDTO;
 import com.dto.AppDocumentDTO;
-import com.dto.AppDocumentMapDTO;
-import com.dto.AppReferDTO;
-import com.dto.AppReferMapDTO;
-import com.dto.ApprovalDTO;
 import com.dto.AppFileDTO;
-import com.dto.ApprovalMapDTO;
+import com.dto.AppPageInfoDTO;
+import com.dto.AppPaging;
+import com.dto.AppReferDTO;
+import com.dto.AppSearchConditionDTO;
+import com.dto.ApprovalDTO;
 import com.dto.MemberDTO;
 import com.service.AppReferService;
 import com.service.ApprovalFileService;
@@ -30,7 +36,7 @@ public class SaveDocFormController {
 	
 	@Autowired
 	SaveDocFormService service;
-	
+
 	@Autowired
 	ApprovalFileService fService;
 	
@@ -40,86 +46,256 @@ public class SaveDocFormController {
 	@Autowired
 	AppReferService refService;
 	
+	//문서기안 form 선택: 품의서, 휴가신청서 등
+	@RequestMapping("/docFormName")
+	public String DocFormName( @RequestParam("form_name") String form_name, 
+								HttpSession session) {
+		AppDocFormDTO docForm = service.docFormName(form_name); //문서 이름 보내고, 문서 양식 가져오기
 	
-	//기안 문서함: 본인이 기안한 문서의 리스트가 출력
+		session.setAttribute("form", docForm);
+		
+		return "app_docForm";
+	}
+	
+	//모달: 전체 멤버 정보 출력
+	@RequestMapping(value="/approverSelect", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ApprovalDTO> approverSelect(HttpSession session) {
+		
+		List<ApprovalDTO> list = service.selectAllMemberInfo();
+		System.out.println("결재자 or 참조자 정보 출력 : " + list);
+		
+		return list; 
+	}
+	
+	//모달: 이름, 부서 등 조건 검색하기
+	@RequestMapping(value="/searchMember", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ApprovalDTO> searchMember(HttpSession session, AppSearchConditionDTO search) {
+	
+		List<ApprovalDTO> list = service.searchModalMemberInfo(search);
+		System.out.println("결재자 or 참조자 정보 출력 : " + list);
+		
+		return list;
+	}
+	
+	//기안문서함, 결재문서함: 본인이 기안한 문서의 리스트가 출력
 	@RequestMapping(value ="/draftList")
-	public String draftList( HttpSession session, Map<String, Object> map) {	
-		
+	public String draftList( HttpSession session, AppDocumentDTO doc, ApprovalDTO app,
+							@RequestParam(value="parameter", required = false) String parameter,
+							@RequestParam(value="docStatus", required = false) String doc_status,
+							@RequestParam(value="page", required = false) Integer page) {	
+		if(parameter.equals("temp")) {
+			doc_status = "임시";
+		} else if(doc_status == null) {
+			doc_status = "전체";
+		}
 		int member_num = (int)((MemberDTO)session.getAttribute("login")).getMember_num(); 
-		map.put("temp", "임시"); //임시만 제외하고, 전자결재함에 출력
-		map.put("member_num", member_num); //사원번호로 조회
 		
-		List<AppDocumentDTO> appDocList = service.saveDocFormList(map);
-		System.out.println(">>>>>>>>>> 기안 문서함 : " + appDocList);
+		int currentPage = (page != null) ? page : 1; //page가 존재: page, page 존재 않을 때: 1페이지
+		int totalCount = 0; 
+		AppPageInfoDTO api = null; //페이징 정보
+		
+		List<AppDocumentDTO> appDocList = null;
+		String returnResult = null;
+		if(parameter.equals("draft") || parameter.equals("temp")) { //기안 문서함, 임시 저장함
+			doc.setDoc_status(doc_status);
+			doc.setMember_num(member_num);			
+			
+			totalCount = service.getListCount(doc); //전체 게시글 개수
+			api = AppPaging.getAppPageInfo(currentPage, totalCount); //현재 페이지, 전체 게시글 개수
+			
+			appDocList = service.saveDocFormList(doc, api);
+			
+			System.out.println(">>>>>>>>>> 기안 문서함, 임시 저장함 : " + appDocList);
+			System.out.println(">>>>>>>>>> api : " + api);
+			
+			if(parameter.equals("draft")) {
+				returnResult = "app_draftList";
+			} else if(parameter.equals("temp")){
+				returnResult = "app_tempList";
+			}
+			
+		} else if(parameter.equals("app")) { //결재문서함
+			doc.setDoc_status(doc_status);
+			doc.setMember_num(member_num); //결재라인에 올라온 사람에게 결재 순번(대기)에 맞게 결재문이 올라옴 => 결재자 사원번호로 조회	
+			
+			totalCount = service.getListCountApp(doc); //전체 게시글 개수
+			api = AppPaging.getAppPageInfo(currentPage, totalCount); //현재 페이지, 전체 게시글 개수
+			
+			appDocList = service.selectListAppDoc(doc, api);
+			
+			System.out.println(">>>>>>>>>> 결재 대기함 : appDocList " + appDocList);
+			System.out.println(">>>>>>>>>> api : " + api);
+			
+			returnResult = "app_appList";			
+		}
 		
 		session.setAttribute("appDocList", appDocList); //기안한 문서
+		session.setAttribute("api", api);
+		session.setAttribute("pageStatus", doc_status); //페이징 처리시 필요한 문서 상태
 		
-		return "app_draftList";
+		return returnResult;
+	}
+	
+	@RequestMapping(value="/searchConditionList")
+	public String searchCondicionList( HttpSession session, 
+										AppDocumentDTO doc, AppSearchConditionDTO search,
+										@RequestParam(value="parameter", required = false) String parameter,
+										@RequestParam(value="page", required = false) Integer page ) {	
+		if(parameter.equals("temp")) {
+			search.setType("임시");
+		} else if(parameter.equals("draft")) {
+			search.setType("기안");
+		}
+		
+		int member_num = (int)((MemberDTO)session.getAttribute("login")).getMember_num(); 
+		search.setMember_num(member_num);
+		
+		System.out.println(" >>>> searchsearch : " + search);
+				
+		int currentPage = (page != null) ? page : 1; //page가 존재: page, page 존재 않을 때: 1페이지
+		int totalCount = 0;
+		AppPageInfoDTO api = null; //페이징 정보
+		List<AppDocumentDTO> searchDoc = null; //문서 리스트
+		String returnResult = null; //
+		
+		if(parameter.equals("draft") || parameter.equals("temp")) { //기안 문서함
+			System.out.println("parameter : " + parameter);
+			
+			totalCount = service.searchDraftCount(search);
+			System.out.println("totalCount : " + totalCount);
+			api = AppPaging.getAppPageInfo(currentPage, totalCount); //현재 페이지, 전체 게시글 개수
+			System.out.println("api : " + api);
+			searchDoc = service.allSearchDraft(search, api);
+			
+			System.out.println("searchDoc : " + searchDoc);
+			if(parameter.equals("draft")) {
+				returnResult = "app_draftList";
+			} 
+			else if(parameter.equals("temp")) {
+				returnResult = "app_tempList";
+			}
+		} 
+		else if(parameter.equals("app")) { //결재 문서함
+			totalCount = service.searchAppCount(search);
+			System.out.println("totalCount : " + totalCount);
+			api = AppPaging.getAppPageInfo(currentPage, totalCount); //현재 페이지, 전체 게시글 개수
+			System.out.println("api : " + api);
+			searchDoc = service.allSearchApp(search, api);
+			System.out.println("search : " + searchDoc);
+			
+			returnResult = "app_appList";
+		}
+			
+		session.setAttribute("appDocList", searchDoc);
+		session.setAttribute("search", search);
+		session.setAttribute("api", api);
+		
+		return returnResult;
 	}
 
-	//결재요청, 반려문서 재상신 : 기안 문서를 올리면, 문서 저장
-	@RequestMapping(value ="/SaveDocForm")
-	public String SaveDocForm( AppDocumentMapDTO doc, AppFileDTO file, ApprovalMapDTO app,
-							   AppReferDTO ref, HttpSession session,
+	//결재요청, 임시저장, 반려문서 재상신(결재요청) : 결재 시, 문서 저장
+	@RequestMapping(value ="/SaveDocForm", method= RequestMethod.POST)
+	public String SaveDocForm( AppDocumentDTO doc, AppFileDTO file, ApprovalDTO app,
+							   AppReferDTO ref, HttpSession session, 
 							   @RequestParam(value="type", required = false) String type,
-							   @RequestParam(value="refMemNum") String refMemNum,  
-							   @RequestParam(value="appMemNum") String appMemNum) {
+							   @RequestParam(value="parameter", required = false) String parameter,
+							   @RequestParam(value="refMemNum", required = false) String refMemNum,  
+							   @RequestParam(value="appMemNum", required = false) String appMemNum,
+							   @RequestParam(value="upload", required=false) MultipartFile upload,
+							   HttpServletRequest request) {
 		System.out.println(">>>>>>>>> SaveDocForm : " + doc);
 		System.out.println("저장한 파일 확인: " + file);
+		System.out.println("refMemNum: " + refMemNum);
+		System.out.println("appMemNum: " + appMemNum);
+		System.out.println("type: " + type);
+		System.out.println("parameter: " + parameter);
 		
-//		if(type.equals("Doc") || type.equals("RejDoc")) { //기안 문서/반려 문서 결재 요청
-//			doc.setForm_name(doc.getForm_name());
-//		}
+		
+		if(parameter.equals("Doc") || parameter.equals("Temporary")) { // 기안 문서 결재 요청/임시 저장
+			doc.setForm_no(doc.getForm_no()); //문서 양식 번호
+		}
+		if(parameter.equals("Doc") || parameter.equals("rejDoc") || parameter.equals("tempRedraft")) { 
+			doc.setDoc_status("대기"); //기안 문서, 반려 문서, 임시저장 문서: 결재 요청
+		} else if(parameter.equals("Temporary") || parameter.equals("RejTemp") || parameter.equals("tempTemp") ) { 
+			doc.setDoc_status("임시"); //임시 저장, 임시저장함의 임시저장, 반려 문서 임시 저장
+		} 
+
 		//기안 문서 저장
         int docResult = service.saveDocForm(doc);
+        System.out.println("docResult : " + docResult);
         
         //파일 첨부 
         int fileResult = 0;
-        if( file.getFile_path() != null ) {
-        	fileResult = fService.saveDocFile(file);
-        }
+		
+        if(upload != null && !upload.getOriginalFilename().equals("")) {
+			// input type이 file인 경우 Object(객체)에 담게 되므로 String인 NoticeFilePath에 저장하기 위한 작업
+			// input 태그의 name 값을 Notice의 noticeFilePath로 하면 안됨(MultipartFile은 String이 아니기 때문)
+			HashMap<String, String> fileMap = saveFile(upload, request); // 업로드한 파일
+			
+			String filePath = fileMap.get("filePath");
+			String fileRename = fileMap.get("fileName");
+			if(filePath != null && !filePath.equals("")) {
+				file.setFile_name(upload.getOriginalFilename());
+				file.setFile_rename(fileRename);
+				file.setFile_path(filePath);
+				fileResult = fService.registerFile(file);
+			}
+		} else {
+			fileResult = 1;
+		}
+        System.out.println("files 추가 : " + file);
         
         //결재자 등록
         int appResult = 0;
 		String [] appArray = appMemNum.split(",");
 
-
-		for(int i = 0; i < appArray.length; i++) {
-			app.setMember_num( Integer.parseInt(appArray[i]) ); //결재자 사원번호
-			app.setApp_level(i+1); //결재자 순번: 1번부터 순서대로
-			
-			if(i == 0) { //첫번째 결재자인 경우
-				app.setApp_status("대기");; //첫 번째 결재자는 대기
-			} else {
-				app.setApp_status("예정"); //두 번째 결재자부터 결재 예정
+		if( !appMemNum.isEmpty() || parameter.equals("Temporary") || parameter.equals("Doc") ) { 
+			//!appMemNum.isEmpty(): appMemNum가 비어있지 않은 경우 == 결재자 새로 선택한 경우
+			for(int i = 0; i < appArray.length; i++) {
+				System.out.println("!appMemNum.isEmpty()");
+				app.setMember_num(Integer.parseInt(appArray[i])); //결재자 사원번호
+				app.setDoc_no(0); //새로 만들어진 문서 번호에 문서를 저장
+				System.out.println("결재자 사원 번호 : " + app.getMember_num());
+				app.setApp_level(i+1); //결재자 순번: 1번부터 순서대로
+				if(!parameter.equals("Temporary")) {
+					if(i == 0) { //첫번째 결재자인 경우
+						app.setApp_status("대기");; //첫 번째 결재자는 대기
+					} else {
+						app.setApp_status("예정"); //두 번째 결재자부터 결재 예정
+					}	
+				} else if(parameter.equals("Temporary")) {
+					app.setApp_status("임시");
+				}
+				appResult = appService.registerAppMem(app); //결재자 등록
+				System.out.println("appResult :  " + appResult);
 			}
-
-			appResult = appService.registerAppMem(app); //결재자 등록
+			System.out.println("app : " + app);
+		} else if ( appMemNum.isEmpty() || parameter.equals("tempRedraft") || parameter.equals("tempTemp")) { 
+			//appMemNum.isEmpty(): appMemNum 비어있는 경우 == 반려 문서 재상신인데 결재자 재선택하지 않은 경우(결재자 그대로)			
+			List<ApprovalDTO> appList = appService.searchAppMem(doc.getDoc_no()); //결재자 정보 조회
+			System.out.println("appMemNum.isEmpty()");
+			if( !appList.isEmpty() ) { //결재자 존재
+				for(int i = 0; i < appList.size(); i++) {
+					app.setDoc_no(0); //문서번호가 0일 때, 새로 만들어진 문서 번호에 문서를 저장
+					app.setMember_num( appList.get(i).getMember_num() );
+					app.setApp_level(i+1);
+					
+					if(parameter.equals("RejTem") || parameter.equals("tempTemp")) {
+						app.setApp_status("임시");
+					}
+					else { //임시 저장이 아닌 경우
+						if(i == 0) {
+							app.setApp_status("대기"); //첫 번째 결재자는 대기
+						} else {
+							app.setApp_status("예정"); //두 번째 결재자부터는 예정
+						}
+					}
+					appResult = appService.registerAppMem(app); //결재자 등록
+				}
+			}
 		}
-//		} else { //반려 문서 재상신인데 결재자 선택하지 않은 경우
-//			List<Approval> aList = aService.printAllApp(appDoc.getDocNo());
-//			if(!aList.isEmpty()) {
-//				for(int i = 0; i < aList.size(); i++) {
-//					app.setDocNo(0);
-//					app.setMemNum(aList.get(i).getMemNum());
-//					app.setAppLevel(aList.get(i).getAppLevel());
-//					if(!parameter.equals("RejTem")) { // 임시 저장이 아니면
-//						if(i == 0) {
-//							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-//							alarmRegister(app.getMemNum(), appDoc.getMemNum(), 0, "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
-//						}else {
-//							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
-//						}
-//					}else if(parameter.equals("RejTem")) { // 임시 저장이면
-//						app.setAppStatus("임시");
-//					}
-//					aResult = aService.registerApp(app); // 결재자 등록
-//				}
-//			}
-//		}
-		
-		
-		
 		
 		//참조자 등록
 		int refResult = 0;
@@ -138,14 +314,50 @@ public class SaveDocFormController {
 		} else {
 			refResult = 1;
 		}
+        
 		
-		return "redirect: draftList"; // draftList 주소로 다시 가서(기안 문서함), 기안 문서가 뜨도록 해줌
+		String returnResult = null;
+		if(parameter.equals("Doc") || parameter.equals("rejDoc") || parameter.equals("tempRedraft")) {
+			returnResult = "draft";
+		} else if(parameter.equals("Temporary") || parameter.equals("tempTemp") || parameter.equals("RejTem")) {
+			returnResult = "temp";
+		}
+		
+		return "redirect: draftList?parameter=" + returnResult; //기안, 결재, 임시 결재함 문서
 	}
-		
 	
-	//상신취소 및 삭제
+	//파일 저장
+	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
+		String filePath = "";
+		HashMap<String, String> fileMap = new HashMap<String, String>();
+		
+		String root = request.getSession().getServletContext().getRealPath("resources"); // 파일 경로 설정
+		String savePath = root + "\\uploadFiles"; // 저장 폴더 선택
+		File folder = new File(savePath); //폴더 없으면 생성
+		if(!folder.exists()) folder.mkdir();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename(); //업로드한 파일명
+		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1); //파일 확장자명
+		//변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서 업로드 당시 시각을 파일의 이름으로 바꿔줌
+		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "." + extensionName;
+		filePath = folder + "\\" + renameFileName;
+		// 두 가지 값을 map에 저장하여 리턴하기
+		fileMap.put("file_path", filePath);
+		fileMap.put("file_name", renameFileName);
+		
+		try {
+			file.transferTo(new File(filePath)); // 파일 저장
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileMap; // 파일 경로 리턴
+	}
+	
+	
+	//상신취소 및 임시저장 삭제
 	@RequestMapping(value ="/draftDocCancel")
-	public String draftDocCancel(@RequestParam(value="doc_no", required = false) int doc_no,
+	public String draftDocCancel(@RequestParam(value="docNo", required = false) int doc_no,
 							     @RequestParam(value="type", required = false) String type,
 								 AppFileDTO file) {
         //기안된 문서 삭제
@@ -162,105 +374,16 @@ public class SaveDocFormController {
         
         //참조자 삭제
         int refResult = appService.draftRefMemCancel(doc_no);
-			
-		return "redirect: draftList"; // /draftList 주소로 다시 가서, 기안 문서가 뜨도록 해줌
-	}
-		
-		
-	//임시 저장: 임시 저장함에 추가하기
-	@RequestMapping(value="/saveTempDocForm")
-	public String saveTempList( AppDocumentDTO doc, AppFileDTO file, HttpSession session) {
-
-		//기안 문서 저장
-		doc.setDoc_status("임시");
-        int docResult = service.saveTempDocForm(doc);  
         
-        //파일 저장
-        int fileResult = 0;
-        if( file.getFile_path() != null) {
-        	System.out.println(">>>>>>>>> saveTempDocForm " + file);
-        	fileResult = fService.saveDocFile(file);
-        }
-        
-        System.out.println("임시 저장함 성공 ! " + fileResult);
-		
-		return "redirect: callTempList"; //임시 저장함 저장 후 => 임시 저장한 문서 리스트 출력
+		return "redirect: draftList?parameter=" + type; //type(draft, temp)
 	}
-	
-	//임시 저장함 전체 문서
-	@RequestMapping(value ="/callTempList")
-	public String callTempList( HttpSession session ) {
-		String doc_status = "임시";
-		List<AppDocumentDTO> tempList = service.callTempList(doc_status);
-		System.out.println(">>>>>>>>>> 임시 저장함 : " + tempList);
-		
-		session.setAttribute("tempList", tempList); //저장한 문서 list
-		
-		return "app_tempList";
-	}
-	
-	//임시기안 문서 상세 페이지
-	@RequestMapping(value ="/tempClickDocContent")
-	public String tempClickDocContent(  @RequestParam(value="docNo") int doc_no, 
-										@RequestParam(value="docStatus") String doc_status,
-										AppDocumentDTO doc, HttpSession session ) {
-		doc.setDoc_status(doc_status); //상태: 임시
-		doc.setDoc_no(doc_no);  //문서 번호
-				
-		AppDocumentDTO tempDocContent = service.tempDetailDocContent(doc);
-		System.out.println(">>>>>>>>> tempClickDocContent : " + tempDocContent);
-		
-		System.out.println("doc_no : " + doc_no);
-		AppFileDTO fileList = fService.fileContent(doc_no);
-		System.out.println("임시저장함 file 찾아옴 === : " + fileList);
-		
-		session.setAttribute("tempDocContent", tempDocContent); //저장한 문서 list
-		session.setAttribute("fileList", fileList); //저장한 file
-		
-		return "app_tempDocForm";
-	}
-	
-	
-	//임시저장함  결재 상신 : 문서 등록 및 임시저장함 문서 삭제
-	@RequestMapping(value ="/SaveDocFormAndDelete")
-	public String SaveDocFormAndDelete(AppDocumentMapDTO doc, AppFileDTO file, HttpSession session) {
-		System.out.println(">>>>>>>>> SaveDocFormAndDelete : " + doc);
-		System.out.println("파일 확인 : " + file);
-
-        //결재 문서 등록, 임시 문서 삭제
-	    int doc_no = doc.getDoc_no(); //문서 번호 가져오기
-	    int docResult = service.SaveDocFormAndDelete(doc, doc_no); //결재 문서 등록, 임시 문서 삭제
-	    
-        //파일 첨부
-	    int fileResult = 0;
-        if( file.getFile_path() != null ) {
-        	fileResult = fService.saveDocFile(file);
-        }
-
-		return "redirect: draftList"; // /draftList 주소로 다시 가서, 기안 문서가 뜨도록 해줌
-	}	
-	
-	//결재 대기함
-	@RequestMapping(value ="/appList")
-	public String appDocList(HttpSession session) {
-		MemberDTO memDto = (MemberDTO)session.getAttribute("login");
-		
-		//결재라인에 올라온 사람에게 결재 순번(대기)에 맞게 결재문이 올라옴 => 결재자 사원번호로 조회
-		List<AppDocumentMapDTO> appDocList = service.selectListAppDoc(memDto.getMember_num());
-		
-		System.out.println(">>>>>>>>>> 결재 대기함 : appDocList " + appDocList);
-		session.setAttribute("appDocList", appDocList); 
-		
-		return "app_appList";
-	}
-	
 		
 	//결재 승인/반려
 	@RequestMapping(value ="/approveAppStatus")
 	public String approveAppStatus( @RequestParam(value="docNo", required = false) int doc_no, 
 	 								@RequestParam(value="type", required = false) String type, 
 	 								@RequestParam(value = "rejReason", required = false) String rej_reason,
-	 								HttpSession session, ApprovalMapDTO app) {
+	 								HttpSession session, ApprovalDTO app) {
 
 		MemberDTO memDto = (MemberDTO)session.getAttribute("login");		
 		app.setMember_num(memDto.getMember_num()); //로그인 세션에서 결재자 사원번호
@@ -274,7 +397,7 @@ public class SaveDocFormController {
 		int docResult = 0;
 		
 		if(type.equals("app")) { //결재 승인
-			List<ApprovalMapDTO> appMemList = appService.selectAllWaitAppStatus(doc_no); //문서 번호에 해당하는 결재자 중에 예정이 있는지 확인
+			List<ApprovalDTO> appMemList = appService.selectAllWaitAppStatus(doc_no); //문서 번호에 해당하는 결재자 중에 예정이 있는지 확인
 			
 			if( !appMemList.isEmpty() ) { //결재 예정자 존재
 				appService.modifyNextAppMemStatus(appMemList.get(0).getApp_no()); //다음 결재자 상태 변경(예정 -> 대기)
@@ -318,17 +441,17 @@ public class SaveDocFormController {
 										 @RequestParam(value="docStatus") String doc_status,
 										 @RequestParam(value="type") String type,
 										 HttpSession session ) {
-		Date nowTime = new Date(); // 현재 날짜 가져오기
+		Date nowTime = new Date(); //현재 날짜 가져오기
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		AppDocumentMapDTO docDetail = service.detailDocContent(doc_no); //문서 내용 찾아오기
+		AppDocumentDTO docDetail = service.detailDocContent(doc_no); //문서 내용 찾아오기
 		System.out.println(">>>>>>>>>> 문서 상세보기 : docDetail : " + docDetail); 
 		
 		AppFileDTO fileList = fService.fileContent(doc_no); //파일 정보 찾아오기
 		System.out.println("파일 : " + fileList);
 		
-		List<ApprovalMapDTO> appMemList = appService.searchAppMem(doc_no); //결재자 정보 찾아오기
-		List<AppReferMapDTO> refMemList = refService.searchRefMem(doc_no); //참조자 정보 찾아오기
+		List<ApprovalDTO> appMemList = appService.searchAppMem(doc_no); //결재자 정보 찾아오기
+		List<AppReferDTO> refMemList = refService.searchRefMem(doc_no); //참조자 정보 찾아오기
 
 		System.out.println("결재자 : " + appMemList);
 		System.out.println("참조자 : " + refMemList);
@@ -346,7 +469,7 @@ public class SaveDocFormController {
 		String returnResult = "";
 		if(type.equals("draft") || type.equals("app")) { // 기안함/결재함
 			returnResult = "app_docDetail";
-		} else if(type.equals("tem") || type.equals("rej")){ //반려 후 재상신
+		} else if(type.equals("temp") || type.equals("rej")){ //반려 후 재상신
 			returnResult = "app_docRedraft";
 		}
 		

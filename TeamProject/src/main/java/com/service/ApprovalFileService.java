@@ -27,6 +27,19 @@ public class ApprovalFileService {
 		return num;
 	}
 
+	public int registerFile(AppFileDTO file) {
+		int result = dao.insertFile(file);
+		return result;
+	}
+
+//	public int saveFileInfo(MultipartFile[] files) {
+//		List<Map<String, Object>> fileList = fileUtils.parseFileInfo(null, files);
+//		
+//	    for(int i=0; i < fileList.size(); i++) {
+//	    	dao.insertFile(fileList.get(i));
+//	    }
+//	}
+
 
 	
 }

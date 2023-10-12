@@ -7,12 +7,12 @@
 <title>홈</title>
 
 <!-- link : css -->
+<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 <link rel="stylesheet" type="text/css" href="resources/css/homePage.css">
-
 </head>
 <body>
 	<!-- 고정 메인 메뉴바 -->
-	<jsp:include page="common/menu.jsp" flush="true" /><br>
-	<jsp:include page="member/homePage.jsp" flush="true"></jsp:include>
+	<jsp:include page="common/menu.jsp" flush="true" />
+	<jsp:include page="member/homePage.jsp" flush="true" />
 </body>
 </html>

@@ -1,55 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8">
-<title>결재자 선택</title>
 <link rel="stylesheet" href="resources/css/approverModal.css"> 
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script> <!-- 배열, 객체, 문자열 및 함수와 관련된 다양한 작업 -->
-</head>
 
-<body>
-	<!-- 결재자 및 참조자 선택 모달창 -->
-	<div class="app-t-modal" id="app-t-modal"> <!-- 전체 모달창 지정 -->
-		<div class="app-modal-content" title="close on click"> <!-- 모달 내용 부분 -->	
-				<div class="app-modal-header">
-						<span class="m-header-title" id="header"></span> <!-- 결재자 or 참조자 선택 -->
-				</div>
-				
-				<div class="app-modal-body">
-					<div class="a-m-search"> <!-- 선택 -->
-						<select class="m-s-select" id="s-condition" name="searchCondition" style="text-align:left; width:80px;">
-							<option value="all">전체</option> <!-- s-condition의 value -->
-							<option value="div_name">부서</option>
-							<option value="member_name">이름</option>
-						</select>
-						
-						<div class="a-m-input"> <!-- 검색창 -->
-							<input type="text" id="s-value" name="searchValue" class="m-select-text">
-							<button type="button" id="search-btn" class="m-i-search"> 검색 </button>
-						</div>
-					</div>
-						
-					<div class="a-m-list">
-						<table class="m-s-list-table" id="m-list-table"> <!-- 사원 전체 정보 뿌려주기 --> </table>
-					</div>
+<!-- 결재자 및 참조자 선택 모달창 -->
+<div class="app-t-modal" id="app-t-modal"> <!-- 전체 모달창 지정 -->
+	<div class="app-modal-content" title="close on click"> <!-- 모달 내용 부분 -->	
+			<div class="app-modal-header">
+					<span class="m-header-title" id="header"></span> <!-- 결재자 or 참조자 선택 -->
+			</div>
+			
+			<div class="app-modal-body">
+				<div class="a-m-search"> <!-- 선택 -->
+					<select class="m-s-select" id="s-condition" name="searchCondition" style="text-align:left; width:80px;">
+						<option value="all">전체</option> <!-- s-condition의 value -->
+						<option value="div_name">부서</option>
+						<option value="member_name">이름</option>
+					</select>
 					
-					<div class="s-m-select">
-						<strong class="m-s-text" id="s-text"> <!-- 결재자, 참조자 글씨 --> </strong><br>
-						<div class="s-list-div" id="s-list-div" >
-							<p id="s-list"> <!-- 결재자, 참조자 선택 뿌려질 화면 -->
-						</div>
+					<div class="a-m-input"> <!-- 검색창 -->
+						<input type="text" id="s-value" name="searchValue" class="m-select-text">
+						<button type="button" id="search-btn" class="m-i-search"> 검색 </button>
 					</div>
 				</div>
-				
-				<div class="app-modal-footer" id="m-footer"> &nbsp;
-					<button class="m-confirm-btn" id="m-confirm-btn">확인</button>
-					<button class="m-cancel-btn" id="m-cancel-btn">취소</button>
+					
+				<div class="a-m-list">
+					<table class="m-s-list-table" id="m-list-table"> <!-- 사원 전체 정보 뿌려주기 --> </table>
 				</div>
-		</div>
+				
+				<div class="s-m-select">
+					<strong class="m-s-text" id="s-text"> <!-- 결재자, 참조자 글씨 --> </strong><br>
+					<div class="s-list-div" id="s-list-div" >
+						<p id="s-list" style="margin-top: 7px;"> <!-- 결재자, 참조자 선택 뿌려질 화면 -->
+					</div>
+				</div>
+			</div>
+			
+			<div class="app-modal-footer" id="m-footer"> &nbsp;
+				<button class="m-confirm-btn" id="m-confirm-btn">확인</button>
+				<button class="m-cancel-btn" id="m-cancel-btn">취소</button>
+			</div>
 	</div>
-</body>
+</div>
+
 
 <script>
 	var varType; //결재자/참조자 구분 넣을 변수 선언
@@ -256,7 +250,3 @@
 		}
 	}
 </script>
-
-
-</body>
-</html>

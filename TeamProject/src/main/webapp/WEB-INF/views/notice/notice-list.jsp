@@ -2,79 +2,93 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-<title>Insert title here</title>
+<link rel="stylesheet" href="<spring:url value="/resources/css/menu.css"/>">
+<link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<title>공지사항</title>
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row">
-	    <div class="sidebar col-md-3 col-lg-2 p-0">
-      		<jsp:include page="/WEB-INF/views/common/sideBar.jsp" flush="true" /> <br> 
-      	</div>
-
-		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-			<h1 class="mt-3 mb-3">공지사항</h1>
-			<div class="d-flex justify-content-end mb-3 gap-2">
-				<form class="d-flex" role="search" method="get" action="">
+	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
+	<main class="mt6 w-100 center w-60-l">
+		<section class="mw8 center flex-auto">
+			<h1 class="f3">공지사항</h1>
+			<div id="search-bar" class="flex items-center justify-end">
+				<form class="flex" role="search" method="get" action="">
 					<select name="searchType">
 			        	<option value="writer" selected >작성자</option>
 			        	<option value="content">제목 + 내용</option>
 			        </select>
-			        <input name="searchKeyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-			        <button class="btn btn-outline-success" type="submit">Search</button>
+			        <input name="searchKeyword" class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="search" placeholder="Search" aria-label="Search">
+			        <button class="b ph3 pv2 button-reset ba b--black bg-transparent f6 dib" type="submit">검색 </button>
 		      	</form>
-				<a href="/notices/new">
-					<button type="button" class="btn btn-outline-primary">작성</button>
+		      	<spring:url var="newNoticeUrl" value="/notices/new"/>
+				<a href="${newNoticeUrl}" class="link-reset">
+					<button class="b ph3 pv2 button-reset ba b--green white bg-green f6 dib" type="submit">작성</button>
 				</a>
 			</div>
-		    <div class="table-responsive">
-			    <table class="table">
-			       <thead>
-			           <tr>
-			               <th scope="col">글번호</th>
-			               <th scope="col">제목</th>
-			               <th scope="col">작성자</th>
-			               <th scope="col">작성일</th>
-				           <th scope="col">조회수</th>
-			           </tr>
-			       </thead>
-			       <tbody>               
-		        	<c:forEach var="notice" items="${pageResponse.items}">
-			        	<tr>
-					        <th scope="row">
-					        	<a href="/notices/${notice.noticeNum}">${notice.noticeNum}</a>
-				        	</th>
-				        	<td>
-				        		<a href="/notices/${notice.noticeNum}">${notice.title}</a>
-				        	</td>
-				        	<td>${notice.memberName}</td>
-				        	<td><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></td>
-				    	    <td>${notice.views}</td>
-				        </tr>
-		        	</c:forEach>
-			       </tbody>
-			    </table>
-		    </div>
-			<div class="d-flex justify-content-center">
-		    	<nav aria-label="Page navigation example">
-				  <ul class="pagination">
+		</section>
+		<section class="mw8 center flex-auto justify-center">
+			<div class="pv4">
+				<div class="overflow-auto">
+					<table class="f5 w-100 mw8 center">
+						<thead>
+							<tr>
+								<th class="fw6 tl pv2 pr1 bg-white">글번호</th>
+								<th class="fw6 tl pv2 pr1 bg-white w-30">제목</th>
+								<th class="fw6 tc pv2 pr1 bg-white">작성자</th>
+								<th class="fw6 tc pv2 pr1 bg-white">작성일</th>
+								<th class="fw6 tc pv2 pr1 bg-white">조회수</th>
+							</tr>
+						</thead>
+						<tbody class="lh-copy">
+						<c:forEach var="notice" items="${pageResponse.items}">
+							<spring:url var="noticeDetailsUrl" value="/notices/${notice.noticeNum}"/>
+							<tr>
+								<th class="pv2 pr1 tl">
+									<a href="${noticeDetailsUrl}" class="link-reset black dim">${notice.noticeNum}</a>
+								</th>
+								<td class="pv2 pr1 tl">
+									<a href="${noticeDetailsUrl}" class="link-reset black dim">${notice.title}</a>
+								</td>
+								<td class="pv2 pr1 tc">${notice.memberName}</td>
+								<td class="pv2 pr1 tc"><fmt:formatDate value="${notice.createdAt}" pattern="MM/dd hh:mm"/></td>
+								<td class="pv2 pr1 tc">${notice.views}</td>
+							</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="mw8 center flex-auto justify-center">
+			<nav class="center">
+			 	<ul class="list flex items-center justify-center">
 				  	<c:choose>
 				  	<c:when test="${pageResponse.hasPrevious}">
-					    <li class="page-item">
-					      <a class="page-link" href="/notices?page=${pageResponse.start-1}&size=${pageResponse.size}" aria-label="Previous">
+				  		<spring:url var="previousPageUrl" value="/notices">
+				  			<spring:param name="page" value="${pageResponse.start-1}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+				  		</spring:url>
+					    <li class="ph2">
+					      <a class="link-reset black dim" href="${previousPageUrl}" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
 				    </c:when>
 				    <c:otherwise>
-				    	<li class="page-item disabled">
-					      <a class="page-link" href="#" aria-label="Previous">
+				    	<li class="ph2">
+					      <a class="link-reset black dim" href="#" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
 					      </a>
 					    </li>
@@ -83,13 +97,13 @@
 			    	<c:forEach begin="${pageResponse.start}" end="${pageResponse.end}" step="1" varStatus="status">
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
-					    <li class="page-item active">
-					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+					    <li class="ph2">
+					    	<a class="link-reset b green dim f4" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:when>
 					    <c:otherwise>
-   						<li class="page-item">
-					    	<a class="page-link" href="/notices?page=${status.current}&size=${pageResponse.size}">${status.current}</a>
+   						<li class="ph2">
+					    	<a class="link-reset black dim f5" href="${pageUrl}">${status.current}</a>
 				    	</li>
 					    </c:otherwise>
 				    </c:choose>					   
@@ -97,25 +111,33 @@
 				    
    				  	<c:choose>
 				  	<c:when test="${pageResponse.hasNext}">
-					    <li class="page-item">
-					      <a class="page-link" href="/notices?page=${pageResponse.end+1}&size=${pageResponse.size}" aria-label="Next">
+				  		<spring:url var="nextPageUrl" value="/notices">
+				  			<spring:param name="page" value="${pageResponse.end+1}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+				  		</spring:url>
+					    <li class="ph2">
+					      <a class="link-reset black dim" href="${nextPageUrl}" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>
 				    </c:when>
 				    <c:otherwise>
-					    <li class="page-item disabled">
-					      <a class="page-link" href="#" aria-label="Next">
+					    <li class="ph2">
+					      <a class="link-reset black dim" href="#" aria-label="Next">
 					        <span aria-hidden="true">&raquo;</span>
 					      </a>
 					    </li>
 				    </c:otherwise>
 			    	</c:choose>
 				  </ul>
-				</nav>
-		    </div>
-		</main>
-	</div>
-</div>
+			</nav>
+		</section>
+	</main>
 </body>
 </html>
