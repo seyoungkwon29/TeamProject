@@ -1,6 +1,7 @@
 package com.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class CommunityDTO {
 
@@ -12,6 +13,9 @@ public class CommunityDTO {
 	private Integer views;
 	private Date createdAt;
 
+	private List<UploadFileDTO> files;
+	private List<UploadFileDTO> images;
+	
 	public CommunityDTO() {
 	}
 
@@ -77,6 +81,22 @@ public class CommunityDTO {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public List<UploadFileDTO> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<UploadFileDTO> files) {
+		this.files = files;
+	}
+
+	public List<UploadFileDTO> getImages() {
+		return images;
+	}
+
+	public void setImages(List<UploadFileDTO> images) {
+		this.images = images;
 	}
 
 }

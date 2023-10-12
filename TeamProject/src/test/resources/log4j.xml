@@ -11,9 +11,10 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.controller.app">
+	<logger name="com.controller">
 		<level value="info" />
 	</logger>
+	
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
@@ -30,6 +31,10 @@
 
 	<logger name="org.springframework.web">
 		<level value="info" />
+	</logger>
+
+	<logger name="org.mybatis.spring">
+		<level value="debug" />
 	</logger>
 
 	<!-- Root Logger -->

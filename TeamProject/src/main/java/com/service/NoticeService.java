@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.dao.NoticeDAO;
-import com.dto.CommunityDTO;
 import com.dto.NoticeDTO;
+
 @Service
 public class NoticeService {
 	@Autowired

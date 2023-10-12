@@ -12,6 +12,7 @@ import com.dao.CommunityDAO;
 import com.dao.ReplyDAO;
 import com.dto.CommunityDTO;
 import com.dto.ReplyDTO;
+import com.dto.UploadFileDTO;
 
 @Service
 public class CommunityService {
@@ -24,10 +25,29 @@ public class CommunityService {
 
     public void save(CommunityDTO community) {
 		communityDao.insert(community);
+		
+		Long comNum = community.getComNum();
+		List<UploadFileDTO> files = community.getFiles();
+		for (UploadFileDTO file : files) {
+			communityDao.insertFile(comNum, file);
+		}
+		
+		List<UploadFileDTO> images = community.getImages();
+		for (UploadFileDTO image : images) {
+			communityDao.insertImage(comNum, image);
+		}
     }
 
     public CommunityDTO getCommunityByNum(Long comNum) {
-        return communityDao.getCommunityByNum(comNum);
+         CommunityDTO community = communityDao.getCommunityByNum(comNum);
+         
+         List<UploadFileDTO> files = communityDao.getFilesByComNum(comNum);
+         community.setFiles(files);
+         
+         List<UploadFileDTO> images = communityDao.getImagesByComNum(comNum);
+         community.setImages(images);
+         
+         return community;
     }
 
     public List<CommunityDTO> getCommunityList() {
@@ -65,8 +85,19 @@ public class CommunityService {
 		communityDao.increaseViews(comNum);
     }
 
-    public CommunityDTO getCommunityDetailsByNum(Long replyNum) {
-		return communityDao.getCommunityDetailsByNum(replyNum);
+    public CommunityDTO getCommunityDetailsByNum(Long comNum) {
+		CommunityDTO community = communityDao.getCommunityDetailsByNum(comNum);
+		
+		List<UploadFileDTO> files = communityDao.getFilesByComNum(comNum);
+		
+		List<UploadFileDTO> images = communityDao.getImagesByComNum(comNum);
+		
+		community.setFiles(files);
+		
+		community.setImages(images);
+		
+		return community;
+		
     }
 
     

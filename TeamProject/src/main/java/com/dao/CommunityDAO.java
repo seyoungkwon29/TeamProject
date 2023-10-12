@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.common.PageRequestDTO;
 import com.dto.CommunityDTO;
+import com.dto.UploadFileDTO;
 
 @Repository
 public class CommunityDAO {
@@ -81,5 +82,29 @@ public class CommunityDAO {
 	public Integer countContentLike(String content) {
 		content = "%" + content + "%";
 		return template.selectOne("CommunityMapper.countContentLike", content);
+	}
+
+	public void insertFile(Long comNum, UploadFileDTO file) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("comNum", comNum);
+		param.put("originalFilename", file.getOriginalFilename());
+		param.put("storeFilename", file.getStoreFilename());
+		template.insert("CommunityMapper.insertFile", param);
+	}
+
+	public void insertImage(Long comNum, UploadFileDTO image) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("comNum", comNum);
+		param.put("originalFilename", image.getOriginalFilename());
+		param.put("storeFilename", image.getStoreFilename());
+		template.insert("CommunityMapper.insertImage", param);
+	}
+	
+	public List<UploadFileDTO> getFilesByComNum(Long comNum) {
+		return template.selectList("CommunityMapper.getFilesByComNum", comNum);
+	}
+	
+	public List<UploadFileDTO> getImagesByComNum(Long comNum) {
+		return template.selectList("CommunityMapper.getImagesByComNum", comNum);
 	}
 }
