@@ -9,18 +9,20 @@ public class ChatContentDTO {
 	private String chat_content;
 	private int member_num;
 	private String chat_date;
+	private int chat_type;
 	public ChatContentDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ChatContentDTO(int chat_content_no, int chatroom_num, String chat_content, int member_num,
-			String chat_date) {
+	public ChatContentDTO(int chat_content_no, int chatroom_num, String chat_content, int member_num, String chat_date,
+			int chat_type) {
 		super();
 		this.chat_content_no = chat_content_no;
 		this.chatroom_num = chatroom_num;
 		this.chat_content = chat_content;
 		this.member_num = member_num;
 		this.chat_date = chat_date;
+		this.chat_type = chat_type;
 	}
 	public int getChat_content_no() {
 		return chat_content_no;
@@ -46,16 +48,23 @@ public class ChatContentDTO {
 	public void setMember_num(int member_num) {
 		this.member_num = member_num;
 	}
-	public String getCaht_date() {
+	public String getChat_date() {
 		return chat_date;
 	}
-	public void setCaht_date(String chat_date) {
+	public void setChat_date(String chat_date) {
 		this.chat_date = chat_date;
+	}
+	public int getChat_type() {
+		return chat_type;
+	}
+	public void setChat_type(int chat_type) {
+		this.chat_type = chat_type;
 	}
 	@Override
 	public String toString() {
 		return "ChatContentDTO [chat_content_no=" + chat_content_no + ", chatroom_num=" + chatroom_num
-				+ ", chat_content=" + chat_content + ", member_num=" + member_num + ", chat_date=" + chat_date + "]";
+				+ ", chat_content=" + chat_content + ", member_num=" + member_num + ", chat_date=" + chat_date
+				+ ", chat_type=" + chat_type + "]";
 	}
 	
 	

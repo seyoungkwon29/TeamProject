@@ -7,8 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dto.ChatContentDTO;
 import com.dto.ChatMemberDTO;
 import com.dto.ChatRoomDTO;
+import com.dto.ExtendedChatContentDTO;
 import com.dto.MemberDTO;
 @Repository("ChattingDAO")
 public class ChattingDAO {
@@ -47,5 +49,81 @@ public class ChattingDAO {
 		int num = session.selectOne("selectOnechatRoomNum");
 		return num;
 	}
-	
+
+	public List<ChatRoomDTO> chatList(int member_num) {
+		List<ChatRoomDTO> list = session.selectList("chatList", member_num);
+		return list;
+	}
+
+	public int registerChatContent(ChatContentDTO chatContent) {
+		int num = session.insert("registerChatContent", chatContent);
+		return num;
+	}
+
+	public ChatContentDTO printChatContent(int chatroom_num) {
+		ChatContentDTO contentDTO = session.selectOne("printChatContent", chatroom_num);
+		return contentDTO;
+	}
+
+
+	public int countMember(int chatroom_num) {
+		int num = session.selectOne("countMember",chatroom_num);
+		return num;	
+		}
+
+	public ChatRoomDTO searchRoom(int chatroom_num) {
+		ChatRoomDTO chatroom = session.selectOne("searchRoom",chatroom_num);
+		return chatroom;
+	}
+
+	public ChatContentDTO createdRoomContent(int chatroom_num) {
+		ChatContentDTO dto = session.selectOne("createdRoomContent",chatroom_num);
+		return dto;
+	}
+
+	public List<ExtendedChatContentDTO> myContentsList(int chatroom_num) {
+		List<ExtendedChatContentDTO> list = session.selectList("myContentsList", chatroom_num);
+		return list;
+	}
+
+	public List<ChatContentDTO> latestChatList(int member_num) {
+		List<ChatContentDTO> list = session.selectList("latestChatList", member_num);
+		return list;
+	}
+
+	public int updateTitle(Map<String, Object> map) {
+		int num = session.update("updateTitle",map);
+		return num;
+	}
+
+	public List<ChatMemberDTO> inviteMemberList(Map<String, Integer> map) {
+		List<ChatMemberDTO> list = session.selectList("inviteMemberList",map);
+		return list;
+	}
+
+	public int inviteMember(Map<String, Integer> map) {
+		int num = session.insert("inviteMember",map);
+		return num;
+	}
+
+	public int updateMemberStatus(Map<String, Integer> map) {
+		int num = session.update("updateMemberStatus",map);
+		return num;
+	}
+
+	public void deleteChatRoom(int chatroom_num) {
+		session.delete("deleteChatRoom",chatroom_num);
+	}
+
+	public ChatMemberDTO memberExceptStatus(Map<String, Integer> paramMap) {
+		ChatMemberDTO dto = session.selectOne("memberExceptStatus",paramMap);
+		return dto;
+	}
+
+	public ChatMemberDTO selectMember(Integer member_num) {
+		ChatMemberDTO dto = session.selectOne("selectMember",member_num);
+		return dto;
+	}
+
+
 }
