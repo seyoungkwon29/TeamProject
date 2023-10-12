@@ -445,7 +445,8 @@
 				</os>
 			</activation>
 			<properties>
-				<file.basedir>file:/C:/mail_upload</file.basedir>
+				<file.tempdir>file:/C:/mail_upload</file.tempdir>
+				<file.basedir>C:/mail_upload/</file.basedir>
 			</properties>
 		</profile>
 		<profile>
@@ -456,6 +457,7 @@
 				</os>
 			</activation>
 			<properties>
+				<file.tempdir>file:${basedir}/files/</file.tempdir>
 				<file.basedir>${basedir}/files/</file.basedir>
 			</properties>
 		</profile>
