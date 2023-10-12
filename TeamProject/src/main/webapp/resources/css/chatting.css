@@ -3,7 +3,7 @@
 .c-container{
     display: flex;
     gap : 100px;
-    margin-left: 250px;
+    margin-left: 200px;
     align-items: center; /* 수직 중앙 정렬 */
     height: 100vh; /* 화면 높이를 컨테이너 높이로 설정 */
     
@@ -21,21 +21,33 @@
     min-height : 500px;
     width: 400px;
     border: 1px solid gray;
-}
-
-.contentsList{
-    width: 400px;
-    height: 80px;
-    border-bottom: 1px solid gray;
-    display: flex;
-    justify-content: center; /* 가로 방향 가운데 정렬 */
-    align-items: center; /* 세로 방향 가운데 정렬 */
     overflow-y: scroll;
 }
 
-.head p{
+.contentsList{
+    height: 70px;
+    display: flex;
+    justify-content: center; /* 가로 방향 가운데 정렬 */
+    align-items: center; /* 세로 방향 가운데 정렬 */
+}
+.c-head{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: -6px;
+}
+
+.c-head img{
+	margin-left: 10px; 
+	cursor: pointer;
+}
+
+
+.c-head p{
     font-weight: bolder;
-    font-size: large;
+    font-size: larger;
+    margin-right: auto;
+    margin-left: 5px;
 }
 
 /* 채팅방 정렬 */
@@ -45,49 +57,44 @@
     width: 60%;
 }
 
+.center span:last-child{
+	width: 100%;        /* 또는 원하는 너비로 설정 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 1.2em;  /* 폰트 크기에 따라 조정할 수 있습니다 */
+    line-height: 1.2em; /* 이것도 폰트 크기에 따라 조정할 수 있습니다 */
+    font-size: small;
+    margin-top: 5px;
+}
+
 .right{
     display: flex;
     flex-direction: column;
     justify-content: flex-end; /* 내부 요소를 오른쪽으로 정렬 */
     text-align: right;
+    font-size: smaller;
+}
+
+.right span:last-child{
+    margin-top: 2px;
 }
 
 .chatImg{
-    margin: 5px;
-    width: 50px;
-}
-
-/* 버튼 */
-.chatbtn{
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 7px;
-    
-}
-#create, #exit{
-    padding: 7px 10px;
-    color: 222A35;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#create:hover, #exit:hover{
-    cursor: pointer;
-    background-color: rgba(196, 216, 245, 0.8);
-	border-color: #7f8c8d;
+	margin: 0 7px -4px -10px;
+	width: 40px;
 }
 
 /* 사용자 초대 */
-.head p{
+.head2 p{
 	text-align: center;
+	font-weight: bolder;
+    font-size: larger;
 }
 
 .invite{
     border: 1px solid #ccc;
-    border-radius: 6%;
+    border-radius: 1rem;
     width: 700px;
     display: none;
     flex-direction: column;
@@ -118,13 +125,13 @@
 
 .invite_center{
     display: flex;
-    flex-direction: row;
     gap: 40px;
+    align-self: center;
 }
 
 .invite_R{
     border: 1px solid #ccc;
-    border-radius: 10%;
+    border-radius: 1rem;
     min-width: 300px;
     max-height: 250px;
     display: flex;
@@ -190,9 +197,34 @@
 	padding: 10px 15px;
 }
 
+#addchat{
+	height: 30px;
+	width: 30px;
+}
 
+#chatout{
+	height: 30px;
+	width: 30px;
+}
 
+/* 세로 스크롤바 전체 스타일 */
+::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 폭 */
+    background-color: #F5F5F5;  /* 스크롤바의 배경색 */
+}
 
+/* 스크롤바의 핸들 (실제로 움직이는 부분) */
+::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;  /* 스크롤바 핸들의 색상 */
+    border-radius: 5px;  /* 스크롤바 핸들의 둥근 모서리 */
+}
 
+/* 호버 시 스크롤바의 핸들 스타일 */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;  /* 호버 시의 색상 */
+}
 
+.c-info p{
+	font-size: x-small;
+}
 

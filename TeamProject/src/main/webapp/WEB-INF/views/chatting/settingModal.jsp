@@ -2,19 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
-<title>채팅</title>
+<title>설정</title>
 <link rel="stylesheet" type="text/css" href="resources/css/chatting.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="resources/js/chatting.js"></script>
 <script src="resources/js/chattingRoom.js"></script>
-</head>
 <body>
 <div class="c-container">
 <div class="chatList">
-        <div class="c-head">
+        <div class="head">
             <p>채팅</p>
             <img src="resources/image/icon/test.png" id="addchat">
             <img src="resources/image/icon/logout.png" id="chatout">
@@ -82,5 +79,3 @@
     </div>
 </div>
 </div>
-</body>
-</html>

@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+.modal-container {
+    position: fixed;
+    right: 0px; 
+    top: 50%;
+    transform: translateY(-186%);
+    z-index: 1000;
+    display: none;
+}
+
+.modal-content {
+    width: fit-content;
+    margin: 15% auto;/* 화면 중앙에 위치 */
+    padding: 10px;
+    background: white;
+    border-radius: 7px;
+    border: 1px solid darkgray;
+}
+
+.modal-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.modal-text {
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.m-setting{
+	padding: 5px;
+	cursor: pointer;
+}
+
+.modal-text:hover{
+	font-weight: bold;
+}
+
+#titleModal{
+	display: none;	
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  /* 화면 중앙에 위치하도록 설정 */
+    z-index: 1000;  /* body의 after pseudo-element 보다 위에 위치하도록 z-index 설정 */
+    background-color: #fff;  /* 모달 배경색 설정 */
+    padding: 20px;
+    border: 1px solid darkgray;
+}
+
+#updateTitle{
+	height: 20px;
+	width: 200px;
+	padding: 5px;
+	border : none;
+	border-bottom: 1px solid black;
+}
+
+.t-modal-content{
+	height: 80px;
+    width: 250px;
+    margin: 15% auto;/* 화면 중앙에 위치 */
+    padding: 10px;
+    background: white;
+    display: flex;
+    flex-direction : column;
+    align-items: center;
+    justify-content: center;
+    gap : 25px;
+}
+
+.t-button{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.t-button button{
+	padding: 8px 20px;
+	background-color: transparent;
+	border: 1px solid #282c28;
+	cursor: pointer;
+}
+

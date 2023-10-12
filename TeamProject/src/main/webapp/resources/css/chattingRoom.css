@@ -1,0 +1,247 @@
+@charset "UTF-8";
+
+*{
+			margin:0;
+			padding:0;
+		}
+		.room-container{
+			height: 100%;
+            width: 100%;
+			margin: 0 auto;
+            border-color: 1px solid #21875A;
+            
+		}
+		.room-container h4{
+			text-align: left;
+			color: rgb(9, 27, 41);
+			margin-left: 5px;
+		}
+		.c-chatting{
+			background-color: white;
+			overflow : scroll;
+            min-height: 460px;
+            min-width: 330px;
+            height: 80%;
+            display: flex;
+    		flex-direction: column;
+    		overflow-x: auto;
+    		margin-bottom: 58px;
+		}
+		
+		#chatting{
+			display: flex;
+    		flex-direction: column;
+		}
+
+
+        #sendChatting{
+            cursor: pointer;
+            width: 100%;
+            min-height: 30px;
+            border-radius: 1rem;
+            margin-left: 8px;
+            border: 1px solid #073f26;
+        }
+
+        .inputTable{
+            width: 100%;
+        }
+        
+
+        #sendBtn{
+           padding: 8px 9px;
+		   background-color: #197f51;
+		   border-radius: 1rem;
+		   color: white;
+		   border: none;
+        }
+        
+        #yourMsg{
+        	position: sticky;
+    		bottom: 0;
+    		padding: 10px;
+    		background-color: black;
+    		position: fixed;
+    		width: 100%;
+        }
+        
+	.me {
+	    position: relative;
+	    color: black;
+	    text-align: left;
+	    display: flex;
+	    float: right;
+		margin-right: 5px;
+		align-self: flex-end;
+		margin-bottom: 5px;
+		}
+	
+	.others {
+	    padding: 5px 10px;
+	    position: relative;
+	    color: black;
+	    text-align: left;
+		display: flex;
+	    flex-direction: column;
+	    align-items: flex-start; /* 요소들을 왼쪽 정렬 */
+		margin-bottom: 5px;
+	}
+	
+	.time-r{
+		text-align: right;
+		font-size: x-small;
+		align-self: flex-end;
+    	padding: 5px;
+	}
+	
+	.time-l{
+		text-align: left;
+		font-size: x-small;
+		align-self: flex-end;
+    	padding: 5px;
+	}
+	
+	.my-msg{
+	    padding: 7px 15px;
+		border : 1px solid green;
+	    border-radius: 15px 15px 0 15px;
+	    word-wrap: break-word;
+	    max-width: 200px;
+	    margin-top : 5px;
+	}
+	
+	.other-msg{
+	    padding: 7px 15px;
+	    border : 1px solid gray;
+	    border-radius: 15px 15px 15px 0;
+	    word-wrap: break-word;
+	    max-width: 200px; /* 원하는 최대 너비 설정 */
+	}
+	
+	.otherName{
+		font-size: small;
+		padding: 5px
+	}
+	
+	.r-header{
+		display: flex; 
+		border-bottom: 3px solid #21875A;
+		padding: 8px;
+    	position: sticky;
+    	top: 0;
+    	background-color:white; 
+    	z-index: 10;
+    	justify-content: space-between;
+	}
+	
+	.h-top{
+		display: flex;
+		flex-direction: column;
+	}
+	.h-bottom{
+		display: flex;
+		position: relative;
+    	margin-bottom: -3px;
+	}
+	.h-bottom img{
+		height: 20px;	
+	}
+	
+	.h-right{
+	    display: flex;
+    	align-items: center;
+	}
+
+	#r-setting{
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+	}
+.h-bottom-bind{
+	display: inline-flex;
+	cursor: pointer;
+	position: relative;
+	margin-left: 5px;
+    background-color: #d7d7d7;
+    border-radius: 1rem;
+    padding: 0px 3px;
+    font-size: small;
+}	
+	
+.tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    border : 2px solid #21875A;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: small;
+    left: 63px;
+}
+
+.h-bottom-bind:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 세로 스크롤바 전체 스타일 */
+::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 폭 */
+    background-color: #F5F5F5;  /* 스크롤바의 배경색 */
+}
+
+/* 스크롤바의 핸들 (실제로 움직이는 부분) */
+::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;  /* 스크롤바 핸들의 색상 */
+    border-radius: 5px;  /* 스크롤바 핸들의 둥근 모서리 */
+}
+
+/* 호버 시 스크롤바의 핸들 스타일 */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;  /* 호버 시의 색상 */
+}
+
+.c-info{
+	font-size: small;
+	text-align: center;
+}
+.c-info p {
+	padding: 5px;
+}
+
+.chat-date{
+    align-items: center;
+    margin: 3px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-date img, .chat-date p{
+	text-align: center;
+	display: flex;
+}
+
+.chat-date-center{
+    text-align: center;
+    display: inline-flex;
+    background-color: #cacaca;
+    padding : 3px;
+    border-radius: 1rem;
+    font-size: small;
+    gap: 3px
+}
+
+
+.wrapper {
+    display: flex; /* .other-msg와 .time-l을 일렬로 나열 */
+    align-items: center; /* 중앙에 정렬 */
+}

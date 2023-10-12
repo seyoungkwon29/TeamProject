@@ -44,6 +44,7 @@
 				<value>com.dto.ChatRoomDTO</value>
                 <value>com.dto.ChatMemberDTO</value>
                 <value>com.dto.ChatContentDTO</value>
+                <value>com.dto.ExtendedChatContentDTO</value>
                 <value>com.dto.OrganizationDTO</value>
                 <value>com.dto.NoticeDTO</value>
                 <value>com.dto.CommunityDTO</value>

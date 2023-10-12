@@ -36,7 +36,6 @@
 button {
     padding: 10px 20px;
     background-color: transparent; /* 버튼 배경색 투명하게 설정 */
-	color: 222A35;
 	border: 2px solid rgba(33, 135, 90, 0.8); /* 테두리 회색으로 설정 */
     border-radius: 5px;
     cursor: pointer;
