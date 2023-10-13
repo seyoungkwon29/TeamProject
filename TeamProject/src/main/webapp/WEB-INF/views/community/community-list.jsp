@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -17,6 +16,7 @@
 		<section class="mw8 center flex-auto">
 			<h1 class="f3">자유게시판</h1>
 			<div id="search-bar" class="flex items-center justify-end">
+				<!-- 검색 -->
 				<form class="flex" role="search" method="get" action="">
 					<select name="searchType">
 			        	<option value="writer" selected >작성자</option>
@@ -55,7 +55,7 @@
 									<a href="${communityDetailsUrl}" class="link-reset black dim">${communityDetails.title}</a>
 								</td>
 								<td class="pv2 pr1 tc">${communityDetails.memberName}</td>
-								<td class="pv2 pr1 tc"><fmt:formatDate value="${communityDetails.createdAt}" pattern="MM/dd hh:mm"/></td>
+								<td class="pv2 pr1 tc"><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 MM월 dd일 hh:mm"/></td>
 								<td class="pv2 pr1 tc">${communityDetails.views}</td>
 							</tr>
 						</c:forEach>
@@ -95,6 +95,16 @@
 				    </c:otherwise>
 			    	</c:choose>
 			    	<c:forEach begin="${pageResponse.start}" end="${pageResponse.end}" step="1" varStatus="status">
+				    <spring:url var="pageUrl" value="/communities">
+				  			<spring:param name="page" value="${status.current}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+			  		</spring:url>
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="ph2">
