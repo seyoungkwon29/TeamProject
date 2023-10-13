@@ -15,6 +15,14 @@
 		<level value="info" />
 	</logger>
 	
+	<logger name="com.common.FileStore">
+		<level value="debug"/>
+	</logger>
+	
+	<logger name="com.controller.community.CommunityDownloadController">
+		<level value="debug"/>
+	</logger>
+	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
