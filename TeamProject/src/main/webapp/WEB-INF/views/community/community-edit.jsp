@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <title>자유게시판/글 수정</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
 					</div>
 					<div class="flex flex-column mb3">
 						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
-						<form:textarea path="content" cssClass="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="10"/>
+						<form:textarea id="summernote" path="content"/>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
@@ -41,5 +42,55 @@
 			</div>
 		</section>
 	</main>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	<script>
+	// JSP > HTML > JS 순으로 해석되고 실행된다.
+	const baseUrl = "${pageContext.request.contextPath}";
+	 $(document).ready(function() {
+	        $('#summernote').summernote({
+	        	height: 300,
+	        	lang: "ko-KR",
+	        	callbacks: {
+	        		onImageUpload: function(files) {
+	        			let clearFiles = {
+	        				count: 0,
+	        				increase : function () {
+	        					this.count++;
+	        					if (this.count === files.length) {
+	        						this.clear();
+	        					}
+	        				},
+	        				clear : function () {
+	        					$(".note-form-group.note-group-select-from-files")
+		        					.find("input.note-image-input")
+		        					.val("");
+	        				}
+	        			};
+	        			
+	        			for (file of files) {
+	        				uploadImageFile(file, this, clearFiles);
+	        			}	
+	        		},
+	        	}
+	        });
+   	 });
+	 function uploadImageFile(file, editor, clearFiles) {
+		 data = new FormData();
+		 data.append("image", file);
+		 $.ajax({
+			 data: data,
+			 type: "POST",
+			 url: baseUrl + "/communities/images",
+			 cache: false,
+			 contentType: false,
+			 processData: false,
+			 success: function(data) {
+				 console.log(data);
+				 $(editor).summernote('insertImage', data.url);
+				 clearFiles.increase();
+			 }
+		 });
+	 };
+    </script>
 </body>
 </html>
