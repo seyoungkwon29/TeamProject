@@ -99,11 +99,11 @@ public class CommunityController {
 		
 		for (UploadFileDTO file : savedFiles) {
 			String savedPath = fileStore.getFullPath(file.getStoreFilename());
-			log.debug("[{}][{}]", file.getOriginalFilename(),savedPath);
+			log.debug("File: [{}][{}]", file.getOriginalFilename(),savedPath);
 		}
 		for (UploadFileDTO image : savedImages) {
 			String savedPath = fileStore.getFullPath(image.getStoreFilename());
-			log.debug("[{}][{}]", image.getOriginalFilename(),savedPath);
+			log.debug("Image: [{}][{}]", image.getOriginalFilename(),savedPath);
 		}
 		
 		redirectAttributes.addAttribute("comNum",community.getComNum());
