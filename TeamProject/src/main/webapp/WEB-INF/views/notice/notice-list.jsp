@@ -55,7 +55,7 @@
 									<a href="${noticeDetailsUrl}" class="link-reset black dim">${notice.title}</a>
 								</td>
 								<td class="pv2 pr1 tc">${notice.memberName}</td>
-								<td class="pv2 pr1 tc"><fmt:formatDate value="${notice.createdAt}" pattern="MM/dd hh:mm"/></td>
+								<td class="pv2 pr1 tc"><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 MM월 dd일 hh:mm"/></td>
 								<td class="pv2 pr1 tc">${notice.views}</td>
 							</tr>
 						</c:forEach>
@@ -95,6 +95,16 @@
 				    </c:otherwise>
 			    	</c:choose>
 			    	<c:forEach begin="${pageResponse.start}" end="${pageResponse.end}" step="1" varStatus="status">
+				    <spring:url var="pageUrl" value="/notices">
+				  			<spring:param name="page" value="${status.current}"/>
+				  			<spring:param name="size" value="${pageResponse.size}"/>
+				  			<c:if test="${not empty param.searchType}">
+				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			</c:if>
+				  			<c:if test="${not empty param.searchKeyword}">
+				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
+				  			</c:if>
+			  		</spring:url>
 				    <c:choose>
 					    <c:when test="${pageResponse.page eq status.current}">
 					    <li class="ph2">
