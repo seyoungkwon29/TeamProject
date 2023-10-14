@@ -18,8 +18,9 @@
 			<li><a class="link" href="organization">조직도</a></li>
 			<li><span class="link"><a href="viewList">프로젝트 관리</a></span>
 				<div class="dropdown">
-				<a href="viewList">캘린더</a>			
-				<a href="">타임라인</a>			
+				<a href="api/project?t_key=${login.getT_key()}">TEST</a>
+				<a href="projects?t_key=${login.getT_key()}">캘린더</a>			
+				<a href="projects">타임라인</a>			
 				</div>
 			</li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>

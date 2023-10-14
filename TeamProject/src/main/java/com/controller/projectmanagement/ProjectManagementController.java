@@ -1,35 +1,43 @@
 package com.controller.projectmanagement;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.constant.LoginConstant;
 import com.dto.MemberDTO;
-import com.dto.ProjectManagementDTO;
-import com.service.ProjectManagementService;
+import com.dto.ProjectDTO;
+import com.service.ProjectService;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class ProjectManagementController {
-
 	@Autowired
-	ProjectManagementService pmService;
+	ProjectService service;
 	
-	// 사원번호를 통해 해당 사원이 참여한 프로젝트 넘버에 해당하는 리스트로 호출
-//	@GetMapping("/viewList")
-//	public List<ProjectManagementDTO> viewList(HttpSession session) {
-//		System.out.println("캘린더 호출");
-//		MemberDTO member = (MemberDTO) session.getAttribute("login");
-//		int member_num = member.getMember_num();
-//		return pmService.viewList(member_num);
-//	}
-	
-	@GetMapping("/viewList")
-	public String viewList() {
-		System.out.println("캘린더 호출");
-		return "projectManagement/projectManagement";
-	}
+	@GetMapping("/project")
+    public List<ProjectDTO> project(@RequestParam Map<String, String> parameters) {
+		List<ProjectDTO> list = null;
+		
+		String tKey = parameters.get("t_key");
+		if(!StringUtils.hasText(tKey) 
+				|| null == LoginConstant.memberMap.get(tKey) 
+				|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
+			// 팅겨내기 - 로그인 정보 없다.
+		}else {
+			MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
+			list  = service.getAllProject();
+		}
+		System.out.println(list);
+		
+		return list;
+    }
 }

@@ -33,6 +33,7 @@
                 <value>classpath:com/config/ReplyMapper.xml</value>
                 <value>classpath:com/config/MailMapper.xml</value>
                 <value>classpath:com/config/ProjectManagementMapper.xml</value>
+                <value>classpath:com/config/ProjectMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
@@ -59,6 +60,7 @@
                 <value>com.dto.AppSearchConditionDTO</value>
                 <value>com.dto.ProjectManagementDTO</value>
                 <value>com.dto.UploadFileDTO</value>
+                <value>com.dto.ProjectDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->
