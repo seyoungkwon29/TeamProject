@@ -3,13 +3,15 @@ package com.dto;
 public class UploadImageResponseDTO {
 	
 	private String responseCode;
+	private String originalFilename;
 	private String url;
 	
 	public UploadImageResponseDTO() {
 	}
 
-	public UploadImageResponseDTO(String responseCode, String url) {
+	public UploadImageResponseDTO(String responseCode, String originalFilename, String url) {
 		this.responseCode = responseCode;
+		this.originalFilename = originalFilename;
 		this.url = url;
 	}
 
@@ -19,6 +21,14 @@ public class UploadImageResponseDTO {
 
 	public void setResponseCode(String responseCode) {
 		this.responseCode = responseCode;
+	}
+
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
 	}
 
 	public String getUrl() {

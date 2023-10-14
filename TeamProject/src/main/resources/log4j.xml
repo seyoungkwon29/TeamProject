@@ -19,6 +19,10 @@
 		<level value="debug"/>
 	</logger>
 	
+	<logger name="com.controller.community.CommunityController">
+		<level value="debug"/>
+	</logger>
+	
 	<logger name="com.controller.community.CommunityDownloadController">
 		<level value="debug"/>
 	</logger>
