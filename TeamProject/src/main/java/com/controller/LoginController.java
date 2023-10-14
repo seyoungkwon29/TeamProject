@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.constant.LoginConstant;
 import com.dto.MemberDTO;
 import com.service.MemberService;
 
@@ -39,7 +41,9 @@ public class LoginController {
 		MemberDTO dto = service.login(map);
 		
 		if (dto != null) {
+			dto.setT_key(UUID.randomUUID().toString());
 			session.setAttribute("login", dto);
+			LoginConstant.memberMap.put(dto.getT_key(), dto);
 			return "homePage";
 		} else {
 			model.addAttribute("mesg", "아이디 또는 비밀번호가 잘못입력되었습니다.");
@@ -50,6 +54,7 @@ public class LoginController {
 	// 로그아웃
 	@RequestMapping("/loginCheck/logout")
 	public String logout(HttpSession session) {
+		LoginConstant.memberMap.remove(((MemberDTO)session.getAttribute("login")).getT_key());
 		session.invalidate(); // session 삭제
 		return "redirect:../";
 	}

@@ -30,7 +30,6 @@ import com.dto.ChatMemberDTO;
 import com.dto.ChatRoomDTO;
 import com.dto.ExtendedChatContentDTO;
 import com.dto.MemberDTO;
-import com.dto.SearchMemberDTO;
 import com.google.gson.Gson;
 import com.service.ChattingService;
 import com.service.MemberService;

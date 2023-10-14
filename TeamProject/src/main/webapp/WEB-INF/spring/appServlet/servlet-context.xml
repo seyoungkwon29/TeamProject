@@ -37,6 +37,7 @@
 			<mapping path="/loginCheck/**"/>
 			<mapping path="/notices/**"/>
 			<mapping path="/communities/**"/>
+			<exclude-mapping path="/api/**"/>
 			<beans:ref bean="loginCheckInterceptor"/>
 		</interceptor>
 	</interceptors>

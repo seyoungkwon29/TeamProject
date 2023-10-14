@@ -9,16 +9,20 @@
 <link rel="icon" href="/favicon.ico">
 <title>프로젝트 관리</title>
 
-<script defer="defer" src="resources/vue/js/chunk-vendors.11ee905a.js"></script>
-<script defer="defer" src="resources/vue/js/app.262e3f13.js"></script>
-<link href="resources/vue/css/app.7fe58c98.css" rel="stylesheet">
+<script defer="defer" src="resources/vue-calendar/js/chunk-vendors.11ee905a.js"></script>
+<script defer="defer" src="resources/vue-calendar/js/app.8d675c34.js"></script>
+<link href="resources/vue-calendar/css/app.a48133f8.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 
 </head>
 <body>
+	<input type="hidden" name="tKey" value="${login.t_key}"/>
 	<!-- 고정 메인 메뉴바 -->
 	<jsp:include page="../common/menu.jsp" flush="true" />
+	<br>
+	<br>
+	<br>
 	<div id="app"></div>
 </body>
 </html>

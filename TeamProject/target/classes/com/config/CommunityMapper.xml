@@ -11,6 +11,11 @@
 		<result property="views" column="com_views" />
 		<result property="createdAt" column="com_created_at" />
 	</resultMap>
+	
+	<resultMap id="UploadFileResultMap" type="UploadFileDTO">
+		<result property="originalFilename" column="original_filename"/>
+		<result property="storeFilename" column="store_filename"/>
+	</resultMap>
 
 	<insert id="insert" parameterType="CommunityDTO">
 		<selectKey keyProperty="comNum" resultType="Long" order="BEFORE">
@@ -196,4 +201,30 @@
 		on c.member_num = m.member_num
 		WHERE com_title LIKE #{content} or com_content LIKE #{content}
 	</select>
+	
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT INTO community_files
+			(com_num, original_filename, store_filename)
+		VALUES
+			(#{comNum}, #{originalFilename}, #{storeFilename})
+	</insert>
+	
+	<insert id="insertImage" parameterType="hashMap">
+		INSERT INTO community_images
+			(com_num, original_filename, store_filename)
+		VALUES
+			(#{comNum}, #{originalFilename}, #{storeFilename})
+	</insert>
+	
+	<select id="getFilesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
+		SELECT com_num, original_filename, store_filename
+		FROM community_files
+		WHERE com_num=#{comNum}
+	</select>
+	
+	<select id="getImagesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
+		SELECT com_num, original_filename, store_filename
+		FROM community_images
+		WHERE com_num=#{comNum}
+	</select> 
 </mapper>

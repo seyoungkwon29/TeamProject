@@ -19,6 +19,7 @@ public class MemberDTO {
 	private String gender;
 	private String photo;
 	private int annual_leave;
+	private String t_key;
 	
 	public MemberDTO() {
 		super();
@@ -26,7 +27,7 @@ public class MemberDTO {
 
 	public MemberDTO(int member_num, String member_name, String div_name, String rank, String address, String phone,
 			String mail, String hire_date, String retire_date, String ssn, String password, String gender, String photo,
-			int annual_leave) {
+			int annual_leave, String t_key) {
 		this.member_num = member_num;
 		this.member_name = member_name;
 		this.div_name = div_name;
@@ -41,6 +42,7 @@ public class MemberDTO {
 		this.gender = gender;
 		this.photo = photo;
 		this.annual_leave = annual_leave;
+		this.t_key = t_key;
 	}
 
 	public int getMember_num() {
@@ -153,6 +155,14 @@ public class MemberDTO {
 
 	public void setAnnual_leave(int annual_leave) {
 		this.annual_leave = annual_leave;
+	}
+	
+	public String getT_key() {
+		return t_key;
+	}
+
+	public void setT_key(String t_key) {
+		this.t_key = t_key;
 	}
 
 	@Override
