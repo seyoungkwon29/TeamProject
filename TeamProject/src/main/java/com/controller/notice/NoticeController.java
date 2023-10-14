@@ -1,5 +1,8 @@
 package com.controller.notice;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
+import com.common.SearchCondition;
+import com.common.SearchType;
 import com.service.NoticeService;
 import com.dto.MemberDTO;
 import com.dto.NoticeDTO;
@@ -25,12 +30,24 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
+	@ModelAttribute("searchTypes")
+	public List<SearchType> searchTypes() {
+		List<SearchType> searchTypes = new ArrayList<>();
+		searchTypes.add(new SearchType("writer","작성자"));
+		searchTypes.add(new SearchType("content", "제목 + 내용"));
+		return searchTypes;
+	}
+	
+	@ModelAttribute("searchCondition")
+	public SearchCondition searchCondition() {
+		return new SearchCondition();
+	}
+	
 	@GetMapping("/notices")
 	public String getNoticeList(
 			@RequestParam(required=false, defaultValue = "1") int page,
 			@RequestParam(required=false, defaultValue = "5") int size,
-			@RequestParam(required=false, defaultValue = "") String searchType,
-			@RequestParam(required=false, defaultValue = "") String searchKeyword,
+			@ModelAttribute("searchCondition") SearchCondition searchCondition,
 			Model model) {
 		
 		//페이지네이션 정보 생성
@@ -38,10 +55,10 @@ public class NoticeController {
 		PageRequestDTO pageRequest = new PageRequestDTO(page, size);
 		
 		PageResponseDTO<NoticeDTO> pageResponse;
-		if(searchType.equals("writer")) {
-			pageResponse = noticeService.getNoticeDetailsListByMemberName(pageRequest, searchKeyword);
-		} else if (searchType.equals("content")) {
-			pageResponse = noticeService.getNoticeDetailsListContentLike(pageRequest, searchKeyword);
+		if(searchCondition.getSearchType().equals("writer")) {
+			pageResponse = noticeService.getNoticeDetailsListByMemberName(pageRequest, searchCondition.getSearchKeyword());
+		} else if (searchCondition.getSearchType().equals("content")) {
+			pageResponse = noticeService.getNoticeDetailsListContentLike(pageRequest, searchCondition.getSearchKeyword());
 		}
 		else {
 			pageResponse = noticeService.getNoticeDetailsList(pageRequest);

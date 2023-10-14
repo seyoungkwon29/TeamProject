@@ -1,6 +1,8 @@
 package com.controller.community;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.common.FileStore;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
+import com.common.SearchCondition;
+import com.common.SearchType;
 import com.dto.CommunityDTO;
 import com.dto.MemberDTO;
 import com.dto.ReplyDTO;
@@ -43,20 +47,32 @@ public class CommunityController {
 	@Autowired
 	private ReplyService replyService;
 	
+	@ModelAttribute("searchTypes")
+	public List<SearchType> searchTypes() {
+		List<SearchType> searchTypes = new ArrayList<>();
+		searchTypes.add(new SearchType("writer","작성자"));
+		searchTypes.add(new SearchType("content", "제목 + 내용"));
+		return searchTypes;
+	}
+	
+	@ModelAttribute("searchCondition")
+	public SearchCondition searchCondition() {
+		return new SearchCondition();
+	}
+	
 	//자유게시판 리스트
 	@GetMapping("/communities")
 	public String getCommunityList(
 		@RequestParam(name="page", required=false, defaultValue="1") int page,
 		@RequestParam(name="size", required=false, defaultValue="5") int size,
-		@RequestParam(required=false, defaultValue = "") String searchType,
-		@RequestParam(required=false, defaultValue = "") String searchKeyword,
+		@ModelAttribute("searchCondition") SearchCondition searchCondition,
 		Model model) {
 		PageRequestDTO pageRequest = new PageRequestDTO(page, size);
 		PageResponseDTO<CommunityDTO> pageResponse;
-		if(searchType.equals("writer")) {
-			pageResponse = communityService.getCommunityDetailsListByMemberName(pageRequest, searchKeyword);
-		} else if (searchType.equals("content")) {
-			pageResponse = communityService.getCommunityDetailsListContentLike(pageRequest, searchKeyword);
+		if(searchCondition.getSearchType().equals("writer")) {
+			pageResponse = communityService.getCommunityDetailsListByMemberName(pageRequest, searchCondition.getSearchKeyword());
+		} else if (searchCondition.getSearchType().equals("content")) {
+			pageResponse = communityService.getCommunityDetailsListContentLike(pageRequest, searchCondition.getSearchKeyword());
 		}
 		else {
 			pageResponse = communityService.getCommunityDetailsList(pageRequest);
