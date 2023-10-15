@@ -1,6 +1,8 @@
 package com.controller.community;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriUtils;
 
 import com.common.FileStore;
 import com.common.PageRequestDTO;
@@ -129,12 +132,20 @@ public class CommunityController {
 	
 	//상세페이지
 	@GetMapping("/communities/{comNum}") 
-	public String getCommunityDetails(@PathVariable Long comNum, Model model) {
+	public String getCommunityDetails(@PathVariable Long comNum, Model model) throws UnsupportedEncodingException {
 
 		communityService.increaseViews(comNum);
 		
 		CommunityDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
 		List<ReplyDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
+		
+		List<UploadFileDTO> files = communityDetails.getFiles();
+		
+		for (UploadFileDTO file : files) {
+			String originalFilename = file.getOriginalFilename();
+			String encodedOriginalFilename = UriUtils.encode(originalFilename, StandardCharsets.UTF_8.toString());
+			file.setEncodedOriginalFilename(encodedOriginalFilename);
+		}
 		
 		model.addAttribute("communityDetails", communityDetails);
 		model.addAttribute("replyDetailsList", replyDetailsList);

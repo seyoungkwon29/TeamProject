@@ -6,6 +6,7 @@ public class UploadFileDTO {
 	private Long comNum;
 	private String originalFilename;
 	private String storeFilename;
+	private String encodedOriginalFilename;
 	
 	public UploadFileDTO() {}
 	
@@ -51,6 +52,14 @@ public class UploadFileDTO {
 
 	public void setStoreFilename(String storeFilename) {
 		this.storeFilename = storeFilename;
+	}
+
+	public String getEncodedOriginalFilename() {
+		return encodedOriginalFilename;
+	}
+
+	public void setEncodedOriginalFilename(String encodedOriginalFilename) {
+		this.encodedOriginalFilename = encodedOriginalFilename;
 	}
 	
 }

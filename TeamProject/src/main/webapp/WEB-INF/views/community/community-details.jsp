@@ -25,7 +25,7 @@
 				<p class="f5">첨부 파일</p>
 				<div class="flex flex-column">
 					<c:forEach var="file" items="${communityDetails.files}">
-					<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.originalFilename}"/>
+					<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.encodedOriginalFilename}"/>
 					<div>					
 						<a href="${fileUrl}">${file.originalFilename}</a>
 					</div>
