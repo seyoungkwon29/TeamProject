@@ -2,6 +2,8 @@ package com.dto;
 
 public class UploadFileDTO {
 	
+	private Long id;
+	private Long comNum;
 	private String originalFilename;
 	private String storeFilename;
 	
@@ -11,6 +13,28 @@ public class UploadFileDTO {
 
 		this.originalFilename = originalFilename;
 		this.storeFilename = storeFilename;
+	}
+	
+	public UploadFileDTO(Long comNum, String originalFilename, String storeFilename) {
+		this.comNum = comNum;
+		this.originalFilename = originalFilename;
+		this.storeFilename = storeFilename;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public Long getComNum() {
+		return comNum;
+	}
+
+	public void setComNum(Long comNum) {
+		this.comNum = comNum;
 	}
 
 	public String getOriginalFilename() {
