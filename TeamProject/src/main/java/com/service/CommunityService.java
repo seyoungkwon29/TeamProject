@@ -31,12 +31,14 @@ public class CommunityService {
 		Long comNum = community.getComNum();
 		List<UploadFileDTO> files = community.getFiles();
 		for (UploadFileDTO file : files) {
-			communityDao.insertFile(comNum, file);
+			file.setComNum(comNum);
+			communityDao.insertFile(file);
 		}
 		
 		List<UploadFileDTO> images = community.getImages();
 		for (UploadFileDTO image : images) {
-			communityDao.insertImage(comNum, image);
+			image.setComNum(comNum);
+			communityDao.insertImage(image);
 		}
     }
 
@@ -65,10 +67,16 @@ public class CommunityService {
         if (!community.getMemberNum().equals(memberNum)) {
             return;
         }
-        
         community.setTitle(updateParam.getTitle());
         community.setContent(updateParam.getContent());
-        
+		List<UploadFileDTO> files = updateParam.getFiles();
+        for (UploadFileDTO file : files) {
+        	if (file.getId() == null) {
+				file.setComNum(comNum);
+				communityDao.insertFile(file);
+        	}
+		}
+		
         communityDao.update(community);
     }
 

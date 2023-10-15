@@ -20,7 +20,7 @@
 			<h1 class="f3">자유게시판 글 수정</h1>
 			<div class="flex flex-auto items-center justify-start center">
 				<spring:url var="updateCommunityUrl" value="/communities/${communityForm.comNum}/edit"/>
-				<form:form action="${updateCommunityUrl}" method="post" modelAttribute="communityForm" cssClass="flex flex-column flex-auto">
+				<form:form action="${updateCommunityUrl}" method="post" enctype="multipart/form-data" modelAttribute="communityForm" cssClass="flex flex-column flex-auto">
 					<div class="flex flex-column mb3">
 						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
 						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
@@ -30,6 +30,16 @@
 						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
 						<form:textarea id="summernote" path="content"/>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
+					</div>
+					<div class="flex flex-column mb3">
+						<label for="files">첨부파일</label>
+						<input name="files" type="file" multiple>
+						<ul>
+						<c:forEach var="file" items="${communityForm.attachFiles}">
+						<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.originalFilename}"/>
+							<li><a href="${fileUrl}">${file.originalFilename}</a><li>
+						</c:forEach>
+						</ul>
 					</div>
 					<div class="flex flex-column mb3">
 						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>

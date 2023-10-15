@@ -20,17 +20,18 @@
 				<h2 class="f4">${communityDetails.title}</h2>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성자</small>${communityDetails.memberName}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
-				<p class="measure lh-copy">${communityDetails.content}</p>
-				<c:forEach var="file" items="${communityDetails.files}">
+				<div>${communityDetails.content}</div>
+				<c:if test="${not empty communityDetails.files}">
+				<p class="f5">첨부 파일</p>
+				<div class="flex flex-column">
+					<c:forEach var="file" items="${communityDetails.files}">
 					<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.originalFilename}"/>
-					<a href="${fileUrl}">${file.originalFilename}</a>
-				</c:forEach>
-				<c:forEach var="image" items="${communityDetails.images}">
-					<div>
-					<spring:url var="imageSrc" value="/communities/${comNum}/images/${image.originalFilename}"/>
-						<img src="${imageSrc}"/>
-					</div>	
-				</c:forEach>
+					<div>					
+						<a href="${fileUrl}">${file.originalFilename}</a>
+					</div>
+					</c:forEach>
+				</div>
+				</c:if>
 			</article>
 		</section>
 		

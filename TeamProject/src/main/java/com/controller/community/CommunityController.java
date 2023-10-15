@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.common.FileStore;
@@ -143,7 +144,7 @@ public class CommunityController {
 	
 	//수정폼 보여주기
 	@GetMapping("/communities/{comNum}/edit")
-	public String showUpdatCommunityForm(@ModelAttribute CommunityForm communityForm, @PathVariable Long comNum, HttpSession session, Model model) {
+	public String showUpdatCommunityForm(@ModelAttribute("communityForm") UpdateCommunityForm communityForm, @PathVariable Long comNum, HttpSession session, Model model) {
 		// TODO 게시글 작성자만 수정폼을 볼 수 있도록 변경 
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		
@@ -152,8 +153,8 @@ public class CommunityController {
 		communityForm.setComNum(comNum);
 		communityForm.setTitle(community.getTitle());
 		communityForm.setContent(community.getContent());
+		communityForm.setAttachFiles(community.getFiles());
 		model.addAttribute("communityForm", communityForm);
-
 		return "community/community-edit";
 	}
 	
@@ -161,20 +162,28 @@ public class CommunityController {
 	@PostMapping("/communities/{comNum}/edit")
 	public String updateCommunity(
 		@PathVariable Long comNum,
-		@Valid @ModelAttribute CommunityForm communityForm, BindingResult bindingResult,
-		HttpSession session) {
+		@ModelAttribute("communityForm") UpdateCommunityForm communityForm, BindingResult bindingResult,
+		HttpSession session) throws IOException {
 		
 		if (bindingResult.hasErrors()) {
 			return "community/community-edit";
 		}
-		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 
 		CommunityDTO updateDTO = new CommunityDTO();
 		updateDTO.setTitle(communityForm.getTitle());
 		updateDTO.setContent(communityForm.getContent());
-		
+		List<MultipartFile> newFiles = communityForm.getFiles();
+		log.debug("newFiles={}", newFiles.size());
+		if (!newFiles.isEmpty()) {
+			List<UploadFileDTO> storeFiles = fileStore.storeFiles(newFiles);
+			log.debug("storeFiles={}", storeFiles.size());
+			for (UploadFileDTO file : storeFiles) {
+				updateDTO.addFile(file);
+			}
+		}
+		log.debug("updateDTO.files={}", updateDTO.getFiles());
 		communityService.update(comNum, memberNum, updateDTO);
 		
 		return "redirect:/communities/{comNum}";
