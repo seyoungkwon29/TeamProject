@@ -18,6 +18,8 @@ public class UpdateCommunityForm {
 	private List<UploadFileDTO> attachFiles;
 	private List<MultipartFile> files;
 	
+	private List<Long> deleteFiles;
+	
 	public UpdateCommunityForm() {
 	}
 
@@ -69,4 +71,13 @@ public class UpdateCommunityForm {
 		this.files = files;
 	}
 
+	public List<Long> getDeleteFiles() {
+		return deleteFiles;
+	}
+
+	public void setDeleteFiles(List<Long> deleteFiles) {
+		this.deleteFiles = deleteFiles;
+	}
+
+	
 }

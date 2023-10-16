@@ -32,14 +32,17 @@
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
-						<label for="files">첨부파일</label>
-						<input name="files" type="file" multiple>
-						<ul>
+						<label for="files" class="mb1">첨부파일</label>
+						<div id="attach-files-list">
 						<c:forEach var="file" items="${communityForm.attachFiles}">
 						<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.originalFilename}"/>
-							<li><a href="${fileUrl}">${file.originalFilename}</a><li>
+							<div class="mb1" data-file-id="${file.id}">
+								<a href="${fileUrl}" class="link-reset black dim">${file.originalFilename}</a>
+								<button class="button-reset dib b--transparent bg-transparent dim">삭제</button>
+							</div>
 						</c:forEach>
-						</ul>
+						</div>
+						<input name="files" type="file" multiple>
 					</div>
 					<div class="flex flex-column mb3">
 						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>
@@ -83,6 +86,44 @@
 	        		},
 	        	}
 	        });
+	        
+	        let deleteFiles = [];
+	        function deleteFileHandler(event) {
+				if(event.target.tagName.toLowerCase() === 'button') {
+					let parentElem = event.target.parentElement;
+					let fileId = parentElem.dataset.fileId;
+					deleteFiles.push(fileId);
+					console.log(deleteFiles);
+					parentElem.remove();
+					event.preventDefault();
+				}
+		 	};
+	        $('#attach-files-list').on('click', deleteFileHandler)
+			
+	        $('#communityForm').on('submit', (event) => {
+        		 event.preventDefault();
+        		 let form = event.target;
+				 let formData = new FormData(event.target);
+				 let content = $("#summernote").summernote('code');
+				 formData.set("content", content);
+				 formData.append("deleteFiles", deleteFiles);
+				 $.ajax({
+					 type: form.method,
+					 url: form.action,
+					 data: formData,
+					 cache: false,
+					 contentType: false,
+					 processData: false,
+					 success: function(response) {
+						 console.log(response);
+						 window.location.replace(baseUrl+response.url);
+					 },
+					 error: function(error) {
+						 console.log(error);
+					 }
+				 })
+	        });
+						
    	 });
 	 function uploadImageFile(file, editor, clearFiles) {
 		 data = new FormData();
@@ -101,6 +142,7 @@
 			 }
 		 });
 	 };
+	 
     </script>
 </body>
 </html>

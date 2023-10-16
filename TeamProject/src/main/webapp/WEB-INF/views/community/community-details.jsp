@@ -22,12 +22,12 @@
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
 				<div>${communityDetails.content}</div>
 				<c:if test="${not empty communityDetails.files}">
-				<p class="f5">첨부 파일</p>
 				<div class="flex flex-column">
+					<p class="f5 mb1">첨부 파일</p>
 					<c:forEach var="file" items="${communityDetails.files}">
 					<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.encodedOriginalFilename}"/>
-					<div>					
-						<a href="${fileUrl}">${file.originalFilename}</a>
+					<div class="mb1">					
+						<a href="${fileUrl}" class="link-reset black dim">${file.originalFilename}</a>
 					</div>
 					</c:forEach>
 				</div>

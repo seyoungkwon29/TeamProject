@@ -89,6 +89,10 @@ public class CommunityDAO {
 		template.insert("CommunityMapper.insertFile", file);
 	}
 
+	public void deleteFile(Long fileId) {
+		template.delete("CommunityMapper.deleteFile", fileId);
+	}
+	
 	public void insertImage(UploadFileDTO image) {
 		template.insert("CommunityMapper.insertImage", image);
 	}

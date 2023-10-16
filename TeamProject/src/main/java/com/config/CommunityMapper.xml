@@ -214,6 +214,10 @@
 			(#{id}, #{comNum}, #{originalFilename}, #{storeFilename})
 	</insert>
 	
+	<delete id="deleteFile" parameterType="Long">
+		DELETE FROM community_files where id=#{fileId}
+	</delete>
+	
 	<insert id="insertImage" parameterType="hashMap">
 		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
 			SELECT COMMUNITY_IMAGES_SEQ.NEXTVAL FROM DUAL

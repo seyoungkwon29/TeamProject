@@ -13,9 +13,11 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -165,20 +167,22 @@ public class CommunityController {
 		communityForm.setTitle(community.getTitle());
 		communityForm.setContent(community.getContent());
 		communityForm.setAttachFiles(community.getFiles());
+		log.debug("attachFiles={}", communityForm.getAttachFiles().size());
 		model.addAttribute("communityForm", communityForm);
 		return "community/community-edit";
 	}
 	
 	//수정하기
 	@PostMapping("/communities/{comNum}/edit")
-	public String updateCommunity(
+	public ResponseEntity<Response> updateCommunity(
 		@PathVariable Long comNum,
 		@ModelAttribute("communityForm") UpdateCommunityForm communityForm, BindingResult bindingResult,
 		HttpSession session) throws IOException {
-		
 		if (bindingResult.hasErrors()) {
-			return "community/community-edit";
+			ErrorResponse error = new ErrorResponse("error","invalid request");
+			return ResponseEntity.badRequest().body(error);
 		}
+		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 
@@ -186,7 +190,6 @@ public class CommunityController {
 		updateDTO.setTitle(communityForm.getTitle());
 		updateDTO.setContent(communityForm.getContent());
 		List<MultipartFile> newFiles = communityForm.getFiles();
-		log.debug("newFiles={}", newFiles.size());
 		if (!newFiles.isEmpty()) {
 			List<UploadFileDTO> storeFiles = fileStore.storeFiles(newFiles);
 			log.debug("storeFiles={}", storeFiles.size());
@@ -195,9 +198,11 @@ public class CommunityController {
 			}
 		}
 		log.debug("updateDTO.files={}", updateDTO.getFiles());
-		communityService.update(comNum, memberNum, updateDTO);
+		communityService.update(comNum, memberNum, updateDTO, communityForm.getDeleteFiles());
 		
-		return "redirect:/communities/{comNum}";
+		UpdateCommunityResponse body = new UpdateCommunityResponse("success", "/communities/" + comNum);
+		
+		return ResponseEntity.ok(body);
 	}
 	
 	//삭제하기

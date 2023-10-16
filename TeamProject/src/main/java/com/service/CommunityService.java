@@ -61,7 +61,7 @@ public class CommunityService {
     }
 
 	@Transactional(rollbackFor=Exception.class)
-    public void update(Long comNum, Long memberNum, CommunityDTO updateParam) {
+    public void update(Long comNum, Long memberNum, CommunityDTO updateParam, List<Long> deleteFileIds) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
         if (!community.getMemberNum().equals(memberNum)) {
@@ -69,6 +69,8 @@ public class CommunityService {
         }
         community.setTitle(updateParam.getTitle());
         community.setContent(updateParam.getContent());
+        communityDao.update(community);
+        
 		List<UploadFileDTO> files = updateParam.getFiles();
         for (UploadFileDTO file : files) {
         	if (file.getId() == null) {
@@ -77,7 +79,9 @@ public class CommunityService {
         	}
 		}
 		
-        communityDao.update(community);
+        for (Long fileId : deleteFileIds) {
+        	communityDao.deleteFile(fileId);	
+        }
     }
 
 	@Transactional(rollbackFor=Exception.class)
