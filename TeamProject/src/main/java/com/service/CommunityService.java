@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
@@ -23,6 +24,7 @@ public class CommunityService {
 	@Autowired
     private ReplyDAO replyDao;
 
+	@Transactional(rollbackFor=Exception.class)
     public void save(CommunityDTO community) {
 		communityDao.insert(community);
 		
@@ -38,6 +40,7 @@ public class CommunityService {
 		}
     }
 
+	@Transactional(readOnly=true)
     public CommunityDTO getCommunityByNum(Long comNum) {
          CommunityDTO community = communityDao.getCommunityByNum(comNum);
          
@@ -50,10 +53,12 @@ public class CommunityService {
          return community;
     }
 
+	@Transactional(readOnly=true)
     public List<CommunityDTO> getCommunityList() {
 		return communityDao.getCommunityList();
     }
 
+	@Transactional(rollbackFor=Exception.class)
     public void update(Long comNum, Long memberNum, CommunityDTO updateParam) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
@@ -67,6 +72,7 @@ public class CommunityService {
         communityDao.update(community);
     }
 
+	@Transactional(rollbackFor=Exception.class)
     public void delete(Long comNum, Long memberNum) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
@@ -81,10 +87,12 @@ public class CommunityService {
         communityDao.delete(comNum);
     }
     
+	
     public void increaseViews(Long comNum) {
 		communityDao.increaseViews(comNum);
     }
 
+    @Transactional(readOnly=true)
     public CommunityDTO getCommunityDetailsByNum(Long comNum) {
 		CommunityDTO community = communityDao.getCommunityDetailsByNum(comNum);
 		
@@ -100,7 +108,7 @@ public class CommunityService {
 		
     }
 
-    
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsList(PageRequestDTO page) {
 		int count = communityDao.count();
 		List<CommunityDTO> communityDetailsList = communityDao.getCommunityDetailsList(page);
@@ -111,6 +119,7 @@ public class CommunityService {
 		return new PageResponseDTO<CommunityDTO>(page, Collections.emptyList(), 0);
     }
     
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsListByMemberName(PageRequestDTO page, String memberName) {
 
   		int count = communityDao.countByMemberName(memberName);
@@ -121,6 +130,7 @@ public class CommunityService {
 
     }
     
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsListContentLike(PageRequestDTO page, String content) {
 
   		int count = communityDao.countContentLike(content);
