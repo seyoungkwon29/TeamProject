@@ -31,12 +31,14 @@ public class CommunityService {
 		Long comNum = community.getComNum();
 		List<UploadFileDTO> files = community.getFiles();
 		for (UploadFileDTO file : files) {
-			communityDao.insertFile(comNum, file);
+			file.setComNum(comNum);
+			communityDao.insertFile(file);
 		}
 		
 		List<UploadFileDTO> images = community.getImages();
 		for (UploadFileDTO image : images) {
-			communityDao.insertImage(comNum, image);
+			image.setComNum(comNum);
+			communityDao.insertImage(image);
 		}
     }
 
@@ -59,17 +61,27 @@ public class CommunityService {
     }
 
 	@Transactional(rollbackFor=Exception.class)
-    public void update(Long comNum, Long memberNum, CommunityDTO updateParam) {
+    public void update(Long comNum, Long memberNum, CommunityDTO updateParam, List<Long> deleteFileIds) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
         if (!community.getMemberNum().equals(memberNum)) {
             return;
         }
-        
         community.setTitle(updateParam.getTitle());
         community.setContent(updateParam.getContent());
-        
         communityDao.update(community);
+        
+		List<UploadFileDTO> files = updateParam.getFiles();
+        for (UploadFileDTO file : files) {
+        	if (file.getId() == null) {
+				file.setComNum(comNum);
+				communityDao.insertFile(file);
+        	}
+		}
+		
+        for (Long fileId : deleteFileIds) {
+        	communityDao.deleteFile(fileId);	
+        }
     }
 
 	@Transactional(rollbackFor=Exception.class)

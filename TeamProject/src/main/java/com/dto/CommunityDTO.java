@@ -1,5 +1,6 @@
 package com.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,6 +85,9 @@ public class CommunityDTO {
 	}
 
 	public List<UploadFileDTO> getFiles() {
+		if (this.files == null) {
+			this.files = new ArrayList<>();
+		}
 		return files;
 	}
 
@@ -98,5 +102,8 @@ public class CommunityDTO {
 	public void setImages(List<UploadFileDTO> images) {
 		this.images = images;
 	}
-
+	
+	public void addFile(UploadFileDTO file) {
+		getFiles().add(file);
+	}
 }

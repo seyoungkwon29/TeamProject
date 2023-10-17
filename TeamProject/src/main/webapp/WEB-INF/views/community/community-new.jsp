@@ -51,6 +51,8 @@
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 	<script>
+	// JSP > HTML > JS 순으로 해석되고 실행된다.
+	const baseUrl = "${pageContext.request.contextPath}";
 	 $(document).ready(function() {
 	        $('#summernote').summernote({
 	        	height: 300,
@@ -86,7 +88,7 @@
 		 $.ajax({
 			 data: data,
 			 type: "POST",
-			 url: "images",
+			 url: baseUrl + "/communities/images",
 			 cache: false,
 			 contentType: false,
 			 processData: false,

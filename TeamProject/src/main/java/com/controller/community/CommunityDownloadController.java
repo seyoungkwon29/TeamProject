@@ -73,6 +73,7 @@ public class CommunityDownloadController {
 	
 	@GetMapping("/communities/{comNum}/files/{filename:.+}")
 	public ResponseEntity<Resource> dowunloadFile(@PathVariable Long comNum, @PathVariable String filename) throws MalformedURLException, UnsupportedEncodingException {
+		filename = UriUtils.decode(filename, StandardCharsets.UTF_8.toString());
 		CommunityDTO community = communityService.getCommunityByNum(comNum);
 		
 		List<UploadFileDTO> files = community.getFiles();
