@@ -29,7 +29,7 @@
 
 .photochange_modal-content {
 	width: 600px;
-	height: 400px;
+	height: auto;
 	background: #fff;
 	border-radius: 10px;
 	position: fixed;
@@ -68,6 +68,15 @@
 }
 
 #change-btn {
+	padding: 7px 15px;
+	border: 1px solid #bfbfbf;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+#close-btn {
 	padding: 7px 15px;
 	border: 1px solid #bfbfbf;
     background: #fff;

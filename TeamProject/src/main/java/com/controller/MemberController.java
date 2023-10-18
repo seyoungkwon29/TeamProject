@@ -39,7 +39,7 @@ public class MemberController {
 	// 프로필업데이트 (휴대폰, 이메일)
 	@RequestMapping(value = "/loginCheck/update", method = RequestMethod.POST)
     public String updatemember(HttpSession session,
-    							@RequestParam("member_num") int member_num, 
+    							@RequestParam(value = "member_num", required = true) int member_num, 
     							@RequestParam("phone") String phone, 
     							@RequestParam("mail") String mail) {
 		MemberDTO dto = (MemberDTO) session.getAttribute("login");
