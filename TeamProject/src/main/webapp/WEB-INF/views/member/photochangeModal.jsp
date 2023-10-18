@@ -7,8 +7,12 @@
 
  
  <% MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
- 	int member_num = dto.getMember_num(); 
-  	String photo =dto.getPhoto();%>
+ 	int member_num = dto.getMember_num();
+  	String photo = dto.getPhoto();
+  	
+  	System.out.println(dto.toString()); 
+  	System.out.println(member_num); 
+  %>
  
   	function imageChange(thisObj) {
   		
@@ -41,7 +45,7 @@
   	    reader.readAsDataURL(files);
   	}
  </script>
-    
+
     
     
 <!-- photochangeModal.jsp -->
@@ -62,26 +66,9 @@
                 <input type="file" name="theFile" onchange="imageChange(this)">
                 <input type="hidden" name="member_num" id="membernum" value="<%=dto.getMember_num()%>">
                 <button type="submit" class="btn btn-primary" id="change-btn">사진변경</button>
-                <button type="button" class="close" data-dismiss="modal" id="change-btn">취소</button>
+                <button type="button" class="close" data-dismiss="modal" id="close-btn">취소</button>
              </form>
       
-<!-- 			
- <form action="photochange_form" method="post" enctype="multipart/form-data"> -->
-<!-- 			 <div class="div_container"> -->
-<!-- 			 	<div class="photochange_image"> -->
-<%-- 					<img src="resources/memberphoto/<%=dto.getMember_num()%>.png" --%>
-<!-- 						width="150" height="150"><br> -->
-<!-- 				</div>  -->
-<!-- 				<br> -->
-<!-- 					<div class="photochange_name"> -->
-<!-- 						파일명 : <input type="file" name="uploadImage"> -->
-<!-- 						현재파일명: <input type="hidden" name="member_num" id="membernum" -->
-<%-- 							value="<%=dto.getMember_num()%>"> --%>
-<!-- 						<input type="submit">사진변경 -->
-<!-- 						<button type="button" class="close" data-dismiss="modal">취소</button> -->
-<!-- 					</div> -->
-<!-- 				</div>	 -->
-<!-- 			 </form> -->
 	      </div>
       </div>
     </div>
