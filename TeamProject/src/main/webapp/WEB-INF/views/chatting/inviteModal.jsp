@@ -34,9 +34,8 @@
 					</div>
 					
 					<div class="s-m-select">
-						<strong class="m-s-text" id="s-text"> <!-- 결재자, 참조자 글씨 --> </strong><br>
 						<div class="s-list-div" id="s-list-div" >
-							<p id="s-list"> <!-- 결재자, 참조자 선택 뿌려질 화면 -->
+							<p id="s-list"> <!-- 결재자, 참조자 선택 뿌려질 화면 --></p>
 						</div>
 					</div>
 				</div>

@@ -1,274 +1,382 @@
+/* ë¬¸ì ì¸ì½ë© ì¤ì  */
 @charset "UTF-8";
 
+/* ë¬¸ì ì»¨íì´ë */
 .doc-container {
     margin: 0 60px;
     position: absolute;
     left: 300px;
-    padding-top: 100px;
+    padding-top: 120px;
 }
 
+.small-doc-contain {
+    border: 1px solid #8080805e;
+}
+
+/* ë¬¸ì ì ëª© ì¤íì¼ */
 .head-title {
-	margin: 30px 0;
-	text-align: center;
-	letter-spacing: 10px;
+    margin: 70px 0px 30px 0px;
+    text-align: center;
+    letter-spacing: 10px;
 }
 
+/* íì´ë¸ ì¤íì¼ */
 #table {
-	margin: 0 50px 30px 50px;
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-.tr-s {
-	height: 23px;
-}
-.tr-m {
-	height: 46px;
-}
-#table td {
-	border: 1px solid black;
-	font-size: 14.5px;
-}
-.td-1 { /* 왼쪽에서 첫 번째(문서번호, 기안일, 기안자...) */
-	text-align: center;
-	background-color: rgb(240, 240, 240);
-	width: 150px;
-	letter-spacing: 5px;
-	text-indent: 5px;
-}
-.td-2 { /* 왼쪽에서 두 번째 */
-	text-align: center;
-	width: 180px;
-}
-.td-3 { /* 결재 */
-	text-align: center;
-	letter-spacing: 15px;
-	width: 50px;
-}
-.td-4 { /* 담당, 부서 */
-	text-align: center;
-	width: 135px;
-	letter-spacing: 15px;
-	text-indent: 15px;
-}
-.td-5 { /* 이름 */
-	text-align: center;
-	letter-spacing: 5px;
-	text-indent: 5px;
-}
-.td-6 { /* 결재 상태, 결재 날짜 */
-	text-align: center; 
-	vertical-align: middle;
-}
-.s-refList{ /* 참조자 리스트 텍스트 */
-	display: inline-flex;
-	padding-left: 10px;
-	width: 730px;
-}
-.td-btn { /* 참조자 선택 버튼 영역 */
-	width: 40px;
-}
-.td-content {
-	text-align: center;
-	background-color: rgb(240, 240, 240);
-	letter-spacing: 50px;
-	text-indent: 50px;
+    margin: 0 50px 50px 50px;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 
-.btn-select-app, .btn-select-ref { /* 결재자, 참조자 선택 버튼 */
-	border: none;
-	background-color: rgb(230, 230, 230);
-	cursor: pointer;
+.tr-s {
+    height: 23px;
 }
-.btn-select-app { /* 결재자 선택 버튼 */
-	font-size: 15px;
-	padding: 10px 25px;
-	border-radius: 20px;
+
+.tr-m {
+    height: 46px;
 }
-.btn-select-ref { /* 참조자 선택 버튼 */
-	font-size: 30px;
-	padding: 0 7px;
-	border-radius: 4px;
+
+#table td {
+    border: 1px solid #0000004a;
+    font-size: 13px;
 }
-.i-title { /* 제목 입력 필드 */
-	height: 43px;
-	width: 775px;
-	border: none;
-	padding-left: 10px;
-	font-size: 14.5px;
+
+.td-1 { /* ì¼ìª½ìì ì²« ë²ì§¸ ì´(ë¬¸ìë²í¸, ê¸°ìì¼, ê¸°ìì...) */
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    width: 150px;
+    letter-spacing: 5px;
+    text-indent: 5px;
 }
-.div-span { /* 파일 첨부, 반려 사유 */
-	margin: 40px 50px 0 50px;
+
+.td-2 { /* ì¼ìª½ìì ë ë²ì§¸ ì´ */
+    text-align: center;
+    width: 180px;
 }
-.div-span span { /* 파일 첨부 텍스트, 파일 이름 */
-	display: inline-flex;
+
+.td-3 { /* ê²°ì¬ ì´ */
+    text-align: center;
+    letter-spacing: 15px;
+    width: 50px;
 }
-input[type="file"] { /* 파일 필드 숨기기 */
+
+.td-4 { /* ë´ë¹, ë¶ì ì´ */
+    text-align: center;
+    width: 135px;
+    letter-spacing: 15px;
+    text-indent: 15px;
+}
+
+.td-5 { /* ì´ë¦ ì´ */
+    text-align: center;
+    letter-spacing: 5px;
+    text-indent: 5px;
+}
+
+.td-6 { /* ê²°ì¬ ìí, ê²°ì¬ ë ì§ ì´ */
+    text-align: center;
+    vertical-align: middle;
+}
+
+.s-refList { /* ì°¸ì¡°ì ëª©ë¡ íì¤í¸ */
+    display: inline-flex;
+    padding-left: 10px;
+    width: 730px;
+}
+
+.td-btn { /* ì°¸ì¡°ì ì í ë²í¼ ìì­ */
+    width: 40px;
+}
+
+.td-content {
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    letter-spacing: 50px;
+    text-indent: 50px;
+}
+
+.file-a-tag {
+	text-decoration: none;
+    letter-spacing: 1px;
+    color: #497736ab;
+    font-weight: 600;
+    background: #e9e5e566;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 20px;
+    margin-left: -7px;
+}
+
+/* ë²í¼ ì¤íì¼ */
+.btn-select-app,
+.btn-select-ref { /* ê²°ì¬ì, ì°¸ì¡°ì ì í ë²í¼ */
+    border: none;
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.btn-select-app { /* ê²°ì¬ì ì í ë²í¼ */
+    font-size: 15px;
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+
+.btn-select-ref { /* ì°¸ì¡°ì ì í ë²í¼ */
+    font-size: 30px;
+    padding: 0 7px;
+    border-radius: 4px;
+}
+
+/* ì ëª© ìë ¥ íë ì¤íì¼ */
+.i-title {
+    height: 43px;
+    width: 775px;
+    border: none;
+    padding-left: 10px;
+    font-size: 14.5px;
+}
+.span-rej-bubble {
+    display: flex;
+    position: relative;
+    background: #d5e1e25e;
+    display: inline-block;
+    padding: 20px 40px 20px 15px;
+    max-height: 200px;
+    max-width: 500px;
+    margin: 0px 0px 40px 40px;
+    border-radius: 10px 20px 20px 20px;
+}
+
+.span-rej-bubble:after {
+    content: '';
     position: absolute;
-    width: 1px; height: 1px;
-    padding: 0; margin: -1px; 
+    left: 37px;
+    top: 76%;
+    width: 0;
+    height: 0;
+    border: 30px solid #d5e1e200;
+    border-right-color: #d5e1e25e;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -40px;
+    margin-left: -65px;
+}
+
+input[type="file"] { /* íì¼ íë ì¨ê¸°ê¸° */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
     overflow: hidden;
-    clip:rect(0,0,0,0); 
+    clip: rect(0, 0, 0, 0);
     border: 0;
 }
-label { /* 파일 선택 버튼 */
-	display: inline-flex;
-	font-size: 14.5px;
-	padding: 8px 14px;
-	border-radius: 4px;
-	background-color: rgb(230, 230, 230);
-}
-.file-name { /* 파일 이름 */
-	border: none;
-	font-size: 14.5px;
-	margin-left: 15px;
-}
-.file-del  { /* 선택한 파일 삭제 버튼 */
-	display: none;
-	border: none;
-	color: red;
-	background-color: transparent;
-	font-size: 16px;
-	margin: 0 10px;
-	cursor: pointer;
-}
-.file-del2 { /* 저장된 파일 삭제 버튼 */
-	border: none;
-	color: red;
-	background-color: transparent;
-	font-size: 16px;
-	margin: 0 10px;
-	cursor: pointer;
-}
-.div-btn, .div-btn2 { /* 버튼 영역 */
-	margin: 30px 50px 50px 50px;
-}
-.div-btn {
-	float: right;
-}
-.div-btn input:hover { /*버튼에 마우스를 올렸을 때 배경색 변경 */
+
+label { /* íì¼ ì í ë²í¼ */
+    display: inline-flex;
+    font-size: 14.5px;
+    padding: 8px 14px;
+    border-radius: 4px;
     background-color: rgb(230, 230, 230);
 }
-.div-btn input, .div-btn2 input:not(.i-left) {
-	width: 105px;
-	height: 60px;
-	background-color: white;
-	border: 1px solid rgb(200, 200, 200);
-	color : #3b3b3b;
-	border-radius: 10px;
-	font-size: 14px;
-	cursor: pointer;
-	margin-left: 15px;
-	font-weight: bold;
+
+.file-name { /* íì¼ ì´ë¦ */
+    border: none;
+    font-size: 14.5px;
+    margin-left: 15px;
 }
-.i-left { /* 왼쪽 정렬 결재 요청 */
-	width: 120px;
-	height: 50px;
-	background-color: white;
-	border: 1px solid rgb(51, 51, 51);
-	border-radius: 4px;
-	font-size: 14.5px;
-	cursor: pointer;
-	font-weight: bold;
+
+.file-del { /* ì íí íì¼ ì­ì  ë²í¼ */
+    display: none;
+    border: none;
+    color: red;
+    background-color: transparent;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
 }
+
+.file-del2 { /* ì ì¥ë íì¼ ì­ì  ë²í¼ */
+    border: none;
+    color: red;
+    background-color: transparent;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+/* ë²í¼ ìì­ ì¤íì¼ */
+.div-btn, .div-btn2 {
+    margin: 40px 0px 50px 50px;
+}
+
+.div-btn {
+    float: right;
+}
+
+.div-btn input:hover { /* ë²í¼ì ë§ì°ì¤ë¥¼ ì¬ë ¸ì ë ë°°ê²½ì ë³ê²½ */
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
+}
+
+.div-btn input, .div-btn2 input {
+    width: 105px;
+    height: 60px;
+    background-color: white;
+    border: 1px solid rgb(135 127 127 / 46%);
+    color: #3b3b3b;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.i-left { /* ì¼ìª½ ì ë ¬ ê²°ì¬ ìì²­ */
+    width: 120px;
+    height: 50px;
+    background-color: white;
+    border: 1px solid rgb(51, 51, 51);
+    border-radius: 4px;
+    font-size: 14.5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 .div-btn-right {
-	float: right;
+    float: right;
 }
-/* 휴가 신청서 */
-.leave-type { /* 휴가 종류 */
-	border: 1px solid rgb(200, 200, 200);
-	border-radius: 4px;
-	height: 37px;
-	width: 100px;
-	margin-left: 10px;
-	padding-left: 5px;
+
+/* í´ê° ì ì²­ì ì¤íì¼ */
+.leave-type { /* í´ê° ì¢ë¥ */
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 4px;
+    height: 37px;
+    width: 100px;
+    margin-left: 10px;
+    padding-left: 5px;
 }
-.leave-date { /* 휴가 기간 */
-	margin-left: 10px;
-	line-height: 35px;
+
+.leave-date { /* í´ê° ê¸°ê° */
+    margin-left: 10px;
+    line-height: 35px;
 }
-.leave-date input[type="date"]{ /* 휴가 시작일, 종료일 */
-	border: 1px solid rgb(200, 200, 200);
-	border-radius: 4px;
-	height: 35px;
-	width: 100px;
-	padding: 0 10px;
+
+.leave-date input[type="date"] { /* í´ê° ììì¼, ì¢ë£ì¼ */
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 4px;
+    height: 35px;
+    width: 100px;
+    padding: 0 10px;
 }
-.leave-time { /* 반차 시간 영역 */
-	margin-left: 5px;
-	vertical-align: middle;
-	height: 35px;
+
+.leave-time { /* ë°ì°¨ ìê° ìì­ */
+    margin-left: 5px;
+    vertical-align: middle;
+    height: 35px;
 }
-.leave-time input[type="radio"]{ /* 반차 시간 라디오 버튼 */
-	margin: 10px;
-	width: 17px;
-	height: 17px;
+
+.leave-time input[type="radio"] { /* ë°ì°¨ ìê° ë¼ëì¤ ë²í¼ */
+    margin: 10px;
+    width: 17px;
+    height: 17px;
 }
-.leave-day { /* 휴가 일수 */
-	height: 35px;
-	vertical-align: middle;
-	margin-left: 15px;
+
+.leave-day { /* í´ê° ì¼ì */
+    height: 35px;
+    vertical-align: middle;
+    margin-left: 15px;
 }
-#td-leave-day span{ /* 연차 일수 텍스트 */
-	margin-left: 15px;
+
+#td-leave-day span { /* ì°ì°¨ ì¼ì íì¤í¸ */
+    margin-left: 15px;
 }
-#td-leave-day input{ /* 연차 일수 값 */
-	width: 50px;
-	height: 35px;
-	border: none;
-	font-size: 14.5px;
+
+#td-leave-day input { /* ì°ì°¨ ì¼ì ê° */
+    width: 50px;
+    height: 35px;
+    border: none;
+    font-size: 14.5px;
 }
+
 #td-leave-reason {
-	height: 200px;
-	padding: 0;
+    height: 200px;
+    padding: 0;
 }
-#td-leave-reason textarea { /* 휴가 사유 */
-	padding: 15px;
-	border: none;
-	width: calc(100% - 30px);
-	height: calc(100% - 30px);
-	margin-top: 3px;
-	resize: none;
-	font-size: 14.5px;
-	font-family: inherit;
+
+#td-leave-reason textarea { /* í´ê° ì¬ì  */
+    padding: 15px;
+    border: none;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    margin-top: 3px;
+    resize: none;
+    font-size: 14.5px;
+    font-family: inherit;
 }
-/* 문서 상세 보기 */
-.td-content-val { /* 내용 값 기본 높이 */
-	height: 190px;
+
+/* ë¬¸ì ìì¸ ë³´ê¸° ì¤íì¼ */
+.td-content-val {
+    height: 300px;
+    padding: 20px;
+    line-height: 2.2;
 }
-.indent { /* 왼쪽 들여쓰기 */
-	text-indent: 15px;
+
+.indent { /* ì¼ìª½ ë¤ì¬ì°ê¸° */
+    text-indent: 15px;
 }
-.div-file { /* 첨부 파일, 반려 사유 영역 */
-	display: flex;
-	vertical-align: middle;
-	margin-bottom: 30px;
+
+/* ì²¨ë¶ íì¼ ë° ë°ë ¤ ì¬ì  ì¤íì¼ */
+.div-file { 
+    vertical-align: middle;
+    margin-bottom: 30px;
+    display: inline-flex;
 }
-    
-#file-icon { /* 첨부 파일 아이콘 */
-	transform: rotate(30deg);
-	color: rgb(51, 51, 51);
+
+#file-icon { /* ì²¨ë¶ íì¼ ìì´ì½ */
+    transform: rotate(30deg);
+    color: rgb(51, 51, 51);
 }
-.div-file span { /* 첨부 파일 아이콘, 텍스트 */
+
+.div-file span { /* ì²¨ë¶ íì¼ ìì´ì½, íì¤í¸ */
     margin-right: 10px;
     margin-left: 5px;
 }
-.div-file a { /* 첨부 파일 링크 */
-	text-decoration: none;
-	margin-left: 15px;
-	color: #109FDD;
-	font-weight: bold;
+
+.div-file a { /* ì²¨ë¶ íì¼ ë§í¬ */
+    text-decoration: none;
+    margin-left: 15px;
+    color: #427d25;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 .rej-icons {
-	margin-left: 5px;
+    margin-left: 5px;
 }
-.div-rej span {
+
+.div-rej {
+    display: inline-flex;
+    margin: 0px 50px 0px 50px;
+}
+
+.div-rej div {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
 }
+
 .div-rejName {
-	margin-left: 20px;
+	margin-left: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 13px;
+    color: #497736d4;
 }
-.div-rejReason { /* 반려 사유 내용 */
-	margin-left: 20px;
+
+.div-rejReason { /* ë°ë ¤ ì¬ì  ë´ì© */
+    margin-left: 20px;
+    font-size: 13px;
+    letter-spacing: 1px;
 }

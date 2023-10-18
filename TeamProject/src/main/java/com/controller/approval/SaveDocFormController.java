@@ -1,10 +1,14 @@
 package com.controller.approval;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,7 +50,7 @@ public class SaveDocFormController {
 	@Autowired
 	AppReferService refService;
 	
-	//문서기안 form 선택: 품의서, 휴가신청서 등
+	//문서 양식 선택: 품의서, 휴가신청서 등
 	@RequestMapping("/docFormName")
 	public String DocFormName( @RequestParam("form_name") String form_name, 
 								HttpSession session) {
@@ -57,7 +61,7 @@ public class SaveDocFormController {
 		return "app_docForm";
 	}
 	
-	//모달: 전체 멤버 정보 출력
+	//결재자, 참조자 모달창: 전체 멤버 정보 출력
 	@RequestMapping(value="/approverSelect", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ApprovalDTO> approverSelect(HttpSession session) {
@@ -68,7 +72,7 @@ public class SaveDocFormController {
 		return list; 
 	}
 	
-	//모달: 이름, 부서 등 조건 검색하기
+	//결재자, 참조자 모달창: 이름, 부서 등 조건 검색하기
 	@RequestMapping(value="/searchMember", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ApprovalDTO> searchMember(HttpSession session, AppSearchConditionDTO search) {
@@ -107,8 +111,7 @@ public class SaveDocFormController {
 			
 			appDocList = service.saveDocFormList(doc, api);
 			
-			System.out.println(">>>>>>>>>> 기안 문서함, 임시 저장함 : " + appDocList);
-			System.out.println(">>>>>>>>>> api : " + api);
+			System.out.println("============ 기안문서, 임시문서함 리스트 : " + appDocList);
 			
 			if(parameter.equals("draft")) {
 				returnResult = "app_draftList";
@@ -125,8 +128,7 @@ public class SaveDocFormController {
 			
 			appDocList = service.selectListAppDoc(doc, api);
 			
-			System.out.println(">>>>>>>>>> 결재 대기함 : appDocList " + appDocList);
-			System.out.println(">>>>>>>>>> api : " + api);
+			System.out.println("============ 결재 문서함 리스트 : " + appDocList);
 			
 			returnResult = "app_appList";			
 		}
@@ -138,6 +140,7 @@ public class SaveDocFormController {
 		return returnResult;
 	}
 	
+	//검색한 리스트 가져오기
 	@RequestMapping(value="/searchConditionList")
 	public String searchCondicionList( HttpSession session, 
 										AppDocumentDTO doc, AppSearchConditionDTO search,
@@ -197,20 +200,21 @@ public class SaveDocFormController {
 
 	//결재요청, 임시저장, 반려문서 재상신(결재요청) : 결재 시, 문서 저장
 	@RequestMapping(value ="/SaveDocForm", method= RequestMethod.POST)
-	public String SaveDocForm( AppDocumentDTO doc, AppFileDTO file, ApprovalDTO app,
+	public String SaveDocForm( AppDocumentDTO doc, ApprovalDTO app,
 							   AppReferDTO ref, HttpSession session, 
 							   @RequestParam(value="type", required = false) String type,
 							   @RequestParam(value="parameter", required = false) String parameter,
 							   @RequestParam(value="refMemNum", required = false) String refMemNum,  
 							   @RequestParam(value="appMemNum", required = false) String appMemNum,
-							   @RequestParam(value="upload", required=false) MultipartFile upload,
+							   @RequestParam(value="upload_file", required=false) MultipartFile multipartFile,
 							   HttpServletRequest request) {
-		System.out.println(">>>>>>>>> SaveDocForm : " + doc);
-		System.out.println("저장한 파일 확인: " + file);
+		System.out.println(" =========== 결재하기 =========== SaveDocForm : " + doc);
 		System.out.println("refMemNum: " + refMemNum);
 		System.out.println("appMemNum: " + appMemNum);
 		System.out.println("type: " + type);
 		System.out.println("parameter: " + parameter);
+		System.out.println("multipartFile: " + multipartFile);
+		System.out.println(" =========== 결재하기 =========== SaveDocForm");
 		
 		
 		if(parameter.equals("Doc") || parameter.equals("Temporary")) { // 기안 문서 결재 요청/임시 저장
@@ -224,28 +228,41 @@ public class SaveDocFormController {
 
 		//기안 문서 저장
         int docResult = service.saveDocForm(doc);
-        System.out.println("docResult : " + docResult);
+        System.out.println("문서 저장 완료 : " + docResult);
         
-        //파일 첨부 
+        ///////파일 첨부   
         int fileResult = 0;
-		
-        if(upload != null && !upload.getOriginalFilename().equals("")) {
-			// input type이 file인 경우 Object(객체)에 담게 되므로 String인 NoticeFilePath에 저장하기 위한 작업
-			// input 태그의 name 값을 Notice의 noticeFilePath로 하면 안됨(MultipartFile은 String이 아니기 때문)
-			HashMap<String, String> fileMap = saveFile(upload, request); // 업로드한 파일
+
+        if(multipartFile != null && !multipartFile.getOriginalFilename().equals("")) {
+	        String realPath = "C:/mail_upload";
+	        String fileName = multipartFile.getOriginalFilename(); //사용자 지정 파일 이름
+			UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
+			String fileReName = uuid+"_"+ fileName; //식별자 이름 + 사용자 지정파일 이름으로 파일이름 중복 방지
 			
-			String filePath = fileMap.get("filePath");
-			String fileRename = fileMap.get("fileName");
-			if(filePath != null && !filePath.equals("")) {
-				file.setFile_name(upload.getOriginalFilename());
-				file.setFile_rename(fileRename);
-				file.setFile_path(filePath);
-				fileResult = fService.registerFile(file);
+			//파일 I.O처리
+			File saveFile = new File(realPath, fileReName);
+			try {
+				multipartFile.transferTo(saveFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("IO에러");
 			}
-		} else {
-			fileResult = 1;
-		}
-        System.out.println("files 추가 : " + file);
+				
+			//DB에 넘겨줄 fileDTO
+			AppFileDTO file = new AppFileDTO(); // FileDTO 객체를 생성
+			if(realPath != null && !realPath.equals("")) {
+				file.setFile_name(fileName);
+				file.setFile_path(realPath);
+				file.setFile_rename(fileReName);
+				file.setDoc_no(0); //doc_no = 0일때, SEQ_DOC.CURRVAL;
+				file.setFile_no(0);
+				
+				fileResult = fService.registerFile(file);
+			} else {
+				fileResult = 0;
+			}
+        }
+		System.out.println("파일 저장 완료? : " + fileResult);
         
         //결재자 등록
         int appResult = 0;
@@ -269,9 +286,7 @@ public class SaveDocFormController {
 					app.setApp_status("임시");
 				}
 				appResult = appService.registerAppMem(app); //결재자 등록
-				System.out.println("appResult :  " + appResult);
 			}
-			System.out.println("app : " + app);
 		} else if ( appMemNum.isEmpty() || parameter.equals("tempRedraft") || parameter.equals("tempTemp")) { 
 			//appMemNum.isEmpty(): appMemNum 비어있는 경우 == 반려 문서 재상신인데 결재자 재선택하지 않은 경우(결재자 그대로)			
 			List<ApprovalDTO> appList = appService.searchAppMem(doc.getDoc_no()); //결재자 정보 조회
@@ -312,49 +327,45 @@ public class SaveDocFormController {
 				refResult = refService.registerRefMem(ref); // 참조자 등록
 			}
 		} else {
-			refResult = 1;
+			refResult = 0;
 		}
         
 		
 		String returnResult = null;
 		if(parameter.equals("Doc") || parameter.equals("rejDoc") || parameter.equals("tempRedraft")) {
 			returnResult = "draft";
-		} else if(parameter.equals("Temporary") || parameter.equals("tempTemp") || parameter.equals("RejTem")) {
+		} else if(parameter.equals("Temporary") || parameter.equals("tempTemp") || parameter.equals("RejTemp")) {
 			returnResult = "temp";
 		}
 		
 		return "redirect: draftList?parameter=" + returnResult; //기안, 결재, 임시 결재함 문서
 	}
 	
-	//파일 저장
-	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
-		String filePath = "";
-		HashMap<String, String> fileMap = new HashMap<String, String>();
+	//임시 저장 수정 화면에서 선택했던 파일 삭제
+	@RequestMapping(value="uploadFileDelete", method=RequestMethod.GET)
+	public String uploadFileDelete(@RequestParam(value = "filePath", required = false) String file_path, 
+										@RequestParam(value = "docNo", required = false) int doc_no, 
+										HttpServletRequest request){
 		
-		String root = request.getSession().getServletContext().getRealPath("resources"); // 파일 경로 설정
-		String savePath = root + "\\uploadFiles"; // 저장 폴더 선택
-		File folder = new File(savePath); //폴더 없으면 생성
-		if(!folder.exists()) folder.mkdir();
+		//파일 삭제하기
+		File deleteFile = new File(file_path); //저장 폴더 선택
+		if(deleteFile.exists()) { //파일이 존재하면
+			deleteFile.delete(); // 파일 삭제
+		}
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String originalFileName = file.getOriginalFilename(); //업로드한 파일명
-		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1); //파일 확장자명
-		//변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서 업로드 당시 시각을 파일의 이름으로 바꿔줌
-		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "." + extensionName;
-		filePath = folder + "\\" + renameFileName;
-		// 두 가지 값을 map에 저장하여 리턴하기
-		fileMap.put("file_path", filePath);
-		fileMap.put("file_name", renameFileName);
+		int fileResult = fService.removeFile(doc_no);
 		
+		String docStatus = null;
 		try {
-			file.transferTo(new File(filePath)); // 파일 저장
-		} catch (Exception e) {
+			docStatus = URLEncoder.encode("임시", "UTF-8"); //한글 파라미터 깨짐 방지
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return fileMap; // 파일 경로 리턴
-	}
-	
-	
+
+		return "redirect: clickDocContent?docNo=" + doc_no + "&type=temp" + "&docStatus=" + docStatus;
+	}	
+		
+
 	//상신취소 및 임시저장 삭제
 	@RequestMapping(value ="/draftDocCancel")
 	public String draftDocCancel(@RequestParam(value="docNo", required = false) int doc_no,
@@ -366,7 +377,7 @@ public class SaveDocFormController {
 	    //파일 있다면 삭제
 	    int fileResult = 0;
         if( file.getFile_path() != null ) {
-        	fileResult = fService.draftfileCancel(doc_no);
+        	fileResult = fService.removeFile(doc_no);
         }
         
         //결재자 삭제
@@ -375,7 +386,7 @@ public class SaveDocFormController {
         //참조자 삭제
         int refResult = appService.draftRefMemCancel(doc_no);
         
-		return "redirect: draftList?parameter=" + type; //type(draft, temp)
+		return "redirect: draftList?parameter=" + type;
 	}
 		
 	//결재 승인/반려
@@ -420,7 +431,7 @@ public class SaveDocFormController {
 		appResult = appService.updateAppMemStatus(app); //결재자 상태 변경
 		docResult = appService.updateDocStatus(app); //문서 상태 변경
 		
-		System.out.println(">>>>>>>>> 결재 승인 : ApprovalMapDTO : " + app);
+		System.out.println("======== 결재 승인 완료 ======== 결재자 : " + app);
 		
 		//결과 보내기
 		String allResult = "";
@@ -445,7 +456,7 @@ public class SaveDocFormController {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		AppDocumentDTO docDetail = service.detailDocContent(doc_no); //문서 내용 찾아오기
-		System.out.println(">>>>>>>>>> 문서 상세보기 : docDetail : " + docDetail); 
+		System.out.println("============= 문서 상세보기 : " + docDetail); 
 		
 		AppFileDTO fileList = fService.fileContent(doc_no); //파일 정보 찾아오기
 		System.out.println("파일 : " + fileList);

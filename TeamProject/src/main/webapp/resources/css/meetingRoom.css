@@ -4,8 +4,6 @@
 	margin: 0 60px; /* 좌우 마진 - 60*/
     display: flex;
     justify-content: center;
-    padding: 50px;
-    margin-top: 100px
 }
 
  form {
@@ -24,69 +22,99 @@
 
 }
 
+.reserveDiv-span{
+	font-size: 13px;
+}
+
 /* 캘린더 */
 .calendar {
     width: 450px;
 	height: 520px;
-	border: 2px solid #21875A;
-	border-radius: 1%;
+/* 	border: 2px solid #bfbfbf; */
+/* 	border-radius: 1%; */
 }
-
+.cal-line {
+	padding: 18px 0px 0px 35px;
+    border-radius: 8px;
+    border: 1px solid lightgray;
+}
 /* 버튼 설정 */
-button {
-    padding: 10px 20px;
-    background-color: transparent; /* 버튼 배경색 투명하게 설정 */
-	border: 2px solid rgba(33, 135, 90, 0.8); /* 테두리 회색으로 설정 */
-    border-radius: 5px;
+.res-btn {
+	border: 1px solid #bfbfbf;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 13px;
+    padding: 12px 20px;
     cursor: pointer;
+
     transition: background-color 0.1s ease, color 0.1s ease;
     margin-top: 20px;
+    font-size:12px;
     
 }
 
 #buttonDiv {
     display: flex; /* Flexbox 컨테이너로 설정합니다. */
-    gap : 10px;
+    gap : 20px;
   	justify-content: center; /* 수평 가운데 정렬합니다. */
 	align-items: center; /* 수직 가운데 정렬합니다. */
 	
 }
 
-button:hover {
-    background-color: rgba(33, 135, 90, 0.3); /* 투명한 배경색 */
+.res-btn:hover {
+    color: #000;
+    background: rgba(230, 230, 230, 0.25); /* 배경색 투명도 추가 */
+	border: 2px solid #21875a;
+	font-weight: 400;
 }
 
 /* 날짜,회의실,시간 */
 .reserveDiv {
-    margin-bottom: 60px;
+    margin-left: 20px;
+    margin-bottom: 50px;
     align-items: center;
     gap: 10px;
 }
 
-select, .reserveDiv input[type="date"] {
-	height:35px;
-	width: 300px;
+select {
+	height: 25px;
+    width: 260px;
+    padding-left: 10px;
+    font-size: 12px;
+}
+
+.reserveDiv input[type="date"] {
+	height:  25px;
+    width: 245px;
+    padding-left: 10px;
 }
 
 /* 이용안내 */
 .guide p{
-	font-size: 20px;
-	margin-left: 25px;
+	border: 1px solid #878282;
+    font-size: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    border-radius: 18px;
+}
 }
 .guide ul {
-    margin: 10px 0;
-    padding-left: 20px;
+    margin: 10px 25px;
+    padding-left: 50px;
 }
 
 .guide div li{
 	height: 100%;
-	width: 100%;
-	margin-top: 10px;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 .guide{
-	float: right;
-	margin-right: 60px;
-	padding: 10px 10px 10px 10px;
-	height: 200px;
+    float: right;
+    margin-right: 60px;
+    padding: 10px 10px 10px 20px;
+    height: 200px;
 }

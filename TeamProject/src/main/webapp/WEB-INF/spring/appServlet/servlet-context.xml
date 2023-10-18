@@ -67,4 +67,16 @@
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
     	<beans:property name="order" value="0"/>
   	</beans:bean>
+  	
+  	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	<beans:property name="messageConverters">
+		<beans:list>
+			<beans:ref bean="jsonMessageConverter"/>
+		</beans:list>
+	</beans:property>
+	</beans:bean>
+
+	<beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.GsonHttpMessageConverter">
+   </beans:bean>
+   
 </beans:beans>

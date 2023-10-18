@@ -1,52 +1,58 @@
 @charset "UTF-8";
 
 .c-container{
-    display: flex;
-    gap : 100px;
-    margin-left: 200px;
-    align-items: center; /* 수직 중앙 정렬 */
-    height: 100vh; /* 화면 높이를 컨테이너 높이로 설정 */
-    
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .chatList{
     display: flex;
     flex-direction: column;
     width: 400px;
-    height: 80%;
+    height: 73%;
 }
 
 .contents {
-    height: 70%;
-    min-height : 500px;
+    height: 475px;
+    min-height: 430px;
     width: 400px;
-    border: 1px solid gray;
+    border: 2px solid #8080803d;
     overflow-y: scroll;
+    border-radius: 8px;
 }
 
 .contentsList{
-    height: 70px;
+	height: 70px;
     display: flex;
-    justify-content: center; /* 가로 방향 가운데 정렬 */
-    align-items: center; /* 세로 방향 가운데 정렬 */
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
+    background: #8080801a;
 }
-.c-head{
+.contentsList:nth-child(odd) {
+    background-color: #beb3b305;
+}
+.head{
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: -6px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
 }
 
-.c-head img{
-	margin-left: 10px; 
-	cursor: pointer;
+.head img{
+    cursor: pointer;
+    width: 35px;
+    margin-right: 10px;
 }
 
 
-.c-head p{
-    font-weight: bolder;
-    font-size: larger;
-    margin-right: auto;
+.head p{
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #3a3333;
+    font-size: 18px;
     margin-left: 5px;
 }
 
@@ -55,6 +61,13 @@
     display: flex;
     flex-direction: column;
     width: 60%;
+}
+
+.center-span {
+    letter-spacing: 1px;
+    color: #717171;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .center span:last-child{
@@ -69,11 +82,12 @@
 }
 
 .right{
-    display: flex;
+	display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* 내부 요소를 오른쪽으로 정렬 */
+    justify-content: flex-end;
     text-align: right;
-    font-size: smaller;
+    font-size: 12px;
+    color: #808080de;
 }
 
 .right span:last-child{
@@ -81,25 +95,17 @@
 }
 
 .chatImg{
-	margin: 0 7px -4px -10px;
-	width: 40px;
+    margin: 0 13px -4px -10px;
+    width: 40px;
 }
 
 /* 사용자 초대 */
 .head2 p{
-	text-align: center;
-	font-weight: bolder;
-    font-size: larger;
-}
-
-.invite{
-    border: 1px solid #ccc;
-    border-radius: 1rem;
-    width: 700px;
-    display: none;
-    flex-direction: column;
-    padding: 20px;
-    min-height: 400px;
+    text-align: center;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    color: #272323;
+    margin-right: 20px;
 }
 
 .memberList input[type="checkbox"] {
@@ -107,77 +113,78 @@
 }
 
 .memberList{
-    border: 1px solid #ccc;
+	border: 1px solid #ccc;
     width: 100%;
-    height: 200px;
+    height: 180px;
+    width: 310px;
     overflow: scroll;
-    
-    display: flex; /* Flexbox를 사용하여 체크박스와 텍스트를 한 줄에 배치 */
+    display: flex;
+    border-radius: 6px;
+    margin-top: 5px;
 }
 
 .memberList ul{
-	padding: 5px;
-	padding-left: 10px;
+	padding-left: 20px;
 }
 .memberList li{
-	list-style: none;	
-}
-
-.invite_center{
-    display: flex;
-    gap: 40px;
-    align-self: center;
+	list-style: none;
+    padding: 4px 0px 4px 0px;
+    font-size: 15px;
+    color: #4b4040;
+    font-size: 14px;
 }
 
 .invite_R{
     border: 1px solid #ccc;
-    border-radius: 1rem;
-    min-width: 300px;
-    max-height: 250px;
+    border-radius: 8px;
+    max-height: 242px;
     display: flex;
-    flex-direction: column;
-
-    justify-content: center; /* 가로 방향 가운데 정렬 */
-    align-items: center; /* 세로 방향 가운데 정렬 */
-    gap: 20px;
-    
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
 }
 
 .invite_L {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     max-width: 250px;
 }
 
 .select{
-    display: flex; /* Flexbox 레이아웃 사용 */
-    align-items: center; /* 요소들을 수직으로 가운데 정렬 */
+    display: flex;
+    align-items: center;
     width: 100%;
+    margin-bottom: 7px;
 }
 
 /* select 태그 스타일 */
 .select select {
-    width: auto; /* 부모 div의 크기에 자동으로 맞춤 */
-    height: auto; /* 부모 div의 크기에 자동으로 맞춤 */
+	width: auto;
+    height: 35px;
     padding: 5px;
     border: 1px solid #ccc;
-    margin-right: 10px;
+    margin-right: 9px;
+    border-radius: 6px;
 }
 
 /* input 태그 스타일 */
 .select input[type="text"] {
-    width: auto; /* 부모 div의 크기에 자동으로 맞춤 */
-    height: auto; /* 부모 div의 크기에 자동으로 맞춤 */
-    padding: 5px;
+    width: 700px;
+    height: 30px;
     border: 1px solid #ccc;
+    border-radius: 6px;
+    padding-left: 10px;
+    color: gray;
 }
 
 #selected{
-	max-height: 100px;
-	min-width : 200px;
-	display: flex;
-    flex-wrap: wrap;
+/* 	margin-top: 3px; */
+/*     max-height: 55px; */
+/*     min-width: 200px; */
+/*     display: flex; */
+/*     flex-wrap: wrap; */
+/*     margin-bottom: 10px; */
 }
 
 
@@ -187,19 +194,30 @@
 }
 
 #selected p span{
-    background-color: rgba(139, 184, 139, 0.4);
+	background-color: rgb(139 184 139 / 22%);
     border-radius: 1em;
-    padding: 1px;
+    padding: 1px 3px 1px 3px;
     font-size: small;
 }
 
 #chatTitle{
-	padding: 10px 15px;
+    padding-left: 10px;
+    border: 1px solid #8080809c;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #8e7e7ed6;
+    width: 170px;
+    height: 25px;
 }
-
-#addchat{
-	height: 30px;
-	width: 30px;
+#create2 {
+    height: 30px;
+    width: 100px;
+    background: #f5e1e11c;
+    border: 1px solid #80808063;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #494343a6;
 }
 
 #chatout{
@@ -228,3 +246,26 @@
 	font-size: x-small;
 }
 
+.invite {
+	display: none;
+    position: relative;
+    background: #d5e1e25e;
+    padding: 10px 20px 25px 25px;
+    border-radius: 20px;
+    margin-left: 100px;
+}
+
+ .invite:after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 65px solid #d5e1e200;
+    border-right-color: #d5e1e25e;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -40px;
+    margin-left: -65px;
+}

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-     <%@ page import="com.dto.MemberDTO"%>
+<%@ page import="com.dto.MemberDTO"%>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <script type="text/javascript">
 
  
  <% MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
- int member_num = dto.getMember_num(); 
+ 	int member_num = dto.getMember_num(); 
   	String photo =dto.getPhoto();%>
  
   	function imageChange(thisObj) {
@@ -51,7 +51,7 @@
 
       <!-- Modal Header -->
       <div class="photochange_modal-header">
-        <h4 class="modal-title">프로필사진변경</h4>
+        <h4 class="modal-title">프로필사진 변경</h4>
       </div>
 
       <!-- Modal body -->
@@ -60,9 +60,9 @@
            <div class="card">           
               <form action="loginCheck/profilepic" method="post" enctype="multipart/form-data">
                 <input type="file" name="theFile" onchange="imageChange(this)">
-               <input type="hidden" name="member_num" id="membernum" value="<%=dto.getMember_num()%>">
-               <button type="submit" class="btn btn-primary">사진변경</button>
-               <button type="button" class="close" data-dismiss="modal">취소</button>
+                <input type="hidden" name="member_num" id="membernum" value="<%=dto.getMember_num()%>">
+                <button type="submit" class="btn btn-primary" id="change-btn">사진변경</button>
+                <button type="button" class="close" data-dismiss="modal" id="change-btn">취소</button>
              </form>
       
 <!-- 			
