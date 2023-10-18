@@ -14,5 +14,6 @@
 	<!-- 고정 메인 메뉴바 -->
 	<jsp:include page="common/menu.jsp" flush="true" />
 	<jsp:include page="member/homePage.jsp" flush="true" />
+	${login.t_key}
 </body>
 </html>
