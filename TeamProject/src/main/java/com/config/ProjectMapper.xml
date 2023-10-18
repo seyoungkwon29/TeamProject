@@ -3,8 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProjectMapper">
-	<select id="getAllProject" resultType="ProjectDTO">
-		SELECT * FROM project
+
+	<select id="getAllProject" resultType="ProjectDTO" parameterType="int">
+		select * from project where project_num in (
+        	select project_num from project_member
+        		where member_num = #{member_num})
 	</select>
 	
 </mapper>

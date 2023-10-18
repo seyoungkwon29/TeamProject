@@ -13,9 +13,8 @@ public class ProjectDAO {
 	@Autowired
 	SqlSessionTemplate session;
 
-	public List<ProjectDTO> getAllProject() {
-		List<ProjectDTO> list = session.selectList("getAllProject");
-		
+	public List<ProjectDTO> getAllProject(int member_num) {
+		List<ProjectDTO> list = session.selectList("getAllProject", member_num);
 		return list;
 	}
 }
