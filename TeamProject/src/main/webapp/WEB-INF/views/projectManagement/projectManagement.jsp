@@ -9,9 +9,9 @@
 <link rel="icon" href="/favicon.ico">
 <title>프로젝트 관리</title>
 
-<script defer="defer" src="resources/vue-calendar/js/chunk-vendors.11ee905a.js"></script>
-<script defer="defer" src="resources/vue-calendar/js/app.8d675c34.js"></script>
-<link href="resources/vue-calendar/css/app.a48133f8.css" rel="stylesheet">
+<script defer="defer" src="resources/vue-calendar/js/chunk-vendors.070c000b.js"></script>
+<script defer="defer" src="resources/vue-calendar/js/app.9cc788d3.js"></script>
+<link href="resources/vue-calendar/css/app.d12f33a8.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 
