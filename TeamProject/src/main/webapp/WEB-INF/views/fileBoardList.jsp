@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>자료함</title>
-	<link rel="stylesheet" type="text/css" href="resources/css/main.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 	<link rel="stylesheet" type="text/css" href="resources/css/fileBoardList.css">
 </head>
 <body>

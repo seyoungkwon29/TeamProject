@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>문서 양식</title>
+
 <link rel="stylesheet" href="resources/css/docForm.css">
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
-</head>
-
-<body>	
 
 	<c:set var="login" value="${login}"></c:set> 
 	<c:set var="form" value="${form}"></c:set> 
@@ -243,6 +236,3 @@
 	}
 
 </script>
-</body>
-
-</html>
