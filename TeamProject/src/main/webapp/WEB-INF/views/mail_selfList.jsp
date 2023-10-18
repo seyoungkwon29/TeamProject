@@ -60,93 +60,107 @@ $(document).ready(function() {
 
 <style>
 .mail_container {
-	position: absolute;
- 	top:150px;
-	left: 400px;
+    position: absolute;
+    top: 150px;
+    left: 325px;
 }
 
 #Mail_MenuTitle {
-	font-size: 50px;
-	font-weight: 700;
+    font-size: 30px;
+    font-weight: 700;
 }
 
 
 .mail_list {
-    
-
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+    border-top: 2px solid rgb(200, 200, 200);
+    border-bottom: 2px solid rgb(200, 200, 200);
+    width: 1100px;
 }
 
-.mail_list_box .mail_list {
-  border-collapse: collapse;
-  text-align: left;
-  line-height: 1.5;
-  width: 1100px;
-
+.mail_list_box{
+	line-height: 1.5;
+	width: 1100px;
+}
+.new_mail td, .read_mail td{
+	padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    width: 26%;
 }
 .mail_list_box .mail_list thead th {
-  padding: 10px;
-  font-weight: bold;
-  vertical-align: top;
-  color: #369;
-  border-bottom: 3px solid #036;
-  text-align: center;
+	padding: 10px;
+    text-align: center;
+    color: #113626;
+    border-bottom: 2px solid #e0e0e0;
 }
 .mail_list_box .mail_list .checkMail{
 	width: 50px;
-}
+ } 
 .mail_list_box .mail_list .read_mail{
 	color: gray;
 }
 .mail_list_box .mail_list .new_mail{
-	color:black;
-	font-weight:700;
+    color: black;
+    font-weight: 600;
 }
-.mail_list_box .mail_list td {
-  padding: 10px;
-  vertical-align: top;
-  border-bottom: 1px solid #ccc;
-}
-.mail_list_box .mail_list tbody .checkMail{
-	text-align: center;
-}
+
 .mail_list_box .mail_list tbody .sender {
-  width: 250px;
-  padding: 10px;
-  font-weight: bold;
-  vertical-align: top;
-  border-bottom: 1px solid #ccc;
-  background: #f3f6f7;
+    background: #f3f6f7b0;
 }
 .mail_list_box .mail_list tbody .mail_title{
-    width: 500px;
-    text-decoration: none;
+     width: 500px; 
+     text-decoration: none; 
+ } 
+.mail_list_box .mail_list tbody .mail_from_date{ 
+     width: 160px; 
+} 
+.delete-btn {
+    background-color: #c9cdce21;
+    color: #323030c9;
+    border: 1px solid #80808075;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
 }
-.mail_list_box .mail_list tbody .mail_from_date{
-    width: 160px;
+.delete-btn:hover{
+    color: #000;
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
 }
-
 
 </style>
-
-    
 
 </head>
 <body>
 <jsp:include page="common/menu.jsp" flush="true" />
     <div class="mail_container">
-    <div>
+    <div style="margin-bottom: 70px;">
     	<span id="Mail_MenuTitle">내게 쓴 메일</span>
     </div>
+    
+   	<div>
+	 	<button id="deleteBtn" class="delete-btn">삭제</button>
+	</div>
+	
         <div class="mail_list_box">
             <table class="mail_list">
                 <thead>
                     <tr>
-                      <th scope="cols">
+                      <th style="width: 10%;">
                       	<input type="checkbox" id="checkAll">
+                      </th>
+                      <th scope="cols" style="width: 15%;">
                       	발신자
                       </th>
                       <th>읽음</th>
-                      <th scope="cols">제목</th>
+                      <th scope="cols" style="width: 40%;">제목</th>
                       <th>보낸 시간</th>
                     </tr>
                 </thead>
@@ -154,25 +168,32 @@ $(document).ready(function() {
                 <c:forEach var="mail" items="${selfMailList}" varStatus="status">
 					<c:if test="${mailRecDTOList.get(status.index).getRec_status() eq'Y'}">
                      	<tr class="read_mail">
-							<td scope="row" class="sender">
+                     		<td style="width: 10%;">
 								<input type="checkbox" class="checked_mail" id="chkMailNum${mail.getMail_num()}" name="chkMail" value="${mail.getMail_num()}">
-								&emsp;${login.getDiv_name()}
+							</td>
+							<td scope="row" class="sender" style="width: 15%;">
+								${login.getDiv_name()}
 								&nbsp;${login.getMember_name()}
 							</td>
+							
 							<td class="checkMail"><img alt="읽음" src="resources/image/mail2.png" height="18px" width="18px"></td>
-							<td><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title" style="color:gray">${mail.getMail_title()}</a></td>
+							<td style="width: 40%;"><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title" style="color:gray">${mail.getMail_title()}</a></td>
 							<td class="mail_from_date">${mail.getMail_from_date()}</td>
 						</tr>
                     </c:if>
                     <c:if test="${mailRecDTOList.get(status.index).getRec_status() eq'N'}">
                      	<tr class="new_mail">
-							<td scope="row" class="sender">
+                     	
+                     		<td style="width: 10%;">
 								<input type="checkbox" class="checked_mail" id="chkMailNum${mail.getMail_num()}" name="chkMail" value="${mail.getMail_num()}">
-								&emsp;${login.getDiv_name()}
+							</td>
+							<td scope="row" class="sender" style="width: 15%;">
+								${login.getDiv_name()}
 								&nbsp;${login.getMember_name()}
 							</td>
+	
 							<td class="checkMail"><img alt="안 읽음" src="resources/image/mail1.png" height="14px" width="18px"></td>
-							<td><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title" style="color:black">${mail.getMail_title()}</a></td>
+							<td style="width: 40%;"><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title" style="color:black">${mail.getMail_title()}</a></td>
 							<td class="mail_from_date">${mail.getMail_from_date()}</td>
 						</tr>
                     </c:if>
@@ -180,7 +201,7 @@ $(document).ready(function() {
                 </tbody>
             </table>
         </div>
-        <button id="deleteBtn">삭제</button>
+
         <jsp:include page="mail/selfListPaging.jsp"></jsp:include>
     </div>
     

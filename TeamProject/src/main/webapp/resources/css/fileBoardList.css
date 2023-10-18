@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+.f-container{ /* 메뉴 + 소메뉴 있는 경우 - 전체 컨테이너 */
+    margin: 0 60px;
+    position: absolute;
+    left: 150px;
+    padding-top: 120px;
+}
+
+#f-title {	/* 타이틀 */
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+.f_title{
+	
+}     
+
+.f-s-container{	/* 검색창 */
+	margin: 2px auto 0;
+}
+
+.f-btn {	/* 검색버튼 */
+    background-color: #c9cdce21;
+    color: #000;
+    border: 1px solid #8080803d;
+    padding: 6px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.f-btn:hover {
+    color: #000;
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
+}
+.search-btn {
+    background-color: #c9cdce21;
+    color: #000;
+    border: 1px solid #8080803d;
+    padding: 6px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-right: 20px;
+}
+
+#searchField{ /* 검색 selectbox */
+	padding: 6px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-right: 3px;
+}
+#searchVal{
+	font-size: 13px;
+    border-radius: 4px;
+    padding: 6px 10px;
+    border: 1px solid #725d5d;
+    margin-right: 3px;
+}
+
+.t-List {
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+    border-top: 2px solid rgb(200, 200, 200);
+    border-bottom: 2px solid rgb(200, 200, 200);
+}
+.t-List tr {
+    border-top: 1px solid rgb(200, 200, 200);
+    height: 45px;
+}
+
+.t-List th {
+    background-color: #f9f9f9;
+}
+
+.t-List .th-1 {
+    width: 180px;
+    text-align: center;
+}
+.t-List td a{
+    text-decoration: none;
+    color: #1f1919;
+}
+
+.t-List .th-2 {
+    width: 600px;
+    text-align: center;
+}
+.t-List .th-3 {
+    width: 200px;
+    text-align: center;
+}
+.file-page-top {
+	display: inline-flex;
+    height: 40px;
+    width: 836px;
+    margin-left: 257px;
+    justify-content: center;
+}
+
+.page-a {
+  	width: 40px;
+	height: 40px;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    margin: 0 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+    
+.page-a:hover {
+   	font-weight: 600;
+   	text-decoration: none;
+}
+

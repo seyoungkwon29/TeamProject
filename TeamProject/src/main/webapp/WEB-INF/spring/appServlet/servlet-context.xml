@@ -49,7 +49,9 @@
 	</beans:bean>
 	
 	<!-- annotation config는 component-scan에 포함됨 -->
-	<context:component-scan base-package="com.*"></context:component-scan>
+	<context:component-scan base-package="com.*" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 	
 	<!-- MultipartResolver -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -65,4 +67,16 @@
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
     	<beans:property name="order" value="0"/>
   	</beans:bean>
+  	
+  	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	<beans:property name="messageConverters">
+		<beans:list>
+			<beans:ref bean="jsonMessageConverter"/>
+		</beans:list>
+	</beans:property>
+	</beans:bean>
+
+	<beans:bean id="jsonMessageConverter" class="org.springframework.http.converter.json.GsonHttpMessageConverter">
+   </beans:bean>
+   
 </beans:beans>

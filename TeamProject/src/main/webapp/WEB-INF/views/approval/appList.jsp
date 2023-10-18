@@ -11,7 +11,8 @@
 <body>
 
 	<div class="s-container">
-		<h2 id="h-title">결재 문서함</h2>
+		<h1 id="h-title">결재 문서함</h1>
+		
 		<span class="type"><a href="draftList?parameter=app">전체</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=대기">대기</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=예정">예정</a></span>

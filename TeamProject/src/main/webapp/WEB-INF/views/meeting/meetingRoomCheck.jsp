@@ -1,26 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="java.util.List"%>
 <%@page import="com.dto.MeetingRoomDTO"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 <link rel="stylesheet" type="text/css" href="resources/css/meetingRoomCheck.css">
 <link rel="stylesheet" type="text/css" href="resources/css/meeting_modal.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-<div class="table-container">
-	<table>
-		<tr class="title">
-		<th>예약 날짜</th>
-		<th>이용 시간</th>
+
+<div>
+	
+	<h2 style="margin-top: 120px; margin-left: 340px; color: #333; font-size: 30px;">회의실 예약 확인</h2>
+	
+	<div class="table-container">
+	
+	<table class="meetchk-table">
+		<tr class="title" style="background: #f9f9f9;">
+		<th>예약날짜</th>
+		<th>이용시간</th>
 		<th>회의실</th>
-		<th></th>
+		<th>예약확인</th>
 		</tr>
     
     	<c:forEach var="room" items="${list}" varStatus="loop">
@@ -30,45 +29,54 @@
        		<td>${room.meeting_num}</td>
        		<td><button class="show-modal" data-index="${loop.index}"
        		data-date="${room.meeting_date}" data-time="${room.meeting_time}" data-num="${room.meeting_num}">
-       		상세보기</button></td>
+       		상세내역</button></td>
 		</tr>
    		</c:forEach>
-</table>
+	</table>
+</div>
 </div>
 	<div id="myModal" class="modal">
         <div class="modal-content">
             <!-- 모달 내용을 여기에 추가 -->
+            <span class="close">&times;</span>
+            
+            <div class="modal-top">
+            
             <div class="contentTop">
-                    <p></p><!-- 회의실 번호 -->
+                    <p style="text-align: center"></p><!-- 회의실 번호 -->
                     <ul class="contentul">
                         <li></li><!-- 날짜 -->
                         <li></li><!-- 시간 -->
                     </ul>
             </div>
+            
             <div class="contentCenter">
-                <div class="centerL"><img id="roomImg" src="" alt=""></div>
                 <div class="centerR">
-                    <p>&#x1F4D6; Option</p>
-
-                    <ul class="roomInfo">
-                        <li></li><!-- 인원 -->
-                        <li>&#x2713; 빔프로젝트 </li>
-                        <li>&#x2713; 화이트보드</li>
-                        <li>&#x2713; 24인치 모니터 </li>
-                    </ul>
+                    <div class="centerBottom">
+						<div><img id="roomImg" src="" alt=""></div>
+						<div class="cen-center-bom">
+							<p class="cen-center-bom-p">회의실 정보<p>
+		                    <ul class="roomInfo">
+		                        <li></li><!-- 인원 -->
+		                        <li>&#x2713;   빔프로젝트 </li>
+		                        <li>&#x2713;   화이트보드</li>
+		                        <li>&#x2713;   24인치 모니터 </li>	                    
+		                    </ul>
+	                    </div>
+                    </div>
                 </div>
             </div>
+            </div>
+            
             <div class="contentBottom">
                 <div class="modal-buttons">
                     <button class="confirm-button">확인</button>
                     <button class="delete-button">예약 취소</button>
-            </div>
-            
-            <span class="close">&times;</span>
+            	</div>
             </div>
         </div>
     </div>
-</body>
+
     <!-- JQuery를 사용하여 모달 열기/닫기 -->
     <script>
     $(document).ready(function() {
@@ -83,20 +91,20 @@
             var num = $(this).data("num");
             
             // 모달에 데이터 채우기
-            $(".contentul li:nth-child(1)").html("날짜: <span>"+ date+"</span>");
-            $(".contentul li:nth-child(2)").html("시간: <span>" + time+"</span>");
-            $(".contentTop p").html("&#x1F3E2; <span>"+num+"</span> &#x1F3E2;");
+            $(".contentul li:nth-child(1)").html("예약 날짜 : <span>"+ date+"</span>");
+            $(".contentul li:nth-child(2)").html("예약 시간 : <span>" + time+"</span>");
+            $(".contentTop p").html("<span style='letter-spacing: 1px;font-weight: 700;'>"+num+"</span>");
             
             //모달에 이미지, 인원수 넣기
             if (num==("1 회의실")) {
             $("#roomImg").attr("src","resources/image/room1.jpg");
-            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원: 3~5");
+            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원 : 3~5");
 			}else if (num==("2 회의실")) {
             $("#roomImg").attr("src","resources/image/room2.jpg");
-            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원: 5~7");
+            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원 : 5~7");
 			}else {
             $("#roomImg").attr("src","resources/image/room3.jpg");
-            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원: 10~20");
+            $(".roomInfo li:nth-child(1)").html("&#x2713; 인원 : 10~20");
 			};
 			
             
@@ -144,7 +152,7 @@
 
 
     </script>
-</html>
+
 
 
 

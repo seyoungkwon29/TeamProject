@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
@@ -16,24 +17,29 @@ public class NoticeService {
 	@Autowired
 	private NoticeDAO dao;
 
+	@Transactional(rollbackFor=Exception.class)
 	public void createNotice(Long memberNum, NoticeDTO notice) {
 		dao.insert(notice); 
 	}
 
+	@Transactional(readOnly=true)
 	public NoticeDTO getNoticeByNo(Long noticeNum) {
 		return dao.getNoticeByNo(noticeNum);
 	}
 
+	@Transactional(readOnly=true)
 	public List<NoticeDTO> getNoticeList() {
 		return dao.getNoticeList(); 
 	}
 
+	@Transactional(readOnly=true)
 	public NoticeDTO getNoticeDetailsByNo(Long noticeNum) {
 		dao.increaseViews( noticeNum);
 		NoticeDTO notice = dao.getNoticeDetailsByNo(noticeNum);
 		return notice;
 	}
 
+	@Transactional(readOnly=true)
 	public PageResponseDTO<NoticeDTO> getNoticeDetailsList(PageRequestDTO page) {
 		int count= dao.countNotice();
 		List<NoticeDTO> noticeDetailsList = dao.getNoticeDetailsList(page);
@@ -44,6 +50,7 @@ public class NoticeService {
 		return new PageResponseDTO<NoticeDTO>(page, Collections.emptyList(), 0);
 	}
 	
+	@Transactional(rollbackFor=Exception.class)
 	public void updateNotice(Long noticeNum, Long memberNum, NoticeDTO updateDTO) {
 
 			NoticeDTO notice = dao.getNoticeByNo(noticeNum);
@@ -58,6 +65,7 @@ public class NoticeService {
 			dao.update(notice);
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	public void deleteNotice(Long noticeNum, Long memberNum) {
 			
 			NoticeDTO notice = dao.getNoticeByNo(noticeNum);
@@ -68,6 +76,7 @@ public class NoticeService {
 			dao.delete(noticeNum);	
 	}
 	
+	@Transactional(readOnly=true)
 	public PageResponseDTO<NoticeDTO> getNoticeDetailsListByMemberName(PageRequestDTO page, String memberName) {
 
   		int count = dao.countNoticeByMemberName(memberName);
@@ -78,6 +87,7 @@ public class NoticeService {
 
     }
     
+	@Transactional(readOnly=true)
     public PageResponseDTO<NoticeDTO> getNoticeDetailsListContentLike(PageRequestDTO page, String content) {
 
   		int count = dao.countNoticeContentLike(content);
@@ -85,6 +95,5 @@ public class NoticeService {
   		List<NoticeDTO> noticeDetailsList = dao.getNoticeDetailsListContentLike(page, content);
   		
   		return new PageResponseDTO<NoticeDTO>(page, noticeDetailsList, count);
-
     }
 }

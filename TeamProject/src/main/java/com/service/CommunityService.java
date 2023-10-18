@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
@@ -23,21 +24,25 @@ public class CommunityService {
 	@Autowired
     private ReplyDAO replyDao;
 
+	@Transactional(rollbackFor=Exception.class)
     public void save(CommunityDTO community) {
 		communityDao.insert(community);
 		
 		Long comNum = community.getComNum();
 		List<UploadFileDTO> files = community.getFiles();
 		for (UploadFileDTO file : files) {
-			communityDao.insertFile(comNum, file);
+			file.setComNum(comNum);
+			communityDao.insertFile(file);
 		}
 		
 		List<UploadFileDTO> images = community.getImages();
 		for (UploadFileDTO image : images) {
-			communityDao.insertImage(comNum, image);
+			image.setComNum(comNum);
+			communityDao.insertImage(image);
 		}
     }
 
+	@Transactional(readOnly=true)
     public CommunityDTO getCommunityByNum(Long comNum) {
          CommunityDTO community = communityDao.getCommunityByNum(comNum);
          
@@ -50,23 +55,36 @@ public class CommunityService {
          return community;
     }
 
+	@Transactional(readOnly=true)
     public List<CommunityDTO> getCommunityList() {
 		return communityDao.getCommunityList();
     }
 
-    public void update(Long comNum, Long memberNum, CommunityDTO updateParam) {
+	@Transactional(rollbackFor=Exception.class)
+    public void update(Long comNum, Long memberNum, CommunityDTO updateParam, List<Long> deleteFileIds) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
         if (!community.getMemberNum().equals(memberNum)) {
             return;
         }
-        
         community.setTitle(updateParam.getTitle());
         community.setContent(updateParam.getContent());
-        
         communityDao.update(community);
+        
+		List<UploadFileDTO> files = updateParam.getFiles();
+        for (UploadFileDTO file : files) {
+        	if (file.getId() == null) {
+				file.setComNum(comNum);
+				communityDao.insertFile(file);
+        	}
+		}
+		
+        for (Long fileId : deleteFileIds) {
+        	communityDao.deleteFile(fileId);	
+        }
     }
 
+	@Transactional(rollbackFor=Exception.class)
     public void delete(Long comNum, Long memberNum) {
         CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
@@ -81,10 +99,12 @@ public class CommunityService {
         communityDao.delete(comNum);
     }
     
+	
     public void increaseViews(Long comNum) {
 		communityDao.increaseViews(comNum);
     }
 
+    @Transactional(readOnly=true)
     public CommunityDTO getCommunityDetailsByNum(Long comNum) {
 		CommunityDTO community = communityDao.getCommunityDetailsByNum(comNum);
 		
@@ -100,7 +120,7 @@ public class CommunityService {
 		
     }
 
-    
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsList(PageRequestDTO page) {
 		int count = communityDao.count();
 		List<CommunityDTO> communityDetailsList = communityDao.getCommunityDetailsList(page);
@@ -111,6 +131,7 @@ public class CommunityService {
 		return new PageResponseDTO<CommunityDTO>(page, Collections.emptyList(), 0);
     }
     
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsListByMemberName(PageRequestDTO page, String memberName) {
 
   		int count = communityDao.countByMemberName(memberName);
@@ -121,6 +142,7 @@ public class CommunityService {
 
     }
     
+    @Transactional(readOnly=true)
     public PageResponseDTO<CommunityDTO> getCommunityDetailsListContentLike(PageRequestDTO page, String content) {
 
   		int count = communityDao.countContentLike(content);

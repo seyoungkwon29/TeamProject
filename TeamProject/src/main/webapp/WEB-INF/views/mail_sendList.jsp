@@ -14,36 +14,38 @@
 
 <style>
 .mail_container {
-	position: absolute;
- 	top:150px;
-	left: 400px;
+    position: absolute;
+    top: 180px;
+    left: 325px;
 }
 
 #Mail_MenuTitle {
-	font-size: 50px;
-	font-weight: 700;
+    font-size: 30px;
+    font-weight: 700;
 }
 
 
 .mail_list {
-    
-
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: center;
+    border-collapse: collapse;
+    border-top: 2px solid rgb(200, 200, 200);
+    border-bottom: 2px solid rgb(200, 200, 200);
+    width: 1100px;
 }
 
 .mail_list_box .mail_list {
-  border-collapse: collapse;
-  text-align: left;
-  line-height: 1.5;
-  width: 1100px;
+ 	line-height: 1.5;
+	width: 1100px;
 
 }
 .mail_list_box .mail_list thead th {
-  padding: 10px;
-  font-weight: bold;
-  vertical-align: top;
-  color: #369;
-  border-bottom: 3px solid rgb(33,135,99);;
-  text-align: center;
+	padding: 10px;
+    text-align: center;
+    color: #113626;
+    width: 20%;
+    border-bottom: 2px solid #e0e0e0;
 }
 .mail_list_box .mail_list .checkMail{
 	width: 50px;
@@ -64,16 +66,11 @@
 	text-align: center;
 }
 .mail_list_box .mail_list tbody .sender {
-  width: 250px;
-  padding: 10px;
-  font-weight: bold;
-  vertical-align: top;
-  border-bottom: 1px solid #ccc;
-  background: rgba(33,135,99,0.3);
+    background: rgb(27 29 28 / 5%);
 }
 .mail_list_box .mail_list tbody .mail_title{
-    width: 500px;
-    text-decoration: none;
+	text-decoration: none;
+    color: #413c3c;
 }
 .mail_list_box .mail_list tbody .mail_from_date{
     width: 160px;
@@ -92,7 +89,7 @@
 <body>
 <jsp:include page="common/menu.jsp" flush="true" />
     <div class="mail_container">
-    <div>
+    <div style="margin-bottom: 50px;">
     	<span id="Mail_MenuTitle">보낸 메일</span>
     </div>
         <div class="mail_list_box">
@@ -102,7 +99,7 @@
                       <th scope="cols">
                       	&emsp;수신자
                       </th>
-                      <th scope="cols">제목</th>
+                      <th scope="cols" style="width: 40%;">제목</th>
                       <th>보낸 시간</th>
                     </tr>
                 </thead>
@@ -119,7 +116,7 @@
 	                      	외 ${recMemberCount.get(status.index)}명
                       	</c:if>
                       </td>
-                      <td><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title">${mail.getMail_title()}</a></td>
+                      <td style="width: 40%;"><a href="viewMail?mail_num=${mail.getMail_num()}" class="mail_title">${mail.getMail_title()}</a></td>
                       <td class="mail_from_date">${mail.getMail_from_date()}</td>
                     </tr>
                 </c:forEach>

@@ -6,10 +6,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <spring:url var="menuJs" value="/resources/js/menu.js" htmlEscape="true"/>
 <script src="${menuJs}"></script>
-<div class="container">
+
+<div class="menu-top-container">
 	<div>
-		<a class="brand" href="homePage">EVERYWARE</a>
-	</div>	
+		<a class="brand" href="homePage"><img src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
+	</div>
 	<div class="link-ul">
 		<ul>
 			<li><a class="link" aria-current="page" href="homePage">홈</a></li>
@@ -25,27 +26,28 @@
 			</li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>
 			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
-			<li><a class="link" href="FileBoard">자료함</a></li>
-			<li><a class="link" href="draftList">전자결재</a></li>
+			<li><a class="link" href="fileBoardList">자료함</a></li>
+			<li><span><a class="link" href="draftList?parameter=draft">전자결재</a></span>
 				<div class="dropdown">
 					<a href="draftList?parameter=draft">기안 문서함</a>			
 					<a href="draftList?parameter=app">결재 문서함</a>			
 					<a href="draftList?parameter=temp">임시 저장함</a>			
 				</div>
-			<li><span class="link"><a href="meetingRoom">회의실</a></span>
+			</li>
+			<li><span><a class="link" href="meetingRoom">회의실</a></span>
 				<div class="dropdown">
-				<a href="meetingRoom">회의실 예약</a>			
-				<a href="meetingRoomCheck">예약 확인</a>			
+					<a href="meetingRoom">회의실 예약</a>			
+					<a href="meetingRoomCheck">예약 확인</a>			
 				</div>
 			</li>
 			<li><a class="link" href="chatting">메신저</a></li>
 			
-			<li><span class="link">메일</span>
+			<li><span><a class="link" href="writeMail">메일</a></span>
 				<div class="dropdown">
-				<a href="writeMail">메일쓰기</a>			
-				<a href="mailReceiveList">받은 메일함</a>
-				<a href="mailSendList">보낸 메일함</a>
-				<a href="mailSelfList">내게 쓴 메일함</a>
+					<a href="writeMail">메일쓰기</a>			
+					<a href="mailReceiveList">받은 메일함</a>
+					<a href="mailSendList">보낸 메일함</a>
+					<a href="mailSelfList">내게 쓴 메일함</a>
 				</div>
 			</li>
 		</ul>

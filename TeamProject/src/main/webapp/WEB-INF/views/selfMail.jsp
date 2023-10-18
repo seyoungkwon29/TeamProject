@@ -7,15 +7,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/appMenu.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <style type="text/css">
- .selfMailFormContainer {
- 	position: absolute;
- 	top:150px;
-	left: 400px;
- }
- 
- </style>
-
+<link href="resources/css/selfMail.css" rel="stylesheet">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -47,13 +39,16 @@ $("#mailWriteForm").submit(checkMail);  //submit은 폼의 아이디를 가지�
 <jsp:include page="common/menu.jsp" flush="true" />
 <div class="selfMailFormContainer">
 <form action="sendSelfMailProcess" method="post" enctype="multipart/form-data" id="mailWriteForm">
+		<h1 style="margin: 0;color: #333; padding-bottom: 20px; font-size: 30px;">내게 쓰기</h1>
+		
+		<div style="border:1px solid #8080806b;">
 		<div class="mailHeader">
 			<div class="mailWriteMenu">
 				<div>
-					<button type="submit" style="width: 110px;">
-						&nbsp;<strong>내게 쓰기</strong>
+					<button type="submit" class="send-me-mail">
+						내게 보내기
 					</button>
-					&nbsp;&nbsp; <a href="writeMail">메일 쓰기</a>&nbsp;&nbsp;
+					<button class="go-mail-btn"><a href="writeMail">메일 쓰기로 가기</a></button>
 				</div>
 			</div>
 		</div>
@@ -61,20 +56,22 @@ $("#mailWriteForm").submit(checkMail);  //submit은 폼의 아이디를 가지�
 		<div id="mailRegister">
 			<div>
 				<div>
-					<strong>제목 </strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
-					<input type="text" size="130" style="height: 30px"
-						name="mail_title" id="mail_title">
+					<span class="span-style">메일 제목 </span>
+					<input type="text" name="mail_title" id="mail_title" style="	height: 24px;
+					    width: 700px;border: 1px solid #a7a0a09e; font-size: 12px; background-color: rgb(41 119 22 / 19%);
+					    border-radius: 1em; padding-left: 15px;">
 				</div>
 			</div>
-			<br> <br>
+			<br>
 			<div>
 				<div>
-					<strong>파일첨부 </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="span-style">파일 첨부 </span>
 					<input type="file" name="mail_file">
 				</div>
 			</div>
-			<br> <br>
+			<br>
 			<textarea rows="20" cols="150" name="mail_content" class="mail_content"></textarea>
+		</div>
 		</div>
 	</form>
 </div>

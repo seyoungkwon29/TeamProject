@@ -38,19 +38,23 @@
       <div class="pwchange_modal-body">
         <form id="pwchange_form" action="loginCheck/pwchange" method="POST">
           <input type="hidden" name="userId" value="<%=dto.getMember_num()%>">
-          <table>
+          
+          <table class="table-pw">
             <tr>
-              <td>변경할 비밀번호</td>
-              <td><input type="password" name="updatePwd" id="pwd1" required></td>
+              <td class="td-pw">변경할 비밀번호</td>
+              <td><input type="password" name="updatePwd" id="pwd1" class="td-pw-2" required></td>
+              
             </tr>
             <tr>
-              <td>변경할 비밀번호 확인</td>
-              <td><input type="password" name="checkPwd" id="pwd2" required></td>
+              <td class="td-pw">변경할 비밀번호 확인</td>
+              <td><input type="password" name="checkPwd" id="pwd2" class="td-pw-2" required></td>
             </tr>
           </table>
-          <br>
-          <input type="submit" class="btn_btn-warning" value="비밀번호 변경">
-          <button type="button" class="close" data-dismiss="modal">취소</button>
+          
+          <div class="pw-foot-btn">
+          	<input type="submit" class="btn_btn-warning" value="비밀번호 변경" id="pw-modal-Lbtn">
+         	 <button type="button" class="close" data-dismiss="modal" id="pw-modal-Rbtn">취소</button>
+       	 </div>
         </form>
       </div>
     </div>

@@ -7,11 +7,14 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.common.FileStore;
@@ -69,6 +73,7 @@ public class CommunityDownloadController {
 	
 	@GetMapping("/communities/{comNum}/files/{filename:.+}")
 	public ResponseEntity<Resource> dowunloadFile(@PathVariable Long comNum, @PathVariable String filename) throws MalformedURLException, UnsupportedEncodingException {
+		filename = UriUtils.decode(filename, StandardCharsets.UTF_8.toString());
 		CommunityDTO community = communityService.getCommunityByNum(comNum);
 		
 		List<UploadFileDTO> files = community.getFiles();
@@ -98,17 +103,20 @@ public class CommunityDownloadController {
 	}
 
 	@PostMapping("/communities/images")
-	public ResponseEntity<UploadImageResponseDTO> uploadImage(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+	public ResponseEntity<UploadImageResponseDTO> uploadImage(@RequestParam("image") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
 		
 		UploadFileDTO image = fileStore.storeFile(multipartFile);
 		
 		log.debug("POST`/communities/images` [{}][{}]", image.getOriginalFilename(), fileStore.getFullPath(image.getStoreFilename()));
-		
-		UploadImageResponseDTO body = new UploadImageResponseDTO("ok", "images/" + image.getStoreFilename());
+				
+		String imageUrl = request.getContextPath() + "/communities/images/" + image.getStoreFilename();
+		UploadImageResponseDTO body = new UploadImageResponseDTO("ok", image.getOriginalFilename(), imageUrl);
 		
 		return ResponseEntity.ok(body);
 	}
 	
+
+
 	@GetMapping("/communities/images/{filename:.+}")
 	public ResponseEntity<Resource> image(@PathVariable String filename) throws MalformedURLException {
 		

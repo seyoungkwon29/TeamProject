@@ -37,7 +37,7 @@
 				</div>
 			</div>
 			
-			<div class="app-modal-footer" id="m-footer"> &nbsp;
+			<div class="app-modal-footer" id="m-footer">
 				<button class="m-confirm-btn" id="m-confirm-btn">확인</button>
 				<button class="m-cancel-btn" id="m-cancel-btn">취소</button>
 			</div>
@@ -57,13 +57,13 @@
 		varType = type; // 변수에 type 넣어주기
 		
 		if(type == "app") { //버튼을 눌렀을 때 매개변수로 넘어온 type가 app일 때: 결재자
-			$("#header").html("결재자 선택");
-			$("#s-text").html("결재자");
+			$("#header").html("결재자 선택하기");
+			$("#s-text").html("결재자 확인");
 			$("#s-list").html(appArrText.join("<br>")); //배열 내의 모든 요소를 문자열로 합치고, 요소 사이에 <br>태그
 		}
 		else if(type == "ref") { //버튼을 눌렀을 때 매개변수로 넘어온 type가 ref일 때: 참조자
-			$("#header").html("참조자 선택");
-			$("#s-text").html("참조자");
+			$("#header").html("참조자 선택하기");
+			$("#s-text").html("참조자 확인");
 			$("#s-list").html(refArrText.join("<br>")); //배열 내의 모든 요소를 문자열로 합치고, 요소 사이에 <br>태그
 		}
 		$("#app-t-modal").fadeIn(); //클릭시, 모달창 나옴

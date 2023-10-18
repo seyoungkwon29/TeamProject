@@ -3,8 +3,6 @@ package com.controller.projectmanagement;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,18 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.constant.LoginConstant;
 import com.dto.MemberDTO;
 import com.dto.ProjectDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ProjectService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
-
+@CrossOrigin
 @RequestMapping("/api")
 public class ProjectManagementController {
 	@Autowired
@@ -46,9 +41,8 @@ public class ProjectManagementController {
 			int member_num = loginMember.getMember_num();
 			
 			list  = service.getAllProject(member_num);
-			System.out.println("List 정보 : " + list.get(0));
+			//System.out.println("List 정보 : " + list.get(0));
 		}
-		
 		return list;
     }
 	

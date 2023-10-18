@@ -83,39 +83,70 @@
 });//윈도우 end
 </script>
 
-<!-- 마이페이지 시작 -->
-<h2>나의 정보</h2>
-<br>
-<br>
-<form action="loginCheck/update" method="post">
-	<div class="mypage-section">
-		<div class="mypage-image">
-			<img src="/profilepic/<%=dto.getPhoto()%>"
-				width="250" height="auto"><br> <br> <!--server.xml에서 /profilepic경로 지정해줌ㄴ -->
-				<a class="profile_pic" id="profile_pic">프로필사진변경</a><br> 
-				<a class="pw_change" id="pw_change">비밀번호변경</a>
-		</div>
-		<div class="mypage-profile">
+<div class="mypage-container">
+	<form action="loginCheck/update" method="post">
 
-			<div class="horizontal-container">
-				<h1 class="member-name"><%=dto.getMember_name()%></h1>&nbsp;
-				&nbsp; <span class="rank"><%=dto.getRank()%></span>
-			</div>
-			<input type="hidden" value="<%=member_num%>" " name="member_num">
-			
-			<div class="link_set"> 사번&nbsp;:&nbsp; <%=dto.getMember_num()%></div><br> 
-			<div class="link_set">소속부서&nbsp;:&nbsp;  <%=dto.getDiv_name()%></div><br>
-			<div class="link_set">주소&nbsp;:&nbsp; <%=dto.getAddress()%></div><br> 
-			<div class="link_set">휴대폰번호&nbsp;:&nbsp; <input type="text" value="<%=phone%>" name="phone" id="phone"  maxlength="11"></div><br>
-			<div class="link_set">메일주소&nbsp;:&nbsp; <input type="email" value="<%=mail%>" name="mail" id="mail"></div><br>
-			<div class="link_set">입사일&nbsp;:&nbsp;<%=dto.getHire_date()%></div><br> 
-			<div class="link_set">잔여연차&nbsp;:&nbsp;<%=dto.getAnnual_leave()%></div><br>
-			<br> 
-			<input type="submit" value="수정">
-			<input type="reset" value="취소">
-		</div>
-	</div>
-</form>
+		<h1 style="margin: 0; color: #333; font-size: 30px; padding-bottom:60px;">마이 페이지</h1>
+
+		<div class="div-table-top" style="width: 100%;">
+			<table class="top-table">
+			  <tbody><tr>
+			    <td class="tr-left">프로필 사진</td>
+			    <td class="tr-right">
+		    	 	
+				      		 <img src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="250" height="auto"><br> <br> 
+<%-- 				      		 <img src="/profilepic/<%=dto.getPhoto()%>" width="250" height="auto"><br> <br>  --%>
+				    
+	        		<a class="prof-button" id="profile_pic">프로필사진 변경</a> &nbsp;&nbsp;
+	       			<a class="prof-button" id="pw_change">비밀번호 변경</a>
+	       			
+	     		</td>
+			  </tr>
+			  <tr>
+			  	<td class="tr-left"> 이름 </td>
+			  	<td class="tr-right"> 			
+					<span class="member-name"><%=dto.getMember_name() %></span>&nbsp;&nbsp;
+					<span class="mem-rank">사원</span>
+			   </td>
+			  </tr><tr>
+	        
+	          </tr><tr>
+	            <td class="tr-left">사번</td>
+	            <td class="tr-right"><%=dto.getMember_num() %></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">소속부서</td>
+	            <td class="tr-right"><%=dto.getDiv_name()%></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">주소</td>
+	            <td class="tr-right"><%=dto.getAddress()%></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">휴대폰번호</td>
+	            <td class="tr-right"><input type="text" value="<%=phone%>" name="phone" id="phone" maxlength="11" class="input-phone-mail"></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">메일주소</td>
+	            <td class="tr-right"><input type="email" value="<%=mail%>" name="mail" id="mail" class="input-phone-mail"></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">입사일</td>
+	            <td class="tr-right"><%=dto.getHire_date()%></td>
+	          </tr>
+	          <tr>
+	            <td class="tr-left">잔여연차</td>
+	            <td class="tr-right"><%=dto.getAnnual_leave()%></td>
+	          </tr>
+	     </tbody></table>
+		 </div>
+	
+		 <div class="mypage-footer">
+			<input class="mypage-footer-btn" type="submit" value="수정">
+			<input class="mypage-footer-btn" type="reset" value="취소">
+		 </div>
+	</form>
+</div>
 
 
 <!-- The Modal 포함-->

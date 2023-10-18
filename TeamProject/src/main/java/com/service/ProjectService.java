@@ -21,7 +21,6 @@ public class ProjectService {
 
 	public List<ProjectDTO> getAllProject(int member_num) {
 		List<ProjectDTO> list = dao.getAllProject(member_num);
-		
 		return list;
 	}
 

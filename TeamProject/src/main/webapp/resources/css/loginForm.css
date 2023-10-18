@@ -1,92 +1,134 @@
 @charset "UTF-8";
 
-
 body {
     font-family: Arial, sans-serif;
-  }
-  
-  .wrapper {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
     height: 100vh;
-  }
-  
-  .logo {
-    width: 60%;
-  }
+    margin: 0;
+}
 
-  .logoDiv{
-    display: flex;
-    justify-content: center;
-  }
-  
-  fieldset {
-    border: 2px solid #2db376;
-    border-radius: 10px;
+.login-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
     padding: 20px;
-    margin: 20px;
-  }
-
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 5px;
-    margin: 5px 0;
-    border: 1px solid #2db376;
-    border-radius: 5px;
-    height: 35%;
-  }
-  
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    border: 2px solid #2db376;
-    outline: none;
-  }
-  
-  .login_btn {
-	background-color: #2db376;
-	color: white;
-    border: none;
-    padding: 15px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    height: 80%;
-    width: 100%;
-    transition: background-color 0.2s ease;
-  }
-  
-  
-  a {
-    color: dimgray;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: rgb(25, 24, 24);
-    text-decoration: none;
-  }
-  
-.input{
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+    max-width: 400px;
 }
 
+.logo {
+    max-width: 100%;
+}
+
+.logoDiv {
+	margin-bottom: 18px;
+}
+
+fieldset {
+    border: 2px solid #d2d2d275;
+    border-radius: 20px;
+    padding: 10px 15px 20px 15px;
+}
+.input_text {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.input_text input {
+    width: 230px;
+    padding: 7px 0px 3px 0px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    color: #b7abab;
+    font-size: 12px;
+}
 .input_btn{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	 text-align: center;
+}
+.login_btn {
+    width: 230px;
+    background: #52a782;
+    color: #fff;
+    padding: 5px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 8px;
+    letter-spacing: 1px;
 }
 
-.saveCheckDiv{
-  margin-left: 10px;
-  color: dimgray;
+.login_btn:hover {
+    background: #429b74;
 }
 
-.passwordSearch{
-  display: flex;
-  justify-content: center;
+.saveCheckDiv {
+	display: flex;
+    margin: 8px 0px 8px 20px;
+    font-size: 12px;
+    color: #3d3a3a;
+}
+
+#saveCheck {
+    margin-left: 8px;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;; /* 여백을 조절하여 원 모양의 체크박스 크기 조절 가능 */
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px; /* 원 모양의 체크박스 크기 조절 */
+    width: 15px; /* 원 모양의 체크박스 크기 조절 */
+    background-color: #ffffff;
+    border: 1px solid #3333339c; /* 외곽선 스타일과 색상 조절 */
+    border-radius: 50%; /* 원 모양으로 만들기 */
+}
+
+.custom-checkbox input:checked + .checkmark:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border: 2px solid #413a3a7a;
+    border-top: none;
+    border-left: none;
+    width: 5px;
+    height: 9px;
+    transform: rotate(45deg);
+    top: 2px;
+    left: 4px;
+}
+
+.passwordSearch
+{
+    margin-top: 15px;
+    float: right;
+}
+
+.passwordSearch a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #72767acc; /* 링크 텍스트 색상 지정 */
+    font-size: 13px;
+}
+
+.passwordSearch a:hover {
+    color: #429b74;
+    font-weight: bold;
 }

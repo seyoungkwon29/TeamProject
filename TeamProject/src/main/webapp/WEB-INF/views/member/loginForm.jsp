@@ -86,27 +86,33 @@
 	}
 </script>
 
-<form action="login" method="post">
-    <div class="logoDiv"><img class="logo" src="resources/image/logo.png" alt=""></div>
-    <div class="fieldset">
-        <fieldset>
-            <div class="input">
-                <div class="input_text">
-                    <input type="text" name="member_num" placeholder="사원번호" style="text-align: center"><br>
-                    <input type="password" name="password" placeholder="비밀번호" style="text-align: center"><br>
-                </div>
-                <div class="input_btn">
-                    <button class="login_btn" onclick="submit">로그인</button><br>
-                </div>
-            </div>
-            <div class="saveCheckDiv">
-                로그인 상태 유지<input type="checkbox" id="saveCheck"/>
-                <label for="saveCheck"></label>
-            </div>
-        </fieldset>
-    </div>
-    <div class="passwordSearch">
-        <a href="passwordSearch"> 비밀번호 찾기  </a>
-    </div>
-</form>
-
+<div style="width:300px;">
+	<form action="login" method="post">
+	    <div class="logoDiv"><img class="logo" src="resources/image/EVERYWARE.png" alt=""></div>
+	    <div class="fieldset">
+	        <fieldset>
+	            <div class="input">
+	                <div class="input_text">
+	                    <input type="text" name="member_num" placeholder="사원번호" style="text-align: center"><br>
+	                    <input type="password" name="password" placeholder="비밀번호" style="text-align: center"><br>
+	                </div>
+	                    <div class="saveCheckDiv">
+					        <label class="custom-checkbox">
+					            <input type="checkbox" id="saveCheck">
+					            <span class="checkmark"></span>
+					        </label>
+					        	로그인 상태 유지
+					    </div>
+	
+	                <div class="input_btn">
+	                    <button class="login_btn" onclick="submit">로그인</button><br>
+	                </div>
+	            </div>
+	
+	        </fieldset>
+	    </div>
+	    <div class="passwordSearch">
+	        <a href="passwordSearch"> 비밀번호 찾기  </a>
+	    </div>
+	</form>
+</div>
