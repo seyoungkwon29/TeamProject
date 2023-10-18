@@ -48,8 +48,7 @@
 
 <div id="s-container">
 	<div class="attend-head">
-		<h1 style="margin: 0; color: #333;">근태 관리</h1>
-<!-- 		<p class="attend-modify">출근과 퇴근 기록하기</p> -->
+		<h1 style="margin: 0; color: #333; font-size: 30px;">근태 관리</h1>
 	</div>
 	
 	<div class="attend-body">	

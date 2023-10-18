@@ -22,6 +22,12 @@
 		     $("#titleModal").fadeOut(200);
 	    }
 	    });
+	    
+	    
+	    $("#cancel").click(function(){
+			 $("#titleModal").fadeOut(200);
+	    });
+	    
 
 	    // 모달 밖을 클릭했을 때
 	    $(document).on("click", function(event) {

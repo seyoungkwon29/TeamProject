@@ -160,20 +160,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        (SEQ_DOC.NEXTVAL, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_status}, #{doc_date})
 	</insert>
 	
-	<insert id="saveDocFile" parameterType="AppFileDTO"> <!-- 파일 저장 -->
-	    INSERT INTO
-	        APP_FILE (FILE_NO, DOC_NO, FILE_NAME)
-	    VALUES
-	        (SEQ_FILE.NEXTVAL, 
-        <if test="doc_no == 0">
-			SEQ_DOC.CURRVAL
-		</if>
-		<if test="doc_no != 0">
-			#{doc_no}
-		</if>
-			, #{file_name})
-	</insert>
-	
 	<delete id="tempDocDelete" parameterType="int"> <!-- 임시저장함 안의 문서 삭제-->
 	    DELETE FROM
 	        APP_DOC
@@ -190,7 +176,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        DOC_NO = #{doc_no}
 	</select>
 	
-	<delete id="draftfileCancel" parameterType="int"> <!-- 파일 삭제하기 -->
+	<delete id="removeFile" parameterType="int"> <!-- 파일 삭제하기 -->
 	    DELETE FROM
 	        APP_FILE
 	    WHERE
@@ -423,11 +409,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			APP_NO = #{app_no}
 	</update>
 	
-	<insert id="insertFile"><!-- 파일 등록 -->
+	<insert id="registerFile"><!-- 파일 등록 -->
 		INSERT INTO 
 			APP_FILE 
-		VALUES
-			(SEQ_FILE.NEXTVAL, 
+		VALUES (
+		<if test="doc_no == 0">
+			SEQ_FILE.NEXTVAL, 
+		</if>
 		<if test="doc_no == 0">
 			SEQ_DOC.CURRVAL
 		</if>

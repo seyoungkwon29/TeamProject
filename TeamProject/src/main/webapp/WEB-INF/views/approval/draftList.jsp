@@ -14,7 +14,8 @@
 
  <!-- 문서 보기  -->
 	<div class="s-container">
-		<h2 id="h-title">기안 문서함</h2>		
+		<h1 id="h-title">기안 문서함</h1>
+
 		<div class="top-List">
 			<span class="type"><a href="draftList?parameter=draft">전체</a></span>
 			<span class="type"><a href="draftList?parameter=draft&docStatus=대기">대기</a></span>

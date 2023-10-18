@@ -14,7 +14,7 @@
 <body>
 <!-- 임시저장 문서 보기 -->
 	<div class="s-container">
-		<h2 id="h-title">임시 저장함</h2>
+		<h1 id="h-title">임시 문서함</h1>
 		<span style="display:inline-block; height:47px"></span>
 		<button id="app-btn" class="app-btn">문서 기안</button>
 		

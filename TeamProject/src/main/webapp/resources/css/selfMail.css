@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+.selfMailFormContainer {
+    position: absolute;
+    top: 120px;
+    left: 400px;
+    width: 900px;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.send-me-mail{
+    color: #3f3434;
+    border: 1px solid #80808030;
+    padding: 7px 33px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 1px;
+    background: #80808005;
+}
+.send-me-mail:hover{
+    color: #000;
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
+}
+.go-mail-btn {
+    margin-left: 5px;
+    background-color: #8080800d;
+    border: 1px solid #8080803b;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+}
+.go-mail-btn a{
+	text-decoration: none;
+    color: #3f3434;
+    padding: 6px 10px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.go-mail-btn:hover {
+    color: #000;
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
+}
+h1 {
+    margin: 0;
+    color: #333;
+    padding-bottom: 20px;
+}
+
+.mailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 38px 5px 42px;
+}
+
+.mail-sendMe-btn {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 0px 13px;
+    cursor: pointer;
+    margin-left: 15px;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+.mail-sendMe-btn a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 10px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.mail-sendMe-btn a:hover {
+    background-color: #45a049;
+}
+
+#mailRegister {
+    padding: 20px 40px;
+}
+.span-style {
+    font-size: 14px;
+    font-weight: 900;
+    margin-right: 30px;
+}
+
+/* .input_mail_title { */
+/* 	height: 24px; */
+/*     width: 700px; */
+/*     border: 1px solid #a7a0a09e; */
+/*     font-size: 12px; */
+/*     background-color: rgb(41 119 22 / 19%); */
+/*     border-radius: 1em; */
+/*     padding-left: 15px; */
+/* } */
+
+.mail_content {
+    width: 795px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

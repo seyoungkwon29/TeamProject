@@ -29,43 +29,63 @@
 </script>
 <style type="text/css">
 .mybtn{
-  width:150px;
-  height:40px;
-  padding:0;
-  display:inline; 
-  border-radius: 4px; 
-  background: #2db376;
-  color: #fff;
-  margin-top: 20px;
-  border: solid 2px #2db376; 
-  transition: all 0.5s ease-in-out 0s;
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    display: inline;
+    border-radius: 6px;
+    background: #e0e4e242;
+    color: #282222;
+    margin-top: 13px;
+    border: solid 1px #172a2136;
+    transition: all 0.2s ease-in-out 0s;
+    font-size: 12px;
+    margin-right: 10px;
+    cursor: pointer;
 }
-.mybtn:hover .mybtn:focus {
-  background: white;
-  color: #212529;
-  text-decoration: none;
+.mybtn:hover, .mybtn:focus {
+    color: #000;
+    background: rgba(230, 230, 230, 0.25);
+    border: 2px solid #21875a;
+    font-weight: bold;
+}
+.input-style {
+	padding: 8px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    margin-top: 3px;
+}
+.find-pw {
+    font-weight: bolder;
+    margin-top: 35px;
+    font-size: 15px;
+    color: #433c3c;
+    padding: 5px;
 }
 </style>
 <title>비밀번호 찾기</title>
 </head>
 <body>
-	<div class="w3-content w3-container w3-margin-top">
-		<div class="w3-container w3-card-4 w3-auto" style="width: 382px;height: 456.3px;">
+	<div style="margin-top: 10%;">
+		<div class="w3-container w3-card-4 w3-auto" 
+			 style="width: 360px; height: 330px; border-radius: 18px; box-shadow: 0 4px 10px 0 rgb(0 0 0 / 4%), 0 4px 20px 0 rgb(0 0 0 / 9%);">
 			<div class="w3-center w3-large w3-margin-top">
-				<h3>비밀번호 찾기</h3>
+				<h3 class="find-pw">비밀번호 찾기</h3>
 			</div>
-			<div>
+			<div style="margin: 30px; font-size: 13px;">
 				<p>
 					<label>사원번호</label>
-					<input class="w3-input" type="text" id="member_num" name="member_num" placeholder="사원번호를 입력하세요" required>
+					<input class="input-style" type="text" id="member_num" name="member_num" placeholder="사원번호를 입력하세요" required>
 				</p>
 				<p>
 					<label>이메일</label>
-					<input class="w3-input" type="text" id="mail" name="mail" placeholder="이메일주소를 입력하세요" required>
+					<input class="input-style" type="text" id="mail" name="mail" placeholder="이메일주소를 입력하세요" required>
 				</p>
 				<p class="w3-center">
-					<button type="button" id="findBtn" class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">찾기</button>
-					<button type="button" onclick="history.go(-1);" class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">로그인으로</button>
+					<button type="button" id="findBtn" class="mybtn">찾기</button>
+					<button type="button" onclick="history.go(-1);" class="mybtn">로그인 화면</button>
 				</p>
 			</div>
 		</div>

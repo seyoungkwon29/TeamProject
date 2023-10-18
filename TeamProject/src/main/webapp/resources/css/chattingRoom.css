@@ -1,170 +1,180 @@
 @charset "UTF-8";
 
 *{
-			margin:0;
-			padding:0;
-		}
-		.room-container{
-			height: 100%;
-            width: 100%;
-			margin: 0 auto;
-            border-color: 1px solid #21875A;
-            
-		}
-		.room-container h4{
-			text-align: left;
-			color: rgb(9, 27, 41);
-			margin-left: 5px;
-		}
-		.c-chatting{
-			background-color: white;
-			overflow : scroll;
-            min-height: 460px;
-            min-width: 330px;
-            height: 80%;
-            display: flex;
-    		flex-direction: column;
-    		overflow-x: auto;
-    		margin-bottom: 58px;
-		}
-		
-		#chatting{
-			display: flex;
-    		flex-direction: column;
-		}
+	margin:0;
+	padding:0;
+}
+.room-container{
+	height: 100%;
+    width: 100%;
+	margin: 0 auto;
+    border-color: 1px solid #21875A;
+          
+}
+.room-container h4{
+	text-align: left;
+    color: rgb(9, 27, 41);
+    margin-left: 5px;
+    margin-bottom: 7px;
+}
+.c-chatting{
+	background-color: white;
+	overflow : scroll;
+    min-width: 330px;
+    height: 80%;
+    display: flex;
+  	flex-direction: column;
+  	overflow-x: auto;
+  	margin-bottom: 58px;
+}
+
+#chatting{
+	display: flex;
+    flex-direction: column;
+    margin: 0px 18px 18px 18px;
+}
 
 
-        #sendChatting{
-            cursor: pointer;
-            width: 100%;
-            min-height: 30px;
-            border-radius: 1rem;
-            margin-left: 8px;
-            border: 1px solid #073f26;
-        }
-
-        .inputTable{
-            width: 100%;
-        }
-        
-
-        #sendBtn{
-           padding: 8px 9px;
-		   background-color: #197f51;
-		   border-radius: 1rem;
-		   color: white;
-		   border: none;
-        }
-        
-        #yourMsg{
-        	position: sticky;
-    		bottom: 0;
-    		padding: 10px;
-    		background-color: black;
-    		position: fixed;
-    		width: 100%;
-        }
-        
-	.me {
-	    position: relative;
-	    color: black;
-	    text-align: left;
-	    display: flex;
-	    float: right;
-		margin-right: 5px;
-		align-self: flex-end;
-		margin-bottom: 5px;
-		}
-	
-	.others {
-	    padding: 5px 10px;
-	    position: relative;
-	    color: black;
-	    text-align: left;
-		display: flex;
-	    flex-direction: column;
-	    align-items: flex-start; /* 요소들을 왼쪽 정렬 */
-		margin-bottom: 5px;
-	}
-	
-	.time-r{
-		text-align: right;
-		font-size: x-small;
-		align-self: flex-end;
-    	padding: 5px;
-	}
-	
-	.time-l{
-		text-align: left;
-		font-size: x-small;
-		align-self: flex-end;
-    	padding: 5px;
-	}
-	
-	.my-msg{
-	    padding: 7px 15px;
-		border : 1px solid green;
-	    border-radius: 15px 15px 0 15px;
-	    word-wrap: break-word;
-	    max-width: 200px;
-	    margin-top : 5px;
-	}
-	
-	.other-msg{
-	    padding: 7px 15px;
-	    border : 1px solid gray;
-	    border-radius: 15px 15px 15px 0;
-	    word-wrap: break-word;
-	    max-width: 200px; /* 원하는 최대 너비 설정 */
-	}
-	
-	.otherName{
-		font-size: small;
-		padding: 5px
-	}
-	
-	.r-header{
-		display: flex; 
-		border-bottom: 3px solid #21875A;
-		padding: 8px;
-    	position: sticky;
-    	top: 0;
-    	background-color:white; 
-    	z-index: 10;
-    	justify-content: space-between;
-	}
-	
-	.h-top{
-		display: flex;
-		flex-direction: column;
-	}
-	.h-bottom{
-		display: flex;
-		position: relative;
-    	margin-bottom: -3px;
-	}
-	.h-bottom img{
-		height: 20px;	
-	}
-	
-	.h-right{
-	    display: flex;
-    	align-items: center;
-	}
-
-	#r-setting{
-		width: 30px;
-		height: 30px;
-		cursor: pointer;
-	}
-.h-bottom-bind{
-	display: inline-flex;
+#sendChatting{
 	cursor: pointer;
-	position: relative;
-	margin-left: 5px;
-    background-color: #d7d7d7;
+    width: 95%;
+    min-height: 30px;
     border-radius: 1rem;
-    padding: 0px 3px;
+    margin-left: 8px;
+    border: 1px solid #1418167a;
+    padding-left: 20px;
+}
+
+.inputTable{
+   	width: 100%;
+}
+      
+
+#sendBtn{
+	padding: 8px 15px;
+    background-color: #197f51b8;
+    border-radius: 1rem;
+    color: white;
+    border: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-right: 7px;
+}
+      
+#yourMsg{
+	position: sticky;
+    bottom: 0;
+    padding: 10px;
+    background: #f8f8f8;
+    position: fixed;
+    width: 100%;
+    height: 38px;
+    border-top: 2px solid #13612d6b;
+}
+      
+.me {
+	position: relative;
+    color: black;
+    text-align: left;
+    display: flex;
+    float: right;
+    align-self: flex-end;
+    margin-top: 8px;
+}
+
+.others {
+padding: 5px 10px;
+    position: relative;
+    color: black;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0px 12px;
+}
+
+.time-r{
+    text-align: right;
+    font-size: x-small;
+    align-self: flex-end;
+    padding: 5px 6px 5px 5px;
+}
+
+.time-l{
+	text-align: left;
+	font-size: x-small;
+	align-self: flex-end;
+   	padding: 5px 5px 5px 6px;
+}
+
+.my-msg{
+    padding: 7px 15px;
+    border: 1px solid #64b664;
+    border-radius: 15px 15px 0 15px;
+    word-wrap: break-word;
+    max-width: 200px;
+    margin: 5px 0px 2px 0px;
+    font-size: 13px;
+}
+
+.other-msg{
+	padding: 7px 15px;
+    border: 1px solid #808080d9;
+    border-radius: 0px 15px 15px 15px;
+    word-wrap: break-word;
+    max-width: 200px;
+    font-size: 13px;
+}
+
+.otherName{
+	font-size: 12px;
+    padding: 5px;
+}
+
+.r-header{
+    display: flex;
+    /* border-bottom: 3px solid #21875A; */
+    padding: 15px;
+    position: sticky;
+    /* top: 0; */
+    background-color: #b8c2b530;
+    z-index: 10;
+    justify-content: space-between;
+    border-radius: 20px;
+    margin: 15px;
+}
+
+.h-top{
+	display: flex;
+	flex-direction: column;
+}
+.h-bottom{
+	display: flex;
+	position: relative;
+   	margin-bottom: -3px;
+}
+.h-bottom img{
+	height: 20px;	
+}
+
+.h-right{
+    display: flex;
+   	align-items: center;
+}
+
+#r-setting{
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+.h-bottom-bind{
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+    margin-left: 5px;
+    background-color: #d7d7d7d4;
+    border-radius: 1rem;
+    padding: 2px 7px;
     font-size: small;
 }	
 	
@@ -174,7 +184,7 @@
     background-color: white;
     color: black;
     text-align: center;
-    border : 2px solid #21875A;
+    border: 2px solid #21875A;
     border-radius: 6px;
     padding: 5px 0;
     position: absolute;
@@ -186,6 +196,7 @@
     transition: opacity 0.3s;
     font-size: small;
     left: 63px;
+    padding: 6px;
 }
 
 .h-bottom-bind:hover .tooltip-text {
@@ -196,13 +207,13 @@
 /* 세로 스크롤바 전체 스타일 */
 ::-webkit-scrollbar {
     width: 10px;  /* 스크롤바의 폭 */
-    background-color: #F5F5F5;  /* 스크롤바의 배경색 */
+   background-color: #F5F5F5;  /* 스크롤바의 배경색 */
 }
 
 /* 스크롤바의 핸들 (실제로 움직이는 부분) */
 ::-webkit-scrollbar-thumb {
     background-color: #c5c5c5;  /* 스크롤바 핸들의 색상 */
-    border-radius: 5px;  /* 스크롤바 핸들의 둥근 모서리 */
+   border-radius: 5px;  /* 스크롤바 핸들의 둥근 모서리 */
 }
 
 /* 호버 시 스크롤바의 핸들 스타일 */
@@ -211,11 +222,28 @@
 }
 
 .c-info{
-	font-size: small;
-	text-align: center;
+    font-size: 12px;
+    text-align: center;
+    background: #b8aeae17;
+    border-radius: 20px;
+    margin: 14px;
+    padding: 8px;
 }
-.c-info p {
-	padding: 5px;
+.c-info-p {
+	padding: 7px;
+    color: #3a2a2adb;
+    letter-spacing: -1px;
+}
+.c-info-p2 {
+	padding: 7px;
+    color: #3a2a2adb;
+    letter-spacing: 1px;
+}
+
+.c-info p:not(.c-info-p):not(.c-info-p2) {
+	padding: 7px;
+    color: #3a2a2adb;
+    letter-spacing: 1px;
 }
 
 .chat-date{
@@ -233,15 +261,17 @@
 .chat-date-center{
     text-align: center;
     display: inline-flex;
-    background-color: #cacaca;
-    padding : 3px;
+    background-color: #d7d7d757;
+    padding: 5px 15px;
     border-radius: 1rem;
-    font-size: small;
-    gap: 3px
+    font-size: 12px;
+    gap: 3px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
 }
 
 
 .wrapper {
     display: flex; /* .other-msg와 .time-l을 일렬로 나열 */
-    align-items: center; /* 중앙에 정렬 */
+   align-items: center; /* 중앙에 정렬 */
 }

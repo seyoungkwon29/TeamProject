@@ -4,7 +4,7 @@
     margin: 0 60px;
     position: absolute;
     left: 300px;
-    padding-top: 120px;
+    padding-top: 90px;
 }
 
 #table {
@@ -14,8 +14,8 @@
 	border-collapse: collapse;
 }
 #table td {
-	border: 1px solid black;
-	font-size: 14.5px;
+	border: 1px solid #0000004a;
+	font-size: 13px;
 }
 .tr-s {
 	height: 23px;
@@ -89,21 +89,21 @@
 	font-weight: bold;
 }
 .btn-select-app:hover, .btn-select-ref:hover { /* 참조자 선택 버튼 */
-	background-color: rgb(200, 200, 200);
+    background-color: rgb(200, 200, 200);
 }
 .i-title { /* 제목 입력 필드 */
-	height: 43px;
-	width: 775px;
-	border: none;
-	padding-left: 10px;
-	font-size: 14.5px;
+    height: 43px;
+    width: 775px;
+    border: none;
+    padding-left: 15px;
+    font-size: 13px;
 }
 
 /* 파일 첨부*/
 .file-div{
-	display: flex; 
-	align-items: center;
-	margin-left: 50px;
+	display: flex;
+    align-items: center;
+    margin-left: -3px;
 }
 .file-s-text { /* 파일 첨부*/
 	margin-right: 13px;	
@@ -112,13 +112,13 @@
 }
 label[for="select_file"] { /* 파일 선택*/
 	cursor: pointer;
-	padding: 8px 15px;
-	margin-right: 20px;
+    padding: 6px 15px;
+    margin-right: 20px;
     margin-left: 15px;
-	background-color: rgb(230, 230, 230);
-	color: #2b2b2b;
-	font-size: 12px;
-	border-radius: 15px;
+    background-color: rgb(230, 230, 230);
+    color: #2b2b2bc9;
+    font-size: 11px;
+    border-radius: 15px;
 }
 label[for="select_file"]:hover {
 	background-color: rgb(200, 200, 200);
@@ -134,8 +134,10 @@ input[type="file"] { /*파일 필드 숨기기: 파일 필드를 절대적으로
     border: 0;
 }
 .file-name {
-	border: none;
-	font-size: 13px;
+    color: gray;
+    border: none;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
 .file-del {
 	display: none;
@@ -165,24 +167,27 @@ input[type="file"] { /*파일 필드 숨기기: 파일 필드를 절대적으로
 
 /* 버튼 영역*/
 .footer-div {
-	margin: 30px 50px 50px 30px;
+	margin: 10px 50px 50px 30px;
 	float: right;
 }
 
 .footer-btn {
 	width: 105px;
-	height: 60px;
-	background-color: white;
-	border: 1px solid rgb(200, 200, 200);
-	color : #3b3b3b;
-	border-radius: 10px;
-	font-size: 14px;
-	cursor: pointer;
-	margin-left: 15px;
-	font-weight: bold;
+    height: 60px;
+    background-color: white;
+    border: 1px solid rgb(135 127 127 / 46%);
+    color: #3b3b3b;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 .footer-btn:hover { /*버튼에 마우스를 올렸을 때 배경색 변경 */
-    background-color: rgb(230, 230, 230);
+    background: rgba(230, 230, 230, 0.25);
+	border: 2px solid #21875a;
+	font-weight: bold;
 }
 
 /* 휴가 신청서 */
@@ -242,6 +247,7 @@ input[type="file"] { /*파일 필드 숨기기: 파일 필드를 절대적으로
 	font-size: 14.5px;
 	font-family: inherit;
 }
+
 
 /* 문서 상세 보기 */
 .td-content-val { /* 내용 값 기본 높이 */

@@ -1,18 +1,32 @@
 @charset "UTF-8";
 
 .tree {
-	margin-left: 300px;
-	width: 100%; /* 원하는 너비(px) 설정 */
-	height: 100%; /* 원하는 높이(px) 설정 */
+	margin-top: 160px;
+    margin-left: 330px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 160px;
 }
 
+.top-mem {
+    letter-spacing: 5px;
+}
+
+.top-li{
+	background: #f9f9f9;
+    color: #564949;
+}
+
+.org-name {
+    margin-bottom: 9px;
+}
 /* li 태그 전체 */
 .tree li {
 	float: left;
-	text-align: center;
-	list-style-type: none;
-	position: relative;
-	padding: 20px 5px 0 5px;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0 10px;
 }
 
 /* 부서 전체  가운데 정렬*/
@@ -70,11 +84,11 @@
 /* a 태그의 박스형태 및 폰트 사이즈 */
 .tree li a {
 	border: 1px solid #ccc;
-	padding: 5px 10px;
+	padding: 18px 20px;
 	text-decoration: none;
 	color: #666;
 	font-family: arial, verdana, tahoma;
-	font-size: 11px;
+	font-size: 12px;
 	display: inline-block;
 	width: 160px;
 	border-radius: 5px;
@@ -86,10 +100,13 @@
 }
 
 /* hover effect */
-.tree li a:hover, .tree li a:hover+ul li a {
-	background: #c8e4f8;
-	color: #000;
-	border: 1px solid #94a0b4;
+.tree li a:not(.top-li):not(.top-mem):hover,
+.tree li a:not(.top-li):not(.top-mem):hover+ul li a {
+    color: #000;
+    background: rgba(230, 230, 230, 0.25); /* 배경색 투명도 추가 */
+	border: 2px solid #21875a;
+	font-weight: 400;
+    
 }
 /*Connector styles on hover*/
 .tree li a:hover+ul li::after, .tree li a:hover+ul li::before, .tree li a:hover+ul::before,
@@ -100,7 +117,8 @@
 /* Modal */
 /* Modal 뒤 반투명 배경 */
 .modal {
-	position: absolute;
+    position: fixed;
+   	z-index: 1000; /* 더 큰 값으로 변경 */
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -111,15 +129,53 @@
 
 /* 실제 Modal 내용 */
 .modal-content {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 45%;
-	height: 35%;
-	padding: 40px;
-	text-align: center;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    padding: 10px 30px 25px 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 12px
+}
+
+.modal-img {
+    border-radius: 50%;
+    padding: 20px;
+    width: 150px;
+}
+
+.th-modal {
+	color: #333;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f9f9f9;
+    text-align: left;
+    padding: 2px 20px 0px;
+}
+
+.th-left-modal {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.h3-class {
+	padding: 10px;
+    font-weight: bold;
+    color: #100d0dd6;
+    text-align: center;
+}
+.title-span2{
+	font-size: 20px;
+    margin-left: px;
+    letter-spacing: 5px;
+}
+.title-span1{
+    font-size: 13px;
+    margin-left: px;
+    letter-spacing: 7px;
+    /* margin-left: 3px; */
+    color: #8080806b;
+    margin-right: 10px;
 }

@@ -37,8 +37,8 @@
 				</div>
 			</div>
 			<div class="c-info">
-				<p>${createdDate}</p>
-				<p>${createdMember}</p>
+				<p class="c-info-p">${createdDate}</p>
+				<p class="c-info-p2">${createdMember}</p>
 			</div>
 			<div class="c-chatting">
 				<input type="hidden" id="sessionId" value="">
@@ -94,7 +94,7 @@
 			<table class="inputTable">
 				<tr>
 					<th><input id="sendChatting" placeholder="메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">send</button></th>
+					<th><button onclick="send()" id="sendBtn">전송</button></th>
 				</tr>
 			</table>
 		</div>
@@ -121,7 +121,7 @@
     <!-- 채팅방 제목 설정 모달 -->
     <div id="titleModal">
 	    <div class="t-modal-content">
-	    <span>채팅방 이름을 입력해주세요</span>
+	    <span style="font-size: 14px;">채팅방 이름을 입력해주세요</span>
 			<input type="text" id="updateTitle">
 		    <div class="t-button">
 		    <button id="update">확인</button>
