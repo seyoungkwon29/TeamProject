@@ -3,11 +3,67 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProjectMapper">
-
 	<select id="getAllProject" resultType="ProjectDTO" parameterType="int">
-		select * from project where project_num in (
-        	select project_num from project_member
-        		where member_num = #{member_num})
+		SELECT * 
+		FROM project 
+		WHERE project_num in (
+			SELECT project_num FROM project_member
+			WHERE member_num = #{member_num})
 	</select>
 	
+	<select id="participatedMemberList" parameterType="int" resultType="MemberDTO">
+		SELECT *
+		FROM member
+		WHERE member_num in(
+    		SELECT member_num 
+    		FROM project_member 
+    		WHERE project_num = #{project_num}
+		)
+	</select>
+	
+	 <insert id="createProject" parameterType="ProjectDTO" useGeneratedKeys="true" 
+	   	keyProperty="project_num" keyColumn="project_num">
+        INSERT INTO project
+        VALUES(
+            seq_project_num.nextval,
+            #{project_title},
+            #{status},
+            #{start_date},
+            #{due_date},
+            #{project_manager},
+            #{member_num}
+        )
+    </insert>
+    
+    <insert id="addProjectMember" parameterType="HashMap">
+    	INSERT INTO project_member 
+    	VALUES(
+    		#{project_num},
+    		#{member_num}
+    	)
+    </insert>
+    
+    <update id="updateProject" parameterType="ProjectDTO">
+    	UPDATE project 
+    	SET 
+			project_title = #{project_title},
+			status = #{status},
+			start_date = #{start_date},
+			due_date = #{due_date} 
+    	WHERE project_num = #{project_num}
+    </update>
+    
+    <select id="selectProjectMembers" parameterType="int" resultType="int">
+    	SELECT member_num FROM project_member
+    	WHERE project_num = #{project_num}
+    </select>
+    
+    
+    <delete id="deleteProjectMembers" parameterType="int">
+    	DELETE project_member WHERE project_num = #{project_num}
+    </delete>
+    
+     <delete id="deleteProject" parameterType="int">
+    	DELETE project WHERE project_num = #{project_num}
+    </delete>
 </mapper>
