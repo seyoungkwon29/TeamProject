@@ -14,21 +14,8 @@ public class ProjectService {
 	@Autowired
 	ProjectDAO dao;
 
-	public List<ProjectDTO> getAllProject() {
-		List<ProjectDTO> list = dao.getAllProject();
-		ArrayList<Object> arr = new ArrayList<>();
-		
-		String title = list.get(0).getProject_title();
-		String start = list.get(0).getStart_date();
-		String end = list.get(0).getDue_date();
-		
-		
-//		Object schedule = new Object() {
-//			aa: title,
-//			bb: start,
-//			cc: end
-//		};
-		
+	public List<ProjectDTO> getAllProject(int member_num) {
+		List<ProjectDTO> list = dao.getAllProject(member_num);
 		return list;
 	}
 	
