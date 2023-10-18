@@ -2,13 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <link rel="stylesheet" href="resources/css/meetingRoom.css">
 <link href='resources/css/calendar.css' rel='stylesheet' />
-<title>회의실 예약</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src='resources/js/calendar.js'></script>
 	
@@ -20,8 +16,6 @@
 	<% if(session.getAttribute("mesg")!=null){
 		session.removeAttribute("mesg");
 	} %>
-</head>
-<body>
 
 <div>
 	<h1 style="margin-top: 100px; margin-left: 400px; color: #333; font-size: 30px;">회의실 예약</h1>
@@ -85,7 +79,6 @@
                        </form>
 				</div>
 </div>
-</body>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -112,21 +105,3 @@ $(document).ready(function() {
       });
 
 </script>
-
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
