@@ -43,8 +43,8 @@ public class ProjectDAO {
 		return list;
 	}
 
-	public void deleteProjectMembers(int project_num) {
-		session.delete("deleteProjectMembers",project_num);
+	public void deleteProjectMembers(Map<String,Integer> parameters) {
+		session.delete("deleteProjectMembers",parameters);
 		
 	}
 

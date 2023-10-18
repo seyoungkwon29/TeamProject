@@ -53,15 +53,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	WHERE project_num = #{project_num}
     </update>
     
+    
+    <!-- 프로젝트 업데이트 SQL -->
     <select id="selectProjectMembers" parameterType="int" resultType="int">
     	SELECT member_num FROM project_member
     	WHERE project_num = #{project_num}
     </select>
-    
-    
-    <delete id="deleteProjectMembers" parameterType="int">
-    	DELETE project_member WHERE project_num = #{project_num}
+    <delete id="deleteProjectMembers" parameterType="HashMap">
+    	DELETE project_member WHERE project_num = #{project_num} AND member_num = #{member_num}
     </delete>
+    
     
      <delete id="deleteProject" parameterType="int">
     	DELETE project WHERE project_num = #{project_num}
