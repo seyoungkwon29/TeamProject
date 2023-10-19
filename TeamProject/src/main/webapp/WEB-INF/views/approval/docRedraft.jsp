@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 <link rel="stylesheet" href="resources/css/docForm.css">
-</head>
 
-<body>
 	<c:set var="login" value="${login}"></c:set> <!-- 본인 로그인 정보 -->
 	<c:set var="doc" value="${docDetail}"></c:set> <!-- 문서 상세 내용 -->
 	<c:set var="file" value="${fileList}"></c:set>  <!-- 파일 -->
@@ -20,11 +13,13 @@
 	<div class="doc-form-container">
 	
 		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; margin: 30px 0;text-align: center;"> 
-		${doc.form_name } </h1>
+			${doc.form_name } <!-- 문서 양식 이름 -->
+		</h1>
 
-		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form">
-		<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 => return true: 제출, return false: 제출 중지 -->
-		<!-- enctype="multipart/form-data: 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->	
+		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form-data">
+			<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 
+				 => return true: 제출, return false: 제출 중지 -->
+			<!-- enctype="multipart/form-data": 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->	
 			<input type="hidden" value="${doc.form_name}" name="form_name" readonly> <!-- 문서 양식 -->
 			<input type="hidden" value="${nowDate }" name="doc_date" readonly> <!-- 기안일 -->
 			<input type="hidden" value="${doc.member_name }" name="member_name" readonly> <!-- 기안자 -->
@@ -102,7 +97,41 @@
 					</td>
 				</tr>
 				
-<!-- 문서 양식 : 휴가 신청서일 경우 -->				
+				<tr id="tr-title" class="tr-m">
+					<td class="td-1">파일첨부</td>
+					<td colspan="7">
+    					<div class="file-div">						
+							<!-- 임시 저장 -->
+							<c:if test="${type == 'temp' }">
+								<label for="select_file">파일 선택</label>
+							
+								<input id="select_file" type="file" name="upload_file" onchange="fileSelect(this.value)">
+								<span id="fileName" class="file-name">
+									<c:if test="${file.file_name != null }">
+										${file.file_name }
+										<button type="button" id="btn-delete" class="file-del2" onclick="deleteFile('${file.file_path}','${file.doc_no}' );">X</button>
+									</c:if>
+									
+									<c:if test="${file.file_name == null }">
+										선택된 파일이 없습니다.
+									</c:if>
+								</span>
+							</c:if>
+							
+							<!-- 반려 재상신 -->
+							<c:if test="${type == 'rej' }">			
+								<label for="select_file">파일 선택</label>
+			               		<input id="select_file" type="file" name="upload_file" onchange="fileSelect(this.value)">
+			               		<span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
+							</c:if>
+							
+							<button type="button" id="fileDel" class="file-del" style="display: none;" onclick="fileDelBtn()">X</button>
+                    	</td>
+				</tr>
+				
+				
+				
+			<!-- 문서 양식 : 휴가 신청서일 경우 -->				
 				<c:set var="form_name" value="${doc.form_name}" />		
 				<c:if test="${form_name eq '휴가신청서'}">
 	                <tr class="tr-m">
@@ -152,7 +181,7 @@
 	                </tr>
 				</c:if>
 				
-<!-- 문서 양식 : 휴가 신청서 아닐 경우 -->				
+			<!-- 문서 양식 : 휴가 신청서 아닐 경우 -->				
 				<c:if test="${form_name ne '휴가신청서'}">
 					<tr class="tr-m">
 						<td colspan="8" class="td-content">내용</td>
@@ -165,40 +194,8 @@
 				</c:if>
 			</table>
 			
-<!-- 파일 첨부 -->			
-			<div class="file-div">
-				<span class="file-s-text">파일 첨부</span>
-				
-				<!-- 임시 저장 -->
-				<c:if test="${type == 'temp' }">
-					<c:if test="${file.file_name == null }">
-						<label for="select_file" id="file-label">파일 선택</label>
-					</c:if>
-					
-					<input id="select_file" type="file" name="file_rename" onchange="fileSelect(this.value)">
-					<span id="fileName" class="file-name">
-						<c:if test="${file.file_name != null }">
-							${file.file_name }
-						</c:if>
-						
-						<c:if test="${file.file_name == null }">
-							선택된 파일이 없습니다.
-						</c:if>
-					</span>
-					
-					<button type="button" id="btn-delete" class="file-del2" onclick="deleteFile('${file.file_path}','${file.doc_no}' );">X</button>
-				</c:if>
-				
-				<!-- 반려 재상신 -->
-				<c:if test="${type == 'rej' }">			
-					<label for="select_file">파일 선택</label>
-               		<input id="select_file" type="file" name="file_name" onchange="fileSelect(this.value)">
-               		<span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
-				</c:if>
-				
-				<button type="button" id="fileDel" class="file-del" style="display: none;" onclick="fileDelBtn()">X</button>
-			</div>
-<!-- 각종 버튼-->			
+
+			<!-- 각종 버튼-->			
 			<c:if test="${type == 'temp' }">
 				<div class="foot-div" style="margin: 30px 50px 50px 30px; float: right;">
 					<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn">
@@ -214,19 +211,19 @@
 				<div class="foot-div" style="margin: 30px 50px 50px 30px; float: right;">
 					<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn">
 					<input type="button" value="임시 저장" onclick="rejTempSave()" class="footer-btn">
-					<input type="button" value="취소" onclick="location.href='parameter=draft'" class="footer-btn">
+					<input type="button" value="취소" onclick="location.href='draftList?parameter=draft'" class="footer-btn">
 				</div> 
 			</c:if>
 		</form>
 	</div>
 	
-<!-- 결재자/참조자 선택 모달 -->				
+	<!-- 결재자/참조자 선택 모달 -->				
 	<jsp:include page="approverModal.jsp"></jsp:include>
 	
+<!-- script -->	
+	<script>
 	
-<script>
-	
-	// 파일 선택 이벤트 리스너
+	//파일 선택 이벤트 리스너
 	function fileSelect(value) {
 	    if($("#select_file").val() == "") { //파일 선택 안했을 때
 	        $("#fileDel").css("display", "none");
@@ -240,20 +237,21 @@
 	    }
 	}
 	
-	//선택한 파일 삭제
+	//반려: 저장된 파일이 없을 경우에 X버튼 화면에서 안보이기	
+	if("${file.file_name}" == null ) { 
+		$(".file-del2").css("display", "none");
+	}
+	
+	//임시저장: 선택한 파일 삭제
 	function fileDelBtn() {
 	    $("#select_file").val("");
 	    $("#fileName").text("선택된 파일이 없습니다.");
 	    fileSelect(); //파일 삭제하고 버튼 숨기기
 	}
-
-	//저장된 파일이 없을 경우	
-	if("${file.file_name}" == "") { 
-		$("#btn-delete").css("display", "none");
-	}
+	    
 	//저장된 파일 삭제	
 	function deleteFile(file_path, doc_no){
-		location.href="/approval/fileDelete.sw?filePath="+file_path+"&docNo="+doc_no;
+		location.href="uploadFileDelete?filePath="+file_path+"&docNo="+doc_no;
 	}
 	
 	//반려 문서 재상신
@@ -263,7 +261,7 @@
 		$("#myForm").attr("action", "SaveDocForm");
 	}
 
-	//결재 요청
+	//반려 재상신 => 결재 요청
 	function docSave() {
 		if ( $("#num-app").val() == "" )  { //결재자 선택 안했을 경우
 			$("#parameter").val("tempRedraft");
@@ -278,7 +276,7 @@
 		}
 	}
 
-    //$("#myForm").submit() 전에 유효성 체크
+    //form을 전송하기 전에 유효성 체크
     function chkValidity() {
         if($("#td-title").val() == "") { //제목 입력 안했을 경우
             alert("제목을 입력해주세요.");
@@ -291,7 +289,7 @@
         }
     }
 	
-    //임시 저장
+    //임시 저장을 임시저장
     function tempSave() {
     	if ( $("#num-app").val() == "" )  { //결재자 선택 안했을 경우
 			$("#parameter").val("tempTemp");
@@ -317,13 +315,6 @@
 			location.href = 'draftDocCancel?type=temp&docNo=${doc.doc_no}'
 		}
 	})
-	
-	//썸머노트 기능
-//  	$("#summernote").summernote({
-//         placeholder: '내용을 입력해 주세요',
-//         tabsize: 2,
-//         height: 250
-//     });
 	
 	if("${form.form_name}" !== "휴가신청서"){
 		CKEDITOR.replace( 
@@ -438,5 +429,3 @@
 	};
 	
 </script>
-</body>
-</html>

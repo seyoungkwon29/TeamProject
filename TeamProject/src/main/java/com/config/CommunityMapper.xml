@@ -13,6 +13,8 @@
 	</resultMap>
 	
 	<resultMap id="UploadFileResultMap" type="UploadFileDTO">
+		<id property="id" column="id"/>
+		<result property="comNum" column="com_num"/>
 		<result property="originalFilename" column="original_filename"/>
 		<result property="storeFilename" column="store_filename"/>
 	</resultMap>
@@ -203,27 +205,37 @@
 	</select>
 	
 	<insert id="insertFile" parameterType="hashMap">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			SELECT COMMUNITY_FILES_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO community_files
-			(com_num, original_filename, store_filename)
+			(id, com_num, original_filename, store_filename)
 		VALUES
-			(#{comNum}, #{originalFilename}, #{storeFilename})
+			(#{id}, #{comNum}, #{originalFilename}, #{storeFilename})
 	</insert>
 	
+	<delete id="deleteFile" parameterType="Long">
+		DELETE FROM community_files where id=#{fileId}
+	</delete>
+	
 	<insert id="insertImage" parameterType="hashMap">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			SELECT COMMUNITY_IMAGES_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO community_images
-			(com_num, original_filename, store_filename)
+			(id, com_num, original_filename, store_filename)
 		VALUES
-			(#{comNum}, #{originalFilename}, #{storeFilename})
+			(#{id}, #{comNum}, #{originalFilename}, #{storeFilename})
 	</insert>
 	
 	<select id="getFilesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
-		SELECT com_num, original_filename, store_filename
+		SELECT id, com_num, original_filename, store_filename
 		FROM community_files
 		WHERE com_num=#{comNum}
 	</select>
 	
 	<select id="getImagesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
-		SELECT com_num, original_filename, store_filename
+		SELECT id, com_num, original_filename, store_filename
 		FROM community_images
 		WHERE com_num=#{comNum}
 	</select> 

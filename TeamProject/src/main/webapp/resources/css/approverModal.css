@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .app-t-modal{
-	position: absolute;
+  	position: fixed;		
 	z-index: 1000; /* 더 큰 값으로 변경 */
 	width: 100%;
 	height: 100%;
@@ -12,7 +12,7 @@
 }
 
 .app-modal-content{
-	width: 400px; 
+	width: 350px; 
 	top: 30%;
     left: 45%;
 	background:#fff; 
@@ -81,10 +81,8 @@
 	letter-spacing: -1px;
 	cursor: pointer;
 	background-color : transparent;
+    font-size: 12px;
 }
-
-
-
 
 .a-m-list {
 	margin-left: 10px;
@@ -106,8 +104,7 @@
 }
 .s-m-select {	
 	margin-top: 15px;
-	font-size: 14px;
-	
+	font-size: 14px;	
 }
 .s-list-div{
     margin-top: 10px;
@@ -117,43 +114,34 @@
     border: solid 1px rgb(190, 190, 190);
     overflow-y: auto;
     height: 90px;
-/*     padding-top: 9px; */
 }
 .s-header {
 	font-weight: bold;
 }
-
-
 .app-modal-footer{
 	padding-top : 5px;
 	border-top: none;
 	text-align: center;
 }
-.m-confirm-btn {
+.m-cancel-btn, .m-confirm-btn {
 	display:inline-flex;
 	justify-content:center;
 	width:80px;
 	height:35px;
 	align-items:center;
 	cursor:pointer;
-	border-radius: 8px;
-	margin-top: 20px;
-	font-size: 14px;
-	border: solid 1px rgb(190, 190, 190);
-	border-radius:5px;		
-	margin-right: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 14px;
+    border: solid 1px rgb(190, 190, 190);
+    border-radius: 5px;
+    margin-right: 7px;
+    background: white;
+    font-size: 12px;
 }
-.m-cancel-btn {
-	display:inline-flex;
-	justify-content:center;
-	width:80px;
-	height:35px;
-	align-items:center;
-	cursor:pointer;
-	border-radius: 8px;
-	margin-top: 20px;
-	font-size: 14px;
-	border-radius:5px;
-	border: solid 1px rgb(190, 190, 190);
-	margin-left: 5px;
+.m-cancel-btn:hover, .m-confirm-btn:hover {
+	background: rgba(230, 230, 230, 0.25);
+	border: 2px solid #21875a;
+	font-weight: bold;
 }

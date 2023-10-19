@@ -11,9 +11,9 @@ public class ProjectDTO {
 	private String due_date;
 	private String project_manager;
 	private int member_num;
+	
 	public ProjectDTO() {
 		super();
-		
 	}
 	
 	public ProjectDTO(int project_num, String project_title, String status, String start_date, String due_date,
@@ -77,7 +77,4 @@ public class ProjectDTO {
 				+ ", start_date=" + start_date + ", due_date=" + due_date + ", project_manager=" + project_manager
 				+ ", member_num=" + member_num + "]";
 	}
-	
-	
-	
 }

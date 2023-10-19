@@ -6,11 +6,12 @@
 
 <style>
 	#pagingContainer {
-		display: flex;
+	    display: inline-flex;
+	    height: 40px;
+	    width: 836px;
+	    margin-left: 257px;
+	    justify-content: center;
 		
-	}
-	#pagingContainer .pagingList{
-		margin: 0 auto;
 	}
 	
 	#pagingContainer .pagingList {
@@ -18,25 +19,30 @@
 		
 	}
 	
-	#pagingContainer .pagingList .pagingTable {
-		width:400px;
-		height: 30px;
-		
-	}
 	#pagingContainer .pagingList .pagingTable .pagingLine {
 		
 	}
 	#pagingContainer .pagingList .pagingTable .pagingLine .pagingBlock{
-		width:30px;
-		text-align: center;
+	  	width: 40px;
+   		height: 40px;
+	    text-align: center;
+	    border: none;
+	    background-color: transparent;
+	    font-size: 14px;
+	    margin: 0 5px;
+	    cursor: pointer;
 	}
 	
 	#pagingContainer .pagingList .pagingBtn {
 		text-decoration: none;
-		color: black;
-		font-size: 20px;
-		font-weight: 700;
-		
+    	color: black;	
+	}
+	
+	#pagingContainer .pagingList .pagingBtn:hover {
+   		border: 1px solid rgb(190 190 190 / 75%);
+    	border-radius: 50%;
+    	font-weight: 600;
+    	padding: 10px 15px;
 	}
 	
 	

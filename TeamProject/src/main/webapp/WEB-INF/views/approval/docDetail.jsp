@@ -3,23 +3,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
 <link rel="stylesheet" href="resources/css/docDetail.css">
-</head>
 
-<body>
-	<c:set var="login" value="${login}"></c:set> <!-- 본인 로그인 정보 -->
-	<c:set var="doc" value="${docDetail}"></c:set> <!-- 문서 상세 내용 -->
-	<c:set var="file" value="${fileList}"></c:set>  <!-- 파일 -->
-	<c:set var="app" value="${appMemList}"></c:set>  <!-- 결재자 -->
-	<c:set var="ref" value="${refMemList}"></c:set>  <!-- 참조자 -->
+<c:set var="login" value="${login}"></c:set> <!-- 본인 로그인 정보 -->
+<c:set var="doc" value="${docDetail}"></c:set> <!-- 문서 상세 내용 -->
+<c:set var="file" value="${fileList}"></c:set>  <!-- 파일 -->
+<c:set var="app" value="${appMemList}"></c:set>  <!-- 결재자 -->
+<c:set var="ref" value="${refMemList}"></c:set>  <!-- 참조자 -->
+
+<div class="doc-container"> 
 	
-	<div class="doc-container"> 
-	
+	<div class="small-doc-contain">
 		<h1 class="head-title" id="h-title"> ${doc.form_name} </h1> <!-- 문서 제목 -->
 		<table id="table">
 			<tr class="tr-s">
@@ -69,6 +63,7 @@
 				<td class="td-1">기안일</td>
 				<td class="td-2">${doc.doc_date}</td>
 			</tr>
+			
 			<tr class="tr-s">
 				<td class="td-1" rowspan="2">기안자</td>
 				
@@ -86,8 +81,7 @@
 				<td class="td-6" style="border-top: none;">${app[2].app_date }</td>
 			</tr>
 			
-			<tr class="tr-s">
-			
+			<tr class="tr-s">		
 				<c:if test="${type == 'draft'}"> <!-- 기안문서함 : 기안자 본인 이름 -->
 					<td class="td-5">${login.member_name}</td> 
 				</c:if>
@@ -117,12 +111,23 @@
 				</td>
 			</tr>
 			
+			<!-- 제목 -->
 			<tr id="tr-title" class="tr-m">
 				<td class="td-1">제목</td>
 				<td colspan="6" class="indent">${doc.doc_title}</td>
 			</tr>
 			
-<!-- 문서 양식 : 휴가 신청서일 경우 -->
+			<!-- 파일 첨부 -->
+			<c:if test="${file.file_path != null}">
+				<tr id="tr-title" class="tr-m">
+					<td class="td-1">파일첨부</td>
+					<td colspan="6" class="indent">
+							<a class="file-a-tag" href="resources/uploadFiles/${file.file_name}"download>${file.file_name}</a>
+					</td>
+				</tr>
+			</c:if>
+			
+	<!-- 문서 양식 : 휴가 신청서일 경우 -->
 			<c:set var="form_name" value="${doc.form_name}" />		
 			<c:if test="${form_name eq '휴가신청서'}">
                 <tr class="tr-m">
@@ -157,41 +162,36 @@
                 </tr>
 			</c:if>
 
-<!-- 문서 양식 : 휴가 신청서 아닐 경우 -->
+	<!-- 문서 양식 : 휴가 신청서 아닐 경우 -->
 			<c:if test="${form_name ne '휴가신청서'}">
 				<tr class="tr-m">
 					<td colspan="7" class="td-content">내용</td>
 				</tr>
 				<tr>
-					<td colspan="7" class="td-content-val" style="padding-left: 10px; padding-bottom: 15px">
+					<td colspan="7" class="td-content-val">
 						${doc.doc_content} <!-- 문서 내용 -->
 					</td>
 				</tr>
 			</c:if>
+			
+			
 		</table>
-<!-- 파일 첨부 -->
-		<div class="div-span">
-			<c:if test="${file.file_path != null}">
-				<div class="div-file">
-					<span class="material-icons" id="file-icon">  </span>
-					<span>첨부 파일</span>
-					<a href="resources/uploadFiles/${file.file_name}"download>${file.file_name}</a>
-				</div>
-			</c:if>
-
+		
+	<!-- 반려 사유 -->
 			<c:forEach items="${appMemList}" var="app">
 				<c:if test="${app.rej_reason != null }">
 					<div class="div-rej">
-						<span class="rej-icons">
+						<div class="rej-icons">
 							<img alt="승인" src="resources/image/redX.png"  height="40px" width="40px">
-						</span>
-						<span class="div-rejName">반려 사유</span>
-						<span class="div-rejReason">${app.rej_reason}</span>
+						</div>
+						<div class="span-rej-bubble">
+							<span class="div-rejName">반려 사유</span>
+							<span class="div-rejReason">${app.rej_reason}</span>
+						</div>
 					</div>
 				</c:if>
 			</c:forEach>
-		</div>
-		
+	</div>	
 <!-- 각종 버튼-->
 		<div class="div-btn">
 			<c:if test="${type == 'draft'}">
@@ -222,7 +222,7 @@
 			
 			
 		</div>
-	</div>
+</div>
 	
 	
 	<script>
@@ -276,5 +276,3 @@
 		})
 
 	</script>
-</body>
-</html>

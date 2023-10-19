@@ -12,24 +12,19 @@ public class ApprovalFileDAO {
 	@Autowired
 	SqlSessionTemplate session;
 
-	public int saveDocFile(AppFileDTO fileDto) {
-		int num = session.insert("ApprovalMapper.saveDocFile", fileDto);
-		return num;
-	}
-
 	public AppFileDTO fileContent(int doc_no) {
 		AppFileDTO fileList = session.selectOne("ApprovalMapper.fileContent", doc_no);
 		return fileList;
 	}
-
-	public int draftfileCancel(int doc_no) {
-		int num = session.delete("ApprovalMapper.draftfileCancel", doc_no);
-		return num;
+	
+	public int registerFile(AppFileDTO file) {
+		int result = session.insert("ApprovalMapper.registerFile", file);
+		return result;
 	}
 
-	public int insertFile(AppFileDTO file) {
-		int result = session.insert("ApprovalMapper.insertFile", file);
-		return result;
+	public int removeFile(int doc_no) {
+		int num = session.delete("ApprovalMapper.removeFile", doc_no);
+		return num;
 	}
 	
 }

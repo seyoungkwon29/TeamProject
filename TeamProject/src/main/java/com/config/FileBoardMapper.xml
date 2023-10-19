@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FileBoardMapper">
+
+		<!-- 시퀀스 추가 구문 create sequence file_board_no_seq start with 1 increment 
+		by 1 maxvalue 500 minvalue 1 cycle; -->
+		
+	<select id="fileBoardList" resultType="FileBoardDTO">
+		select
+		file_board_no,
+		member_num,
+		file_board_date,
+		file_board_title,
+		file_board_content,
+		file_board_view,
+		file_name,
+		file_rename,
+		file_path
+		from file_board
+		order by
+		1 desc
+	</select>
+	
+	<select id="searchListTitle" resultType="FileBoardDTO" parameterType="HashMap" >
+		select * 
+		from file_board
+		where file_board_title like '%'||#{searchVal}||'%' 
+		order by 
+		file_board_no desc
+	</select>
+	
+	<select id="searchListUserId" resultType="FileBoardDTO" parameterType="HashMap" >
+		select * from file_board
+		where member_num like '%'|| ${searchVal} ||'%' 
+		order by 
+		file_board_no desc
+	</select>
+	
+	
+	<select id="fileBoardDetail" parameterType="int" resultType="FileBoardDTO">
+		select
+		file_board_no,
+		member_num,
+		file_board_date,
+		file_board_title,
+		file_board_content,
+		file_board_view,
+		file_name,
+		file_rename,
+		file_path
+		from file_board
+		where
+		file_board_no=#{file_board_no}
+	</select>
+
+	<insert id="fileBoardInsert" parameterType="FileBoardDTO">
+		Insert into
+		FILE_BOARD (
+		file_board_no,
+		member_num,
+		file_board_date,
+		file_board_title,
+		file_board_content,
+		file_board_view,
+		file_name,
+		file_rename,
+		file_path
+		) values (
+		FILE_BOARD_NO_SEQ.nextval,
+		#{member_num},
+		sysdate,
+		#{file_board_title},
+		#{file_board_content},
+		0,
+		'sample val',
+		'sample val',
+		'sample val'
+		)
+	</insert>
+
+	<update id="fileBoardUpdate">
+		update file_board
+		set
+		member_num=#{member_num},
+		file_board_title=#{file_board_title},
+		file_board_content=#{file_board_content}
+		where
+		file_board_no=#{file_board_no}
+	</update>
+
+	<delete id="fileBoardDelete" parameterType="int">
+		delete from
+		file_board
+		where file_board_no = #{file_board_no}
+	</delete>
+	
+	<!--조회수  -->
+	<update id="boardViews" parameterType="int">
+		UPDATE file_board
+		SET
+		file_board_view = file_board_view+1
+		WHERE file_board_no = #{file_board_no}
+	</update>
+	
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="listCount" resultType="FileBoardDTO" parameterType="int">
+	<![CDATA[
+		SELECT * FROM file_board
+		ORDER BY 1 DESC
+	]]>
+	</select>
+	
+	<!-- 총 검색 갯수 출력 -->
+<!-- 	<select id="listCount" resultType="FileBoardDTO" parameterType="int">
+	<![CDATA[
+		SELECT * FROM file_board
+		ORDER BY 1 DESC
+	]]>
+	</select> -->
+</mapper>

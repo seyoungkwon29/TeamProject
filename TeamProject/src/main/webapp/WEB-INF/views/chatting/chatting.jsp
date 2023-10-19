@@ -1,23 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>채팅</title>
+
 <link rel="stylesheet" type="text/css" href="resources/css/chatting.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="resources/js/chatting.js"></script>
 <script src="resources/js/chattingRoom.js"></script>
-</head>
-<body>
+
 <div class="c-container">
 <div class="chatList">
-        <div class="c-head">
+        <div class="head">
             <p>채팅</p>
-            <img src="resources/image/icon/test.png" id="addchat">
-            <img src="resources/image/icon/logout.png" id="chatout">
+            <img src="resources/image/icon/test.png" id="addchat" class="toggleButton">
         </div>
     <div class="contents">
            	<c:forEach var="chat" items="${chatList}" varStatus="status">
@@ -31,7 +25,7 @@
     	            </c:if>
         	    </div>
     	       <div class="center">
-                	<span>${chat.chatroom_title}</span>
+                	<span class="center-span">${chat.chatroom_title}</span>
                 	<span>${latestChatList[status.index].chat_content}</span>
 	           </div>
 	            <div class="right">
@@ -44,8 +38,11 @@
 </div>
 
 <div class="invite">
-    <div class="head2"><p>사용자 초대&#x1F4EC;</p></div>
-    <div class="invite_center">
+    
+    
+    <div class="invite_center">  
+   		<div class="head2"><p>사용자 초대 <span> &#x1F4EC;</span></p></div>
+   		
         <div class="invite_L">
             <div class="select">
                 <select name="searchCondition" class="searchCondition">
@@ -67,7 +64,8 @@
                 </ul>
             </div>
             <div class="memberSelected">
-            	<div id="selected">
+            	<div id="selected" style="	margin-top: 3px; max-height: 55px; min-width: 200px; display: flex; flex-wrap: wrap;
+				    						margin-bottom: 10px;">
             	</div>
             </div>
         </div>
@@ -82,5 +80,3 @@
     </div>
 </div>
 </div>
-</body>
-</html>

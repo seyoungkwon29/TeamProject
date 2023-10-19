@@ -14,6 +14,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        MEMBER
 	</select>
 	
+	<select id="selectHomeAppList" resultType="AppDocumentDTO">
+       SELECT 
+       		*
+		FROM (
+		    SELECT 
+		        d.DOC_NO, 
+		        d.DOC_DATE, 
+		        d.FORM_NAME, 
+		        d.DOC_TITLE, 
+		        m.MEMBER_NAME, 
+		        a.APP_STATUS, 
+		        d.DOC_STATUS 
+		    FROM 
+		        APP_DOC d
+		    INNER JOIN 
+		        APPROVAL a
+		    ON 
+		        d.DOC_NO = a.DOC_NO
+		    INNER JOIN 
+		        MEMBER m
+		    ON 
+		        d.MEMBER_NUM = m.MEMBER_NUM
+		    WHERE 
+		        a.MEMBER_NUM = #{member_num}
+		    AND 
+		        a.APP_STATUS = #{doc_status}
+		    ORDER BY 
+		        d.DOC_NO DESC
+		)
+		WHERE <![CDATA[ROWNUM <= 3]]>
+	</select>
+
 	<select id="searchModalMemberInfo" resultType="ApprovalDTO"> <!-- 모달 멤버 조회 -->
 	    SELECT
 	        MEMBER_NAME,
@@ -97,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			MEMBER_NUM = #{member_num}
 		
 		<if test="doc_status != '전체'">
-			AND DOC_STATUS = '${doc_status}'
+			AND DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '전체'">
 			AND DOC_STATUS != '임시'
@@ -132,7 +164,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			d.DOC_NO,
 			d.MEMBER_NUM,
 			m.MEMBER_NAME,
-			f.FORM_NO,
 			d.FORM_NAME,
 			d.DOC_TITLE,
 			d.DOC_CONTENT,
@@ -160,20 +191,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        (SEQ_DOC.NEXTVAL, #{member_num}, #{form_name}, #{doc_title}, #{doc_content}, #{doc_status}, #{doc_date})
 	</insert>
 	
-	<insert id="saveDocFile" parameterType="AppFileDTO"> <!-- 파일 저장 -->
-	    INSERT INTO
-	        APP_FILE (FILE_NO, DOC_NO, FILE_NAME)
-	    VALUES
-	        (SEQ_FILE.NEXTVAL, 
-        <if test="doc_no == 0">
-			SEQ_DOC.CURRVAL
-		</if>
-		<if test="doc_no != 0">
-			#{doc_no}
-		</if>
-			, #{file_name})
-	</insert>
-	
 	<delete id="tempDocDelete" parameterType="int"> <!-- 임시저장함 안의 문서 삭제-->
 	    DELETE FROM
 	        APP_DOC
@@ -190,7 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        DOC_NO = #{doc_no}
 	</select>
 	
-	<delete id="draftfileCancel" parameterType="int"> <!-- 파일 삭제하기 -->
+	<delete id="removeFile" parameterType="int"> <!-- 파일 삭제하기 -->
 	    DELETE FROM
 	        APP_FILE
 	    WHERE
@@ -213,7 +230,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<insert id="registerRefMem"> <!-- 참조자 등록 -->
-	    INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 
+	    INSERT 
+	    	INTO APP_REF 
+    	VALUES
+    		( 
+    		SEQ_REF.NEXTVAL, 
 	    
 	    <if test="doc_no == 0">
 	        SEQ_DOC.CURRVAL
@@ -222,7 +243,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <if test="doc_no != 0">
 	        #{doc_no}
 	    </if>
-			, #{member_num}, #{ref_status})
+			, #{member_num}, #{ref_status}
+			)
 	</insert>
 	
 	<select id="searchAppMem" resultType="ApprovalDTO" parameterType="int"> <!-- 문서 상세 조회 : 결재자 정보 -->
@@ -338,19 +360,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	a.MEMBER_NUM = #{member_num}
 
 		<if test="doc_status == '대기'">
-			AND a.APP_STATUS = '${doc_status}'
+			AND a.APP_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '예정' or doc_status == '완료'">
-			AND a.APP_STATUS = '${doc_status}' AND d.DOC_STATUS != '반려'
+			AND a.APP_STATUS = #{doc_status} AND d.DOC_STATUS != '반려'
 		</if>
 		<if test="doc_status == '완료'">
-			AND a.APP_STATUS = '${doc_status}' AND d.DOC_STATUS = '${doc_status}'
+			AND a.APP_STATUS = #{doc_status} AND d.DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '진행'">
-			AND a.APP_STATUS = '완료' AND d.DOC_STATUS = '${doc_status}'
+			AND a.APP_STATUS = '완료' AND d.DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '반려'">
-			AND d.DOC_STATUS = '${doc_status}'
+			AND d.DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '전체'">
 			AND a.APP_STATUS != '임시'
@@ -379,19 +401,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	a.MEMBER_NUM = #{member_num}
 
 		<if test="doc_status == '대기'">
-			AND APP_STATUS = '${doc_status}'
+			AND APP_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '예정' or doc_status == '완료'">
-			AND APP_STATUS = '${doc_status}' AND DOC_STATUS != '반려'
+			AND APP_STATUS = #{doc_status} AND DOC_STATUS != '반려'
 		</if>
 		<if test="doc_status == '완료'">
-			AND APP_STATUS = '${doc_status}' AND DOC_STATUS = '${doc_status}'
+			AND APP_STATUS = #{doc_status}' AND DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '진행'">
-			AND APP_STATUS = '완료' AND DOC_STATUS = '${doc_status}'
+			AND APP_STATUS = '완료' AND DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '반려'">
-			AND DOC_STATUS = '${doc_status}'
+			AND DOC_STATUS = #{doc_status}
 		</if>
 		<if test="doc_status == '전체'">
 			AND APP_STATUS != '임시'
@@ -423,11 +445,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			APP_NO = #{app_no}
 	</update>
 	
-	<insert id="insertFile"><!-- 파일 등록 -->
+	<insert id="registerFile"><!-- 파일 등록 -->
 		INSERT INTO 
 			APP_FILE 
-		VALUES
-			(SEQ_FILE.NEXTVAL, 
+		VALUES (
+		<if test="doc_no == 0">
+			SEQ_FILE.NEXTVAL, 
+		</if>
 		<if test="doc_no == 0">
 			SEQ_DOC.CURRVAL
 		</if>

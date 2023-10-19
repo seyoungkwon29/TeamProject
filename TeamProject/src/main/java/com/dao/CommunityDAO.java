@@ -84,20 +84,17 @@ public class CommunityDAO {
 		return template.selectOne("CommunityMapper.countContentLike", content);
 	}
 
-	public void insertFile(Long comNum, UploadFileDTO file) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("comNum", comNum);
-		param.put("originalFilename", file.getOriginalFilename());
-		param.put("storeFilename", file.getStoreFilename());
-		template.insert("CommunityMapper.insertFile", param);
+	public void insertFile(UploadFileDTO file) {
+		
+		template.insert("CommunityMapper.insertFile", file);
 	}
 
-	public void insertImage(Long comNum, UploadFileDTO image) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("comNum", comNum);
-		param.put("originalFilename", image.getOriginalFilename());
-		param.put("storeFilename", image.getStoreFilename());
-		template.insert("CommunityMapper.insertImage", param);
+	public void deleteFile(Long fileId) {
+		template.delete("CommunityMapper.deleteFile", fileId);
+	}
+	
+	public void insertImage(UploadFileDTO image) {
+		template.insert("CommunityMapper.insertImage", image);
 	}
 	
 	public List<UploadFileDTO> getFilesByComNum(Long comNum) {

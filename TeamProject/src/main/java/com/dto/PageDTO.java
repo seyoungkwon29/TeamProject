@@ -6,13 +6,14 @@ import java.util.List;
 public class PageDTO {
 	
 	//아래 변수 2개는 초기값 세팅이라 변수 선언해서 setListSize / setRangeSize로 설정해주면 됨
-	private int listSize = 2;   //한페이지 당 보여질 리스트의 개수 
+	private int listSize = 5;   //한페이지 당 보여질 리스트의 개수 
 	private int rangeSize = 5;  //한페이지 당 보여질 페이지의 개수
 	
 	//필요한 리스트 추가하기(PageDTO에 담아서 한번에 JSP로 넘겨줄 수 있기 때문임 . 따로 setAttribute해도 될 듯)
 	List<MailRecDTO> mailRecDTOList;
 	List<MailDTO> mailDTOList;
 	List<MemberDTO> memberDTOList;
+	List<FileBoardDTO> fileBoardDTOList;
 	
 	private int page;			//현재 목록의 페이지번호  
 	private int range;			//전체 페이지 인덱스.. 번호?
@@ -24,6 +25,14 @@ public class PageDTO {
 	private boolean next;		//다음 페이지 여부
 	private int startList;				//리스트 시작 번호 (몇번째 게시물인지...필요하면 검색해서 설정해줘야함)
 	
+	public List<FileBoardDTO> getFileBoardDTOList() {
+		return fileBoardDTOList;
+	}
+
+	public void setFileBoardDTOList(List<FileBoardDTO> fileBoardDTOList) {
+		this.fileBoardDTOList = fileBoardDTOList;
+	}
+
 	public List<MailRecDTO> getMailRecDTOList() {
 		return mailRecDTOList;
 	}
@@ -149,6 +158,8 @@ public class PageDTO {
 
 		//끝 페이지
 		this.endPage = range * rangeSize;
+		this.setEndPage(endPage);
+		System.out.println("dto안 >>>"+this.endPage);
 
 		//게시판 시작번호
 		this.startList = (page - 1) * listSize;
@@ -163,6 +174,15 @@ public class PageDTO {
 			this.next = false;
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "PageDTO [listSize=" + listSize + ", rangeSize=" + rangeSize + ", fileBoardDTOList="
+				+ fileBoardDTOList + "\t, page=" + page + ", range=" + range + ", listCnt=" + listCnt + ", pageCnt="
+				+ pageCnt + ", startPage=" + startPage + ", endPage=" + endPage + ", prev=" + prev + ", next=" + next
+				+ ", startList=" + startList + "]";
+	}
+	
 	
 
 }

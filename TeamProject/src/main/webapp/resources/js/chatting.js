@@ -2,9 +2,19 @@ $(document).ready(function() {
 var selectedMembers = []; // 선택한 사용자 담을 배열 선언
     
     // 채팅방 생성시 사용자 초대 뜨도록
-    $("#addchat").click(function() {
-        $(".invite").css("display", "flex");
-    });
+//    $("#addchat").click(function() {
+//        $(".invite").css("display", "flex");
+//    });
+    
+      const $toggleButton = $('#addchat');
+      const $invite = $('.invite');
+      
+      //이미지 클릭 이벤트를 감지하고 처리
+      $toggleButton.on('click', function() {
+    	  $invite.css("display", "flex");
+      });
+
+
 
     // 체크박스
     $(".memberList").on("change", 'input[name="memberCheckbox"]', function() {
@@ -27,7 +37,7 @@ var selectedMembers = []; // 선택한 사용자 담을 배열 선언
         }
         
         // 출력된 값이 6개를 초과하면 스크롤 생성
-        if (selectedMembers.length > 6) {
+        if (selectedMembers.length > 4) {
           $('#selected').css('overflow-y', 'scroll');
         } else {
           $('#selected').css('overflow-y', 'auto');

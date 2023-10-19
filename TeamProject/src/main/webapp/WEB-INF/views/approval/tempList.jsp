@@ -1,20 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>임시 저장함</title>
+
 <link href="resources/css/appDraftList.css" rel="stylesheet">
 <link href="resources/css/draftModal.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
-</head>
 
-<body>
 <!-- 임시저장 문서 보기 -->
 	<div class="s-container">
-		<h2 id="h-title">임시 저장함</h2>
+		<h1 id="h-title">임시 문서함</h1>
 		<span style="display:inline-block; height:47px"></span>
 		<button id="app-btn" class="app-btn">문서 기안</button>
 		
@@ -177,7 +171,3 @@
 	});//end script
 
 </script>
-	
-</body>
-
-</html>

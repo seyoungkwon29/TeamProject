@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<title>회의실 예약 확인</title>
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 </head>
 <body>
 	<jsp:include page="common/menu.jsp" flush="true" /> <br>

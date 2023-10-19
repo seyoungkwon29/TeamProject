@@ -2,13 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <link rel="stylesheet" href="resources/css/meetingRoom.css">
 <link href='resources/css/calendar.css' rel='stylesheet' />
-<title>회의실 예약</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src='resources/js/calendar.js'></script>
 	
@@ -20,19 +16,21 @@
 	<% if(session.getAttribute("mesg")!=null){
 		session.removeAttribute("mesg");
 	} %>
-</head>
-<body>
 
-<div id="s-container">
+<div>
+	<h1 style="margin-top: 100px; margin-left: 400px; color: #333; font-size: 30px;">회의실 예약</h1>
+	
+	<div id="s-container">
+			
 				<form action="loginCheck/meetingRoomReserve" method="get" id="roomForm">
                 <div id="divLeft">
 					<div id="rDiv">
 						<div class="reserveDiv">
-							<span>1. 날짜&nbsp;&nbsp;&nbsp;</span>
+							<span class="reserveDiv-span">1. 날짜&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							<input type=date id="roomRDate" name="meeting_date">
 						</div>
 						<div class="reserveDiv">
-							<span>2. 회의실</span>
+							<span class="reserveDiv-span">2. 회의실&nbsp;&nbsp;</span>
 								<select id="room" name="meeting_num">
 								<option value="1 회의실"  selected>1 회의실</option>
 								<option value="2 회의실" >2 회의실</option>
@@ -41,7 +39,7 @@
 									
 						</div>
 						<div class="reserveDiv">
-							<span>3. 시간&nbsp;&nbsp;&nbsp;</span>
+							<span class="reserveDiv-span">3. 시간&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								<select id="time" name="meeting_time">
 								<option value="a">=== 선택 ===</option>
 								<option id="time1">10:00~12:00</option>
@@ -52,7 +50,7 @@
 								</select>
 						</div>
 									<div class="guide">
-											<p>* 회의실 이용안내 및 예약 방법 *</p>	
+											<p> 회의실 이용안내 및 예약 방법 </p>	
 											<div>
 												<ul>
 													<li>원하시는 날짜, 회의실, 시간을 선택해주세요.</li>
@@ -66,19 +64,21 @@
 						</div>				
 				</div>
                             <div id="divRight">
+                            	<div class="cal-line">
 								<div class="calendar">
 									
 								</div>
+								</div>
 								
-							<div id = "buttonDiv">
-								<input type="hidden" name="reservation" value="1">
-								<button type="submit" form="roomForm">예약하기</button>
-								<button type="button" onclick="location.href='meetingRoomCheck';">예약확인</button>
-							</div>
+								<div id = "buttonDiv">
+									<input type="hidden" name="reservation" value="1">
+									<button type="submit" form="roomForm" class="res-btn">예약하기</button>
+									<button type="button" class="res-btn" onclick="location.href='meetingRoomCheck';">예약확인</button>
+								</div>
                             </div>
                        </form>
 				</div>
-</body>
+</div>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -94,18 +94,6 @@ $(document).ready(function() {
         }
     });
 
-    //date-picker 지난날짜 선택x
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-    $('#roomRDate').attr('min', today);
-    
-    
-    
-    
 });
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -117,21 +105,3 @@ $(document).ready(function() {
       });
 
 </script>
-
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

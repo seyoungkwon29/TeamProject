@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +18,13 @@
 		<section class="mw8 center flex-auto">
 			<h1 class="f3">공지사항</h1>
 			<div id="search-bar" class="flex items-center justify-end">
-				<form class="flex" role="search" method="get" action="">
-					<select name="searchType">
-			        	<option value="writer" selected >작성자</option>
-			        	<option value="content">제목 + 내용</option>
-			        </select>
-			        <input name="searchKeyword" class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="search" placeholder="Search" aria-label="Search">
-			        <button class="b ph3 pv2 button-reset ba b--black bg-transparent f6 dib" type="submit">검색 </button>
-		      	</form>
+				<form:form action="" method="get" modelAttribute="searchCondition" cssClass="flex">
+					<form:select path="searchType">
+						<form:options items="${searchTypes}" itemLabel="description" itemValue="type"/>
+					</form:select>
+					<form:input type="search" path="searchKeyword" cssClass="b ph3 pv2 input-reset ba b--black bg-transparent f6 dib"/>
+					<button class="b ph3 pv2 button-reset ba b--black bg-transparent f6 dib" type="submit">검색 </button>
+				</form:form>
 		      	<spring:url var="newNoticeUrl" value="/notices/new"/>
 				<a href="${newNoticeUrl}" class="link-reset">
 					<button class="b ph3 pv2 button-reset ba b--green white bg-green f6 dib" type="submit">작성</button>
@@ -74,7 +74,7 @@
 				  			<spring:param name="page" value="${pageResponse.start-1}"/>
 				  			<spring:param name="size" value="${pageResponse.size}"/>
 				  			<c:if test="${not empty param.searchType}">
-				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			<spring:param name="searchType" value="${param.searchType}"/>
 				  			</c:if>
 				  			<c:if test="${not empty param.searchKeyword}">
 				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
@@ -99,7 +99,7 @@
 				  			<spring:param name="page" value="${status.current}"/>
 				  			<spring:param name="size" value="${pageResponse.size}"/>
 				  			<c:if test="${not empty param.searchType}">
-				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			<spring:param name="searchType" value="${param.searchType}"/>
 				  			</c:if>
 				  			<c:if test="${not empty param.searchKeyword}">
 				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>
@@ -125,7 +125,7 @@
 				  			<spring:param name="page" value="${pageResponse.end+1}"/>
 				  			<spring:param name="size" value="${pageResponse.size}"/>
 				  			<c:if test="${not empty param.searchType}">
-				  			<spring:param name="searchKeyword" value="${param.searchType}"/>
+				  			<spring:param name="searchType" value="${param.searchType}"/>
 				  			</c:if>
 				  			<c:if test="${not empty param.searchKeyword}">
 				  			<spring:param name="searchKeyword" value="${param.searchKeyword}"/>

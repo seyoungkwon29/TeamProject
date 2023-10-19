@@ -1,17 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>결재 문서함</title>
+
 <link href="resources/css/appDraftList.css" rel="stylesheet">
-</head>
-<body>
 
 	<div class="s-container">
-		<h2 id="h-title">결재 문서함</h2>
+		<h1 id="h-title">결재 문서함</h1>
+		
 		<span class="type"><a href="draftList?parameter=app">전체</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=대기">대기</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=예정">예정</a></span>
@@ -153,4 +148,3 @@
 	</div>
 		
 </div> <!-- 전체 div -->
-</html>

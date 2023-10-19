@@ -12,36 +12,79 @@
 }
 
 .pwchange_modal-content{
-	width:600px; 
-	height:300px;
-	background:#fff; 
-	border-radius:10px;
-	position:fixed; 
-	top:50%; left:50%;
-	transform:translate(-50%,-50%);
-	margin-top:-100px; 
-	margin-left:-50px;
-	text-align:center;
-	box-sizing:border-box; 
-	
-	padding:50px 0;
-	line-height:23px; 
-	cursor:pointer;
+	width: 400px;
+    height: 230px;
+    background: #fff;
+    border-radius: 10px;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    margin-top: -100px;
+    margin-left: -5px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 20px 0;
+    line-height: 23px;
+    cursor: pointer;
 }
 
 .pwchange_modal-header{
-	padding-bottom : 15px;
 	font-weight: bold;
 }
 
-.pwchange_modal-body{
-	padding-bottom : 20px;
-	position: relative;
-	right: -80px;
+.pwchange_modal-body {
+  text-align: center; /* 테이블을 포함한 내용을 가운데 정렬 */
+}
+
+.table-pw {
+  display: inline-block; /* 블록 요소로 감싸서 중앙 정렬을 유지합니다. */
 }
 
 .modal-footer{
 	padding-top : 5px;
 }
 
+.td-pw{
+	float: left;
+    padding-right: 25px;
+    font-size: 12px;
+}
 
+.td-pw-2{
+	height: 18px;
+    border: 1px solid #a7a0a09e;
+    font-size: 12px;
+    background-color: rgb(41 119 22 / 19%);
+    border-radius: 1em;
+    padding-left: 15px;
+}
+
+.pw-foot-btn {
+	padding-top: 20px;
+}
+#pw-modal-Lbtn{
+	padding: 7px 15px;
+    border: 1px solid #bfbfbf;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 10px;
+    
+}
+
+#pw-modal-Rbtn{
+	padding: 7px 35px;
+    border: 1px solid #bfbfbf;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+#pw-modal-Lbtn:hover, #pw-modal-Rbtn:hover {
+	background: rgba(230, 230, 230, 0.25);
+	border: 2px solid #21875a;
+	font-weight: bold;
+}

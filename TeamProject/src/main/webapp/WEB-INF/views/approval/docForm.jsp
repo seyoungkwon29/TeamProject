@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>문서 양식</title>
+
 <link rel="stylesheet" href="resources/css/docForm.css">
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
-</head>
-
-<body>	
 
 	<c:set var="login" value="${login}"></c:set> 
 	<c:set var="form" value="${form}"></c:set> 
@@ -24,11 +17,13 @@
 	<div class="doc-form-container">
 	
 		<h1 class="head-title" id="h-title" style="letter-spacing: 10px; text-align: center;"> 
-		${form.form_name} </h1>
+			${form.form_name} <!-- 문서 양식 이름 -->
+		</h1>
 		
-		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form">
-		<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 => return true: 제출, return false: 제출 중지 -->
-		<!-- enctype="multipart/form-data: 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->
+		<form id="myForm" action="#" method="post" onsubmit="return chkValidity()" enctype="multipart/form-data">
+			<!-- onsubmit: 폼이 제출되기 전 실행할 js함수를 지정, 반환값에 따라 제출 동작을 제어 
+				 => return true: 제출, return false: 제출 중지 -->
+			<!-- enctype="multipart/form-data": 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->
 			<input type="hidden" value="${form.form_name}" name="form_name" readonly>
 			<input type="hidden" value="${form.form_no}" name="form_no" readonly>
 			<input type="hidden" value="${login.member_num}" name="member_num" readonly>
@@ -36,8 +31,7 @@
  			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보를 저장할 숨겨진 폼 필드 -->
  			<input type="hidden" id="num-ref" name="refMemNum" readonly> <!-- 참조자 정보를 저장할 숨겨진 폼 필드 -->
  			<input type="hidden" id="parameter" value="" name="parameter" readonly> <!-- 문서 정보 -->
-			
-			
+					
 			<table id="table">
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">문서번호</td>
@@ -84,7 +78,21 @@
 					</td>
 				</tr>
 				
-		<!-- 휴가신청서 -->
+				<tr id="tr-title" class="tr-m">
+					<td class="td-1">파일첨부</td>
+					<td colspan="7">
+						<div class="file-div">
+			                <!-- lable: 파일 입력 필드(input[type="select_file"])를 활성화하기 위한 레이블(Label) 요소(for 속성을 사용하여 연결된 입력 필드를 지정)
+			                	 주의점: 입력 필드의 id와 lable for의 이름 같을 것 -->
+			                <label for="select_file">파일 선택</label> 
+			               	<input type="file" id="select_file" name="upload_file" onchange="fileSelect(this.value)">
+		               	
+		      	       	 	<span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
+							<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
+						</div>
+				</tr>
+				
+		<!-- 문서 양식: 휴가신청서인 경우 -->
 				<c:set var="form_name" value="${form.form_name}" />
 				<c:if test="${form_name eq '휴가신청서'}">
 	                <tr class="tr-m">
@@ -134,7 +142,7 @@
 	                </tr>
 				</c:if>
 				
-<!-- 휴가신청서가 아닐 경우에 내용 -->
+		<!-- 문서 양식: 휴가신청서가 아닐 경우에 내용 -->
 				<c:if test="${form_name ne '휴가신청서'}">
 					<tr class="tr-m">
 						<td colspan="8" class="td-content">내용</td>
@@ -147,18 +155,7 @@
 				</c:if>
 			</table>
 				
-<!-- 파일 선택 -->	
-			<div class="file-div">
-				<span class="file-s-text">파일 첨부</span>
-                <!-- lable: 파일 입력 필드(input[type="select_file"])를 활성화하기 위한 레이블(Label) 요소(for 속성을 사용하여 연결된 입력 필드를 지정)
-                	 주의점: 입력 필드의 id와 lable for의 이름 같을 것 -->
-                <label for="select_file">파일 선택</label> 
-                <span id="fileName" class="file-name"> 선택된 파일이 없습니다. </span>
-
-               	<input type="file" id="select_file" name="upload" onchange="fileSelect(this.value)">
-				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
-			</div>
-			
+	<!-- 버튼 -->				
 			<div class="footer-div">
 				<input type="button" value="결재 요청" onclick="docSave()" class="footer-btn" id="i-left">
 				<input type="button" value="임시 저장" onclick="tempSave()" class="footer-btn">
@@ -167,7 +164,7 @@
 		</form>	
 	</div>	
 	
-	
+	<!-- 결재자/참조자 선택 모달창 -->
 	<jsp:include page="approverModal.jsp" flush="true" />
 
 
@@ -239,6 +236,3 @@
 	}
 
 </script>
-</body>
-
-</html>

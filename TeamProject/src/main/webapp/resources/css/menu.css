@@ -4,19 +4,18 @@ html, body {
 	height: 100%;
 	font-family: sans-serif, serif;
 }
-
-.container {
-	display: flex;
-	width: 100%;
-	min-width : 1700px;
-	position: fixed;
+.menu-top-container {
+    display: flex;
+    width: 100%;
+    min-width: 1700px;
+    position: fixed;
     top: 0;
     align-items: center;
     border-bottom: 1px solid rgba(200, 200, 200, 0.5);
     background-color: #fff;
-    z-index: 1000; 
+    z-index: 1000;
+    height: 78px;
 }
-
 .brand {
 	font-size: 25px;
 	font-weight: bold;
@@ -43,7 +42,7 @@ html, body {
 }
 
 .link-ul li {
-	margin-right: 20px;
+	margin-right: 15px;
 }
 
 .link {
@@ -53,7 +52,6 @@ html, body {
 }
 
 .link:link, .link:visited, .brand:link, .brand:visited {
-	text-decoration: none;
 	text-decoration: none;
 }
 
@@ -66,22 +64,23 @@ html, body {
 	cursor: pointer;
 }
 
-.dropdown{
+.dropdown {
 	font-style: none;
-	font-size: 13px;
-	display: none;
-	flex-direction: column;
-	position: absolute;
-	z-index: 1000;
-	padding: 15px;
-	background-color: rgba(217, 220, 218, 0.5);
-	border-radius: 1rem;
+    font-size: 13px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1000;
+    padding: 15px;
+    background: rgba(217, 220, 218, 0.2);
+    border-radius: 10px;
     margin-top: 28px;
     transform: translateX(-10%);
 }
+
 .dropdown a{
 	font-style: none;
-	color: rgb(127, 124, 124);
+	color: #333;
 	text-decoration: none;
 	display: block;
 	margin: 5px 0;
@@ -90,7 +89,8 @@ html, body {
 }
 
 .dropdown a:hover{
-	font-weight: bolder;
+	font-weight: bold;
+    color: #21875a;
 }
 
 

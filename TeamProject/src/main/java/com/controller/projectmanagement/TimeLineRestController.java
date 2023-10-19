@@ -1,15 +1,11 @@
 package com.controller.projectmanagement;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.constant.LoginConstant;
 import com.dto.MemberDTO;
 import com.dto.ProjectDTO;
-import com.dto.ProjectManagementDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.ChattingService;
-import com.service.ProjectManagementService;
-import com.service.ProjectService;
 import com.service.TimeLineService;
 
 @RestController

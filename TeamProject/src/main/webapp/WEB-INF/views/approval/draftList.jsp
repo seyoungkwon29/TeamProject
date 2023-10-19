@@ -1,20 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>기안 문서함</title>
+
 <link href="resources/css/draftModal.css" rel="stylesheet">
 <link href="resources/css/appDraftList.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>	
-</head>
-<body>
 
  <!-- 문서 보기  -->
 	<div class="s-container">
-		<h2 id="h-title">기안 문서함</h2>		
+		<h1 id="h-title">기안 문서함</h1>
+
 		<div class="top-List">
 			<span class="type"><a href="draftList?parameter=draft">전체</a></span>
 			<span class="type"><a href="draftList?parameter=draft&docStatus=대기">대기</a></span>
@@ -205,7 +200,3 @@
 	});//end script
 	
 </script>
-
-
-</body>
-</html>

@@ -1,39 +1,36 @@
 package com.dto;
 
-import java.util.Date;
-
-import org.apache.ibatis.type.Alias;
-
-@Alias("TodoDTO")
 public class TodoDTO {
 	private int todo_num;
 	private String todo_title;
 	private String status;
-	private Date start_date;
-	private Date due_date;
-	private String content;
-	private float conversion_ratio;
-	private String top_task;
+	private String start_date;
+	private String due_date;
 	private String member_name;
+	private String content;
+	private float conversion_ratio = 0;
+	private String top_task = null;
 	private int member_num;
+	
 	public TodoDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public TodoDTO(int todo_num, String todo_title, String status, Date start_date, Date due_date, String content,
-			float conversion_ratio, String top_task, String member_name, int member_num) {
+	
+	public TodoDTO(int todo_num, String todo_title, String status, String start_date, String due_date,
+			String member_name, String content, float conversion_ratio, String top_task, int member_num) {
 		super();
 		this.todo_num = todo_num;
 		this.todo_title = todo_title;
 		this.status = status;
 		this.start_date = start_date;
 		this.due_date = due_date;
+		this.member_name = member_name;
 		this.content = content;
 		this.conversion_ratio = conversion_ratio;
 		this.top_task = top_task;
-		this.member_name = member_name;
 		this.member_num = member_num;
 	}
+	
 	public int getTodo_num() {
 		return todo_num;
 	}
@@ -52,17 +49,23 @@ public class TodoDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getStart_date() {
+	public String getStart_date() {
 		return start_date;
 	}
-	public void setStart_date(Date start_date) {
+	public void setStart_date(String start_date) {
 		this.start_date = start_date;
 	}
-	public Date getDue_date() {
+	public String getDue_date() {
 		return due_date;
 	}
-	public void setDue_date(Date due_date) {
+	public void setDue_date(String due_date) {
 		this.due_date = due_date;
+	}
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
 	}
 	public String getContent() {
 		return content;
@@ -82,12 +85,6 @@ public class TodoDTO {
 	public void setTop_task(String top_task) {
 		this.top_task = top_task;
 	}
-	public String getMember_name() {
-		return member_name;
-	}
-	public void setMember_name(String member_name) {
-		this.member_name = member_name;
-	}
 	public int getMember_num() {
 		return member_num;
 	}
@@ -97,12 +94,10 @@ public class TodoDTO {
 	@Override
 	public String toString() {
 		return "TodoDTO [todo_num=" + todo_num + ", todo_title=" + todo_title + ", status=" + status + ", start_date="
-				+ start_date + ", due_date=" + due_date + ", content=" + content + ", conversion_ratio="
-				+ conversion_ratio + ", top_task=" + top_task + ", member_name=" + member_name + ", member_num="
-				+ member_num + "]";
+				+ start_date + ", due_date=" + due_date + ", member_name=" + member_name + ", content=" + content
+				+ ", conversion_ratio=" + conversion_ratio + ", top_task=" + top_task + ", member_num=" + member_num
+				+ "]";
 	}
-	
-	
 	
 	
 }

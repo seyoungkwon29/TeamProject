@@ -51,29 +51,51 @@
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 	<script>
+	// JSP > HTML > JS 순으로 해석되고 실행된다.
+	const baseUrl = "${pageContext.request.contextPath}";
 	 $(document).ready(function() {
 	        $('#summernote').summernote({
 	        	height: 300,
 	        	lang: "ko-KR",
 	        	callbacks: {
 	        		onImageUpload: function(files) {
-	        			uploadImageFile(files[0], this);
-	        		}
+	        			let clearFiles = {
+	        				count: 0,
+	        				increase : function () {
+	        					this.count++;
+	        					if (this.count === files.length) {
+	        						this.clear();
+	        					}
+	        				},
+	        				clear : function () {
+	        					$(".note-form-group.note-group-select-from-files")
+		        					.find("input.note-image-input")
+		        					.val("");
+	        				}
+	        			
+	        			};
+	        			
+	        			for (file of files) {
+	        				uploadImageFile(file, this, clearFiles);
+	        			}	
+	        		},
 	        	}
 	        });
    	 });
-	 function uploadImageFile(file, editor) {
+	 function uploadImageFile(file, editor, clearFiles) {
 		 data = new FormData();
 		 data.append("image", file);
 		 $.ajax({
 			 data: data,
 			 type: "POST",
-			 url: "images",
+			 url: baseUrl + "/communities/images",
+			 cache: false,
 			 contentType: false,
 			 processData: false,
 			 success: function(data) {
 				 console.log(data);
 				 $(editor).summernote('insertImage', data.url);
+				 clearFiles.increase();
 			 }
 		 });
 	 };

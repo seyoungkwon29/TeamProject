@@ -2,8 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
 	
 	
 	<!-- 1.properties -->
@@ -32,9 +36,10 @@
                 <value>classpath:com/config/CommunityMapper.xml</value>
                 <value>classpath:com/config/ReplyMapper.xml</value>
                 <value>classpath:com/config/MailMapper.xml</value>
-                <value>classpath:com/config/ProjectManagementMapper.xml</value>
                 <value>classpath:com/config/ProjectMapper.xml</value>
                 <value>classpath:com/config/TimeLine.xml</value>
+                <value>classpath:com/config/FileBoardMapper.xml</value>
+                <value>classpath:com/config/TodoMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
@@ -59,9 +64,10 @@
                 <value>com.dto.ApprovalDTO</value>
                 <value>com.dto.AppReferDTO</value>
                 <value>com.dto.AppSearchConditionDTO</value>
-                <value>com.dto.ProjectManagementDTO</value>
                 <value>com.dto.UploadFileDTO</value>
                 <value>com.dto.ProjectDTO</value>
+                <value>com.dto.FileBoardDTO</value>
+                <value>com.dto.TodoDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->
@@ -77,4 +83,14 @@
         <constructor-arg name="sqlSessionFactory" ref="sessionFactory"></constructor-arg>
 	<!-- 종료 -->
     </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource" />
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    
+   	<context:component-scan base-package="com.*">
+		 <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 </beans>
