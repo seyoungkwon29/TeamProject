@@ -24,7 +24,7 @@ public class ProjectService {
 		return list;
 	}
 
-	public void createProject(Map<String, Object> parameters) {
+	public ProjectDTO createProject(Map<String, Object> parameters) {
 		Map<String,Object> tempMap = (Map<String,Object>)parameters.get("projectDTO");
 		
 		//JSON안에 있는 JSON데이터를 한번에 ProjectDTO로 변환 시켜준다.(아니면 하나씩 파싱해서 DTO를 생성했어야함)
@@ -44,6 +44,8 @@ public class ProjectService {
 		memberList.add(member_num);//프로젝트 멤버 리스트에 자신 추가
 		
 		addProjectMember(project_num, memberList);
+		
+		return projectDTO;
 	}
 
 	public void addProjectMember(int project_num, List<Integer> memberList) {
@@ -55,9 +57,9 @@ public class ProjectService {
 		}
 		System.out.println("service멤버추가 완료");		
 	}
-
-	public void updateProject(Map<String, Object> parameters) {
-		//프로젝트 테이블 업데이트
+	
+	//프로젝트 테이블 업데이트
+	public ProjectDTO updateProject(Map<String, Object> parameters) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String,Object>tempMap = (Map<String,Object>)parameters.get("projectDTO");
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
@@ -85,7 +87,7 @@ public class ProjectService {
 		toAddList.removeAll(originList);
 		
 		addProjectMember(project_num, toAddList);
-		
+		return projectDTO;
 		
 	}//end updateProject
 
@@ -97,6 +99,12 @@ public class ProjectService {
 	public List<MemberDTO> participatedMemberList(Map<String,Object> parameters) {
 		int project_num = (int)parameters.get("project_num");
 		List<MemberDTO> memberList = dao.participatedMemberList(project_num);
+		
+		//프로젝트 매니저 멤버 제거
+		ProjectDTO projectDTO = dao.selectProjectByProjectNum(project_num);
+		int member_num = projectDTO.getMember_num();
+		memberList.remove(member_num);
+		System.out.println("memberList : " + memberList);
 		return memberList;
 	}
 	

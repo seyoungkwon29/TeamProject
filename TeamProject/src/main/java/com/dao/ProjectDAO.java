@@ -56,4 +56,9 @@ public class ProjectDAO {
 		List<MemberDTO> memberList = session.selectList("participatedMemberList",project_num);
 		return memberList;
 	}
+
+	public ProjectDTO selectProjectByProjectNum(int project_num) {
+		ProjectDTO projectDTO =session.selectOne("selectProjectByProjectNum",project_num);
+		return projectDTO;
+	}
 }

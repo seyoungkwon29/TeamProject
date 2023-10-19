@@ -53,13 +53,15 @@ public class ProjectManagementController {
 	}
 	
 	@PostMapping("/createProject")
-	public void createProject (@RequestBody Map<String,Object> parameters) { //JSON형태로 들어오는 데이터를 Map으로 접근
-		service.createProject(parameters);
+	public ProjectDTO createProject (@RequestBody Map<String,Object> parameters) { //JSON형태로 들어오는 데이터를 Map으로 접근
+		ProjectDTO projectDTO = service.createProject(parameters);
+		return projectDTO;
 	}
 	
 	@PostMapping("/updateProject")
-	public void updateProject(@RequestBody Map<String,Object> parameters) {
-		service.updateProject(parameters);
+	public ProjectDTO updateProject(@RequestBody Map<String,Object> parameters) {
+		ProjectDTO projectDTO = service.updateProject(parameters);
+		return projectDTO;
 	}
 	
 	@PostMapping("/deleteProject")

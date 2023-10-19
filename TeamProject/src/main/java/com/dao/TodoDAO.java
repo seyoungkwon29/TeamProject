@@ -18,5 +18,16 @@ public class TodoDAO {
 		List<TodoDTO> todoList = session.selectList("getAllTodoList",map);
 		return todoList;
 	}
+
+	public void createTodo(TodoDTO todoDTO) {
+		int res = session.insert("createTodo",todoDTO);
+		System.out.println("인서트 확인 : " + res);
+		
+	}
+
+	public void addProjectTodo(Map<String, Integer> map) {
+		int res = session.insert("addProjectTodo",map);
+		
+	}
 	
 }

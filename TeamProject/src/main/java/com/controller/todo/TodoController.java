@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +25,12 @@ public class TodoController {
 	public List<TodoDTO> getAllTodoList(@RequestBody Map<String,Object> parameters){
 		List<TodoDTO> todoList = service.getAllTodoList(parameters);
 		return todoList;
+	}
+	
+	@PostMapping("/createTodo")
+	public TodoDTO createTodo(@RequestBody Map<String,Object> parameters) {
+		TodoDTO todoDTO = service.createTodo(parameters);
+		return todoDTO;
 	}
 	
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.dto.MemberDTO;
 import com.dto.ProjectDTO;
-import com.dto.ProjectManagementDTO;
 
 @Repository("TimeLineDAO")
 public class TimeLineDAO {
