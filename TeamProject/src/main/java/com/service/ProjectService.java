@@ -19,19 +19,32 @@ public class ProjectService {
 	@Autowired
 	ProjectDAO dao;
 
+	public MemberDTO createPM(int member_num) {
+		MemberDTO dto = dao.createPM(member_num);
+		return dto;
+	}
+	
 	public List<ProjectDTO> getAllProject(int member_num) {
 		List<ProjectDTO> list = dao.getAllProject(member_num);
 		return list;
 	}
-
-	public void createProject(Map<String, Object> parameters) {
+	
+	public List<MemberDTO> selectMembers(int member_num) {
+		List<MemberDTO> list = dao.selectMembers(member_num);
+		return list;
+	}
+	
+	public List<MemberDTO> searchMembers(Map<String, Object> map) {
+		List<MemberDTO> list = dao.searchMembers(map);
+		return list;
+	}
+	
+	public ProjectDTO createProject(Map<String, Object> parameters) {
 		Map<String,Object> tempMap = (Map<String,Object>)parameters.get("projectDTO");
 		
 		//JSON안에 있는 JSON데이터를 한번에 ProjectDTO로 변환 시켜준다.(아니면 하나씩 파싱해서 DTO를 생성했어야함)
 		ObjectMapper objectMapper = new ObjectMapper();
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
-		System.out.println("projectDTO : " + projectDTO);
-		
 		dao.createProject(projectDTO);
 		
 		int project_num = projectDTO.getProject_num();
@@ -39,11 +52,12 @@ public class ProjectService {
 
 		//프로젝트 멤버 테이블 추가
 		List<Integer> memberList = (List<Integer>)(parameters.get("members"));
-		String tKey = (String)parameters.get("tKey"); 
+		String tKey = (String)parameters.get("t_key"); 
 		int member_num = LoginConstant.memberMap.get(tKey).getMember_num();
 		memberList.add(member_num);//프로젝트 멤버 리스트에 자신 추가
 		
 		addProjectMember(project_num, memberList);
+		return projectDTO;
 	}
 
 	public void addProjectMember(int project_num, List<Integer> memberList) {
@@ -56,8 +70,9 @@ public class ProjectService {
 		System.out.println("service멤버추가 완료");		
 	}
 
-	public void updateProject(Map<String, Object> parameters) {
+	public ProjectDTO updateProject(Map<String, Object> parameters) {
 		//프로젝트 테이블 업데이트
+		System.out.println("updateProject>>>"+parameters);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String,Object>tempMap = (Map<String,Object>)parameters.get("projectDTO");
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
@@ -67,7 +82,7 @@ public class ProjectService {
 		
 		//프로젝트 멤버 테이블 업데이트	
 		List<Integer> memberList = (List<Integer>)(parameters.get("members"));
-		String tKey = (String)parameters.get("tKey"); 
+		String tKey = (String)parameters.get("t_key"); 
 		int member_num = LoginConstant.memberMap.get(tKey).getMember_num();
 		memberList.add(member_num);//프로젝트 멤버 리스트에 자신 추가
 		
@@ -85,6 +100,7 @@ public class ProjectService {
 		toAddList.removeAll(originList);
 		
 		addProjectMember(project_num, toAddList);
+		return projectDTO;
 		
 		
 	}//end updateProject

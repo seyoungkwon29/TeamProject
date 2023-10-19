@@ -37,7 +37,6 @@
                 <value>classpath:com/config/ReplyMapper.xml</value>
                 <value>classpath:com/config/MailMapper.xml</value>
                 <value>classpath:com/config/ProjectMapper.xml</value>
-                <value>classpath:com/config/TimeLine.xml</value>
                 <value>classpath:com/config/FileBoardMapper.xml</value>
                 <value>classpath:com/config/TodoMapper.xml</value>
             </list>

@@ -16,7 +16,22 @@ import com.dto.ProjectDTO;
 public class ProjectDAO {
 	@Autowired
 	SqlSessionTemplate session;
+	
+	public List<MemberDTO> selectMembers(int member_num) {
+		List<MemberDTO> list = session.selectList("selectMembers",member_num);
+		return list;
+	}
+	
+	public List<MemberDTO> searchMembers(Map<String, Object> map) {
+		List<MemberDTO> list = session.selectList("searchMembers", map);
+		return list;
+	}
 
+	public MemberDTO createPM(int member_num) {
+		MemberDTO dto = session.selectOne("createPM",member_num);
+		return dto;
+	}
+	
 	public List<ProjectDTO> getAllProject(int member_num) {
 		List<ProjectDTO> list = session.selectList("getAllProject",member_num);
 		return list;
