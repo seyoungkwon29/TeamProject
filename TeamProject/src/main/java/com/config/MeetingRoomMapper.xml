@@ -4,14 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MeetingRoomMapper">
 
-	<insert id="reserve" parameterType="MeetingRoomDTO">
-		insert into meeting_room values(#{member_num}, #{meeting_num}, #{meeting_date}, #{meeting_time}, #{reservation})
-	</insert>
-	
-	<select id="select" resultType="MeetingRoomDTO"  parameterType="int">
-		select * from meeting_room where member_num = #{member_num}
-		and reservation='1'
-		AND (
+    <insert id="reserve" parameterType="MeetingRoomDTO">
+        insert into meeting_room values(#{member_num}, #{meeting_num}, #{meeting_date}, #{meeting_time}, #{reservation})
+    </insert>
+
+    <select id="select" resultType="MeetingRoomDTO"  parameterType="int">
+        select * from meeting_room where member_num = #{member_num}
+        and reservation='1'
+        AND (
         meeting_date > TRUNC(SYSDATE)
         OR (
             meeting_date = TRUNC(SYSDATE)
@@ -30,5 +30,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		meeting_num = #{meeting_num} AND
 		reservation = #{reservation}
 	</update>
-		
+
 </mapper>
