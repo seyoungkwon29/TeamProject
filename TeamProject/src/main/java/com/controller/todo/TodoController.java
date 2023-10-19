@@ -33,4 +33,14 @@ public class TodoController {
 		return todoDTO;
 	}
 	
+	@PostMapping("/updateTodo")
+	public TodoDTO updateTodo(@RequestBody Map<String,Object> parameters) {
+		TodoDTO todoDTO = service.updateTodo(parameters);
+		return todoDTO;
+	}
+	
+	@PostMapping("/deleteTodo")
+	public void deleteTodo(@RequestBody Map<String,Object> parameters) {
+		service.deleteTodo(parameters);
+	}
 }

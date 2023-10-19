@@ -5,14 +5,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="TodoMapper">
 	<select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
 		SELECT t.*
-		FROM todo t JOIN project_todo pt ON t.todo_num=pt.todo_num
+		FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
 		WHERE project_num = #{project_num} AND member_num = #{member_num}
 	</select>
 	
 	<insert id="createTodo" parameterType="TodoDTO" useGeneratedKeys="true" 
 	   	keyProperty="todo_num" keyColumn="todo_num">
 		INSERT INTO todo VALUES(
-			seq_todo_num.nextval(),
+			seq_todo_num.nextval,
 			#{todo_title},
 			#{status},
 			#{start_date},
@@ -32,4 +32,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 		
 	</insert>
+	
+	<update id="updateTodo" parameterType="TodoDTO">
+		UPDATE todo SET
+			todo_title = #{todo_title},
+			status = #{status},
+			start_date = #{start_date},
+			due_date = #{due_date},
+			content = #{content},
+			conversion_ratio = #{conversion_ratio},
+			top_task = #{top_task}
+		WHERE todo_num = #{todo_num}
+	</update>
+	
+	<delete id="deleteTodo" parameterType="TodoDTO">
+		DELETE FROM todo 
+		WHERE todo_num = #{todo_num}	
+	</delete>
 </mapper>
