@@ -11,9 +11,9 @@ public class ProjectDTO {
 	private String due_date;
 	private String project_manager;
 	private int member_num;
+	
 	public ProjectDTO() {
 		super();
-		
 	}
 	
 	public ProjectDTO(int project_num, String project_title, String status, String start_date, String due_date,
@@ -70,7 +70,11 @@ public class ProjectDTO {
 	public void setMember_num(int member_num) {
 		this.member_num = member_num;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "ProjectDTO [project_num=" + project_num + ", project_title=" + project_title + ", status=" + status
+				+ ", start_date=" + start_date + ", due_date=" + due_date + ", project_manager=" + project_manager
+				+ ", member_num=" + member_num + "]";
+	}
 }
