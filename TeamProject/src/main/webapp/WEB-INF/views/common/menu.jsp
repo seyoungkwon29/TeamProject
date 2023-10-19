@@ -20,7 +20,6 @@
 			<li><a class="link" href="organization">조직도</a></li>
 			<li><span class="link"><a href="viewList">프로젝트 관리</a></span>
 				<div class="dropdown">
-				<a href="api/project?t_key=${login.getT_key()}">TEST</a>
 				<a href="projects?t_key=${login.getT_key()}">캘린더</a>			
 				<a href="timeline?t_key=${login.getT_key()}">타임라인</a>			
 				</div>
