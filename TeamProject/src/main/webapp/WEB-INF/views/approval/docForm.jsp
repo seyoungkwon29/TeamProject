@@ -32,7 +32,6 @@
 				 => return true: 제출, return false: 제출 중지 -->
 			<!-- enctype="multipart/form-data": 파일 업로드와 같이 이진 데이터를 전송할 때 사용 -->
 			<input type="hidden" value="${form.form_name}" name="form_name" readonly>
-			<input type="hidden" value="${form.form_no}" name="form_no" readonly>
 			<input type="hidden" value="${login.member_num}" name="member_num" readonly>
 			<input type="hidden" value="<%= doc_date %>" name="doc_date" readonly> 			
  			<input type="hidden" id="num-app" name="appMemNum" readonly> <!-- 결재자 정보를 저장할 숨겨진 폼 필드 -->
