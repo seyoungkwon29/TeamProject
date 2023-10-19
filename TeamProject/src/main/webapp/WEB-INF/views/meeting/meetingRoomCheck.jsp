@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import="java.util.List"%>
 <%@page import="com.dto.MeetingRoomDTO"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 <link rel="stylesheet" type="text/css" href="resources/css/meetingRoomCheck.css">
 <link rel="stylesheet" type="text/css" href="resources/css/meeting_modal.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
 
 <div>
 	
@@ -28,19 +21,26 @@
 		<th>회의실</th>
 		<th>예약확인</th>
 		</tr>
-    
-    	<c:forEach var="room" items="${list}" varStatus="loop">
-		<tr class="contents">
-       	 	<td>${room.meeting_date}</td>
-        	<td>${room.meeting_time}</td>
-       		<td>${room.meeting_num}</td>
-       		<td><button class="show-modal" data-index="${loop.index}"
-       		data-date="${room.meeting_date}" data-time="${room.meeting_time}" data-num="${room.meeting_num}">
-       		상세내역</button></td>
-		</tr>
-   		</c:forEach>
-	</table>
-</div>
+    	<c:choose>
+        <c:when test="${list != null}">
+            <c:forEach var="room" items="${list}" varStatus="loop">
+                <tr class="contents">
+                    <td>${room.meeting_date}</td>
+                    <td>${room.meeting_time}</td>
+                    <td>${room.meeting_num}</td>
+                    <td><button class="show-modal" data-index="${loop.index}"
+                    data-date="${room.meeting_date}" data-time="${room.meeting_time}" data-num="${room.meeting_num}">
+                    상세보기</button></td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <tr class="contents">
+                <td colspan="4">회의실 예약 정보가 없습니다.</td>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+    </table>
 </div>
 	<div id="myModal" class="modal">
         <div class="modal-content">
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-</body>
+
     <!-- JQuery를 사용하여 모달 열기/닫기 -->
     <script>
     $(document).ready(function() {
@@ -160,18 +160,3 @@
 
     </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <spring:url var="menuCss" value="/resources/css/menu.css" htmlEscape="true"/>
 <link rel="stylesheet" href="${menuCss}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -8,8 +9,8 @@
 <script src="${menuJs}"></script>
 
 <div class="menu-top-container">
-	<div>
-		<a class="brand" href="homePage"><img src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
+	<div class="top-brand">
+		<a href="homePage"><img class="menuTop-img" src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
 	</div>
 	<div class="link-ul">
 		<ul>
@@ -19,9 +20,8 @@
 			<li><a class="link" href="organization">조직도</a></li>
 			<li><span class="link"><a href="viewList">프로젝트 관리</a></span>
 				<div class="dropdown">
-				<a href="api/project?t_key=${login.getT_key()}">TEST</a>
 				<a href="projects?t_key=${login.getT_key()}">캘린더</a>			
-				<a href="projects">타임라인</a>			
+				<a href="timeline?t_key=${login.getT_key()}">타임라인</a>			
 				</div>
 			</li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>
@@ -52,14 +52,23 @@
 			</li>
 		</ul>
 	</div>
+	
 	<div class="icon-container">
-        <ul>
-            <li><a class="icon" href="#"><img
-                    src="resources/image/icon/alarm.png" alt="알람"></a></li>
-            <li><a class="icon" href="#"><img
-                    src="resources/image/icon/mail.png" alt="메일"></a></li>
-            <li><a class="icon" href="loginCheck/logout"><img
-                    src="resources/image/icon/logout.png" alt="로그아웃"></a></li>
-        </ul>
+		<div class="total-icon">
+			<span><img class="menu_img" src="resources/memberphoto/${login.member_num}.png" height ="23px"></span>
+			<span class="mem_name">${login.member_name}</span>
+		</div>
+		
+		<div class="total-bottom-ul">
+	        <ul>
+	            <li><a class="icon" href="#"><img
+	                    src="resources/image/icon/alarm.png" alt="알람"></a></li>
+	            <li><a class="icon" href="#"><img
+	                    src="resources/image/icon/mail.png" alt="메일"></a></li>
+	            <li><a class="icon" href="loginCheck/logout"><img
+	                    src="resources/image/icon/logout.png" alt="로그아웃"></a></li>
+	        </ul>
+        </div>
     </div>
+    
 </div>

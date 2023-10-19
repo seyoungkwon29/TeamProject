@@ -122,9 +122,14 @@
 
 /* 스타일 적용 대상: 근무 기록 리스트 각 행 */
 .attdance-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* 짝수 행 배경색 설정 */
+    border-top: 1px solid rgb(200, 200, 200);
+    height: 45px;
+    background-color:#fff; /* 짝수 행 배경색 설정 */
 }
 
 .attdance-table tr:nth-child(odd) {
-    background-color: #fff; /* 홀수 행 배경색 설정 */
+    border-top: 1px solid rgb(200, 200, 200);
+    height: 45px;
+    background-color:#f9f9f9;/* 홀수 행 배경색 설정 */
 }
+

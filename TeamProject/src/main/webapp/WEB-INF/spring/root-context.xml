@@ -36,9 +36,9 @@
                 <value>classpath:com/config/CommunityMapper.xml</value>
                 <value>classpath:com/config/ReplyMapper.xml</value>
                 <value>classpath:com/config/MailMapper.xml</value>
-                <value>classpath:com/config/ProjectManagementMapper.xml</value>
                 <value>classpath:com/config/ProjectMapper.xml</value>
-                 <value>classpath:com/config/FileBoardMapper.xml</value>
+                <value>classpath:com/config/FileBoardMapper.xml</value>
+                <value>classpath:com/config/TodoMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
@@ -63,10 +63,10 @@
                 <value>com.dto.ApprovalDTO</value>
                 <value>com.dto.AppReferDTO</value>
                 <value>com.dto.AppSearchConditionDTO</value>
-                <value>com.dto.ProjectManagementDTO</value>
                 <value>com.dto.UploadFileDTO</value>
                 <value>com.dto.ProjectDTO</value>
                 <value>com.dto.FileBoardDTO</value>
+                <value>com.dto.TodoDTO</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->

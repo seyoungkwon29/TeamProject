@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TodoMapper">
+	<select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
+		SELECT t.*
+		FROM todo t JOIN project_todo pt ON t.todo_num=pt.todo_num
+		WHERE project_num = #{project_num} AND member_num = #{member_num}
+	</select>
+	
+	<insert id="createTodo" parameterType="TodoDTO" useGeneratedKeys="true" 
+	   	keyProperty="todo_num" keyColumn="todo_num">
+		INSERT INTO todo VALUES(
+			seq_todo_num.nextval(),
+			#{todo_title},
+			#{status},
+			#{start_date},
+			#{due_date},
+			#{member_name},
+			#{content},
+			#{conversion_ratio},
+			#{top_task},
+			#{member_num}
+		)
+	</insert>
+	
+	<insert id="addProjectTodo" parameterType="HashMap">
+		INSERT INTO project_todo VALUES(
+			#{project_num},
+			#{todo_num}
+		)
+		
+	</insert>
+</mapper>

@@ -215,7 +215,11 @@ public class SaveDocFormController {
 		System.out.println("parameter: " + parameter);
 		System.out.println("multipartFile: " + multipartFile);
 		System.out.println(" =========== 결재하기 =========== SaveDocForm");
+<<<<<<< HEAD
 		
+=======
+				
+>>>>>>> branch 'main' of https://github.com/seyoungkwon29/TeamProject.git
 		if(parameter.equals("Doc") || parameter.equals("rejDoc") || parameter.equals("tempRedraft")) { 
 			doc.setDoc_status("대기"); //기안 문서, 반려 문서, 임시저장 문서: 결재 요청
 		} else if(parameter.equals("Temporary") || parameter.equals("RejTemp") || parameter.equals("tempTemp") ) { 
@@ -230,7 +234,7 @@ public class SaveDocFormController {
         int fileResult = 0;
 
         if(multipartFile != null && !multipartFile.getOriginalFilename().equals("")) {
-	        String realPath = "C:/mail_upload";
+	        String realPath = "C:/app_upload";
 	        String fileName = multipartFile.getOriginalFilename(); //사용자 지정 파일 이름
 			UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
 			String fileReName = uuid+"_"+ fileName; //식별자 이름 + 사용자 지정파일 이름으로 파일이름 중복 방지

@@ -32,6 +32,8 @@ public class LoginController {
 	
 	@RequestMapping("/")
     public String redirect(HttpSession session) {
+		System.out.println("호출됨");
+
         MemberDTO dto = (MemberDTO) session.getAttribute("login");
         if (dto != null) {
             return "homePage";
@@ -46,9 +48,14 @@ public class LoginController {
 	public String login(
 			@RequestParam HashMap<String, String> map,
 			Model model,
+<<<<<<< HEAD
 			HttpSession session,
 			AppDocumentDTO doc, ApprovalDTO app) {
 		System.out.println(map);
+=======
+			HttpSession session) {
+		System.out.println("login :"+map);
+>>>>>>> branch 'main' of https://github.com/seyoungkwon29/TeamProject.git
 		MemberDTO dto = service.login(map);
 		
 		if (dto != null) {

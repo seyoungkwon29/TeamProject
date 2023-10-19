@@ -76,5 +76,6 @@ ALTER TABLE project_TODO
     REFERENCES TODO (TODO_num)
 ;
 
-
+create sequence seq_project_num; -- 프로젝트 번호
+create sequence seq_todo_num; -- task 번호
 

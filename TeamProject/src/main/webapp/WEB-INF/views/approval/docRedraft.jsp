@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 <link rel="stylesheet" href="resources/css/docForm.css">
-</head>
 
-<body>
 	<c:set var="login" value="${login}"></c:set> <!-- 본인 로그인 정보 -->
 	<c:set var="doc" value="${docDetail}"></c:set> <!-- 문서 상세 내용 -->
 	<c:set var="file" value="${fileList}"></c:set>  <!-- 파일 -->
@@ -436,5 +429,3 @@
 	};
 	
 </script>
-</body>
-</html>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ChattingMapper">
+	
+	<!-- 본인 제외 검색 -->
+	<select id="selectMembersExceptMe" resultType="MemberDTO">
+		select * from member where member_num != #{member_num}
+	</select>
+	
+	<!-- 직급 or 이름으로 조건 검색 -->
+	<select id="searchValue" resultType="MemberDTO" parameterType="hashmap">
+	select * from member
+	  <where>
+            <choose>
+                <when test="searchCondition == 'all'">
+                    div_name LIKE '%' || #{searchValue} || '%' or
+                     member_name LIKE '%' || #{searchValue} || '%'
+                </when>
+                <otherwise>
+                    <if test="searchCondition == 'division'">
+                        div_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                    <if test="searchCondition == 'memberName'">
+                        member_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+	</select>
+		
+		<!-- 채팅방 생성 -->
+		<insert id="createChatRoom" parameterType="ChatRoomDTO">
+		insert into chatroom (chatroom_num, chatroom_title, chatroom_type)
+		values(seq_chat_room.nextval, #{chatroom_title}, #{chatroom_type})
+		</insert>
+		
+		<!-- 채팅방 사용자 등록 -->
+		<insert id="registor" parameterType="int">
+		insert into chat_member values(
+			seq_chat_room.currval,
+			#{member_num},
+			(select div_name from member where member_num = #{member_num}),
+			(select member_name from member where member_num = #{member_num}),
+			(select rank from member where member_num = #{member_num}),
+			default
+		)
+		</insert>
+		
+		<!-- 채팅방안의 모든 멤버 -->
+		<select id="selectAllMember" resultType="ChatMemberDTO" parameterType="int">
+		select * from chat_member where member_status = 0
+		<if test="chatroom_num == 0">
+			and chatroom_num = (select max(chatroom_num) from chatroom)
+		</if>
+		<if test="chatroom_num != 0">
+			and chatroom_num = #{chatroom_num}
+		</if>
+		</select>
+		
+		
+		<!-- 최근 생성된 채팅방 번호 불러오기 -->
+		<select id="selectOnechatRoomNum" resultType="int">
+		select max(chatroom_num) from chatroom
+		</select>
+		
+		
+		<!-- 채팅방 리스트 불러오기 -->
+		<select id="chatList" parameterType="int" resultType="ChatRoomDTO">
+			SELECT r.chatroom_num, r.chatroom_title, r.chatroom_type
+			FROM chatroom r
+			JOIN chat_member m ON r.chatroom_num = m.chatroom_num
+			JOIN (
+			    SELECT chatroom_num, MAX(chat_date) as latest_date
+			    FROM chat_content
+			    GROUP BY chatroom_num
+			) c ON c.chatroom_num = r.chatroom_num
+			WHERE m.member_num = #{member_num}
+			and m.member_status=0
+			ORDER BY c.latest_date DESC
+		</select>
+		
+		
+		<!-- 채팅 등록 -->
+		<insert id="registerChatContent" parameterType="ChatContentDTO">
+			insert into chat_content values(seq_chat_content.nextval,
+			<if test="chatroom_num == 0"> <!-- 새로 생성된 방이면 최근 채팅방번호 가져오기 -->
+				seq_chat_room.currval
+			</if>
+			<if test="chatroom_num != 0">
+				#{chatroom_num}
+			</if>
+			,#{chat_content},#{member_num},default,
+			<if test="chat_type == 1"> <!-- 공지내용들은 type=1 로 설정 -->
+				#{chat_type}
+			</if>
+			<if test="chat_type != 1">
+				default
+			</if>
+			)
+		</insert>
+		
+		<!-- 채팅방 정보-->
+		<select id="searchRoom" parameterType="int" resultType="ChatRoomDTO">
+			select * from chatroom where chatroom_num = #{chatroom_num}
+		</select>
+
+		<!-- 참여인원수 -->
+		<select id="countMember" parameterType="int" resultType="int">
+			select COUNT(*) from chat_member where chatroom_num= #{chatroom_num}
+			and member_status = 0
+		</select>
+		
+		<!-- 공지 불러오기(방생성, 초대, 나가기 등) -->
+		<select id="createdRoomContent" parameterType="int" resultType="ChatContentDTO">
+			select * from(select * from chat_content where chatroom_num= #{chatroom_num}
+			and chat_type = 1
+			order by chat_content_no)
+			where ROWNUM =1
+		</select>
+		
+		<!-- 채팅 내용 불러오기 -->
+		<select id="myContentsList" parameterType="int" resultType="ExtendedChatContentDTO">
+			WITH CTE AS (
+    		SELECT c.*, m.member_name, m.div_name, m.rank,
+        	ROW_NUMBER() OVER(PARTITION BY c.chat_content_no ORDER BY c.chat_content_no) AS rn
+    		FROM chat_content c
+    		JOIN chatroom r ON c.chatroom_num = r.chatroom_num
+    		JOIN chat_member m ON r.chatroom_num = m.chatroom_num
+   			WHERE c.chatroom_num = #{chatroom_num} and (c.member_num = m.member_num OR c.member_num = 0)
+			)
+
+			SELECT 
+			    chat_content_no, chatroom_num, chat_content, member_num, chat_date, chat_type,
+			    member_name, div_name, rank
+			FROM CTE 
+			WHERE rn = 1
+		</select>
+
+		<!-- 최근 채팅 내용만 불러오기 -->
+		<select id="latestChatList" parameterType="int" resultType="ChatContentDTO">
+			WITH RankedMessages AS (
+			SELECT c.*,
+			ROW_NUMBER() OVER(PARTITION BY r.chatroom_num ORDER BY c.chat_content_no DESC) AS rn
+			FROM chat_content c 
+			JOIN chatroom r ON c.chatroom_num = r.chatroom_num
+			JOIN chat_member m ON r.chatroom_num = m.chatroom_num
+			WHERE m.member_num = #{member_num}
+			and m.member_status=0
+			)
+			SELECT chat_content_no, chat_content, chatroom_num, member_num, chat_date, chat_type FROM RankedMessages
+			WHERE rn = 1
+			order by chat_content_no desc
+		</select>
+		
+		<!-- 방제 업데이트 -->
+		<update id="updateTitle" parameterType="map">
+			UPDATE chatroom SET chatroom_title=#{chatroom_title}
+			where chatroom_num=#{chatroom_num}
+		</update>
+		
+		
+		<!-- 초대 멤버 리스트 -->
+		<select id="inviteMemberList" parameterType="map" resultType="ChatMemberDTO">
+			SELECT m.*
+			FROM member m
+			LEFT JOIN chat_member c ON m.member_num = c.member_num AND c.chatroom_num = #{chatroom_num}
+			WHERE c.member_num IS NULL
+			or member_status=1
+			order by m.div_name
+		</select>
+		
+		<!--대화 상대 초대 -->
+		<insert id="inviteMember" parameterType="map">
+	        INSERT INTO chat_member(chatroom_num, member_num, div_name, member_name, rank, member_status)
+	        VALUES (
+	            #{chatroom_num},
+	            #{member_num},
+	            (select div_name from member where member_num = #{member_num}),
+				(select member_name from member where member_num = #{member_num}),
+				(select rank from member where member_num = #{member_num}),
+				default
+	        )
+		</insert>
+
+		<!-- 유저 상태 변경(나가거나 초대 되거나) -->
+		<update id="updateMemberStatus" parameterType="map">
+			update chat_member
+			set member_status = #{member_status}
+			where chatroom_num = #{chatroom_num}
+			and	member_num = #{member_num}
+		</update>
+		
+		<!-- 채팅방 삭제 -->
+		<delete id="deleteChatRoom" parameterType="int">
+			delete from chatroom where chatroom_num = #{chatroom_num}
+		</delete>
+		
+		
+		<select id="memberExceptStatus" parameterType="map" resultType="ChatMemberDTO">
+			select * from chat_member
+			where chatroom_num = #{chatroom_num}
+			and member_num = #{member_num}
+		</select>
+		
+		<select id="selectMember" parameterType="Integer" resultType="ChatMemberDTO">
+			select * from member
+			where member_num = #{member_num}
+		</select>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+</mapper>
