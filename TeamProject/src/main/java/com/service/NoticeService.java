@@ -96,4 +96,14 @@ public class NoticeService {
   		
   		return new PageResponseDTO<NoticeDTO>(page, noticeDetailsList, count);
     }
-}
+
+
+	
+	public List<NoticeDTO> getAllNotices(int member_num) {
+		List<NoticeDTO> noticeDetailsList = dao.getAllNotices(member_num);
+		System.out.println("list >>>>>>>>>>>" + noticeDetailsList.toString());
+		return noticeDetailsList;
+	}
+
+	
+}//class

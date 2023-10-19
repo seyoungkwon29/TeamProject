@@ -174,5 +174,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on n.member_num = m.member_num
 		WHERE title LIKE #{content} or content LIKE #{content}
 	</select>
+	
+	<select id="getAllNotices" resultType="NoticeDTO" parameterType="int" >
+		SELECT *
+		FROM notice 
+		where member_num = #{member_num}
+	</select>
+	
+	
 
 </mapper>

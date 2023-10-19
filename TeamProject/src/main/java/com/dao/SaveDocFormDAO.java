@@ -132,6 +132,9 @@ public class SaveDocFormDAO {
 		return docList;
 	}
 
-
+	public List<AppDocumentDTO> selectHomeAppList(AppDocumentDTO doc) {
+		List<AppDocumentDTO> appDocList = session.selectList("ApprovalMapper.selectHomeAppList", doc);
+		return appDocList;
+	}
 
 }

@@ -126,5 +126,11 @@ public class SaveDocFormService {
 		return docList;
 	}
 	
+	public List<AppDocumentDTO> selectHomeAppList(AppDocumentDTO doc) {
+		List<AppDocumentDTO> appDocList = dao.selectHomeAppList(doc);
+		return appDocList;
+	}
+	
+	
 	
 }
