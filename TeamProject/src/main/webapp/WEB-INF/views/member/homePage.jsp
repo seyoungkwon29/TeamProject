@@ -15,4 +15,5 @@
 		<ol> <a href="calendar">캘린더</a> </ol>
 		<ol> <a href="loginCheck/logout">로그아웃</a> </ol>
 	</ul>
+	<span>${login.t_key}</span>
 </div>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TimeLine">
+
+	<select id="selectMembers" resultType="MemberDTO">
+		select * from member where member_num != #{member_num}
+	</select>
+	
+	<!-- 직급 or 이름으로 조건 검색 -->
+	<select id="searchMembers" resultType="MemberDTO" parameterType="hashmap">
+	select * from member
+	  <where>
+	  	<if test="member_num != null">
+            member_num != #{member_num}
+        </if>
+            <choose>
+                <when test="searchCondition == 'all'">
+                    and (div_name LIKE '%' || #{searchValue} || '%' or
+                     member_name LIKE '%' || #{searchValue} || '%')
+                </when>
+                <otherwise>
+                    <if test="searchCondition == 'division'">
+                        div_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                    <if test="searchCondition == 'memberName'">
+                        member_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+	</select>
+	
+	<select id="createPM" parameterType="int" resultType="MemberDTO">
+	 select * from member where member_num = #{member_num}
+	</select>
+	
+	<insert id="createProject" parameterType="ProjectDTO" useGeneratedKeys="true" keyProperty="project_num" keyColumn="project_num">
+        INSERT INTO project
+        VALUES(
+            seq_project_num.nextval,
+            #{project_title},
+            #{status},
+            #{start_date},
+            #{due_date},
+            #{project_manager},
+            #{member_num}
+        )
+    </insert>
+    
+    <insert id="addProjectMember" parameterType="map">
+    INSERT INTO project_member (project_num, member_num)
+    VALUES (#{project_num}, #{member_num})
+	</insert>
+	
+	<select id="projectList" parameterType="int" resultType="ProjectDTO">
+		select * from project where member_num=#{member_num}
+	</select>
+	
+	<select id="participatedMemberList" parameterType="int" resultType="MemberDTO">
+        SELECT *
+        FROM member
+        WHERE member_num in(
+            SELECT member_num 
+            FROM project_member 
+            WHERE project_num = #{project_num}
+        )
+    </select>
+	
+</mapper>

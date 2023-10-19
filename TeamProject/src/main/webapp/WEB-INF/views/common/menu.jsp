@@ -22,7 +22,7 @@
 				<div class="dropdown">
 				<a href="api/project?t_key=${login.getT_key()}">TEST</a>
 				<a href="projects?t_key=${login.getT_key()}">캘린더</a>			
-				<a href="projects">타임라인</a>			
+				<a href="timeline?t_key=${login.getT_key()}">타임라인</a>			
 				</div>
 			</li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>

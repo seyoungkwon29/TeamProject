@@ -18,17 +18,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND TO_DATE(SUBSTR(meeting_time, INSTR(meeting_time, '~') + 1), 'HH24:MI') > SYSDATE
         )
     )
-        order by meeting_date
-    </select>
-
-    <update id="deleteMeetingRoom" parameterType="MeetingRoomDTO">
-        UPDATE MEETING_ROOM
-        SET reservation = 0
-        WHERE member_num = #{member_num} AND
-        meeting_date =#{meeting_date} AND
-        meeting_time = #{meeting_time} AND
-        meeting_num = #{meeting_num} AND
-        reservation = #{reservation}
-    </update>
+		order by meeting_date
+	</select>
+	
+	<update id="deleteMeetingRoom" parameterType="MeetingRoomDTO">
+		UPDATE MEETING_ROOM
+		SET reservation = 0
+		WHERE member_num = #{member_num} AND
+		meeting_date =#{meeting_date} AND
+		meeting_time = #{meeting_time} AND
+		meeting_num = #{meeting_num} AND
+		reservation = #{reservation}
+	</update>
 
 </mapper>

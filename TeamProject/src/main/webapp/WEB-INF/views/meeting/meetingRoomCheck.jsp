@@ -21,7 +21,6 @@
 		<th>회의실</th>
 		<th>예약확인</th>
 		</tr>
-    
     	<c:choose>
         <c:when test="${list != null}">
             <c:forEach var="room" items="${list}" varStatus="loop">
@@ -42,8 +41,6 @@
         </c:otherwise>
     </c:choose>
     </table>
-	</table>
-</div>
 </div>
 	<div id="myModal" class="modal">
         <div class="modal-content">
@@ -162,3 +159,4 @@
 
 
     </script>
+</html>
