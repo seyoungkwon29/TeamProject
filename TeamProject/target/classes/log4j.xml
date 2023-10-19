@@ -42,7 +42,7 @@
 	</logger>
 
 	<logger name="org.mybatis.spring">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 	
 	<!-- Root Logger -->

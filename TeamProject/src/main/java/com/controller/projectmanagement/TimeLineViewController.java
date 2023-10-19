@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.dto.MemberDTO;
 
-
 @Controller
 public class TimeLineViewController {
 

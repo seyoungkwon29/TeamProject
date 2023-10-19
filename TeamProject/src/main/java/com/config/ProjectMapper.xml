@@ -11,6 +11,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE member_num = #{member_num})
 	</select>
 	
+	<select id="selectMembers" resultType="MemberDTO">
+		select * from member where member_num != #{member_num}
+	</select>
+	
+	<!-- 직급 or 이름으로 조건 검색 -->
+	<select id="searchMembers" resultType="MemberDTO" parameterType="hashmap">
+	select * from member
+	  <where>
+	  	<if test="member_num != null">
+            member_num != #{member_num}
+        </if>
+            <choose>
+                <when test="searchCondition == 'all'">
+                    and (div_name LIKE '%' || #{searchValue} || '%' or
+                     member_name LIKE '%' || #{searchValue} || '%')
+                </when>
+                <otherwise>
+                    <if test="searchCondition == 'division'">
+                        div_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                    <if test="searchCondition == 'memberName'">
+                        member_name LIKE '%' || #{searchValue} || '%'
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+	</select>
+	
+	<select id="createPM" parameterType="int" resultType="MemberDTO">
+	 select * from member where member_num = #{member_num}
+	</select>
+	
+	
 	<select id="participatedMemberList" parameterType="int" resultType="MemberDTO">
 		SELECT *
 		FROM member
