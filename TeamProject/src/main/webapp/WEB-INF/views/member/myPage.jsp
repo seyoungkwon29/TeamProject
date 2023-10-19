@@ -94,49 +94,47 @@
 			    <td class="tr-left">프로필 사진</td>
 			    <td class="tr-right">
 		    	 	
-				      		 <img src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="250" height="auto"><br> <br> 
-<%-- 				      		 <img src="/profilepic/<%=dto.getPhoto()%>" width="250" height="auto"><br> <br>  --%>
+				      		<img class="mem-img" src="/profilepic/1020"><br><br>
 				    
 	        		<a class="prof-button" id="profile_pic">프로필사진 변경</a> &nbsp;&nbsp;
 	       			<a class="prof-button" id="pw_change">비밀번호 변경</a>
-	       			
 	     		</td>
 			  </tr>
 			  <tr>
 			  	<td class="tr-left"> 이름 </td>
 			  	<td class="tr-right"> 			
-					<span class="member-name"><%=dto.getMember_name() %></span>&nbsp;&nbsp;
+					<span class="member-name">공지영</span>&nbsp;&nbsp;
 					<span class="mem-rank">사원</span>
 			   </td>
 			  </tr><tr>
 	        
 	          </tr><tr>
 	            <td class="tr-left">사번</td>
-	            <td class="tr-right"><%=dto.getMember_num() %></td>
+	            <td class="tr-right">1020</td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">소속부서</td>
-	            <td class="tr-right"><%=dto.getDiv_name()%></td>
+	            <td class="tr-right">총무</td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">주소</td>
-	            <td class="tr-right"><%=dto.getAddress()%></td>
+	            <td class="tr-right">서울시 은평구 응암동 53-13</td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">휴대폰번호</td>
-	            <td class="tr-right"><input type="text" value="<%=phone%>" name="phone" id="phone" maxlength="11" class="input-phone-mail"></td>
+	            <td class="tr-right"><input type="text" value="010-2335-2302" name="phone" id="phone" maxlength="11" class="input-phone-mail"></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">메일주소</td>
-	            <td class="tr-right"><input type="email" value="<%=mail%>" name="mail" id="mail" class="input-phone-mail"></td>
+	            <td class="tr-right"><input type="email" value="9nwwcd@everyware.com" name="mail" id="mail" class="input-phone-mail"></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">입사일</td>
-	            <td class="tr-right"><%=dto.getHire_date()%></td>
+	            <td class="tr-right">23/03/02</td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">잔여연차</td>
-	            <td class="tr-right"><%=dto.getAnnual_leave()%></td>
+	            <td class="tr-right">20</td>
 	          </tr>
 	     </tbody></table>
 		 </div>
