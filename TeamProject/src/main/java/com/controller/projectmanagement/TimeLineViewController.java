@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.dto.MemberDTO;
-import com.dto.ProjectManagementDTO;
-import com.service.ProjectManagementService;
 
 @Controller
 public class TimeLineViewController {

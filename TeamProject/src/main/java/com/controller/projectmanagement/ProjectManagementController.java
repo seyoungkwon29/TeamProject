@@ -1,5 +1,6 @@
 package com.controller.projectmanagement;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,24 @@ public class ProjectManagementController {
 	@Autowired
 	ProjectService service;
 	
-	@GetMapping("/project")
-    public List<ProjectDTO> project(@RequestParam Map<String, String> parameters) {
+	//프로젝트 매니저(PM),로그인한 유저
+			@GetMapping("/createPM")
+			public MemberDTO createPM(@RequestParam Map<String, String> parameters){
+				MemberDTO dto = null;
+				String tKey = parameters.get("t_key");
+				if(!StringUtils.hasText(tKey)
+						|| null == LoginConstant.memberMap.get(tKey)
+						|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
+					// 팅겨내기 - 로그인 정보 없다.
+				}else {
+					MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
+					dto  = service.createPM(memberDto.getMember_num());
+				}
+				return dto;
+			}	
+	
+	@GetMapping("/projectList")
+    public List<ProjectDTO> projectList(@RequestParam Map<String, String> parameters) {
 		List<ProjectDTO> list = null;
 		String tKey = parameters.get("t_key");
 		System.out.println("컨트롤러 실행!");
@@ -34,18 +51,49 @@ public class ProjectManagementController {
 				|| null == LoginConstant.memberMap.get(tKey) 
 				|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
 			System.out.println("로그인 정보 없음");
-			// 팅겨내기 - 로그인 정보 없다.
 		}else {
 			MemberDTO loginMember = LoginConstant.memberMap.get(tKey);
-			System.out.println("로그인 정보:"+loginMember);
-			int member_num = loginMember.getMember_num();
-			
-			list  = service.getAllProject(member_num);
-			//System.out.println("List 정보 : " + list.get(0));
+			list  = service.getAllProject(loginMember.getMember_num());
+			System.out.println("projectList>>>>>>>>"+list);
 		}
 		return list;
     }
 	
+		@GetMapping("/searchAllMember")
+		public List<MemberDTO> searchAllMember(@RequestParam Map<String, String> parameters) {
+			List<MemberDTO> list = null;
+			
+			String tKey = parameters.get("t_key");
+			if(!StringUtils.hasText(tKey)
+					|| null == LoginConstant.memberMap.get(tKey)
+					|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
+				// 팅겨내기 - 로그인 정보 없다.
+			}else {
+				MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
+				list  = service.selectMembers(memberDto.getMember_num());
+			}
+			return list;
+	    }
+		
+		//조건으로 사원 검색
+		@PostMapping("/searchMember")
+		public List<MemberDTO> searchMember(@RequestBody Map<String, String> parameters) {
+			List<MemberDTO> list = null;
+			String tKey = parameters.get("t_key");
+			if(!StringUtils.hasText(tKey)
+					|| null == LoginConstant.memberMap.get(tKey)
+					|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
+				// 팅겨내기 - 로그인 정보 없다.
+			}else {
+				MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("searchCondition", parameters.get("searchCondition"));
+				map.put("searchValue", parameters.get("searchValue"));
+				map.put("member_num",memberDto.getMember_num());
+				list = service.searchMembers(map);
+			}
+			return list;
+		}
 	@PostMapping("/participatedMemberList")
 	public List<MemberDTO> participatedMemberList(@RequestBody Map<String,Object> parameters) {
 		List<MemberDTO> memberList = service.participatedMemberList(parameters);
@@ -53,13 +101,16 @@ public class ProjectManagementController {
 	}
 	
 	@PostMapping("/createProject")
-	public void createProject (@RequestBody Map<String,Object> parameters) { //JSON형태로 들어오는 데이터를 Map으로 접근
-		service.createProject(parameters);
+	public ProjectDTO createProject (@RequestBody Map<String,Object> parameters) { //JSON형태로 들어오는 데이터를 Map으로 접근
+		ProjectDTO projectDTO = service.createProject(parameters);
+		return projectDTO;
 	}
 	
 	@PostMapping("/updateProject")
-	public void updateProject(@RequestBody Map<String,Object> parameters) {
-		service.updateProject(parameters);
+	public ProjectDTO updateProject(@RequestBody Map<String,Object> parameters) {
+		System.out.println("update>>>>>>>"+parameters);
+		ProjectDTO projectDTO = service.updateProject(parameters);
+		return projectDTO;
 	}
 	
 	@PostMapping("/deleteProject")
