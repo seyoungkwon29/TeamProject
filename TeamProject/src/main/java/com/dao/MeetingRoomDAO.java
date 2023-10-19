@@ -26,7 +26,7 @@ public class MeetingRoomDAO {
 	}
 
 	public int delete(MeetingRoomDTO dtoM) {
-		int num = session.update("delete",dtoM);
+		int num = session.update("deleteMeetingRoom",dtoM);
 		return num;
 	}
 

@@ -167,8 +167,17 @@ public class MemberDTO {
 
 	@Override
 	public String toString() {
-		return "MemberDTO [member_num=" + member_num + ", member_name=" + member_name + ", password=" + password + "]";
+		return "MemberDTO [member_num=" + member_num + ", member_name=" + member_name + ", div_name=" + div_name
+				+ ", rank=" + rank + ", address=" + address + ", phone=" + phone + ", mail=" + mail + ", hire_date="
+				+ hire_date + ", retire_date=" + retire_date + ", ssn=" + ssn + ", password=" + password + ", gender="
+				+ gender + ", photo=" + photo + ", annual_leave=" + annual_leave;
 	}
+
+//	@Override
+//	public String toString() {
+//		return "MemberDTO [member_num=" + member_num + ", member_name=" + member_name + ", password=" + password + "]";
+//	}
+	
 	
 	
 }

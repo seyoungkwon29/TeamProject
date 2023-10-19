@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by meeting_date
 	</select>
 	
-	<update id="delete" parameterType="MeetingRoomDTO">
+	<update id="deleteMeetingRoom" parameterType="MeetingRoomDTO">
 		UPDATE MEETING_ROOM
 		SET reservation = 0
 		WHERE member_num = #{member_num} AND

@@ -28,8 +28,9 @@ public class ProjectManagementController {
 		List<ProjectDTO> list = null;
 		
 		String tKey = parameters.get("t_key");
-		if(!StringUtils.hasText(tKey) 
-				|| null == LoginConstant.memberMap.get(tKey) 
+		System.out.println("tKey>>>"+tKey);
+		if(!StringUtils.hasText(tKey)
+				|| null == LoginConstant.memberMap.get(tKey)
 				|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
 			// 팅겨내기 - 로그인 정보 없다.
 		}else {

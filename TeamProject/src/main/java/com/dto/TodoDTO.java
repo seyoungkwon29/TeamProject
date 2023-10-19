@@ -1,0 +1,108 @@
+package com.dto;
+
+import java.util.Date;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("TodoDTO")
+public class TodoDTO {
+	private int todo_num;
+	private String todo_title;
+	private String status;
+	private Date start_date;
+	private Date due_date;
+	private String content;
+	private float conversion_ratio;
+	private String top_task;
+	private String member_name;
+	private int member_num;
+	public TodoDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public TodoDTO(int todo_num, String todo_title, String status, Date start_date, Date due_date, String content,
+			float conversion_ratio, String top_task, String member_name, int member_num) {
+		super();
+		this.todo_num = todo_num;
+		this.todo_title = todo_title;
+		this.status = status;
+		this.start_date = start_date;
+		this.due_date = due_date;
+		this.content = content;
+		this.conversion_ratio = conversion_ratio;
+		this.top_task = top_task;
+		this.member_name = member_name;
+		this.member_num = member_num;
+	}
+	public int getTodo_num() {
+		return todo_num;
+	}
+	public void setTodo_num(int todo_num) {
+		this.todo_num = todo_num;
+	}
+	public String getTodo_title() {
+		return todo_title;
+	}
+	public void setTodo_title(String todo_title) {
+		this.todo_title = todo_title;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Date getStart_date() {
+		return start_date;
+	}
+	public void setStart_date(Date start_date) {
+		this.start_date = start_date;
+	}
+	public Date getDue_date() {
+		return due_date;
+	}
+	public void setDue_date(Date due_date) {
+		this.due_date = due_date;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public float getConversion_ratio() {
+		return conversion_ratio;
+	}
+	public void setConversion_ratio(float conversion_ratio) {
+		this.conversion_ratio = conversion_ratio;
+	}
+	public String getTop_task() {
+		return top_task;
+	}
+	public void setTop_task(String top_task) {
+		this.top_task = top_task;
+	}
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+	public int getMember_num() {
+		return member_num;
+	}
+	public void setMember_num(int member_num) {
+		this.member_num = member_num;
+	}
+	@Override
+	public String toString() {
+		return "TodoDTO [todo_num=" + todo_num + ", todo_title=" + todo_title + ", status=" + status + ", start_date="
+				+ start_date + ", due_date=" + due_date + ", content=" + content + ", conversion_ratio="
+				+ conversion_ratio + ", top_task=" + top_task + ", member_name=" + member_name + ", member_num="
+				+ member_num + "]";
+	}
+	
+	
+	
+	
+}

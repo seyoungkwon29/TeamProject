@@ -23,17 +23,26 @@
 		<th></th>
 		</tr>
     
-    	<c:forEach var="room" items="${list}" varStatus="loop">
-		<tr class="contents">
-       	 	<td>${room.meeting_date}</td>
-        	<td>${room.meeting_time}</td>
-       		<td>${room.meeting_num}</td>
-       		<td><button class="show-modal" data-index="${loop.index}"
-       		data-date="${room.meeting_date}" data-time="${room.meeting_time}" data-num="${room.meeting_num}">
-       		상세보기</button></td>
-		</tr>
-   		</c:forEach>
-</table>
+    	<c:choose>
+	    <c:when test="${list != null}">
+	        <c:forEach var="room" items="${list}" varStatus="loop">
+	            <tr class="contents">
+	                <td>${room.meeting_date}</td>
+	                <td>${room.meeting_time}</td>
+	                <td>${room.meeting_num}</td>
+	                <td><button class="show-modal" data-index="${loop.index}"
+	                data-date="${room.meeting_date}" data-time="${room.meeting_time}" data-num="${room.meeting_num}">
+	                상세보기</button></td>
+	            </tr>
+	        </c:forEach>
+	    </c:when>
+	    <c:otherwise>
+	        <tr class="contents">
+	            <td colspan="4">회의실 예약 정보가 없습니다.</td>
+	        </tr>
+	    </c:otherwise>
+	</c:choose>
+	</table>
 </div>
 	<div id="myModal" class="modal">
         <div class="modal-content">
@@ -145,18 +154,3 @@
 
     </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

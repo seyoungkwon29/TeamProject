@@ -34,6 +34,7 @@
                 <value>classpath:com/config/MailMapper.xml</value>
                 <value>classpath:com/config/ProjectManagementMapper.xml</value>
                 <value>classpath:com/config/ProjectMapper.xml</value>
+                <value>classpath:com/config/TimeLine.xml</value>
             </list>
         </property>
         <property name="typeAliases">
