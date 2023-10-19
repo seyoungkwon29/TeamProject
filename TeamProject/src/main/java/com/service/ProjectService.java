@@ -102,7 +102,6 @@ public class ProjectService {
 		addProjectMember(project_num, toAddList);
 		return projectDTO;
 		
-		
 	}//end updateProject
 
 	public void deleteProject(int project_num) {
@@ -113,6 +112,12 @@ public class ProjectService {
 	public List<MemberDTO> participatedMemberList(Map<String,Object> parameters) {
 		int project_num = (int)parameters.get("project_num");
 		List<MemberDTO> memberList = dao.participatedMemberList(project_num);
+		
+		//프로젝트 매니저 멤버 제거
+		ProjectDTO projectDTO = dao.selectProjectByProjectNum(project_num);
+		int member_num = projectDTO.getMember_num();
+		memberList.remove(member_num);
+		System.out.println("memberList : " + memberList);
 		return memberList;
 	}
 	

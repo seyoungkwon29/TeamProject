@@ -53,7 +53,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		WHERE project_num = #{project_num}
 		)
 	</select>
-	
+	<!-- 위의 프로젝트에 참여하는 인원 중 프로젝트 매니저는 리스트에서 제외하기 위한 용도의 SQL -->
+	<select id="selectProjectByProjectNum" resultType="ProjectDTO">
+		SELECT * 
+		FROM project
+		WHERE project_num = #{project_num}
+	</select>
 	 <insert id="createProject" parameterType="ProjectDTO" useGeneratedKeys="true" 
 	   	keyProperty="project_num" keyColumn="project_num">
         INSERT INTO project

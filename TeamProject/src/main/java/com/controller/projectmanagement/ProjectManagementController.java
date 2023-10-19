@@ -108,7 +108,6 @@ public class ProjectManagementController {
 	
 	@PostMapping("/updateProject")
 	public ProjectDTO updateProject(@RequestBody Map<String,Object> parameters) {
-		System.out.println("update>>>>>>>"+parameters);
 		ProjectDTO projectDTO = service.updateProject(parameters);
 		return projectDTO;
 	}
