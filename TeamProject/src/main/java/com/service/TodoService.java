@@ -21,8 +21,8 @@ public class TodoService {
 //프로젝트에 맞는 나의 todoList 가져오기
 	public List<TodoDTO> getAllTodoList(Map<String,Object> parameters) {
 		int project_num = (int)parameters.get("project_num"); //프로젝트 번호 파싱
-		String tKey = (String)parameters.get("tKey"); //멤버정보 가져오기
-		MemberDTO loginMember = LoginConstant.memberMap.get(tKey);
+		String t_key = (String)parameters.get("t_key"); //멤버정보 가져오기
+		MemberDTO loginMember = LoginConstant.memberMap.get(t_key);
 		int member_num = loginMember.getMember_num();
 		
 		Map<String,Integer> map = new HashMap<>();

@@ -78,4 +78,10 @@ public class NoticeDTO {
 		this.createdAt = createdAt;
 	}
 
+	@Override
+	public String toString() {
+		return "NoticeDTO [noticeNum=" + noticeNum + ", memberNum=" + memberNum + ", memberName=" + memberName
+				+ ", title=" + title + ", content=" + content + ", views=" + views + ", createdAt=" + createdAt + "]";
+	}
+
 }
