@@ -38,10 +38,11 @@ public class TodoService {
 		String t_key = (String)parameters.get("t_key");
 		MemberDTO loginMember = LoginConstant.memberMap.get(t_key);
 		int member_num = loginMember.getMember_num();
-		Map<String,Object> map = (Map)parameters.get("TodoDTO");
+		Map<String,Object> map = (Map<String,Object>)parameters.get("todoDTO");
 		ObjectMapper objectMapper = new ObjectMapper();
 		TodoDTO todoDTO = objectMapper.convertValue(map, TodoDTO.class);
-
+		
+		System.out.println("todoDTO : "+todoDTO);
 		dao.createTodo(todoDTO); //todoDTO에 todo_num의 값이 부여됨
 		int todo_num = todoDTO.getTodo_num();
 		addProjectTodo(project_num, todo_num);
@@ -53,9 +54,23 @@ public class TodoService {
 		Map<String,Integer> map = new HashMap<String, Integer>();
 		map.put("project_num", project_num);
 		map.put("todo_num", todo_num);
-		System.out.println("add프로젝트투두 실행"); //////////////////////
 		dao.addProjectTodo(map);
-		System.out.println("add프로젝트투두 완료"); /////////////////////
+	}
+
+	public TodoDTO updateTodo(Map<String, Object> parameters) {
+		
+		Map<String,Object> tempMap = (Map<String,Object>)parameters.get("todoDTO");
+		ObjectMapper objectMapper = new ObjectMapper();
+		TodoDTO todoDTO = objectMapper.convertValue(tempMap, TodoDTO.class);
+		dao.updateTodo(todoDTO);
+		return todoDTO;
+	}
+
+	public void deleteTodo(Map<String, Object> parameters) {
+		Map<String,Object> tempMap = (Map<String,Object>)parameters.get("todoDTO");
+		ObjectMapper objectMapper = new ObjectMapper();
+		TodoDTO todoDTO = objectMapper.convertValue(tempMap, TodoDTO.class);
+		dao.deleteTodo(todoDTO);
 	}
 	
 }

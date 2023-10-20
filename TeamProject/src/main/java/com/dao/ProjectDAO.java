@@ -52,7 +52,6 @@ public class ProjectDAO {
 	}
 
 	public List<Integer> selectProjectMembers(int project_num) {
-		System.out.println("프로젝트 번호 : "+project_num);
 		List<Integer> list = session.selectList("selectProjectMembers",project_num);
 		System.out.println(list.toString());
 		return list;
