@@ -17,6 +17,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+eclipse/
 
 # External tool builders
 .externalToolBuilders/
