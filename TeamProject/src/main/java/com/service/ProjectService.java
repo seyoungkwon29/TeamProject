@@ -78,7 +78,7 @@ public class ProjectService {
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
 		int project_num = projectDTO.getProject_num();
 		
-		//dao.updateProject(projectDTO);
+		dao.updateProject(projectDTO);
 		
 		//프로젝트 멤버 테이블 업데이트	
 		List<Integer> memberList = (List<Integer>)(parameters.get("members"));
@@ -100,6 +100,7 @@ public class ProjectService {
 		toAddList.removeAll(originList);
 		
 		addProjectMember(project_num, toAddList);
+		System.out.println("projectDTO>>>"+projectDTO);
 		return projectDTO;
 		
 	}//end updateProject
