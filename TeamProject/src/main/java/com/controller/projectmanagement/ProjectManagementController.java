@@ -26,74 +26,61 @@ public class ProjectManagementController {
 	@Autowired
 	ProjectService service;
 	
+	//로그인 확인
+	public MemberDTO loginCheck(String t_key) {
+		MemberDTO memberDto = null;
+		if(!StringUtils.hasText(t_key)
+				|| null == LoginConstant.memberMap.get(t_key)
+				|| !(LoginConstant.memberMap.get(t_key) instanceof MemberDTO)) {
+			System.out.println("로그인 정보가 없습니다");
+			// 팅겨내기 - 로그인 정보 없다.
+		}else {
+			memberDto = LoginConstant.memberMap.get(t_key);
+		}
+		return memberDto;
+	}
+	
+	
 	//프로젝트 매니저(PM),로그인한 유저
-			@GetMapping("/createPM")
-			public MemberDTO createPM(@RequestParam Map<String, String> parameters){
-				MemberDTO dto = null;
-				String tKey = parameters.get("t_key");
-				if(!StringUtils.hasText(tKey)
-						|| null == LoginConstant.memberMap.get(tKey)
-						|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
-					// 팅겨내기 - 로그인 정보 없다.
-				}else {
-					MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
-					dto  = service.createPM(memberDto.getMember_num());
-				}
-				return dto;
-			}	
+	@GetMapping("/createPM")
+	public MemberDTO createPM(@RequestParam Map<String, String> parameters){		
+		String t_key = parameters.get("t_key");
+		MemberDTO memberDTO = loginCheck(t_key);
+		MemberDTO dto  = service.createPM(memberDTO.getMember_num());
+		return dto;
+	}	
 	
 	@GetMapping("/projectList")
     public List<ProjectDTO> projectList(@RequestParam Map<String, String> parameters) {
 		List<ProjectDTO> list = null;
-		String tKey = parameters.get("t_key");
-		System.out.println("컨트롤러 실행!");
-		if(!StringUtils.hasText(tKey) 
-				|| null == LoginConstant.memberMap.get(tKey) 
-				|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
-			System.out.println("로그인 정보 없음");
-		}else {
-			MemberDTO loginMember = LoginConstant.memberMap.get(tKey);
-			list  = service.getAllProject(loginMember.getMember_num());
-			System.out.println("projectList>>>>>>>>"+list);
-		}
+		String t_key = parameters.get("t_key");
+		
+		MemberDTO loginMember = loginCheck(t_key);
+		list  = service.getAllProject(loginMember.getMember_num());
 		return list;
     }
 	
-		@GetMapping("/searchAllMember")
-		public List<MemberDTO> searchAllMember(@RequestParam Map<String, String> parameters) {
-			List<MemberDTO> list = null;
-			
-			String tKey = parameters.get("t_key");
-			if(!StringUtils.hasText(tKey)
-					|| null == LoginConstant.memberMap.get(tKey)
-					|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
-				// 팅겨내기 - 로그인 정보 없다.
-			}else {
-				MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
-				list  = service.selectMembers(memberDto.getMember_num());
-			}
-			return list;
-	    }
+	@GetMapping("/searchAllMember")
+	public List<MemberDTO> searchAllMember(@RequestParam Map<String, String> parameters) {
+		List<MemberDTO> list = null;
+		String t_key = parameters.get("t_key");
 		
-		//조건으로 사원 검색
-		@PostMapping("/searchMember")
-		public List<MemberDTO> searchMember(@RequestBody Map<String, String> parameters) {
-			List<MemberDTO> list = null;
-			String tKey = parameters.get("t_key");
-			if(!StringUtils.hasText(tKey)
-					|| null == LoginConstant.memberMap.get(tKey)
-					|| !(LoginConstant.memberMap.get(tKey) instanceof MemberDTO)) {
-				// 팅겨내기 - 로그인 정보 없다.
-			}else {
-				MemberDTO memberDto = LoginConstant.memberMap.get(tKey);
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("searchCondition", parameters.get("searchCondition"));
-				map.put("searchValue", parameters.get("searchValue"));
-				map.put("member_num",memberDto.getMember_num());
-				list = service.searchMembers(map);
-			}
-			return list;
-		}
+		MemberDTO memberDTO = loginCheck(t_key);
+		list  = service.selectMembers(memberDTO.getMember_num());
+		return list;
+    }
+		
+	//조건으로 사원 검색
+	@PostMapping("/searchMember")
+	public List<MemberDTO> searchMember(@RequestBody Map<String, String> parameters) {
+		List<MemberDTO> list = null;
+		String t_key = parameters.get("t_key");
+
+		MemberDTO memberDTO = loginCheck(t_key);
+		list = service.searchMembers(parameters, memberDTO);
+		return list;
+	}
+	
 	@PostMapping("/participatedMemberList")
 	public List<MemberDTO> participatedMemberList(@RequestBody Map<String,Object> parameters) {
 		List<MemberDTO> memberList = service.participatedMemberList(parameters);
