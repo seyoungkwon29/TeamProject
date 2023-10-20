@@ -21,13 +21,24 @@ public class TodoDAO {
 
 	public void createTodo(TodoDTO todoDTO) {
 		int res = session.insert("createTodo",todoDTO);
-		System.out.println("인서트 확인 : " + res);
+//		System.out.println("인서트 확인 : " + res);
 		
 	}
 
 	public void addProjectTodo(Map<String, Integer> map) {
 		int res = session.insert("addProjectTodo",map);
 		
+	}
+
+	public void updateTodo(TodoDTO todoDTO) {
+		System.out.println(todoDTO);
+		int res = session.update("updateTodo",todoDTO);
+		System.out.println("업데이트 결과 : " + res);
+	}
+
+	public void deleteTodo(TodoDTO todoDTO) {
+		int res = session.delete("deleteTodo",todoDTO);
+		System.out.println("삭제 결과 : " + res);
 	}
 	
 }

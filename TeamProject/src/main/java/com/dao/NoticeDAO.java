@@ -79,4 +79,12 @@ public class NoticeDAO {
 		content = "%" + content + "%";
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
+
+
+
+	public List<NoticeDTO> getAllNotices(int member_num) {
+		System.out.println("member_num >>>>>>>>" + member_num);
+		return template.selectList("NoticeMapper.getAllNotices", member_num);
+	}
+
 }

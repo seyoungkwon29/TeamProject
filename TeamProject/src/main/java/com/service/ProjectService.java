@@ -72,7 +72,6 @@ public class ProjectService {
 
 	public ProjectDTO updateProject(Map<String, Object> parameters) {
 		//프로젝트 테이블 업데이트
-		System.out.println("updateProject>>>"+parameters);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String,Object>tempMap = (Map<String,Object>)parameters.get("projectDTO");
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
@@ -82,8 +81,8 @@ public class ProjectService {
 		
 		//프로젝트 멤버 테이블 업데이트	
 		List<Integer> memberList = (List<Integer>)(parameters.get("members"));
-		String tKey = (String)parameters.get("t_key"); 
-		int member_num = LoginConstant.memberMap.get(tKey).getMember_num();
+		String t_key = (String)parameters.get("t_key"); 
+		int member_num = LoginConstant.memberMap.get(t_key).getMember_num();
 		memberList.add(member_num);//프로젝트 멤버 리스트에 자신 추가
 		
 		List<Integer> originList = dao.selectProjectMembers(project_num);
@@ -120,7 +119,6 @@ public class ProjectService {
 		
 		memberList.removeIf(member -> member.getMember_num() == PM_member_num); //리스트에서 프로젝트 매니저 요소 삭제
 		
-		System.out.println("memberList : " + memberList);
 		return memberList;
 	}
 	

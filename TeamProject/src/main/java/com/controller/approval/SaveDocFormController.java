@@ -215,7 +215,7 @@ public class SaveDocFormController {
 		System.out.println("parameter: " + parameter);
 		System.out.println("multipartFile: " + multipartFile);
 		System.out.println(" =========== 결재하기 =========== SaveDocForm");
-				
+		
 		if(parameter.equals("Doc") || parameter.equals("rejDoc") || parameter.equals("tempRedraft")) { 
 			doc.setDoc_status("대기"); //기안 문서, 반려 문서, 임시저장 문서: 결재 요청
 		} else if(parameter.equals("Temporary") || parameter.equals("RejTemp") || parameter.equals("tempTemp") ) { 
