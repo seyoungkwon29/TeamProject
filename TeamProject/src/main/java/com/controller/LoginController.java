@@ -48,14 +48,9 @@ public class LoginController {
 	public String login(
 			@RequestParam HashMap<String, String> map,
 			Model model,
-<<<<<<< HEAD
 			HttpSession session,
 			AppDocumentDTO doc, ApprovalDTO app) {
 		System.out.println(map);
-=======
-			HttpSession session) {
-		System.out.println("login :"+map);
->>>>>>> branch 'main' of https://github.com/seyoungkwon29/TeamProject.git
 		MemberDTO dto = service.login(map);
 		
 		if (dto != null) {
