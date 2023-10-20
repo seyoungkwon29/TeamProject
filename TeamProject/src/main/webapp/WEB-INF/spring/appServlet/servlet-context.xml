@@ -17,8 +17,6 @@
 	
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- 페이지 주소 설정 -->
-<!-- 	<view-controller path="/" view-name="loginForm"/> -->
 	
 	<!-- 데이터 처리 필요 없는 주소 처리 -->
 	<view-controller path="/loginForm" view-name="loginForm"/><!-- homePage.jsp -->
@@ -34,10 +32,13 @@
 	<!-- 회원전용처리 : interceptor 주소 처리 -->
 	<interceptors>
 		<interceptor>
+			<mapping path="/"/>
 			<mapping path="/loginCheck/**"/>
 			<mapping path="/notices/**"/>
 			<mapping path="/communities/**"/>
+			<exclude-mapping path="/login"/>
 			<exclude-mapping path="/api/**"/>
+			<exclude-mapping path="/resources/**"/>
 			<beans:ref bean="loginCheckInterceptor"/>
 		</interceptor>
 	</interceptors>
