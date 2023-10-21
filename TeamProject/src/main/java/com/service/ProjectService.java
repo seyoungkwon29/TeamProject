@@ -34,7 +34,12 @@ public class ProjectService {
 		return list;
 	}
 	
-	public List<MemberDTO> searchMembers(Map<String, Object> map) {
+	public List<MemberDTO> searchMembers(Map<String,String> parameters, MemberDTO memberDTO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchCondition", parameters.get("searchCondition"));
+		map.put("searchValue", parameters.get("searchValue"));
+		map.put("member_num",memberDTO.getMember_num());
+		
 		List<MemberDTO> list = dao.searchMembers(map);
 		return list;
 	}
@@ -77,7 +82,7 @@ public class ProjectService {
 		ProjectDTO projectDTO = objectMapper.convertValue(tempMap, ProjectDTO.class);
 		int project_num = projectDTO.getProject_num();
 		
-		//dao.updateProject(projectDTO);
+		dao.updateProject(projectDTO);
 		
 		//프로젝트 멤버 테이블 업데이트	
 		List<Integer> memberList = (List<Integer>)(parameters.get("members"));
@@ -103,7 +108,8 @@ public class ProjectService {
 		
 	}//end updateProject
 
-	public void deleteProject(int project_num) {
+	public void deleteProject(Map<String,Object> parameters) {
+		int project_num = (int)parameters.get("project_num");
 		dao.deleteProject(project_num);
 		
 	}

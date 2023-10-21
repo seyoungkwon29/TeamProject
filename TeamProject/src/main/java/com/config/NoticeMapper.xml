@@ -178,7 +178,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllNotices" resultType="NoticeDTO" parameterType="int" >
 		SELECT *
 		FROM notice 
-		where member_num = #{member_num}
 	</select>
 	
 	
