@@ -139,4 +139,9 @@ public class CommunityService {
   		return new PageResponseDTO<CommunityDTO>(page, communityDTOList, count);
 
     }
+    
+    public List<CommunityDTO> getCommunityDTOListTopN(int n) {
+    	PageResponseDTO<CommunityDTO> communityList = this.getCommunityDTOList(new PageRequestDTO(1,n));
+    	return communityList.getItems();
+    }
 }

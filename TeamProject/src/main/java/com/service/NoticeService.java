@@ -97,4 +97,10 @@ public class NoticeService {
   		return new PageResponseDTO<NoticeDTO>(page, noticeDTOList, count);
     }
 	
+	@Transactional(readOnly=true)
+	public List<NoticeDTO> getNoticeDTOListTopN(int n) {
+		PageResponseDTO<NoticeDTO> noticeDTOList = this.getNoticeDTOList(new PageRequestDTO(1,n));
+		return noticeDTOList.getItems();
+	}
+	
 }//class

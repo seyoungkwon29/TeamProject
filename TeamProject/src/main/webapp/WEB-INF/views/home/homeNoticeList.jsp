@@ -21,7 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="notice" items="${noticeList.items}">
+				<c:forEach var="notice" items="${noticeList}">
 					<spring:url var="noticeDetailsUrl" value="/notices/${notice.noticeNum}" />
 					<tr>
 						<th class="pv2 pr1 tl"><a href="${noticeDetailsUrl}"
