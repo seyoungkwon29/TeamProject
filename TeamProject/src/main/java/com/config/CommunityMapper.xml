@@ -78,7 +78,7 @@
 		DELETE FROM community WHERE com_num = #{comNum}
 	</delete>
 
-	<select id="getCommunityDetailsByNum" parameterType="Long" resultMap="CommunityResultMap">
+	<select id="getCommunityDTOByNum" parameterType="Long" resultMap="CommunityResultMap">
 		SELECT
 			c.com_num as com_num,
 			c.com_title as com_title,
@@ -105,7 +105,7 @@
 		FROM community C
 	</select>
 	
-	<select id="getCommunityDetailsList" resultMap="CommunityResultMap">
+	<select id="getCommunityDTOList" resultMap="CommunityResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -132,7 +132,7 @@
 	]]>
 	</select>
 	
-	<select id="getCommunityDetailsListByMemberName"  parameterType="hashMap" resultMap="CommunityResultMap">
+	<select id="getCommunityDTOListByMemberName"  parameterType="hashMap" resultMap="CommunityResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -168,7 +168,7 @@
 		WHERE member_name like #{memberName}
 	</select>
 	
-	<select id="getCommunityDetailsListContentLike"  parameterType="hashMap" resultMap="CommunityResultMap">
+	<select id="getCommunityDTOListContentLike"  parameterType="hashMap" resultMap="CommunityResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -218,25 +218,10 @@
 		DELETE FROM community_files where id=#{fileId}
 	</delete>
 	
-	<insert id="insertImage" parameterType="hashMap">
-		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-			SELECT COMMUNITY_IMAGES_SEQ.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO community_images
-			(id, com_num, original_filename, store_filename)
-		VALUES
-			(#{id}, #{comNum}, #{originalFilename}, #{storeFilename})
-	</insert>
-	
 	<select id="getFilesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
 		SELECT id, com_num, original_filename, store_filename
 		FROM community_files
 		WHERE com_num=#{comNum}
 	</select>
 	
-	<select id="getImagesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
-		SELECT id, com_num, original_filename, store_filename
-		FROM community_images
-		WHERE com_num=#{comNum}
-	</select> 
 </mapper>

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -48,10 +49,10 @@ public class CommunityController {
 	private CommunityService communityService;
 	
 	@Autowired
-	private FileStore fileStore;
+	private ReplyService replyService;
 	
 	@Autowired
-	private ReplyService replyService;
+	private FileStore fileStore;
 	
 	@ModelAttribute("searchTypes")
 	public List<SearchType> searchTypes() {
@@ -75,13 +76,14 @@ public class CommunityController {
 		Model model) {
 		PageRequestDTO pageRequest = new PageRequestDTO(page, size);
 		PageResponseDTO<CommunityDTO> pageResponse;
+		
 		if(searchCondition.getSearchType().equals("writer")) {
-			pageResponse = communityService.getCommunityDetailsListByMemberName(pageRequest, searchCondition.getSearchKeyword());
+			pageResponse = communityService.getCommunityDTOListByMemberName(pageRequest, searchCondition.getSearchKeyword());
 		} else if (searchCondition.getSearchType().equals("content")) {
-			pageResponse = communityService.getCommunityDetailsListContentLike(pageRequest, searchCondition.getSearchKeyword());
+			pageResponse = communityService.getCommunityDTOListContentLike(pageRequest, searchCondition.getSearchKeyword());
 		}
 		else {
-			pageResponse = communityService.getCommunityDetailsList(pageRequest);
+			pageResponse = communityService.getCommunityDTOList(pageRequest);
 		}
 		
 		model.addAttribute("pageResponse", pageResponse);
@@ -107,49 +109,32 @@ public class CommunityController {
 		
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
+		
 		CommunityDTO community = new CommunityDTO(memberNum, communityForm.getTitle(), communityForm.getContent());
 		
 		List<UploadFileDTO> files = fileStore.storeFiles(communityForm.getFiles());
-		List<UploadFileDTO> images = fileStore.storeFiles(communityForm.getImages());
 		
-		community.setFiles(files);
-		community.setImages(images);
-		
+		for (UploadFileDTO file : files) {
+			community.addFile(file);
+		}
+
 		communityService.save(community);
-		List<UploadFileDTO> savedFiles = community.getFiles();
-		List<UploadFileDTO> savedImages = community.getImages();
-		
-		for (UploadFileDTO file : savedFiles) {
-			String savedPath = fileStore.getFullPath(file.getStoreFilename());
-			log.debug("File: [{}][{}]", file.getOriginalFilename(),savedPath);
-		}
-		for (UploadFileDTO image : savedImages) {
-			String savedPath = fileStore.getFullPath(image.getStoreFilename());
-			log.debug("Image: [{}][{}]", image.getOriginalFilename(),savedPath);
-		}
 		
 		redirectAttributes.addAttribute("comNum",community.getComNum());
 		return "redirect:/communities/{comNum}";
 	}
+
 	
 	//상세페이지
 	@GetMapping("/communities/{comNum}") 
-	public String getCommunityDetails(@PathVariable Long comNum, Model model) throws UnsupportedEncodingException {
+	public String getCommunityDetails(@PathVariable Long comNum, Model model) {
 
 		communityService.increaseViews(comNum);
 		
-		CommunityDTO communityDetails = communityService.getCommunityDetailsByNum(comNum);
+		CommunityDTO communityDTO = communityService.getCommunityByNum(comNum);
 		List<ReplyDTO> replyDetailsList = replyService.getReplyDetailsListByComNum(comNum);
-		
-		List<UploadFileDTO> files = communityDetails.getFiles();
-		
-		for (UploadFileDTO file : files) {
-			String originalFilename = file.getOriginalFilename();
-			String encodedOriginalFilename = UriUtils.encode(originalFilename, StandardCharsets.UTF_8.toString());
-			file.setEncodedOriginalFilename(encodedOriginalFilename);
-		}
-		
-		model.addAttribute("communityDetails", communityDetails);
+				
+		model.addAttribute("communityDetails", communityDTO);
 		model.addAttribute("replyDetailsList", replyDetailsList);
 
 		return "community/community-details";
@@ -167,7 +152,7 @@ public class CommunityController {
 		communityForm.setTitle(community.getTitle());
 		communityForm.setContent(community.getContent());
 		communityForm.setAttachFiles(community.getFiles());
-		log.debug("attachFiles={}", communityForm.getAttachFiles().size());
+		
 		model.addAttribute("communityForm", communityForm);
 		return "community/community-edit";
 	}
@@ -186,19 +171,19 @@ public class CommunityController {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 
-		CommunityDTO updateDTO = new CommunityDTO();
-		updateDTO.setTitle(communityForm.getTitle());
-		updateDTO.setContent(communityForm.getContent());
+		CommunityDTO updateParam = new CommunityDTO();
+		updateParam.setTitle(communityForm.getTitle());
+		updateParam.setContent(communityForm.getContent());
 		List<MultipartFile> newFiles = communityForm.getFiles();
 		if (!newFiles.isEmpty()) {
 			List<UploadFileDTO> storeFiles = fileStore.storeFiles(newFiles);
 			log.debug("storeFiles={}", storeFiles.size());
 			for (UploadFileDTO file : storeFiles) {
-				updateDTO.addFile(file);
+				updateParam.addFile(file);
 			}
 		}
-		log.debug("updateDTO.files={}", updateDTO.getFiles());
-		communityService.update(comNum, memberNum, updateDTO, communityForm.getDeleteFiles());
+		log.debug("updateDTO.files={}", updateParam.getFiles());
+		communityService.update(comNum, memberNum, updateParam, communityForm.getDeleteFileIds());
 		
 		UpdateCommunityResponse body = new UpdateCommunityResponse("success", "/communities/" + comNum);
 		

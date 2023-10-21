@@ -87,13 +87,13 @@
 	        	}
 	        });
 	        
-	        let deleteFiles = [];
+	        let deleteFileIds = [];
 	        function deleteFileHandler(event) {
 				if(event.target.tagName.toLowerCase() === 'button') {
 					let parentElem = event.target.parentElement;
 					let fileId = parentElem.dataset.fileId;
-					deleteFiles.push(fileId);
-					console.log(deleteFiles);
+					deleteFileIds.push(fileId);
+					console.log(deleteFileIds);
 					parentElem.remove();
 					event.preventDefault();
 				}
@@ -103,10 +103,11 @@
 	        $('#communityForm').on('submit', (event) => {
         		 event.preventDefault();
         		 let form = event.target;
-				 let formData = new FormData(event.target);
+				 let formData = new FormData(form);
 				 let content = $("#summernote").summernote('code');
 				 formData.set("content", content);
-				 formData.append("deleteFiles", deleteFiles);
+				 formData.append("deleteFileIds", deleteFileIds);
+				 
 				 $.ajax({
 					 type: form.method,
 					 url: form.action,

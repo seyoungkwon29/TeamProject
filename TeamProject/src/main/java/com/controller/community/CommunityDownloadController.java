@@ -45,31 +45,7 @@ public class CommunityDownloadController {
 		this.fileStore = fileStore;
 	}
 	
-	@GetMapping("/communities/{comNum}/images/{filename:.+}")
-	public ResponseEntity<Resource> downloadImage(@PathVariable Long comNum, @PathVariable String filename) throws MalformedURLException {
-		
-		CommunityDTO community = communityService.getCommunityByNum(comNum);
-		
-		List<UploadFileDTO> images = community.getImages();
-		UploadFileDTO image = null;
-		for (UploadFileDTO imageFile : images) {
-			if (imageFile.getOriginalFilename().equals(filename)) {
-				image = imageFile;
-			}
-		}
-		
-		if (image == null) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		log.debug("GET [{}][{}]", image.getOriginalFilename(), fileStore.getFullPath(image.getStoreFilename()));
-		
-		UrlResource urlResource = new UrlResource("file:" + fileStore.getFullPath(image.getStoreFilename()));
-		String contentDisposition = "inline";
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
-				.body(urlResource);
-	}
+	
 	
 	@GetMapping("/communities/{comNum}/files/{filename:.+}")
 	public ResponseEntity<Resource> dowunloadFile(@PathVariable Long comNum, @PathVariable String filename) throws MalformedURLException, UnsupportedEncodingException {
@@ -115,8 +91,6 @@ public class CommunityDownloadController {
 		return ResponseEntity.ok(body);
 	}
 	
-
-
 	@GetMapping("/communities/images/{filename:.+}")
 	public ResponseEntity<Resource> image(@PathVariable String filename) throws MalformedURLException {
 		

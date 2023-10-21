@@ -53,7 +53,7 @@ public class HomeController {
 		model.addAttribute("noticeList", noticeList);
         
 		// 자유게시판
-		PageResponseDTO<CommunityDTO> communityList = communityService.getCommunityDetailsList(new PageRequestDTO(1,5));
+		PageResponseDTO<CommunityDTO> communityList = communityService.getCommunityDTOList(new PageRequestDTO(1,5));
 		model.addAttribute("communityList", communityList);
 		
         return "homePage";

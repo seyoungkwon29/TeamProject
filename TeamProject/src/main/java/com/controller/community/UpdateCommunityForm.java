@@ -1,7 +1,5 @@
 package com.controller.community;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +14,11 @@ public class UpdateCommunityForm {
 	private String content;
 
 	private List<UploadFileDTO> attachFiles;
+	
 	private List<MultipartFile> files;
 	
-	private List<Long> deleteFiles;
+	private List<Long> deleteFileIds;
+	
 	
 	public UpdateCommunityForm() {
 	}
@@ -71,13 +71,11 @@ public class UpdateCommunityForm {
 		this.files = files;
 	}
 
-	public List<Long> getDeleteFiles() {
-		return deleteFiles;
+	public List<Long> getDeleteFileIds() {
+		return deleteFileIds;
 	}
 
-	public void setDeleteFiles(List<Long> deleteFiles) {
-		this.deleteFiles = deleteFiles;
+	public void setDeleteFileIds(List<Long> deleteFileIds) {
+		this.deleteFileIds = deleteFileIds;
 	}
-
-	
 }
