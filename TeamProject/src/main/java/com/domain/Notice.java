@@ -1,22 +1,18 @@
-package com.dto;
+package com.domain;
 
 import java.util.Date;
 
-import com.domain.Notice;
-
-public class NoticeDTO {
+public class Notice {
 	private Long noticeNum;
 	private Long memberNum;
-	private String memberName;
 	private String title;
 	private String content;
 	private Integer views;
 	private Date createdAt;
 
+	public Notice() {}
 	
-	public NoticeDTO() {}
-
-	public NoticeDTO(Long memberNum, String title, String content) {
+	public Notice(Long memberNum, String title, String content) {
 		this.memberNum = memberNum;
 		this.title = title;
 		this.content = content;
@@ -38,14 +34,6 @@ public class NoticeDTO {
 
 	public void setMemberNum(Long memberNum) {
 		this.memberNum = memberNum;
-	}
-
-	public String getMemberName() {
-		return memberName;
-	}
-
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
 	}
 
 	public String getTitle() {
@@ -82,26 +70,9 @@ public class NoticeDTO {
 
 	@Override
 	public String toString() {
-		return "NoticeDTO [noticeNum=" + noticeNum + ", memberNum=" + memberNum + ", memberName=" + memberName
-				+ ", title=" + title + ", content=" + content + ", views=" + views + ", createdAt=" + createdAt + "]";
+		return "Notice [noticeNum=" + noticeNum + ", memberNum=" + memberNum + ", title=" + title + ", content="
+				+ content + ", views=" + views + ", createdAt=" + createdAt + "]";
 	}
 
 	
-	public Notice ToNotice() {
-		Notice notice = new Notice(this.memberNum, this.title, this.content);
-		return notice;
-	}
-	
-	public static NoticeDTO from(Notice notice) {
-		
-		NoticeDTO noticeDTO = new NoticeDTO(); 
-		noticeDTO.setNoticeNum(notice.getNoticeNum());
-		noticeDTO.setMemberNum(notice.getMemberNum());
-		noticeDTO.setTitle(notice.getTitle());
-		noticeDTO.setContent(notice.getContent());
-		noticeDTO.setViews(notice.getViews());
-		noticeDTO.setCreatedAt(notice.getCreatedAt());
-		
-		return noticeDTO;
-	}
 }

@@ -3,6 +3,8 @@ package com.service;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,32 +12,38 @@ import org.springframework.transaction.annotation.Transactional;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.dao.NoticeDAO;
+import com.domain.Notice;
 import com.dto.NoticeDTO;
 
 @Service
 public class NoticeService {
+	
+	private static final Logger log = LoggerFactory.getLogger(NoticeService.class);
 	@Autowired
 	private NoticeDAO dao;
 
 	@Transactional(rollbackFor=Exception.class)
-	public void createNotice(Long memberNum, NoticeDTO notice) {
+	public void createNotice(Long memberNum, Notice notice) {
+
 		dao.insert(notice); 
 	}
 
 	@Transactional(readOnly=true)
-	public NoticeDTO getNoticeByNo(Long noticeNum) {
-		return dao.getNoticeByNo(noticeNum);
+	public Notice getNoticeByNo(Long noticeNum) {
+		 return dao.getNoticeByNum(noticeNum);
 	}
 
 	@Transactional(readOnly=true)
-	public List<NoticeDTO> getNoticeList() {
-		return dao.getNoticeList(); 
+	public List<Notice> getNoticeList() {
+		
+		return dao.getNoticeList();
+		
 	}
 
 	@Transactional(readOnly=true)
 	public NoticeDTO getNoticeDTOByNo(Long noticeNum) {
 		dao.increaseViews(noticeNum);
-		NoticeDTO notice = dao.getNoticeDTOByNo(noticeNum);
+		NoticeDTO notice = dao.getNoticeDTOByNum(noticeNum);
 		return notice;
 	}
 
@@ -53,7 +61,7 @@ public class NoticeService {
 	@Transactional(rollbackFor=Exception.class)
 	public void updateNotice(Long noticeNum, Long memberNum, NoticeDTO updateDTO) {
 
-			NoticeDTO notice = dao.getNoticeByNo(noticeNum);
+			Notice notice = dao.getNoticeByNum(noticeNum);
 	
 			if (!memberNum.equals(notice.getMemberNum())) {
 				return;
@@ -68,7 +76,7 @@ public class NoticeService {
 	@Transactional(rollbackFor=Exception.class)
 	public void deleteNotice(Long noticeNum, Long memberNum) {
 			
-			NoticeDTO notice = dao.getNoticeByNo(noticeNum);
+			Notice notice = dao.getNoticeByNum(noticeNum);
 	
 			if (!memberNum.equals(notice.getMemberNum())) {
 				return;

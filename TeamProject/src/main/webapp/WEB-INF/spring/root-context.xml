@@ -67,6 +67,8 @@
                 <value>com.dto.ProjectDTO</value>
                 <value>com.dto.FileBoardDTO</value>
                 <value>com.dto.TodoDTO</value>
+                
+                <value>com.domain.Notice</value>
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->

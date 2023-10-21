@@ -21,6 +21,7 @@ import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.common.SearchCondition;
 import com.common.SearchType;
+import com.domain.Notice;
 import com.service.NoticeService;
 import com.dto.MemberDTO;
 import com.dto.NoticeDTO;
@@ -93,7 +94,7 @@ public class NoticeController {
 		MemberDTO member =(MemberDTO)session.getAttribute("login");
 		Long memberNum = Long.valueOf(member.getMember_num());
 		
-		NoticeDTO notice = new NoticeDTO(memberNum, noticeForm.getTitle(), noticeForm.getContent());
+		Notice notice = new Notice(memberNum, noticeForm.getTitle(), noticeForm.getContent());
 
 		noticeService.createNotice(memberNum, notice);
 		
@@ -114,7 +115,7 @@ public class NoticeController {
 	@GetMapping("/notices/{noticeNum}/edit")
 	public String showUpdateNoticeForm(@ModelAttribute NoticeForm noticeForm, @PathVariable("noticeNum") Long noticeNum, Model model) {
 		
-		NoticeDTO notice = noticeService.getNoticeByNo(noticeNum);
+		Notice notice = noticeService.getNoticeByNo(noticeNum);
 		
 		noticeForm.setNoticeNum(notice.getNoticeNum());
 		noticeForm.setTitle(notice.getTitle());
