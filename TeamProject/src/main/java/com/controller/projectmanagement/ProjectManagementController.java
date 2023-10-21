@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.constant.LoginConstant;
 import com.dto.MemberDTO;
 import com.dto.ProjectDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ProjectService;
 
 @RestController
@@ -33,12 +34,26 @@ public class ProjectManagementController {
 				|| null == LoginConstant.memberMap.get(t_key)
 				|| !(LoginConstant.memberMap.get(t_key) instanceof MemberDTO)) {
 			System.out.println("로그인 정보가 없습니다");
+			throw new RuntimeException("emptyUserInfo");
 			// 팅겨내기 - 로그인 정보 없다.
 		}else {
 			memberDto = LoginConstant.memberMap.get(t_key);
 		}
 		return memberDto;
 	}
+	
+	//프로젝트 번호 확인 (점차  세부적으로 추가해줘야함 ex.int형식으로만 데이터를 받도록)
+	public void validatePorject_num(Map<String,Object> parameters) {
+		Map<String,Object> map = (Map<String,Object>)parameters.get("projectDTO");
+		if(parameters.get("project_num") != null) {
+			return;
+		} else if(map != null && map.get("project_num") != null) {
+			return;
+		}
+		throw new RuntimeException("empty project_num");
+	}
+	
+	
 	
 	
 	//프로젝트 매니저(PM),로그인한 유저
@@ -83,28 +98,33 @@ public class ProjectManagementController {
 	
 	@PostMapping("/participatedMemberList")
 	public List<MemberDTO> participatedMemberList(@RequestBody Map<String,Object> parameters) {
+		loginCheck((String)parameters.get("t_key"));
+		validatePorject_num(parameters);
 		List<MemberDTO> memberList = service.participatedMemberList(parameters);
 		return memberList;
 	}
 	
+	
 	@PostMapping("/createProject")
 	public ProjectDTO createProject (@RequestBody Map<String,Object> parameters) { //JSON형태로 들어오는 데이터를 Map으로 접근
+		loginCheck((String)parameters.get("t_key"));
 		ProjectDTO projectDTO = service.createProject(parameters);
 		return projectDTO;
 	}
 	
 	@PostMapping("/updateProject")
 	public ProjectDTO updateProject(@RequestBody Map<String,Object> parameters) {
+		loginCheck((String)parameters.get("t_key"));
+		validatePorject_num(parameters);
 		ProjectDTO projectDTO = service.updateProject(parameters);
 		return projectDTO;
 	}
 	
 	@PostMapping("/deleteProject")
 	public void deleteProject(@RequestBody Map<String,Object> parameters) {
-		int project_num = (int)parameters.get("project_num");
-		System.out.println(project_num);
-		service.deleteProject(project_num);
-		System.out.println(project_num);
+		loginCheck((String)parameters.get("t_key"));
+		validatePorject_num(parameters);
+		service.deleteProject(parameters);
 	}
 	
 	

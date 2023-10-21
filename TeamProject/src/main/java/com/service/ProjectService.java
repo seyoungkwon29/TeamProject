@@ -108,7 +108,8 @@ public class ProjectService {
 		
 	}//end updateProject
 
-	public void deleteProject(int project_num) {
+	public void deleteProject(Map<String,Object> parameters) {
+		int project_num = (int)parameters.get("project_num");
 		dao.deleteProject(project_num);
 		
 	}
