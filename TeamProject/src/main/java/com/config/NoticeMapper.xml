@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM notice
 	</select>
 
-	<select id="getNoticeDetailsByNum" parameterType="Long" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOByNum" parameterType="Long" resultMap="NoticeResultMap">
 		SELECT
 			N.notice_num as notice_num,
 			N.member_num as member_num,
@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM notice N
 	</select>
 	
-	<select id="getNoticeDetailsList" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOList" resultMap="NoticeResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   WHERE notice_num = #{noticeNum}
 	</update>
 	
-	<select id="getNoticeDetailsListByMemberName" parameterType="hashMap" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOListByMemberName" parameterType="hashMap" resultMap="NoticeResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE member_name like #{memberName}
 	</select>
 	
-	<select id="getNoticeDetailsListContentLike" parameterType="hashMap" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOListContentLike" parameterType="hashMap" resultMap="NoticeResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -174,12 +174,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on n.member_num = m.member_num
 		WHERE title LIKE #{content} or content LIKE #{content}
 	</select>
-	
-	<select id="getAllNotices" resultType="NoticeDTO" parameterType="int" >
-		SELECT *
-		FROM notice 
-	</select>
-	
 	
 
 </mapper>

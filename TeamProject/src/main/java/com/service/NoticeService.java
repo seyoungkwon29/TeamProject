@@ -33,16 +33,16 @@ public class NoticeService {
 	}
 
 	@Transactional(readOnly=true)
-	public NoticeDTO getNoticeDetailsByNo(Long noticeNum) {
-		dao.increaseViews( noticeNum);
-		NoticeDTO notice = dao.getNoticeDetailsByNo(noticeNum);
+	public NoticeDTO getNoticeDTOByNo(Long noticeNum) {
+		dao.increaseViews(noticeNum);
+		NoticeDTO notice = dao.getNoticeDTOByNo(noticeNum);
 		return notice;
 	}
 
 	@Transactional(readOnly=true)
-	public PageResponseDTO<NoticeDTO> getNoticeDetailsList(PageRequestDTO page) {
+	public PageResponseDTO<NoticeDTO> getNoticeDTOList(PageRequestDTO page) {
 		int count= dao.countNotice();
-		List<NoticeDTO> noticeDetailsList = dao.getNoticeDetailsList(page);
+		List<NoticeDTO> noticeDetailsList = dao.getNoticeDTOList(page);
 		if (!noticeDetailsList.isEmpty()) {
 			return new PageResponseDTO<NoticeDTO>(page, noticeDetailsList, count);
 		}
@@ -77,33 +77,30 @@ public class NoticeService {
 	}
 	
 	@Transactional(readOnly=true)
-	public PageResponseDTO<NoticeDTO> getNoticeDetailsListByMemberName(PageRequestDTO page, String memberName) {
+	public PageResponseDTO<NoticeDTO> getNoticeDTOListByMemberName(PageRequestDTO page, String memberName) {
 
   		int count = dao.countNoticeByMemberName(memberName);
   		
-  		List<NoticeDTO> noticeDetailsList = dao.getNoticeDetailsListByMemberName(page, memberName);
+  		List<NoticeDTO> noticeDTOList = dao.getNoticeDTOListByMemberName(page, memberName);
   		
-  		return new PageResponseDTO<NoticeDTO>(page, noticeDetailsList, count);
+  		return new PageResponseDTO<NoticeDTO>(page, noticeDTOList, count);
 
     }
     
 	@Transactional(readOnly=true)
-    public PageResponseDTO<NoticeDTO> getNoticeDetailsListContentLike(PageRequestDTO page, String content) {
+    public PageResponseDTO<NoticeDTO> getNoticeDTOListContentLike(PageRequestDTO page, String content) {
 
   		int count = dao.countNoticeContentLike(content);
   		
-  		List<NoticeDTO> noticeDetailsList = dao.getNoticeDetailsListContentLike(page, content);
+  		List<NoticeDTO> noticeDTOList = dao.getNoticeDTOListContentLike(page, content);
   		
-  		return new PageResponseDTO<NoticeDTO>(page, noticeDetailsList, count);
+  		return new PageResponseDTO<NoticeDTO>(page, noticeDTOList, count);
     }
-
-
 	
-	public List<NoticeDTO> getAllNotices(int member_num) {
-		List<NoticeDTO> noticeDetailsList = dao.getAllNotices(member_num);
-		System.out.println("list >>>>>>>>>>>" + noticeDetailsList.toString());
-		return noticeDetailsList;
+	@Transactional(readOnly=true)
+	public List<NoticeDTO> getNoticeDTOListTopN(int n) {
+		PageResponseDTO<NoticeDTO> noticeDTOList = this.getNoticeDTOList(new PageRequestDTO(1,n));
+		return noticeDTOList.getItems();
 	}
-
 	
 }//class

@@ -15,7 +15,6 @@ public class CommunityDTO {
 	private Date createdAt;
 
 	private List<UploadFileDTO> files;
-	private List<UploadFileDTO> images;
 	
 	public CommunityDTO() {
 	}
@@ -95,13 +94,6 @@ public class CommunityDTO {
 		this.files = files;
 	}
 
-	public List<UploadFileDTO> getImages() {
-		return images;
-	}
-
-	public void setImages(List<UploadFileDTO> images) {
-		this.images = images;
-	}
 	
 	public void addFile(UploadFileDTO file) {
 		getFiles().add(file);

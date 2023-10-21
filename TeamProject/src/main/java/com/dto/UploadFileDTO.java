@@ -1,12 +1,16 @@
 package com.dto;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
+import org.springframework.web.util.UriUtils;
+
 public class UploadFileDTO {
 	
 	private Long id;
 	private Long comNum;
 	private String originalFilename;
 	private String storeFilename;
-	private String encodedOriginalFilename;
 	
 	public UploadFileDTO() {}
 	
@@ -54,12 +58,12 @@ public class UploadFileDTO {
 		this.storeFilename = storeFilename;
 	}
 
-	public String getEncodedOriginalFilename() {
-		return encodedOriginalFilename;
+	public String getEncodedOriginalFilename() throws UnsupportedEncodingException {
+		return UriUtils.encode(originalFilename, StandardCharsets.UTF_8.toString());
 	}
 
-	public void setEncodedOriginalFilename(String encodedOriginalFilename) {
-		this.encodedOriginalFilename = encodedOriginalFilename;
+	public boolean isNew() {
+		return getId() == null;
 	}
 	
 }

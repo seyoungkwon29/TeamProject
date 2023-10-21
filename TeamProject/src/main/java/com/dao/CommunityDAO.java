@@ -46,24 +46,24 @@ public class CommunityDAO {
 		template.update("CommunityMapper.increaseViews", comNum);		
 	}
 	
-	public CommunityDTO getCommunityDetailsByNum(Long comNum) {
-		return template.selectOne("CommunityMapper.getCommunityDetailsByNum", comNum);
+	public CommunityDTO getCommunityDTOByNum(Long comNum) {
+		return template.selectOne("CommunityMapper.getCommunityDTOByNum", comNum);
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsList(PageRequestDTO page) {
-		return template.selectList("CommunityMapper.getCommunityDetailsList", page);
+	public List<CommunityDTO> getCommunityDTOList(PageRequestDTO page) {
+		return template.selectList("CommunityMapper.getCommunityDTOList", page);
 	}
 	
 	public Integer count() {
 		return template.selectOne("CommunityMapper.count");
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsListByMemberName(PageRequestDTO page, String memberName) {
+	public List<CommunityDTO> getCommunityDTOListByMemberName(PageRequestDTO page, String memberName) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("name", "%"+ memberName + "%");
-		return template.selectList("CommunityMapper.getCommunityDetailsListByMemberName", param);
+		return template.selectList("CommunityMapper.getCommunityDTOListByMemberName", param);
 	}
 	
 	public Integer countByMemberName(String memberName) {
@@ -71,12 +71,12 @@ public class CommunityDAO {
 		return template.selectOne("CommunityMapper.countByMemberName", memberName);
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsListContentLike(PageRequestDTO page, String content) {
+	public List<CommunityDTO> getCommunityDTOListContentLike(PageRequestDTO page, String content) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("content", "%"+ content + "%");
-		return template.selectList("CommunityMapper.getCommunityDetailsListContentLike", param);
+		return template.selectList("CommunityMapper.getCommunityDTOListContentLike", param);
 	}
 	
 	public Integer countContentLike(String content) {
@@ -93,15 +93,8 @@ public class CommunityDAO {
 		template.delete("CommunityMapper.deleteFile", fileId);
 	}
 	
-	public void insertImage(UploadFileDTO image) {
-		template.insert("CommunityMapper.insertImage", image);
-	}
-	
 	public List<UploadFileDTO> getFilesByComNum(Long comNum) {
 		return template.selectList("CommunityMapper.getFilesByComNum", comNum);
 	}
 	
-	public List<UploadFileDTO> getImagesByComNum(Long comNum) {
-		return template.selectList("CommunityMapper.getImagesByComNum", comNum);
-	}
 }

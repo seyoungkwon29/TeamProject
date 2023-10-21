@@ -49,11 +49,11 @@ public class HomeController {
         session.setAttribute("appDocList", appDocList);
         
 		// 공지사항
-		PageResponseDTO<NoticeDTO> noticeList = noticeService.getNoticeDetailsList(new PageRequestDTO(1,5));
+		List<NoticeDTO> noticeList = noticeService.getNoticeDTOListTopN(3);
 		model.addAttribute("noticeList", noticeList);
         
 		// 자유게시판
-		PageResponseDTO<CommunityDTO> communityList = communityService.getCommunityDetailsList(new PageRequestDTO(1,5));
+		List<CommunityDTO> communityList = communityService.getCommunityDTOListTopN(5);
 		model.addAttribute("communityList", communityList);
 		
         return "homePage";

@@ -34,8 +34,6 @@
 					<div class="flex flex-column mb3">
 						<label for="files">첨부파일</label>
 						<input name="files" type="file" multiple>
-						<label for="images">첨부파일</label>
-						<input name="images" type="file" multiple>
 					</div>
 					
 					<div class="flex flex-column mb3">
