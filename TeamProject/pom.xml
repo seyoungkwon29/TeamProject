@@ -26,6 +26,8 @@
 		<mockito.version>3.12.4</mockito.version>
 		<hamcrest.version>2.2</hamcrest.version>
 		<json-path.version>2.8.0</json-path.version>
+		<!-- Tomcat ContextRoot -->
+		 <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
