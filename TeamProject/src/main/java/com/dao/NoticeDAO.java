@@ -38,12 +38,12 @@ public class NoticeDAO {
 		template.delete("NoticeMapper.delete", noticeNum);
 	}
 
-	public NoticeDTO getNoticeDetailsByNo(Long noticeNum) {
-		return template.selectOne("NoticeMapper.getNoticeDetailsByNum", noticeNum);
+	public NoticeDTO getNoticeDTOByNo(Long noticeNum) {
+		return template.selectOne("NoticeMapper.getNoticeDTOByNum", noticeNum);
 	}
 
-	public List<NoticeDTO> getNoticeDetailsList(PageRequestDTO page) {
-		return template.selectList("NoticeMapper.getNoticeDetailsList", page);
+	public List<NoticeDTO> getNoticeDTOList(PageRequestDTO page) {
+		return template.selectList("NoticeMapper.getNoticeDTOList", page);
 	}
 
 	public void increaseViews(Long noticeNum) {
@@ -54,12 +54,12 @@ public class NoticeDAO {
 		return template.selectOne("NoticeMapper.countNotice");
 	}
 	
-	public List<NoticeDTO> getNoticeDetailsListByMemberName(PageRequestDTO page, String memberName) {
+	public List<NoticeDTO> getNoticeDTOListByMemberName(PageRequestDTO page, String memberName) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("name", "%"+ memberName + "%");
-		return template.selectList("NoticeMapper.getNoticeDetailsListByMemberName", param);
+		return template.selectList("NoticeMapper.getNoticeDTOListByMemberName", param);
 	}
 	
 	public Integer countNoticeByMemberName(String memberName) {
@@ -67,12 +67,12 @@ public class NoticeDAO {
 		return template.selectOne("NoticeMapper.countNoticeByMemberName", memberName);
 	}
 	
-	public List<NoticeDTO> getNoticeDetailsListContentLike(PageRequestDTO page, String content) {
+	public List<NoticeDTO> getNoticeDTOListContentLike(PageRequestDTO page, String content) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("content", "%"+ content + "%");
-		return template.selectList("NoticeMapper.getNoticeDetailsListContentLike", param);
+		return template.selectList("NoticeMapper.getNoticeDTOListContentLike", param);
 	}
 	
 	public Integer countNoticeContentLike(String content) {
@@ -80,11 +80,5 @@ public class NoticeDAO {
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
 
-
-
-	public List<NoticeDTO> getAllNotices(int member_num) {
-		System.out.println("member_num >>>>>>>>" + member_num);
-		return template.selectList("NoticeMapper.getAllNotices", member_num);
-	}
 
 }

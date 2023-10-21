@@ -49,7 +49,7 @@ public class HomeController {
         session.setAttribute("appDocList", appDocList);
         
 		// 공지사항
-		PageResponseDTO<NoticeDTO> noticeList = noticeService.getNoticeDetailsList(new PageRequestDTO(1,5));
+		PageResponseDTO<NoticeDTO> noticeList = noticeService.getNoticeDTOList(new PageRequestDTO(1,5));
 		model.addAttribute("noticeList", noticeList);
         
 		// 자유게시판

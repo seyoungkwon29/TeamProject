@@ -44,6 +44,7 @@ public class NoticeController {
 		return new SearchCondition();
 	}
 	
+	//공지사항 리스트
 	@GetMapping("/notices")
 	public String getNoticeList(
 			@RequestParam(required=false, defaultValue = "1") int page,
@@ -57,12 +58,12 @@ public class NoticeController {
 		
 		PageResponseDTO<NoticeDTO> pageResponse;
 		if(searchCondition.getSearchType().equals("writer")) {
-			pageResponse = noticeService.getNoticeDetailsListByMemberName(pageRequest, searchCondition.getSearchKeyword());
+			pageResponse = noticeService.getNoticeDTOListByMemberName(pageRequest, searchCondition.getSearchKeyword());
 		} else if (searchCondition.getSearchType().equals("content")) {
-			pageResponse = noticeService.getNoticeDetailsListContentLike(pageRequest, searchCondition.getSearchKeyword());
+			pageResponse = noticeService.getNoticeDTOListContentLike(pageRequest, searchCondition.getSearchKeyword());
 		}
 		else {
-			pageResponse = noticeService.getNoticeDetailsList(pageRequest);
+			pageResponse = noticeService.getNoticeDTOList(pageRequest);
 		}
 
 		model.addAttribute("pageResponse", pageResponse);
@@ -70,6 +71,7 @@ public class NoticeController {
 		return "notice/notice-list";
 	}
 	
+	//작성폼
 	@GetMapping("/notices/new") 
 	public String showNewNoticeForm(@ModelAttribute NoticeForm noticeForm, Model model) {
 
@@ -77,7 +79,8 @@ public class NoticeController {
 		
 		return "notice/notice-new";
 	}
-
+	
+	//작성하기
 	@PostMapping("/notices/new")
 	public String newNotice(
 			@Valid @ModelAttribute NoticeForm noticeForm, BindingResult bindingResult,
@@ -97,16 +100,17 @@ public class NoticeController {
 		return "redirect:/notices/"+ notice.getNoticeNum();
 
 	}
-	
+	//상세페이지
 	@GetMapping("/notices/{noticeNum}")
 	public String getNoticeDetails(@PathVariable("noticeNum") Long noticeNum, Model model) {
 		
-		NoticeDTO notice = noticeService.getNoticeDetailsByNo(noticeNum);
+		NoticeDTO notice = noticeService.getNoticeDTOByNo(noticeNum);
 		model.addAttribute("notice", notice);
 		
 		return "notice/notice-details";
 	}
 	
+	//수정폼
 	@GetMapping("/notices/{noticeNum}/edit")
 	public String showUpdateNoticeForm(@ModelAttribute NoticeForm noticeForm, @PathVariable("noticeNum") Long noticeNum, Model model) {
 		
@@ -119,7 +123,7 @@ public class NoticeController {
 		
 		return "notice/notice-edit";
 	}
-	
+	//수정하기
 	@PostMapping("/notices/{noticeNum}/edit")
 	public String updateNotice(
 			@Valid @ModelAttribute NoticeForm noticeForm, BindingResult bindingResult,
@@ -140,7 +144,7 @@ public class NoticeController {
 		
 		return "redirect:/notices/"+ noticeNum;
 	}
-	
+	//삭제하기
 	@PostMapping("/notices/{noticeNum}/delete") 
 	public String deleteNotice(@PathVariable Long noticeNum, HttpSession session) {
 		
