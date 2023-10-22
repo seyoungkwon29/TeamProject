@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.common.PageRequestDTO;
+import com.domain.Notice;
 import com.dto.CommunityDTO;
 import com.dto.NoticeDTO;
+import com.dto.NoticeUploadFileDTO;
+import com.dto.UploadFileDTO;
 
 @Repository
 public class NoticeDAO {
@@ -18,19 +21,19 @@ public class NoticeDAO {
 	@Autowired
 	SqlSessionTemplate template;
 	
-	public void insert(NoticeDTO notice) {
+	public void insert(Notice notice) {
 		template.insert("NoticeMapper.insert", notice);
 	}
 
-	public NoticeDTO getNoticeByNo(Long noticeNum) {
+	public Notice getNoticeByNum(Long noticeNum) {
 		return template.selectOne("NoticeMapper.getNoticeByNum", noticeNum);
 	}
 
-	public List<NoticeDTO> getNoticeList() {
+	public List<Notice> getNoticeList() {
 		return template.selectList("NoticeMapper.getNoticeList");
 	}
 
-	public void update(NoticeDTO notice) {
+	public void update(Notice notice) {
 		template.update("NoticeMapper.update", notice);
 	}
 
@@ -38,7 +41,7 @@ public class NoticeDAO {
 		template.delete("NoticeMapper.delete", noticeNum);
 	}
 
-	public NoticeDTO getNoticeDTOByNo(Long noticeNum) {
+	public NoticeDTO getNoticeDTOByNum(Long noticeNum) {
 		return template.selectOne("NoticeMapper.getNoticeDTOByNum", noticeNum);
 	}
 
@@ -79,6 +82,18 @@ public class NoticeDAO {
 		content = "%" + content + "%";
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
-
-
+	
+	public void insertFile(Long noticeNum, UploadFileDTO file) {
+		NoticeUploadFileDTO jdbcFile = new NoticeUploadFileDTO(noticeNum, file.getOriginalFilename(), file.getStoreFilename());
+		template.insert("NoticeMapper.insertFile", jdbcFile);
+		file.setId(jdbcFile.getId());
+	}
+	
+	public List<UploadFileDTO> getFilesByNoticeNum(Long noticeNum) {
+		return template.selectList("NoticeMapper.getFilesByNoticeNum", noticeNum);
+	}
+	
+	public void deleteFile(Long fileId) {
+		template.delete("NoticeMapper.deleteFile", fileId);
+	}
 }

@@ -204,7 +204,7 @@
 		WHERE com_title LIKE #{content} or com_content LIKE #{content}
 	</select>
 	
-	<insert id="insertFile" parameterType="hashMap">
+	<insert id="insertFile" parameterType="CommunityUploadFileDTO">
 		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
 			SELECT COMMUNITY_FILES_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
@@ -219,7 +219,7 @@
 	</delete>
 	
 	<select id="getFilesByComNum" parameterType="Long" resultMap="UploadFileResultMap">
-		SELECT id, com_num, original_filename, store_filename
+		SELECT id, original_filename, store_filename
 		FROM community_files
 		WHERE com_num=#{comNum}
 	</select>
