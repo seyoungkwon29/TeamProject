@@ -19,7 +19,7 @@
 			<h1 class="f3">공지사항 새 글쓰기</h1>
 			<div class="flex flex-auto items-center justify-start center">
 				<spring:url var="newNoticeUrl" value="/notices/new"/>
-				<form:form action="${newNoticeUrl}" method="post" modelAttribute="noticeForm" cssClass="flex flex-column flex-auto">
+				<form:form action="${newNoticeUrl}" enctype="multipart/form-data" method="post" modelAttribute="noticeForm" cssClass="flex flex-column flex-auto">
 					<div class="flex flex-column mb3">
 						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
 						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
@@ -29,6 +29,10 @@
 						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
 						<form:textarea path="content" cssClass="db border-box hover-black w-100 ba b--black-20 pa2 br2 mb2" rows="10"/>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
+					</div>
+					<div class="flex flex-column mb3">
+						<label for="attachFiles">첨부 파일</label>
+						<input type="file" name="attachFiles" multiple/> 
 					</div>
 					<div class="flex flex-column mb3">
 						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>

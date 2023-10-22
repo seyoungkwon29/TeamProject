@@ -12,6 +12,8 @@ import com.common.PageRequestDTO;
 import com.domain.Notice;
 import com.dto.CommunityDTO;
 import com.dto.NoticeDTO;
+import com.dto.NoticeUploadFileDTO;
+import com.dto.UploadFileDTO;
 
 @Repository
 public class NoticeDAO {
@@ -80,6 +82,14 @@ public class NoticeDAO {
 		content = "%" + content + "%";
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
-
-
+	
+	public void insertFile(Long noticeNum, UploadFileDTO file) {
+		NoticeUploadFileDTO jdbcFile = new NoticeUploadFileDTO(noticeNum, file.getOriginalFilename(), file.getStoreFilename());
+		template.insert("NoticeMapper.insertFile", jdbcFile);
+		file.setId(jdbcFile.getId());
+	}
+	
+	public List<UploadFileDTO> getFilesByNoticeNum(Long noticeNum) {
+		return template.selectList("NoticeMapper.getFilesByNoticeNum", noticeNum);
+	}
 }

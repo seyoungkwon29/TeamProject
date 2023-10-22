@@ -31,8 +31,7 @@ public class CommunityService {
 		Long comNum = community.getComNum();
 		List<UploadFileDTO> files = community.getFiles();
 		for (UploadFileDTO file : files) {
-			file.setComNum(comNum);
-			communityDao.insertFile(file);
+			communityDao.insertFile(comNum, file);
 		}
     }
 
@@ -71,8 +70,7 @@ public class CommunityService {
 		List<UploadFileDTO> files = updateParam.getFiles();
         for (UploadFileDTO file : files) {
         	if (file.isNew()) {
-				file.setComNum(comNum);
-				communityDao.insertFile(file);
+				communityDao.insertFile(comNum, file);
         	}
 		}
 		

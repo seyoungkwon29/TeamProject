@@ -11,9 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
+import com.dao.MemberDAO;
 import com.dao.NoticeDAO;
 import com.domain.Notice;
+import com.dto.MemberDTO;
 import com.dto.NoticeDTO;
+import com.dto.UploadFileDTO;
 
 @Service
 public class NoticeService {
@@ -22,15 +25,30 @@ public class NoticeService {
 	@Autowired
 	private NoticeDAO dao;
 
+	@Autowired
+	private MemberDAO memberDao;
+	
 	@Transactional(rollbackFor=Exception.class)
 	public void createNotice(Long memberNum, Notice notice) {
 
 		dao.insert(notice); 
+		
+		for (UploadFileDTO file : notice.getFiles()) {
+			dao.insertFile(notice.getNoticeNum(), file);
+		}
 	}
 
 	@Transactional(readOnly=true)
-	public Notice getNoticeByNo(Long noticeNum) {
-		 return dao.getNoticeByNum(noticeNum);
+	public Notice getNoticeByNum(Long noticeNum) {
+		
+		Notice notice = dao.getNoticeByNum(noticeNum);
+		
+		List<UploadFileDTO> files = dao.getFilesByNoticeNum(noticeNum);
+		for (UploadFileDTO file : files) {
+			notice.addFile(file);
+		}
+		
+		 return notice;
 	}
 
 	@Transactional(readOnly=true)
@@ -41,10 +59,25 @@ public class NoticeService {
 	}
 
 	@Transactional(readOnly=true)
-	public NoticeDTO getNoticeDTOByNo(Long noticeNum) {
+	public NoticeDTO getNoticeDTOByNum(Long noticeNum) {
+		
+		Notice notice = dao.getNoticeByNum(noticeNum);
+		
+		List<UploadFileDTO> files = dao.getFilesByNoticeNum(noticeNum);
+		for (UploadFileDTO file : files) {
+			notice.addFile(file);
+		}
+		
+		MemberDTO member = memberDao.readMember(notice.getMemberNum().intValue());
+		NoticeDTO noticeDTO = NoticeDTO.from(notice);
+		noticeDTO.setMemberName(member.getMember_name());
+		
+		return noticeDTO;
+	}
+
+	@Transactional
+	public void increaseViews(Long noticeNum) {
 		dao.increaseViews(noticeNum);
-		NoticeDTO notice = dao.getNoticeDTOByNum(noticeNum);
-		return notice;
 	}
 
 	@Transactional(readOnly=true)

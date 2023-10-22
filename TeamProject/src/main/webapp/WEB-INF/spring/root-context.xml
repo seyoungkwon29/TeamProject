@@ -64,6 +64,8 @@
                 <value>com.dto.AppReferDTO</value>
                 <value>com.dto.AppSearchConditionDTO</value>
                 <value>com.dto.UploadFileDTO</value>
+                <value>com.dto.CommunityUploadFileDTO</value>
+                <value>com.dto.NoticeUploadFileDTO</value>
                 <value>com.dto.ProjectDTO</value>
                 <value>com.dto.FileBoardDTO</value>
                 <value>com.dto.TodoDTO</value>

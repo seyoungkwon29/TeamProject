@@ -1,5 +1,6 @@
 package com.controller.notice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.common.FileStore;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.common.SearchCondition;
@@ -25,12 +27,16 @@ import com.domain.Notice;
 import com.service.NoticeService;
 import com.dto.MemberDTO;
 import com.dto.NoticeDTO;
+import com.dto.UploadFileDTO;
 
 @Controller
 public class NoticeController {
 	
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	FileStore fileStore;
 	
 	@ModelAttribute("searchTypes")
 	public List<SearchType> searchTypes() {
@@ -85,7 +91,7 @@ public class NoticeController {
 	@PostMapping("/notices/new")
 	public String newNotice(
 			@Valid @ModelAttribute NoticeForm noticeForm, BindingResult bindingResult,
-			HttpSession session) {
+			HttpSession session) throws IOException {
 			
 		if(bindingResult.hasErrors()) {
 			return "notice/notice-new";
@@ -95,7 +101,15 @@ public class NoticeController {
 		Long memberNum = Long.valueOf(member.getMember_num());
 		
 		Notice notice = new Notice(memberNum, noticeForm.getTitle(), noticeForm.getContent());
-
+		
+		if (noticeForm.getAttachFiles() != null && !noticeForm.getAttachFiles().isEmpty()) {
+			List<MultipartFile> attachFiles = noticeForm.getAttachFiles();
+			List<UploadFileDTO> storeFiles = fileStore.storeFiles(attachFiles);
+			for (UploadFileDTO file : storeFiles) {
+				notice.addFile(file);
+			}
+		}
+		
 		noticeService.createNotice(memberNum, notice);
 		
 		return "redirect:/notices/"+ notice.getNoticeNum();
@@ -105,7 +119,8 @@ public class NoticeController {
 	@GetMapping("/notices/{noticeNum}")
 	public String getNoticeDetails(@PathVariable("noticeNum") Long noticeNum, Model model) {
 		
-		NoticeDTO notice = noticeService.getNoticeDTOByNo(noticeNum);
+		noticeService.increaseViews(noticeNum);
+		NoticeDTO notice = noticeService.getNoticeDTOByNum(noticeNum);
 		model.addAttribute("notice", notice);
 		
 		return "notice/notice-details";
@@ -115,7 +130,7 @@ public class NoticeController {
 	@GetMapping("/notices/{noticeNum}/edit")
 	public String showUpdateNoticeForm(@ModelAttribute NoticeForm noticeForm, @PathVariable("noticeNum") Long noticeNum, Model model) {
 		
-		Notice notice = noticeService.getNoticeByNo(noticeNum);
+		Notice notice = noticeService.getNoticeByNum(noticeNum);
 		
 		noticeForm.setNoticeNum(notice.getNoticeNum());
 		noticeForm.setTitle(notice.getTitle());

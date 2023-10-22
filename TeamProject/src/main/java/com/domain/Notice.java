@@ -1,6 +1,10 @@
 package com.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.dto.UploadFileDTO;
 
 public class Notice {
 	private Long noticeNum;
@@ -10,6 +14,8 @@ public class Notice {
 	private Integer views;
 	private Date createdAt;
 
+	private List<UploadFileDTO> files;
+	
 	public Notice() {}
 	
 	public Notice(Long memberNum, String title, String content) {
@@ -66,6 +72,17 @@ public class Notice {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	public List<UploadFileDTO> getFiles() {
+		if (this.files == null) {
+			this.files = new ArrayList<>();
+		}
+		return files;
+	}
+
+	public void addFile(UploadFileDTO file) {
+		getFiles().add(file);
 	}
 
 	@Override

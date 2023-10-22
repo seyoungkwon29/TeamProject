@@ -8,9 +8,9 @@ import org.springframework.web.util.UriUtils;
 public class UploadFileDTO {
 	
 	private Long id;
-	private Long comNum;
-	private String originalFilename;
-	private String storeFilename;
+
+	protected String originalFilename;
+	protected String storeFilename;
 	
 	public UploadFileDTO() {}
 	
@@ -20,11 +20,7 @@ public class UploadFileDTO {
 		this.storeFilename = storeFilename;
 	}
 	
-	public UploadFileDTO(Long comNum, String originalFilename, String storeFilename) {
-		this.comNum = comNum;
-		this.originalFilename = originalFilename;
-		this.storeFilename = storeFilename;
-	}
+
 
 	public Long getId() {
 		return id;
@@ -34,14 +30,6 @@ public class UploadFileDTO {
 		this.id = id;
 	}
 	
-	public Long getComNum() {
-		return comNum;
-	}
-
-	public void setComNum(Long comNum) {
-		this.comNum = comNum;
-	}
-
 	public String getOriginalFilename() {
 		return originalFilename;
 	}
