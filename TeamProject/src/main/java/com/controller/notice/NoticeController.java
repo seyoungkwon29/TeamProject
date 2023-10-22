@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -128,37 +129,49 @@ public class NoticeController {
 	
 	//수정폼
 	@GetMapping("/notices/{noticeNum}/edit")
-	public String showUpdateNoticeForm(@ModelAttribute NoticeForm noticeForm, @PathVariable("noticeNum") Long noticeNum, Model model) {
+	public String showUpdateNoticeForm(@ModelAttribute UpdateNoticeForm updateNoticeForm, @PathVariable("noticeNum") Long noticeNum, Model model) {
 		
 		Notice notice = noticeService.getNoticeByNum(noticeNum);
 		
-		noticeForm.setNoticeNum(notice.getNoticeNum());
-		noticeForm.setTitle(notice.getTitle());
-		noticeForm.setContent(notice.getContent());
-		model.addAttribute("noticeForm", noticeForm);
+		updateNoticeForm.setNoticeNum(notice.getNoticeNum());
+		updateNoticeForm.setTitle(notice.getTitle());
+		updateNoticeForm.setContent(notice.getContent());
+		updateNoticeForm.setAttachFiles(notice.getFiles());
+		model.addAttribute("noticeForm", updateNoticeForm);
 		
 		return "notice/notice-edit";
 	}
 	//수정하기
 	@PostMapping("/notices/{noticeNum}/edit")
-	public String updateNotice(
-			@Valid @ModelAttribute NoticeForm noticeForm, BindingResult bindingResult,
+	public ResponseEntity<Response> updateNotice(
+			@Valid @ModelAttribute UpdateNoticeForm updateNoticeForm, BindingResult bindingResult,
 			@PathVariable("noticeNum") Long noticeNum,
-			HttpSession session) {
+			HttpSession session) throws IOException {
 		
 		if (bindingResult.hasErrors()) {
-			return "notice/notice-edit";
+			ErrorResponse error = new ErrorResponse("invalid", "invalid request");
+			return ResponseEntity.badRequest().body(error);
 		}
 		
 		MemberDTO member = (MemberDTO)session.getAttribute("login");
 		
 		Long memberNum = Long.valueOf(member.getMember_num());
 		
-		NoticeDTO updateDTO = new NoticeDTO(memberNum, noticeForm.getTitle(), noticeForm.getContent());
-
-		noticeService.updateNotice(noticeNum, memberNum, updateDTO);
+		Notice updateParam = new Notice(memberNum, updateNoticeForm.getTitle(), updateNoticeForm.getContent());
 		
-		return "redirect:/notices/"+ noticeNum;
+		List<MultipartFile> newFiles = updateNoticeForm.getFiles();
+		if (newFiles != null && !newFiles.isEmpty()) {
+			List<UploadFileDTO> storeFiles = fileStore.storeFiles(newFiles);
+			for (UploadFileDTO file : storeFiles) {
+				updateParam.addFile(file);
+			}
+		}
+		
+		noticeService.updateNotice(noticeNum, memberNum, updateParam, updateNoticeForm.getDeleteFileIds());
+
+		UpdateNoticeResponse updateNoticeResponse = new UpdateNoticeResponse("ok", "/notices/" + noticeNum);
+		
+		return ResponseEntity.ok(updateNoticeResponse);
 	}
 	//삭제하기
 	@PostMapping("/notices/{noticeNum}/delete") 
@@ -172,4 +185,5 @@ public class NoticeController {
 		
 		return "redirect:/notices";
 	}
+	
 }

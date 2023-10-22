@@ -92,4 +92,8 @@ public class NoticeDAO {
 	public List<UploadFileDTO> getFilesByNoticeNum(Long noticeNum) {
 		return template.selectList("NoticeMapper.getFilesByNoticeNum", noticeNum);
 	}
+	
+	public void deleteFile(Long fileId) {
+		template.delete("NoticeMapper.deleteFile", fileId);
+	}
 }

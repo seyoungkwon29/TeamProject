@@ -92,7 +92,7 @@ public class NoticeService {
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
-	public void updateNotice(Long noticeNum, Long memberNum, NoticeDTO updateDTO) {
+	public void updateNotice(Long noticeNum, Long memberNum, Notice updateParam, List<Long> deleteFileIds) {
 
 			Notice notice = dao.getNoticeByNum(noticeNum);
 	
@@ -100,10 +100,19 @@ public class NoticeService {
 				return;
 			}
 	
-			notice.setTitle(updateDTO.getTitle());
-			notice.setContent(updateDTO.getContent());
+			notice.setTitle(updateParam.getTitle());
+			notice.setContent(updateParam.getContent());
 	
 			dao.update(notice);
+			
+			List<UploadFileDTO> newFiles = updateParam.getFiles();
+			for (UploadFileDTO file : newFiles) {
+				dao.insertFile(noticeNum, file);
+			}
+			
+			for (Long id : deleteFileIds) {
+				dao.deleteFile(id);
+			}
 	}
 
 	@Transactional(rollbackFor=Exception.class)
