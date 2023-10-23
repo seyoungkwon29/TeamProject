@@ -35,9 +35,6 @@ public class TodoService {
 
 	public TodoDTO createTodo(Map<String, Object> parameters) {
 		int project_num = (int)parameters.get("project_num");
-		String t_key = (String)parameters.get("t_key");
-		MemberDTO loginMember = LoginConstant.memberMap.get(t_key);
-		int member_num = loginMember.getMember_num();
 		Map<String,Object> map = (Map<String,Object>)parameters.get("todoDTO");
 		ObjectMapper objectMapper = new ObjectMapper();
 		TodoDTO todoDTO = objectMapper.convertValue(map, TodoDTO.class);

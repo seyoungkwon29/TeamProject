@@ -125,12 +125,12 @@
 		<div id="now">
 			<%=simpleTime.format(calendar.getTime())%>
 		</div>
-
+		
 		<div class="attend-btn">
 			<!-- 출근 / 퇴근 버튼 -->
 			<!-- 출근 -->
 			<div>
-				<form id="att1" action="attendance/punchIn" method="post">
+				<form action="attendance/punchIn" method="post">
 					<input type="hidden" id="att_start" name="att_start"> 
 					<input type="button" id="punchIn" class="btn" value="출근">
 				</form>

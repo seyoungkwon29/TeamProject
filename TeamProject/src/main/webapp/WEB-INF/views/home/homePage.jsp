@@ -7,19 +7,10 @@
 	<h2>홈</h2>
 	<br>
 	<ul>
-		<ol>프로필사진
 		<jsp:include page="homePhoto.jsp" flush="true"/>
-		</ol>
-		<ol>근태 관리
 		<jsp:include page="homeAttend.jsp" flush="true"/>			
-		</ol>
-		<ol>공지사항</ol>
-		<jsp:include page="homeNoti.jsp" flush="true"/>	
-		<ol>게시판</ol>
-		<jsp:include page="homeBored.jsp" flush="true"/>	
-		<ol>전자결재</ol>
+		<jsp:include page="homeNoticeList.jsp" flush="true"/>	
+		<jsp:include page="homeCommunityList.jsp" flush="true"/>	
 		<jsp:include page="homeAppro.jsp" flush="true"/>	
-		<ol> <a href="calendar">캘린더</a> </ol>
-		<ol> <a href="loginCheck/logout">로그아웃</a> </ol>
 	</ul>
 </div>

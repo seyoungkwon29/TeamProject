@@ -31,26 +31,19 @@ public class CommunityService {
 		Long comNum = community.getComNum();
 		List<UploadFileDTO> files = community.getFiles();
 		for (UploadFileDTO file : files) {
-			file.setComNum(comNum);
-			communityDao.insertFile(file);
-		}
-		
-		List<UploadFileDTO> images = community.getImages();
-		for (UploadFileDTO image : images) {
-			image.setComNum(comNum);
-			communityDao.insertImage(image);
+			communityDao.insertFile(comNum, file);
 		}
     }
 
 	@Transactional(readOnly=true)
     public CommunityDTO getCommunityByNum(Long comNum) {
-         CommunityDTO community = communityDao.getCommunityByNum(comNum);
+         
+		CommunityDTO community = communityDao.getCommunityByNum(comNum);
          
          List<UploadFileDTO> files = communityDao.getFilesByComNum(comNum);
-         community.setFiles(files);
-         
-         List<UploadFileDTO> images = communityDao.getImagesByComNum(comNum);
-         community.setImages(images);
+         for (UploadFileDTO file : files) {
+        	 community.addFile(file);
+         }
          
          return community;
     }
@@ -62,20 +55,22 @@ public class CommunityService {
 
 	@Transactional(rollbackFor=Exception.class)
     public void update(Long comNum, Long memberNum, CommunityDTO updateParam, List<Long> deleteFileIds) {
-        CommunityDTO community = communityDao.getCommunityByNum(comNum);
+        
+		CommunityDTO community = communityDao.getCommunityByNum(comNum);
 
         if (!community.getMemberNum().equals(memberNum)) {
             return;
         }
+        
         community.setTitle(updateParam.getTitle());
         community.setContent(updateParam.getContent());
+        
         communityDao.update(community);
         
 		List<UploadFileDTO> files = updateParam.getFiles();
         for (UploadFileDTO file : files) {
-        	if (file.getId() == null) {
-				file.setComNum(comNum);
-				communityDao.insertFile(file);
+        	if (file.isNew()) {
+				communityDao.insertFile(comNum, file);
         	}
 		}
 		
@@ -96,6 +91,12 @@ public class CommunityService {
         for (ReplyDTO reply : replyList) {
             replyDao.delete(reply.getReplyNum());
         }
+        
+        List<UploadFileDTO> files = community.getFiles();
+		for (UploadFileDTO file : files) {
+			communityDao.deleteFile(file.getId());
+		}
+        
         communityDao.delete(comNum);
     }
     
@@ -105,51 +106,40 @@ public class CommunityService {
     }
 
     @Transactional(readOnly=true)
-    public CommunityDTO getCommunityDetailsByNum(Long comNum) {
-		CommunityDTO community = communityDao.getCommunityDetailsByNum(comNum);
-		
-		List<UploadFileDTO> files = communityDao.getFilesByComNum(comNum);
-		
-		List<UploadFileDTO> images = communityDao.getImagesByComNum(comNum);
-		
-		community.setFiles(files);
-		
-		community.setImages(images);
-		
-		return community;
-		
-    }
-
-    @Transactional(readOnly=true)
-    public PageResponseDTO<CommunityDTO> getCommunityDetailsList(PageRequestDTO page) {
+    public PageResponseDTO<CommunityDTO> getCommunityDTOList(PageRequestDTO page) {
 		int count = communityDao.count();
-		List<CommunityDTO> communityDetailsList = communityDao.getCommunityDetailsList(page);
-		if (!communityDetailsList.isEmpty()) {
-			return new PageResponseDTO<CommunityDTO>(page, communityDetailsList, count);
+		List<CommunityDTO> communityDTOList = communityDao.getCommunityDTOList(page);
+		if (!communityDTOList.isEmpty()) {
+			return new PageResponseDTO<CommunityDTO>(page, communityDTOList, count);
 		}
 	
 		return new PageResponseDTO<CommunityDTO>(page, Collections.emptyList(), 0);
     }
     
     @Transactional(readOnly=true)
-    public PageResponseDTO<CommunityDTO> getCommunityDetailsListByMemberName(PageRequestDTO page, String memberName) {
+    public PageResponseDTO<CommunityDTO> getCommunityDTOListByMemberName(PageRequestDTO page, String memberName) {
 
   		int count = communityDao.countByMemberName(memberName);
   		
-  		List<CommunityDTO> communityDetailsList = communityDao.getCommunityDetailsListByMemberName(page, memberName);
+  		List<CommunityDTO> communityDTOList = communityDao.getCommunityDTOListByMemberName(page, memberName);
   		
-  		return new PageResponseDTO<CommunityDTO>(page, communityDetailsList, count);
+  		return new PageResponseDTO<CommunityDTO>(page, communityDTOList, count);
 
     }
     
     @Transactional(readOnly=true)
-    public PageResponseDTO<CommunityDTO> getCommunityDetailsListContentLike(PageRequestDTO page, String content) {
+    public PageResponseDTO<CommunityDTO> getCommunityDTOListContentLike(PageRequestDTO page, String content) {
 
   		int count = communityDao.countContentLike(content);
   		
-  		List<CommunityDTO> communityDetailsList = communityDao.getCommunityDetailsListContentLike(page, content);
+  		List<CommunityDTO> communityDTOList = communityDao.getCommunityDTOListContentLike(page, content);
   		
-  		return new PageResponseDTO<CommunityDTO>(page, communityDetailsList, count);
+  		return new PageResponseDTO<CommunityDTO>(page, communityDTOList, count);
 
+    }
+    
+    public List<CommunityDTO> getCommunityDTOListTopN(int n) {
+    	PageResponseDTO<CommunityDTO> communityList = this.getCommunityDTOList(new PageRequestDTO(1,n));
+    	return communityList.getItems();
     }
 }

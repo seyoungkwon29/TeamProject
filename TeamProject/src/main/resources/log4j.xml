@@ -11,6 +11,9 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="com.controller">
+		<level value="debug"/>
+	</logger>
 	<logger name="com.controller.app">
 		<level value="info" />
 	</logger>
@@ -19,10 +22,9 @@
 		<level value="debug"/>
 	</logger>
 	
-	<logger name="com.controller.community">
+	<logger name="com.interceptor.LoginCheckInterceptor">
 		<level value="debug"/>
 	</logger>
-	
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

@@ -9,10 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE project_num = #{project_num} AND member_num = #{member_num}
 	</select>
 	
-	<insert id="createTodo" parameterType="TodoDTO" useGeneratedKeys="true" 
-	   	keyProperty="todo_num" keyColumn="todo_num">
+	<insert id="createTodo" parameterType="TodoDTO">
 		INSERT INTO todo VALUES(
-			seq_todo_num.nextval,
+			#{todo_num},
 			#{todo_title},
 			#{status},
 			#{start_date},

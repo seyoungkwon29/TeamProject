@@ -21,6 +21,17 @@
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성자</small>${notice.memberName}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
 				<p class="measure lh-copy">${notice.content}</p>
+				<c:if test="${not empty notice.files}">
+				<div class="flex flex-column">
+					<p class="f5 mb1">첨부 파일</p>
+					<c:forEach var="file" items="${notice.files}">
+					<spring:url var="fileUrl" value="/notices/${noticeNum}/files/${file.encodedOriginalFilename}"/>
+					<div class="mb1">					
+						<a href="${fileUrl}" class="link-reset black dim">${file.originalFilename}</a>
+					</div>
+					</c:forEach>
+				</div>
+				</c:if>
 			</article>
 		</section>
 		<section class="mw8 center flex-auto">
