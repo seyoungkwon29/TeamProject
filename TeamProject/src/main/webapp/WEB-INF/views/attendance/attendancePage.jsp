@@ -9,20 +9,15 @@
 <script type="text/javascript">
 	$(document).ready(function () { 
 	    startDate();
-	    
 	    // 날짜 검색
 	    if("${ date }" != "") {
 	    	$("#nowMonth").val("${ date }");
-	    }else {
+	    } else {
 			$("#nowMonth").val(new Date().toISOString().slice(0, 7));
 	    }
-	    
-	    // 출근
-	    $("#puncIn").on("click", punchIn);
 	});
 	
 	function startDate() { // 시간 관리 함수
-		// setInterval(fn, 1000) : 1초에 한번 해당 함수 실행
 	    date = setInterval(function () {
 	        var dateString = "";
 	        var newDate = new Date();
@@ -31,7 +26,7 @@
 	        dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
 	        dateString += ("0" + newDate.getSeconds()).slice(-2);
 
-	        $("#now").text(dateString); // 현재 시각
+	        /* $("#now").text(dateString); // 현재 시각 */
 	        $("#att_start").val(dateString); // 출근 시각
 	        $("#att_fin").val(dateString); // 퇴근 시각
 	    }, 1000); // 1000밀리초  = 1초 (현재 시각 업데이트) 
