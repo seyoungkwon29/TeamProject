@@ -50,15 +50,10 @@
 
 <div class="attend-body">
 	<div class="left">
-
-		<div id="now">
-			<%=simpleTime.format(calendar.getTime())%>
-		</div>
-
 		<div class="attend-btn">
 			<!-- 출근 / 퇴근 버튼 -->
 			<!-- 출근 -->
-			<div>
+			<div class="form1">
 				<form action="attendance/punchIn" method="post">
 					<input type="hidden" id="att_start" name="att_start"> 
 					<input type="submit" id="punchIn" class="btn" value="출근">
@@ -66,12 +61,17 @@
 			</div>
 			<!-- 출근 -->
 			<!-- 퇴근 -->
-			<div>
+			<div class="form2">
 				<form action="attendance/punchOut" method="post">
 					<input type="hidden" id="att_fin" name="att_fin"> <input
 						type="submit" id="punchOut" class="btn" value="퇴근"> <br>
 				</form>
 			</div>
+			
+			<div id="now">
+				<%=simpleTime.format(calendar.getTime())%>
+			</div>
+			<div></div>
 			<!-- 퇴근 -->
 			<!-- 출근 / 퇴근 버튼 -->
 		</div>

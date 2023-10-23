@@ -14,7 +14,7 @@ int member_num = dto.getMember_num();
 <div class="main-mypage-section">
 	<div class="main-mypage-image">
 <%-- 		<img src="/profilepic/<%=dto.getPhoto()%>" width="250" height="auto"><br> --%>
-		<img src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="100" height="auto">
+		<img src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="200" height="auto">
 		<br>
 	</div>
 </div>

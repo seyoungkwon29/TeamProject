@@ -10,11 +10,11 @@
 
 <div class="menu-top-container">
 	<div class="top-brand">
-		<a href="homePage"><img class="menuTop-img" src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
+		<a href="/"><img class="menuTop-img" src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
 	</div>
 	<div class="link-ul">
 		<ul>
-			<li><a class="link" aria-current="page" href="homePage">홈</a></li>
+			<li><a class="link" aria-current="page" href="/">홈</a></li>
 			<li><a class="link" href="myPage">마이 페이지</a></li>
 			<li><a class="link" href="loginCheck/attendance/attendanceList">근태 관리</a></li>
 			<li><a class="link" href="organization">조직도</a></li>
