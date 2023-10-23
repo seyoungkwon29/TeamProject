@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.AttendanceDTO;
 import com.dto.MemberDTO;
@@ -45,7 +46,8 @@ public class AttendanceController {
 	
 	// 출근
 	@RequestMapping(value="attendance/punchIn", method=RequestMethod.POST)
-	public String punchIn(HttpSession session, AttendanceDTO attendance) {
+	public String punchIn(HttpSession session, AttendanceDTO attendance,
+			@RequestParam("att_start") String attTime) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		int member_num = member.getMember_num(); // 사번
 		// 사번 등록
@@ -56,6 +58,7 @@ public class AttendanceController {
 		int minute = time.getMinute();
 		
 		// 출근 시각은 jsp에서 전송해서 attendance 매개변수로 받는다
+		if (attTime != null) attendance.setAtt_start(attTime);
 		
 		// 출근 상태
 		if (hour >= 9 && minute > 0) attendance.setAtt_status("지각");
@@ -73,7 +76,8 @@ public class AttendanceController {
 	
 	// 퇴근
 	@RequestMapping(value="attendance/punchOut", method=RequestMethod.POST)
-	public String punchOut(HttpSession session, AttendanceDTO attendance) {
+	public String punchOut(HttpSession session, AttendanceDTO attendance,
+			@RequestParam("att_fin") String attTime) {
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 		int member_num = member.getMember_num(); // 사번
 		// 사번 등록
@@ -83,7 +87,8 @@ public class AttendanceController {
 		int hour = time.getHour();
 		
 		// 퇴근 시각은 jsp에서 전송해서 attendance 매개변수로 받는다
-		
+		if (attTime != null) attendance.setAtt_fin(attTime);
+
 		// 퇴근 상태
 		if (hour < 17) attendance.setAtt_status("조퇴");
 		else attendance.setAtt_status("퇴근");
