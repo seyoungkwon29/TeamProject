@@ -1,0 +1,108 @@
+
+--------- 사원 테이블 생성
+-- 테이블 생성 (COLUMN : 14)
+CREATE TABLE MEMBER(
+    MEMBER_NUM NUMBER(20) CONSTRAINT PK_PROJECT PRIMARY KEY,   -- 사번
+    MEMBER_NAME VARCHAR2(20) NOT NULL,  -- 이름
+	DIV_NAME    VARCHAR2(20) NOT NULL,  -- 부서이름
+    RANK        VARCHAR2(20) NOT NULL,  -- 직급
+    ADDRESS     VARCHAR2(80),           -- 주소
+    PHONE       VARCHAR2(20),           -- 전화번호
+    MAIL        VARCHAR2(20),           -- 메일
+    HIRE_DATE   VARCHAR2(20) NOT NULL,  -- 입사일
+    RETIRE_DATE VARCHAR2(20),           -- 퇴사일
+    SSN         VARCHAR2(20) NOT NULL,  -- 주민번호
+    PASSWORD    VARCHAR2(20) NOT NULL,  -- 비밀번호
+    GENDER      VARCHAR2(20),           -- 성별
+    PHOTO       VARCHAR2(20),           -- 사진
+    ANNUAL_LEAVE NUMBER(20) DEFAULT 20
+) ;
+
+
+--------- 전자 결재
+CREATE TABLE APPROVAL (
+    APP_NO     NUMBER CONSTRAINT APPROVAL_APP_NO_PK PRIMARY KEY, --결재 번호
+    DOC_NO     NUMBER NOT NULL, --문서 번호
+    MEMBER_NUM  NUMBER(20, 0) NOT NULL, --사원 번호
+    APP_LEVEL  NUMBER NOT NULL, --결재 순서
+    APP_DATE   VARCHAR2(50), -- 결재일
+    APP_STATUS VARCHAR2(20) DEFAULT '대기' NOT NULL, --결재 상태
+    REJ_REASON VARCHAR2(100), --반려 사유
+    CONSTRAINT APPROVAL_DOC_NO_FK FOREIGN KEY (DOC_NO) REFERENCES APP_DOC(DOC_NO),
+    CONSTRAINT APPROVAL_MEMBER_NUM_FK FOREIGN KEY (MEMBER_NUM) REFERENCES MEMBER(MEMBER_NUM)
+);
+
+
+
+
+--------- 문서 양식
+CREATE TABLE APP_FORM
+(
+    FORM_NO  NUMBER CONSTRAINT APP_FORM_FORM_NO_PK PRIMARY KEY,  -- 문서양식 번호
+    FORM_NAME  VARCHAR2(100) NOT NULL, -- 문서양식 명
+    FORM_CONTENT CLOB  -- 문서양식 내용
+);
+
+
+
+--------- 기안 문서
+CREATE TABLE APP_DOC
+(
+    DOC_NO        NUMBER CONSTRAINT APP_DOC_DOC_NO_PK PRIMARY KEY, --문서번호
+    MEMBER_NUM NUMBER(20, 0) NOT NULL, --사원번호
+    FORM_NAME       VARCHAR2(100) NOT NULL, --문서 이름
+    DOC_TITLE     VARCHAR2(100) NOT NULL, --문서제목
+    DOC_CONTENT   CLOB, --내용
+    DOC_STATUS    VARCHAR2(10) DEFAULT '대기'  NOT NULL, --진행 상태(대기, 완료 등)
+    DOC_DATE      VARCHAR2(50) NOT NULL, --작성일
+    LEAVE_TYPE    VARCHAR2(50), --휴가 종류
+    LEAVE_START   VARCHAR2(50), --휴가 시작일
+    LEAVE_END     VARCHAR2(50), --휴가 종료일 
+    LEAVE_TIME    VARCHAR2(10), --반차 시간
+    LEAVE_DATE    NUMBER, --휴가 일수
+    LEAVE_LEFT    NUMBER, --잔여 연차 일수
+    LEAVE_APPLY   NUMBER, --연차 신청일
+    CONSTRAINT APP_DOC_MEMBER_NUM_FK FOREIGN KEY (MEMBER_NUM) REFERENCES MEMBER(MEMBER_NUM)
+);
+
+insert into APP_FORM (FORM_NO , FORM_NAME ,FORM_CONTENT) values (1, '기안서', null);
+insert into APP_FORM (FORM_NO , FORM_NAME ,FORM_CONTENT) values (2, '품의서', null);
+insert into APP_FORM (FORM_NO , FORM_NAME ,FORM_CONTENT) values (3, '지출결의서', null);
+insert into APP_FORM (FORM_NO , FORM_NAME ,FORM_CONTENT) values (4, '휴가신청서', null);
+
+
+--------- 파일 첨부
+CREATE TABLE APP_FILE
+(
+    FILE_NO      NUMBER CONSTRAINT APP_FILE_FILE_NO_PK PRIMARY KEY, --파일 번호
+    DOC_NO       NUMBER NOT NULL, --문서 번호
+    FILE_NAME    VARCHAR2(1000) NOT NULL, --원본 파일명
+    FILE_RENAME  VARCHAR2(1000) NOT NULL, --수정 파일명
+    FILE_PATH    VARCHAR2(1000) NOT NULL, --파일 경로
+    CONSTRAINT APP_FILE_DOC_NO_FK FOREIGN KEY (DOC_NO) REFERENCES APP_DOC(DOC_NO)
+);
+
+
+--------- 참조
+CREATE TABLE APP_REF
+(
+    REF_NO       NUMBER CONSTRAINT APP_REF_REF_NO_PK PRIMARY KEY, --참조 번호
+    DOC_NO       NUMBER NOT NULL, --문서 번호
+    MEMBER_NUM  NUMBER(20, 0) NOT NULL, --사원번호
+    REF_STATUS   VARCHAR2(20) NOT NULL, --참조 상태
+    CONSTRAINT APP_REF_DOC_NO_FK FOREIGN KEY (DOC_NO) REFERENCES APP_DOC(DOC_NO),
+    CONSTRAINT APP_REF_MEMBER_NUM_FK FOREIGN KEY (MEMBER_NUM) REFERENCES MEMBER(MEMBER_NUM)
+);
+
+
+commit;
+
+
+--------- 시퀀스 
+create sequence seq_ref; -- 참조 번호
+create sequence seq_form;  -- 문서 양식 번호
+create sequence seq_app; -- 결재 번호
+create sequence seq_doc; -- 문서 번호
+create sequence seq_file; -- 파일 번호
+
+commit;
