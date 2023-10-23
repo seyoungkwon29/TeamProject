@@ -77,7 +77,6 @@
         var input = this.value.replace(/\D/g, ""); // 숫자만 남기도록 정규식 사용
         var formatted = input.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 하이픈 추가
         this.value = formatted;
-        console.log("버노잘들어갔나??")
     });
 	
 });//윈도우 end
