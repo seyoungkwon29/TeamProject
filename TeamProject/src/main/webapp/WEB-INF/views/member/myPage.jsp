@@ -85,7 +85,7 @@
 
 <div class="mypage-container">
 	<form action="loginCheck/update" method="post">
-
+	<input type="hidden" value="<%=member_num%>" " name="member_num">
 		<h1 style="margin: 0; color: #333; font-size: 30px; padding-bottom:60px;">마이 페이지</h1>
 
 		<div class="div-table-top" style="width: 100%;">
@@ -94,8 +94,8 @@
 			    <td class="tr-left">프로필 사진</td>
 			    <td class="tr-right">
 		    	 	
-				      		<img class="mem-img" src="/profilepic/1020"><br><br>
-				    
+				     <img class="mem-img" src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="230" height="auto" /><br><br>
+<%-- 						<img class="mem-img" src="/profilepic/<%=dto.getPhoto()%>"><br><br>					     --%>
 	        		<a class="prof-button" id="profile_pic">프로필사진 변경</a> &nbsp;&nbsp;
 	       			<a class="prof-button" id="pw_change">비밀번호 변경</a>
 	     		</td>
@@ -103,38 +103,34 @@
 			  <tr>
 			  	<td class="tr-left"> 이름 </td>
 			  	<td class="tr-right"> 			
-					<span class="member-name">공지영</span>&nbsp;&nbsp;
-					<span class="mem-rank">사원</span>
+					<span class="member-name"><%=dto.getMember_name()%></span>&nbsp;&nbsp;
+					<span class="mem-rank"><%=dto.getRank()%></span>
 			   </td>
 			  </tr><tr>
 	        
 	          </tr><tr>
 	            <td class="tr-left">사번</td>
-	            <td class="tr-right">1020</td>
+	            <td class="tr-right"><%=dto.getMember_num()%></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">소속부서</td>
-	            <td class="tr-right">총무</td>
+	            <td class="tr-right"><%=dto.getDiv_name()%></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">주소</td>
-	            <td class="tr-right">서울시 은평구 응암동 53-13</td>
+	            <td class="tr-right"><%=dto.getAddress()%></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">휴대폰번호</td>
-	            <td class="tr-right"><input type="text" value="010-2335-2302" name="phone" id="phone" maxlength="11" class="input-phone-mail"></td>
+	            <td class="tr-right"><input type="text" value="<%=phone%>" name="phone" id="phone" maxlength="11" class="input-phone-mail"></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">메일주소</td>
-	            <td class="tr-right"><input type="email" value="9nwwcd@everyware.com" name="mail" id="mail" class="input-phone-mail"></td>
+	            <td class="tr-right"><input type="email" value="<%=mail%>" name="mail" id="mail" class="input-phone-mail"></td>
 	          </tr>
 	          <tr>
 	            <td class="tr-left">입사일</td>
-	            <td class="tr-right">23/03/02</td>
-	          </tr>
-	          <tr>
-	            <td class="tr-left">잔여연차</td>
-	            <td class="tr-right">20</td>
+	            <td class="tr-right"><%=dto.getHire_date()%></td>
 	          </tr>
 	     </tbody></table>
 		 </div>
@@ -150,44 +146,3 @@
 <!-- The Modal 포함-->
 <jsp:include page="photochangeModal.jsp" flush="true"/>
 <jsp:include page="pwchangeModal.jsp" flush="true"/>
-
-<%-- 
-<!-- 비밀번호 변경 클릭 시 -->
-<!-- The Modal -->
-<div class="pwchange" id="pwchange">
-  <div class="modal-dialog">
-    <div class="pwchange_modal-content">
-
-      <!-- Modal Header -->
-      <div class="pwchange_modal-header">
-        <h4 class="modal-title">비밀번호 변경</h4>
-      
-      </div>
-
-      <!-- Modal body -->
-      <div class="pwchange_modal-body">
-          <form id="pwchange_form" action="loginCheck/pwUpdate" method="POST">
-              <!-- 현재 비밀번호, 변경할 비밀번호, 비밀번호 확인 -->
-              <!-- 회원정보 식별할 회원 아이디도 데이터를 보내야한다. 
-                   이때 hidden으로 처리(보여줄 필요가 없기 때문.) -->
-              <input type="hidden" name="userId" value="<%=dto.getMember_num()%>">
-              
-              <table>
-                  <tr>
-                     <td>변경할 비밀번호</td>
-                     <td><input type="password" name="updatePwd" id="pwd1" required></td>
-                  </tr>
-                  <tr>
-                     <td>변경할 비밀번호 확인</td>
-                     <td><input type="password" name="checkPwd" id="pwd2" required>
-                  </tr>
-              </table>
-              <br>
-            <input type="submit" class="btn_btn-warning" value="비밀번호 변경">
-            <button type="button" class="close" data-dismiss="modal">취소</button>
-          </form>
-               </div>
-    </div>
-  </div>
-</div>
-<!-- 끝 --> --%>
