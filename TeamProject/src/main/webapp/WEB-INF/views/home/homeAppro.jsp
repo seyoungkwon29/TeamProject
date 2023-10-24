@@ -2,59 +2,84 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<link href="resources/css/appDraftList.css"  rel="stylesheet">
+    
+<div class="left-panel">
+    <div class="home-app-top">결재 대기 문서</div>
+      
+    <table class="home-App-List">
+		<tr>
+			<th class="th-title">제목</th>
+			<th class="th-man">기안자</th>
+			<th class="th-time">기안일</th>
+		</tr>
+		
+		<c:forEach var="app" items="${appDocList}">
+			<tr>
+				<td><a href="clickDocContent?type=app&docNo=${app.doc_no}&docStatus=${app.app_status}">
+					${app.doc_title}</a>
+				</td> <!-- 제목-->
+				
+				<td>${app.member_name}</td> <!-- 기안자 -->
+				
+				<td>${app.doc_date }</td> <!-- 기안일 -->							
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 
 <style>
-/*     body { */
-/*         margin: 0; */
-/*         padding: 0; */
-/*         font-family: Arial, sans-serif; */
-/*     } */
-/*     .container { */
-/* 		display: flex; */
-/* 	    margin-top: 80px; */
-/*     } */
-/*     .left-panel { */
-/*         width: 50%; */
-/*         background-color: #f2f2f2; */
-/*         padding: 20px; */
-/*     } */
-/*     .right-panel { */
-/*         flex: 1; */
-/*         padding: 20px; */
-/*     } */
+.home-app-top {
+    text-align: justify;
+    font-size: 14px;
+    letter-spacing: 0px;
+    font-weight: 600;
+    margin-left: 4px;
+    margin-top: 13px;
+    color: #000000de;
+}
+.home-App-List{
+    margin: 18px 0;
+    font-size: 13px;
+    text-align: center;
+    border-collapse: collapse;
+    border-top: 2px solid rgb(200 200 200 / 49%);
+    border-bottom: 2px solid rgb(200 200 200 / 49%);
+}
+.home-App-List tr {
+    border-top: 1px solid rgb(200 200 200 / 49%);
+    height: 42px;
+}
+
+.home-App-List tr:hover {
+	background-color: rgb(250, 250, 250);
+}
+
+.home-App-List th {
+	background-color: #f9f9f9;
+}
+
+.home-App-List .th-title { /* 테이블 헤더 부분 간격*/
+	width: 430px;
+}
+
+.home-App-List .th-man {
+	width: 160px;
+}
+
+.home-App-List .th-time { /* 임시저장함: 제목*/
+	width: 280px; 
+}
+
+.home-App-List a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+.home-App-List span {
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: 1px;
+	color: white;
+}
 </style>
-    
-  <div class="container">
-      <div class="left-panel">
-          <!-- 좌측 패널 내용 -->
-          <h4>결재 대기 문서</h4>
-          
-          <table class="t-List">
-				<tr>
-					<th class="th-1">기안일</th>
-					<th class="th-1">문서양식</th>
-					<th class="th-2">제목</th>
-					<th class="th-1">기안자</th>
-					<th class="th-1">결재상태</th>
-				</tr>
-				
-				<c:forEach var="app" items="${appDocList}">
-					<tr>
-						<td>${app.doc_date }</td>
-						<td>${app.form_name }</td>
-						
-						<td><a href="clickDocContent?type=app&docNo=${app.doc_no}&docStatus=${app.app_status}">
-							${app.doc_title}</a>
-						</td> <!-- 제목-->
-						
-						<td>${app.member_name}</td>
-						
-						<c:if test="${app.app_status == '대기'}"> <!-- 결재자의 결재 상태 -->
-							<td><span class="status-1">${app.app_status }</span></td>
-						</c:if>										
-					</tr>
-				</c:forEach>
-				</table>
-	</div>
- </div>

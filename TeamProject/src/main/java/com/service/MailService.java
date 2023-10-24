@@ -138,6 +138,12 @@ public class MailService {
 		session.setAttribute("memberDTOList", memberDTOList);
 		
 	}
+	
+	public List<MailDTO> homeReceiveMailList(int member_num) {
+		List<MailDTO> receiveList = dao.homeReceiveMailList(member_num);
+		return receiveList;
+
+	}
 
 
 //	public List<MailDTO> selectMailRecDTOByMailNum(Map<String, Integer> map) {
