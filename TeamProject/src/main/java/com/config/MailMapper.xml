@@ -116,4 +116,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE rec_num = #{rec_num} AND mail_num = #{mail_num}
 	</delete>
 	
+	<select id="homeReceiveMailList" parameterType="int" resultType="MailDTO">
+		SELECT *
+		FROM (
+		    SELECT *
+		    FROM mail
+		    WHERE member_num != #{member_num} AND mail_num IN
+		        (SELECT mail_num
+		        FROM mail_rec
+		        WHERE rec_num = #{member_num})
+		    ORDER BY mail_from_date DESC
+		)
+		WHERE <![CDATA[ROWNUM <= 3]]>
+	</select>
+	
+	
 </mapper>
