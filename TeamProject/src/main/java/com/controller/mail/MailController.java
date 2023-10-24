@@ -191,49 +191,6 @@ public class MailController {
 	}
 	
 //받은 메일함 조회
-//	@RequestMapping("mailReceiveList")
-//	public String MailReceiveList(HttpServletRequest request, HttpSession session) {
-//		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
-//		if(loginDto==null) {
-//			return "redirect:/";
-//		}
-//		
-//		//페이징 처리 객체
-//		String page = request.getParameter("page");
-//		
-//		if(page == null) {
-//			page = "1";
-//		}
-//		
-//		int member_num = loginDto.getMember_num();
-//		//페이징 처리를 위한 객체
-//		PageDTO pageDTO =  service.receiveMailList(member_num, page);
-//		
-//		
-//		session.setAttribute("recMailList", pageDTO.getMailDTOList());
-//		
-//		
-//		//메일 수신여부 확인을 위한 MailRecDTO 리스트, //보낸사람 정보
-//		List<MemberDTO> memberDTOList = new ArrayList<>();
-//		List<MailRecDTO> mailRecDTOList = new ArrayList<>();
-//		MailRecDTO mailRecDTO = new MailRecDTO();
-//		mailRecDTO.setRec_num(member_num);
-//		for(MailDTO m : pageDTO.getMailDTOList()) {
-//			mailRecDTO.setMail_num(m.getMail_num());
-//			mailRecDTOList.add(service.selectMailRecDTOByMailNumAndMemberNum(mailRecDTO));
-//			memberDTOList.add(mService.myPage(m.getMember_num()));
-//		}
-//		//페이징 처리 객체 계산
-//		int range = (pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1;
-//		pageDTO.pageInfo(Integer.parseInt(page), range, pageDTO.getListCnt());
-//		
-//		session.setAttribute("pageDTO", pageDTO);
-//		session.setAttribute("mailRecDTOList", mailRecDTOList);
-//		session.setAttribute("memberDTOList", memberDTOList);
-//
-//		return "mail_receiveList";
-//	}
-	
 	@RequestMapping("mailReceiveList")
 	public String MailReceiveList(HttpServletRequest request, HttpSession session) {
 		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");

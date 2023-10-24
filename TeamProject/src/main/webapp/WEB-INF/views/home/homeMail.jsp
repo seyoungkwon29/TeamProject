@@ -12,13 +12,12 @@
 			<th class="th-man">발신자</th>
 			<th class="th-time">받은 시간</th>
 		</tr>
-		
-		<c:forEach var="mail" items="${mailList}">
+		<c:forEach var="mail" items="${recMailList}">
 			<tr>
 				<td><a href="viewMail?mail_num=${mail.getMail_num()}">${mail.mail_title}</a>
 				</td> <!-- 제목-->
 				
-				<td>${mail.member_num}</td> <!-- 기안자 -->
+				<td>${memberDTOList.get(status.index).getMember_name()}</td> <!-- 기안자 -->
 				
 				<td>${mail.mail_from_date}</td> <!-- 기안일 -->							
 			</tr>

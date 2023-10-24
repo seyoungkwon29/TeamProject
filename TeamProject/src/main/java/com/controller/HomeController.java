@@ -2,6 +2,7 @@ package com.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class HomeController {
 	MailService mailService; // 메일 서비스
 
 	@GetMapping("/")
-    public String home(HttpSession session, Model model) {
+    public String home(HttpSession session, Model model, HttpServletRequest request) {
 
         MemberDTO member = (MemberDTO) session.getAttribute("login");
         
@@ -62,8 +63,9 @@ public class HomeController {
 		model.addAttribute("communityList", communityList);
 		
 		// 메일 목록
+		
 		List<MailDTO> mailList = mailService.homeReceiveMailList(member.getMember_num());
-		model.addAttribute("mailList", mailList);
+		mailService.receiveMailList(request, session);
 		
         return "homePage";
     }
