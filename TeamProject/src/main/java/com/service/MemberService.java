@@ -163,5 +163,18 @@ public class MemberService {
 			out.close();
 		}
 	}
+
+	public String getPassword(int member_num) {
+		return dao.getPassword(member_num);
+	}
+
+	public int setCrytPassword(MemberDTO temp) {
+		return dao.setCrytPassword(temp);
+	}
+
+	public MemberDTO getMemberById(int member_num) {
+		return dao.getMemberById(member_num);
+	}
+
 	
 }//service end

@@ -84,7 +84,7 @@
 
 <div class="mypage-container">
 	<form action="loginCheck/update" method="post">
-	<input type="hidden" value="<%=member_num%>" " name="member_num">
+	<input type="hidden" value="<%=member_num%>" name="member_num">
 		<h1 style="margin: 0; color: #333; font-size: 30px; padding-bottom:60px;">마이 페이지</h1>
 
 		<div class="div-table-top" style="width: 100%;">
