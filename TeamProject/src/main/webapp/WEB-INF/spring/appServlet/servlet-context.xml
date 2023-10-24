@@ -18,7 +18,7 @@
 	<default-servlet-handler/>
 	
 	<resources mapping="/resources/**" location="/resources/" />
-
+	<resources mapping="/member/**" location="file:///c:/upload/member/" />
 	
 	<!-- 데이터 처리 필요 없는 주소 처리 -->
 	<view-controller path="/loginForm" view-name="loginForm"/><!-- homePage.jsp -->
