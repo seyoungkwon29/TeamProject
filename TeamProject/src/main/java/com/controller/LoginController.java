@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,11 @@ import com.service.MemberService;
 @Controller
 public class LoginController {
 	
-	private final static Logger log = LoggerFactory.getLogger(LoginController.class);
-	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
 	
 	@GetMapping("/login")
 	public String loginForm() {
@@ -34,22 +36,39 @@ public class LoginController {
 	
 	// 로그인
 	@PostMapping("/login") // jsp에서 login으로 데이터 전달
-	// session 사용할 경우 -> HttpSession import
 	public String login(
-			@RequestParam HashMap<String, String> loginParam,
+			@RequestParam("member_num") int member_num,
+			@RequestParam("password") String password,
 			Model model,
 			HttpSession session) {
-		log.debug("loginParam={}", loginParam);
-		MemberDTO member = memberService.login(loginParam);
+		String dbPassword = memberService.getPassword(member_num); // db 비밀번호
+
+		String crytPassword; // 암호화된 비밀번호
 		
-		if (member == null) {
-			model.addAttribute("mesg", "아이디 또는 비밀번호가 잘못입력되었습니다.");
-			return "loginForm";
+		// 입력한 비밀번호가 암호화 되어있지 않을 경우 암호화 실행
+		if (password.equalsIgnoreCase(dbPassword)) {
+			crytPassword = pwdEncoder.encode(dbPassword);
+			MemberDTO temp = new MemberDTO();
+			temp.setMember_num(member_num);
+			temp.setPassword(crytPassword);
+			int num = memberService.setCrytPassword(temp);
+			if (num != 0) {
+				System.out.println("비밀번호 암호화 성공");
+			}
 		}
-		member.setT_key(UUID.randomUUID().toString());
-		session.setAttribute("login", member);
-		LoginConstant.memberMap.put(member.getT_key(), member);
 		
+		boolean pwdEqual = pwdEncoder.matches(password, dbPassword);
+		System.out.println("pwdEqual >>>>>>>>>>>" + pwdEqual);
+		if (pwdEqual) {
+			MemberDTO member = memberService.getMemberById(member_num);
+			member.setT_key(UUID.randomUUID().toString());
+			session.setAttribute("login", member);
+			LoginConstant.memberMap.put(member.getT_key(), member);
+			
+			return "redirect:/";
+		} else {
+			session.setAttribute("mesg", "로그인 실패");
+		}
 		return "redirect:/";
 	}
 	
