@@ -22,8 +22,7 @@
 	MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
 	int member_num = dto.getMember_num(); 
 	String member_name = dto.getMember_name();
-	
- 	String photo =dto.getPhoto();
+ 	String photo = dto.getPhoto();
 %>
 
 
@@ -136,7 +135,7 @@
 
 <div class="attend-body">
 		<div class="main-mypage-section">
-			<img src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="100">
+			<img src="/member/<%= photo %>.png" width="100">
 			<div class="mem-name"><%=member_name%></div>
 		</div>
 

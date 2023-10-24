@@ -50,7 +50,7 @@
 	
 	<div class="icon-container">
 		<div class="total-icon">
-			<span><img class="menu_img" src="resources/memberphoto/${login.member_num}.png" height ="23px"></span>
+			<span><img class="menu_img" src="/member/${ login.photo }.png" height ="23px"></span>
 			<span class="mem_name">${login.member_name}</span>
 		</div>
 		
