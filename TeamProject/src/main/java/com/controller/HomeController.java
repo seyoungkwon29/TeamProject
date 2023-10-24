@@ -15,9 +15,11 @@ import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.dto.AppDocumentDTO;
 import com.dto.CommunityDTO;
+import com.dto.MailDTO;
 import com.dto.MemberDTO;
 import com.dto.NoticeDTO;
 import com.service.CommunityService;
+import com.service.MailService;
 import com.service.NoticeService;
 import com.service.SaveDocFormService;
 
@@ -34,6 +36,9 @@ public class HomeController {
 	
 	@Autowired
 	CommunityService communityService; // 자유게시판 서비스
+	
+	@Autowired
+	MailService mailService; // 메일 서비스
 
 	@GetMapping("/")
     public String home(HttpSession session, Model model) {
@@ -55,6 +60,10 @@ public class HomeController {
 		// 자유게시판
 		List<CommunityDTO> communityList = communityService.getCommunityDTOListTopN(3);
 		model.addAttribute("communityList", communityList);
+		
+		// 메일 목록
+		List<MailDTO> mailList = mailService.homeReceiveMailList(member.getMember_num());
+		model.addAttribute("mailList", mailList);
 		
         return "homePage";
     }
