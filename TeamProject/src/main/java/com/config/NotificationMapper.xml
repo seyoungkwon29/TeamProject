@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MailMapper">
+	<insert id="saveNotification" parameterType="NotificationDTO">
+		INSERT INTO notification VALUES(
+			notification_notinum_seq.nextval,
+			#{member_num},
+			#{noti_content},
+			#{noti_status},
+			sysdate
+		)
+	</insert>
+	
+	<select id="countNotification" parameterType="int" resultType="NotificationDTO">
+		SELECT * FROM notification
+		WHERE member_num = #{member_num} AND noti_status = 'N'
+	</select>
+
+</mapper>

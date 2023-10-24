@@ -5,6 +5,7 @@
 
 <div class="home" align="center">
 	<h2>홈</h2>
+	<h1>${login.t_key}</h1>
 	<br>
 	<ul>
 		<ol>마이페이지</ol>
@@ -15,5 +16,5 @@
 		<ol> <a href="calendar">캘린더</a> </ol>
 		<ol> <a href="loginCheck/logout">로그아웃</a> </ol>
 	</ul>
-	<span>${login.t_key}</span>
+	
 </div>

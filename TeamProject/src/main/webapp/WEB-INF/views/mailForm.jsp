@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <link href="resources/css/mailing.css" rel="stylesheet">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
 <script type="text/javascript">
 $(function(){
 var childWindow = null; //주소록 중복창 못띄우게 하기 위한 변수
