@@ -76,7 +76,19 @@ public class MemberDAO {
     public void updatePw(MemberDTO member) {
         session.update("MemberMapper.updatePw", member);
     }
-    
+
+	public String getPassword(int member_num) {
+		return session.selectOne("getPassword", member_num);
+	}
+
+	public int setCrytPassword(MemberDTO temp) {
+		return session.update("setCrytPassword", temp);
+	}
+
+	public MemberDTO getMemberById(int member_num) {
+		return session.selectOne("getMemberById", member_num);
+	}
+
     
     
     
