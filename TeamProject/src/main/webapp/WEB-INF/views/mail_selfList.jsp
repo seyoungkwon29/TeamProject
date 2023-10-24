@@ -11,8 +11,8 @@
 <link rel="stylesheet" type="text/css" href="resources/css/appMenu.css">
 <meta charset="UTF-8">
 <title>내게 쓴 메일함</title>
-
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#checkAll").click(function(){

@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
- 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +13,7 @@
 <title>메일 수신함</title>
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#checkAll").click(function(){

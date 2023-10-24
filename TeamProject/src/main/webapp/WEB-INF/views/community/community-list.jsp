@@ -10,6 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
 <title>자유게시판</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />

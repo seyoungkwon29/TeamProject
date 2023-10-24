@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="/favicon.ico">
 <title>타임라인</title>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 
 <script defer="defer" src="resources/vue-timeline/js/chunk-vendors.97895575.js"></script>
 <script defer="defer" src="resources/vue-timeline/js/app.c84fe729.js  "></script>
