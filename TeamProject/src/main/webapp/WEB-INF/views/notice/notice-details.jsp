@@ -18,12 +18,14 @@
 			<h1 class="f3">공지사항</h1>
 			<article class="pb3">
 				<h2 class="f4">${notice.title}</h2>
+				<p class="dib mv0 mr2 f5"><small class="mr1">글번호</small>${notice.noticeNum}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성자</small>${notice.memberName}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${notice.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
+				<p class="dib mv0 mr2 f5"><small class="mr1">조회수</small>${notice.views}</p>
 				<p class="measure lh-copy">${notice.content}</p>
 				<c:if test="${not empty notice.files}">
 				<div class="flex flex-column">
-					<p class="f5 mb1">첨부 파일</p>
+					<p class="f5 mb1"><small class="mr1">첨부 파일</small></p>
 					<c:forEach var="file" items="${notice.files}">
 					<spring:url var="fileUrl" value="/notices/${noticeNum}/files/${file.encodedOriginalFilename}"/>
 					<div class="mb1">					
@@ -42,7 +44,7 @@
 				</a>
 				<spring:url var="deleteNoticeUrl" value="/notices/${notice.noticeNum}/delete"/>
 				<form action="${deleteNoticeUrl}" method="post" class="w-50">
-					<button type="submit" class="button-reset b ph3 pv3 ba b--dark-red dark-red bg-transparent dim f5 dib w-100 mt3 mb3">삭제</button>
+					<button type="submit" id="removeCheck" class="button-reset b ph3 pv3 ba b--dark-red dark-red bg-transparent dim f5 dib w-100 mt3 mb3">삭제</button>
 				</form>
 			</div>
 			<spring:url var="noticeListUrl" value="/notices"/>
@@ -51,5 +53,14 @@
 			</a>
 		</section>
 	</main>
+	<script>
+	$(function(){
+	    $('#removeCheck').click(function(){
+	        if(!confirm('정말로 삭제하시겠습니까?')){
+	            return false;
+	        }
+	    });
+	});
+	</script>
 </body>
 </html>

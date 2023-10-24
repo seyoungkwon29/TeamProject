@@ -18,12 +18,14 @@
 			<h1 class="f3">자유게시판</h1>
 			<article class="pb3">
 				<h2 class="f4">${communityDetails.title}</h2>
+				<p class="dib mv0 mr2 f5"><small class="mr1">글번호</small>${communityDetails.comNum}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성자</small>${communityDetails.memberName}</p>
 				<p class="dib mv0 mr2 f5"><small class="mr1">작성일</small><fmt:formatDate value="${communityDetails.createdAt}" pattern="YYYY년 M월 d일 hh:mm"/></p>
+				<p class="dib mv0 mr2 f5"><small class="mr1">조회수</small>${communityDetails.views}</p>
 				<div>${communityDetails.content}</div>
 				<c:if test="${not empty communityDetails.files}">
 				<div class="flex flex-column">
-					<p class="f5 mb1">첨부 파일</p>
+					<p class="f5 mb1"><small class="mr1">첨부 파일</small></p>
 					<c:forEach var="file" items="${communityDetails.files}">
 					<spring:url var="fileUrl" value="/communities/${comNum}/files/${file.encodedOriginalFilename}"/>
 					<div class="mb1">					
@@ -105,7 +107,7 @@
 				</a>
 				<spring:url var="deleteCommunityUrl" value="/communities/${communityDetails.comNum}/delete"/>
 				<form action="${deleteCommunityUrl}" method="post" class="w-50">
-					<button type="submit" class="button-reset b ph3 pv3 ba b--dark-red dark-red bg-transparent dim f5 dib w-100 mt3 mb3">삭제</button>
+					<button type="submit" id="removeCheck" class="button-reset b ph3 pv3 ba b--dark-red dark-red bg-transparent dim f5 dib w-100 mt3 mb3">삭제</button>
 				</form>
 			</div>
 			<spring:url var="communityListUrl" value="/communities"/>
@@ -158,6 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			article.addEventListener('click', toggleReplyForm);
 		}
 	}
+});
+
+$(function(){
+    $('#removeCheck').click(function(){
+        if(!confirm('정말로 삭제하시겠습니까?')){
+            return false;
+        }
+    });
 });
 
 </script>
