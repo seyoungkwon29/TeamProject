@@ -90,7 +90,7 @@
     	</websocket:handshake-interceptors>	
 	</websocket:handlers>
 	
-	<beans:bean id="chattingHandler" class="com.controller.chatting.ChattingHandler"/>
+	<beans:bean id="chattingHandler" class="com.webSocket.ChattingHandler"/>
 	<beans:bean id="notificationHandler" class="com.webSocket.NotificationHandler"/>
    
 </beans:beans>

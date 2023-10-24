@@ -12,8 +12,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 </head>
 <body>
+	
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
 	<main class="mt6 w-100 center w-60-l">
 		<section class="mw8 center flex-auto">

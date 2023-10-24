@@ -159,7 +159,6 @@ public class PageDTO {
 		//끝 페이지
 		this.endPage = range * rangeSize;
 		this.setEndPage(endPage);
-		System.out.println("dto안 >>>"+this.endPage);
 
 		//게시판 시작번호
 		this.startList = (page - 1) * listSize;

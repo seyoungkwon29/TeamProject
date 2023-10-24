@@ -9,6 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항/글쓰기</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">

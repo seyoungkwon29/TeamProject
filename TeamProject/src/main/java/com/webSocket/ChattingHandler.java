@@ -1,4 +1,4 @@
-package com.controller.chatting;
+package com.webSocket;
 
 import java.util.HashMap;
 import java.util.List;
