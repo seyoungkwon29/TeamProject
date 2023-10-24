@@ -1,4 +1,4 @@
-package com.controller.community;
+package com.controller.notice;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dto.UploadFileDTO;
 
-public class UpdateCommunityForm {
+public class UpdateNoticeForm {
 	
-	private Long comNum;
+	private Long noticeNum;
 	private String memberName;
 	private String title;
 	private String content;
@@ -20,15 +20,15 @@ public class UpdateCommunityForm {
 	private List<Long> deleteFileIds;
 	
 	
-	public UpdateCommunityForm() {
+	public UpdateNoticeForm() {
 	}
 
-	public Long getComNum() {
-		return comNum;
+	public Long getNoticeNum() {
+		return noticeNum;
 	}
 
-	public void setComNum(Long comNum) {
-		this.comNum = comNum;
+	public void setNoticeNum(Long noticeNum) {
+		this.noticeNum = noticeNum;
 	}
 
 	public String getMemberName() {

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="NoticeMapper">
 
-	<resultMap id="NoticeResultMap" type="NoticeDTO">
+	<resultMap id="NoticeDTOResultMap" type="NoticeDTO">
 		<id property="noticeNum" column="notice_num" />
 		<result property="memberNum" column="member_num" />
 		<result property="memberName" column="member_name" />
@@ -13,8 +13,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="views" column="views" />
 		<result property="createdAt" column="created_at" />
 	</resultMap>
+	
+	<resultMap id="NoticeResultMap" type="Notice">
+		<id property="noticeNum" column="notice_num" />
+		<result property="memberNum" column="member_num" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="views" column="views" />
+		<result property="createdAt" column="created_at" />
+	</resultMap>
+	
+	<resultMap id="UploadFileResultMap" type="UploadFileDTO">
+		<id property="id" column="id"/>
+		<result property="noticeNum" column="notice_num"/>
+		<result property="originalFilename" column="original_filename"/>
+		<result property="storeFilename" column="store_filename"/>
+	</resultMap>
 
-	<insert id="insert" parameterType="NoticeDTO">
+	<insert id="insert" parameterType="Notice">
 		<selectKey keyProperty="noticeNum" resultType="Long" order="BEFORE">
 			SELECT NOTICE_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
@@ -37,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM notice
 	</select>
 
-	<select id="getNoticeDetailsByNum" parameterType="Long" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOByNum" parameterType="Long" resultMap="NoticeDTOResultMap">
 		SELECT
 			N.notice_num as notice_num,
 			N.member_num as member_num,
@@ -57,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM notice N
 	</select>
 	
-	<select id="getNoticeDetailsList" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOList" resultMap="NoticeDTOResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -84,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 	</select>
 
-	<update id="update" parameterType="NoticeDTO">
+	<update id="update" parameterType="Notice">
 		UPDATE notice
 		SET
 			title = #{title},
@@ -103,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   WHERE notice_num = #{noticeNum}
 	</update>
 	
-	<select id="getNoticeDetailsListByMemberName" parameterType="hashMap" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOListByMemberName" parameterType="hashMap" resultMap="NoticeDTOResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -139,7 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE member_name like #{memberName}
 	</select>
 	
-	<select id="getNoticeDetailsListContentLike" parameterType="hashMap" resultMap="NoticeResultMap">
+	<select id="getNoticeDTOListContentLike" parameterType="hashMap" resultMap="NoticeDTOResultMap">
 	<![CDATA[
 		SELECT *
 		FROM
@@ -175,11 +191,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE title LIKE #{content} or content LIKE #{content}
 	</select>
 	
-	<select id="getAllNotices" resultType="NoticeDTO" parameterType="int" >
-		SELECT *
-		FROM notice 
+	<insert id="insertFile" parameterType="NoticeUploadFileDTO">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			SELECT NOTICE_FILES_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO notice_files
+			(id, notice_num, original_filename, store_filename)
+		VALUES
+			(#{id}, #{noticeNum}, #{originalFilename}, #{storeFilename})
+	</insert>
+	
+	<delete id="deleteFile" parameterType="Long">
+		DELETE FROM notice_files where id=#{fileId}
+	</delete>
+	
+	<select id="getFilesByNoticeNum" parameterType="Long" resultMap="UploadFileResultMap">
+		SELECT id, original_filename, store_filename
+		FROM notice_files
+		WHERE notice_num=#{noticeNum}
 	</select>
-	
-	
 
 </mapper>

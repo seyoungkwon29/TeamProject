@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.common.PageRequestDTO;
 import com.dto.CommunityDTO;
+import com.dto.CommunityUploadFileDTO;
 import com.dto.UploadFileDTO;
 
 @Repository
@@ -46,24 +47,24 @@ public class CommunityDAO {
 		template.update("CommunityMapper.increaseViews", comNum);		
 	}
 	
-	public CommunityDTO getCommunityDetailsByNum(Long comNum) {
-		return template.selectOne("CommunityMapper.getCommunityDetailsByNum", comNum);
+	public CommunityDTO getCommunityDTOByNum(Long comNum) {
+		return template.selectOne("CommunityMapper.getCommunityDTOByNum", comNum);
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsList(PageRequestDTO page) {
-		return template.selectList("CommunityMapper.getCommunityDetailsList", page);
+	public List<CommunityDTO> getCommunityDTOList(PageRequestDTO page) {
+		return template.selectList("CommunityMapper.getCommunityDTOList", page);
 	}
 	
 	public Integer count() {
 		return template.selectOne("CommunityMapper.count");
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsListByMemberName(PageRequestDTO page, String memberName) {
+	public List<CommunityDTO> getCommunityDTOListByMemberName(PageRequestDTO page, String memberName) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("name", "%"+ memberName + "%");
-		return template.selectList("CommunityMapper.getCommunityDetailsListByMemberName", param);
+		return template.selectList("CommunityMapper.getCommunityDTOListByMemberName", param);
 	}
 	
 	public Integer countByMemberName(String memberName) {
@@ -71,12 +72,12 @@ public class CommunityDAO {
 		return template.selectOne("CommunityMapper.countByMemberName", memberName);
 	}
 	
-	public List<CommunityDTO> getCommunityDetailsListContentLike(PageRequestDTO page, String content) {
+	public List<CommunityDTO> getCommunityDTOListContentLike(PageRequestDTO page, String content) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("content", "%"+ content + "%");
-		return template.selectList("CommunityMapper.getCommunityDetailsListContentLike", param);
+		return template.selectList("CommunityMapper.getCommunityDTOListContentLike", param);
 	}
 	
 	public Integer countContentLike(String content) {
@@ -84,24 +85,18 @@ public class CommunityDAO {
 		return template.selectOne("CommunityMapper.countContentLike", content);
 	}
 
-	public void insertFile(UploadFileDTO file) {
-		
-		template.insert("CommunityMapper.insertFile", file);
+	public void insertFile(Long comNum, UploadFileDTO file) {
+		CommunityUploadFileDTO jdbcFile = new CommunityUploadFileDTO(comNum, file.getOriginalFilename(), file.getStoreFilename());
+		template.insert("CommunityMapper.insertFile", jdbcFile);
+		file.setId(jdbcFile.getId());
 	}
 
 	public void deleteFile(Long fileId) {
 		template.delete("CommunityMapper.deleteFile", fileId);
 	}
 	
-	public void insertImage(UploadFileDTO image) {
-		template.insert("CommunityMapper.insertImage", image);
-	}
-	
 	public List<UploadFileDTO> getFilesByComNum(Long comNum) {
 		return template.selectList("CommunityMapper.getFilesByComNum", comNum);
 	}
 	
-	public List<UploadFileDTO> getImagesByComNum(Long comNum) {
-		return template.selectList("CommunityMapper.getImagesByComNum", comNum);
-	}
 }

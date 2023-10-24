@@ -1,14 +1,14 @@
-package com.dto;
+package com.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CommunityDTO {
+import com.dto.UploadFileDTO;
 
-	private Long comNum;
+public class Notice {
+	private Long noticeNum;
 	private Long memberNum;
-	private String memberName;
 	private String title;
 	private String content;
 	private Integer views;
@@ -16,10 +16,9 @@ public class CommunityDTO {
 
 	private List<UploadFileDTO> files;
 	
-	public CommunityDTO() {
-	}
-
-	public CommunityDTO(Long memberNum, String title, String content) {
+	public Notice() {}
+	
+	public Notice(Long memberNum, String title, String content) {
 		this.memberNum = memberNum;
 		this.title = title;
 		this.content = content;
@@ -27,12 +26,12 @@ public class CommunityDTO {
 		this.createdAt = new Date();
 	}
 
-	public Long getComNum() {
-		return comNum;
+	public Long getNoticeNum() {
+		return noticeNum;
 	}
 
-	public void setComNum(Long comNum) {
-		this.comNum = comNum;
+	public void setNoticeNum(Long noticeNum) {
+		this.noticeNum = noticeNum;
 	}
 
 	public Long getMemberNum() {
@@ -41,14 +40,6 @@ public class CommunityDTO {
 
 	public void setMemberNum(Long memberNum) {
 		this.memberNum = memberNum;
-	}
-
-	public String getMemberName() {
-		return memberName;
-	}
-
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
 	}
 
 	public String getTitle() {
@@ -82,7 +73,7 @@ public class CommunityDTO {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-
+	
 	public List<UploadFileDTO> getFiles() {
 		if (this.files == null) {
 			this.files = new ArrayList<>();
@@ -90,26 +81,15 @@ public class CommunityDTO {
 		return files;
 	}
 
-	public void setFiles(List<UploadFileDTO> files) {
-		this.files = files;
-	}
-
-	
 	public void addFile(UploadFileDTO file) {
 		getFiles().add(file);
 	}
-	
-	public static CommunityDTO from(CommunityDTO community) {
-		
-		CommunityDTO communityDTO = new CommunityDTO(); 
-		communityDTO.setComNum(community.getComNum());
-		communityDTO.setMemberNum(community.getMemberNum());
-		communityDTO.setTitle(community.getTitle());
-		communityDTO.setContent(community.getContent());
-		communityDTO.setViews(community.getViews());
-		communityDTO.setCreatedAt(community.getCreatedAt());
-		communityDTO.setFiles(community.getFiles());
-		
-		return communityDTO;
+
+	@Override
+	public String toString() {
+		return "Notice [noticeNum=" + noticeNum + ", memberNum=" + memberNum + ", title=" + title + ", content="
+				+ content + ", views=" + views + ", createdAt=" + createdAt + "]";
 	}
+
+	
 }

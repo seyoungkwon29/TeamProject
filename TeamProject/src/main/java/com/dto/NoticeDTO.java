@@ -1,6 +1,9 @@
 package com.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.domain.Notice;
 
 public class NoticeDTO {
 	private Long noticeNum;
@@ -11,7 +14,10 @@ public class NoticeDTO {
 	private Integer views;
 	private Date createdAt;
 
+	private List<UploadFileDTO> files;
 	
+	
+
 	public NoticeDTO() {}
 
 	public NoticeDTO(Long memberNum, String title, String content) {
@@ -84,4 +90,30 @@ public class NoticeDTO {
 				+ ", title=" + title + ", content=" + content + ", views=" + views + ", createdAt=" + createdAt + "]";
 	}
 
+	
+	public Notice ToNotice() {
+		Notice notice = new Notice(this.memberNum, this.title, this.content);
+		return notice;
+	}
+	
+	public List<UploadFileDTO> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<UploadFileDTO> files) {
+		this.files = files;
+	}
+	
+	public static NoticeDTO from(Notice notice) {
+		
+		NoticeDTO noticeDTO = new NoticeDTO(); 
+		noticeDTO.setNoticeNum(notice.getNoticeNum());
+		noticeDTO.setMemberNum(notice.getMemberNum());
+		noticeDTO.setTitle(notice.getTitle());
+		noticeDTO.setContent(notice.getContent());
+		noticeDTO.setViews(notice.getViews());
+		noticeDTO.setCreatedAt(notice.getCreatedAt());
+		noticeDTO.setFiles(notice.getFiles());
+		return noticeDTO;
+	}
 }

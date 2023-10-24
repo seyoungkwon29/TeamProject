@@ -21,8 +21,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="community" items="${communityList.items}">
-					<spring:url var="communityDetailsUrl" value="/notices/${community.comNum}" />
+				<c:forEach var="community" items="${communityList}">
+					<spring:url var="communityDetailsUrl" value="/communities/${community.comNum}" />
 					<tr>
 						<th class="pv2 pr1 tl"><a href="${communityDetailsUrl}"
 							class="link-reset black dim">${community.comNum}</a></th>
