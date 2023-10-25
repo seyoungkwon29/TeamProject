@@ -1,82 +1,75 @@
 package com.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.constant.LoginConstant;
-import com.dto.AppDocumentDTO;
-import com.dto.ApprovalDTO;
 import com.dto.MemberDTO;
-import com.dto.NoticeDTO;
 import com.service.MemberService;
-import com.service.NoticeService;
-import com.service.SaveDocFormService;
 
 @Controller
 public class LoginController {
-	@Autowired
-	MemberService service;
-	@Autowired
-	NoticeService aservice;//공지사항 서비스
-	@Autowired
-	SaveDocFormService appService;//전자결재 서비스
 	
-	@RequestMapping("/")
-    public String redirect(HttpSession session) {
-		System.out.println("호출됨");
-
-        MemberDTO dto = (MemberDTO) session.getAttribute("login");
-        if (dto != null) {
-            return "homePage";
-        } else {
-            return "loginForm";
-        }
-    }
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	BCryptPasswordEncoder pwdEncoder;
+	
+	@GetMapping("/login")
+	public String loginForm() {
+		return "loginForm";
+	}
 	
 	// 로그인
-	@RequestMapping("/login") // jsp에서 login으로 데이터 전달
-	// session 사용할 경우 -> HttpSession import
+	@PostMapping("/login") // jsp에서 login으로 데이터 전달
 	public String login(
-			@RequestParam HashMap<String, String> map,
+			@RequestParam("member_num") int member_num,
+			@RequestParam("password") String password,
 			Model model,
-			HttpSession session,
-			AppDocumentDTO doc, ApprovalDTO app) {
-		System.out.println(map);
-		MemberDTO dto = service.login(map);
+			HttpSession session) {
+		String dbPassword = memberService.getPassword(member_num); // db 비밀번호
+
+		String crytPassword; // 암호화된 비밀번호
 		
-		if (dto != null) {
-			dto.setT_key(UUID.randomUUID().toString());
-			session.setAttribute("login", dto);
-			LoginConstant.memberMap.put(dto.getT_key(), dto);
-			//결재
-			int member_num = (int)((MemberDTO)session.getAttribute("login")).getMember_num(); 			
-			System.out.println("memnum>>"+member_num);
-			doc.setDoc_status("대기");
-			doc.setMember_num(member_num);
-			System.out.println("========= doc 확인 : " + doc);
-			List<AppDocumentDTO> appDocList = appService.selectHomeAppList(doc);
-			System.out.println("============ 홈화면 결재 리스트 : " + appDocList);
-			session.setAttribute("appDocList", appDocList); //기안한 문서
-			
-			//공지사항
-			List<NoticeDTO> list =  aservice.getAllNotices(member_num);
-			System.out.println("list>>"+list.toString());
-			session.setAttribute("HomeNoticelists",list);
-			
-			return "homePage";
-		} else {
-			model.addAttribute("mesg", "아이디 또는 비밀번호가 잘못입력되었습니다.");
-			return "loginForm";
+		// 입력한 비밀번호가 암호화 되어있지 않을 경우 암호화 실행
+		if (password.equalsIgnoreCase(dbPassword)) {
+			crytPassword = pwdEncoder.encode(dbPassword);
+			MemberDTO temp = new MemberDTO();
+			temp.setMember_num(member_num);
+			temp.setPassword(crytPassword);
+			int num = memberService.setCrytPassword(temp);
+			if (num != 0) {
+				System.out.println("비밀번호 암호화 성공");
+			}
 		}
+		
+		boolean pwdEqual = pwdEncoder.matches(password, dbPassword);
+		System.out.println("pwdEqual >>>>>>>>>>>" + pwdEqual);
+		if (pwdEqual) {
+			MemberDTO member = memberService.getMemberById(member_num);
+			member.setT_key(UUID.randomUUID().toString());
+			session.setAttribute("login", member);
+			LoginConstant.memberMap.put(member.getT_key(), member);
+			
+			return "redirect:/";
+		} else {
+			session.setAttribute("mesg", "로그인 실패");
+		}
+		return "redirect:/";
 	}
 	
 	// 로그아웃

@@ -1,4 +1,4 @@
-package com.controller.chatting;
+package com.webSocket;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 
 
 @Component
-public class SocketHandler extends TextWebSocketHandler {
+public class ChattingHandler extends TextWebSocketHandler {
 	
 	HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 	@Autowired

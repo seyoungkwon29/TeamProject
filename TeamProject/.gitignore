@@ -5,6 +5,12 @@
 # 파일 업로드 디렉토리
 files/
 
+# MANIFEST.MF 파일 무시
+MANIFEST.MF
+
+# pom.properties 파일 무시
+pom.properties
+
 ### Eclipse ###
 .metadata
 bin/
@@ -17,6 +23,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+eclipse/
 
 # External tool builders
 .externalToolBuilders/
@@ -118,6 +125,7 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # Eclipse m2e generated files
+src/main/webapp/META-INF/
 # Eclipse Core
 .project
 # JDT-specific (Eclipse Java Development Tools)

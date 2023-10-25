@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.common.PageRequestDTO;
+import com.domain.Notice;
 import com.dto.CommunityDTO;
 import com.dto.NoticeDTO;
+import com.dto.NoticeUploadFileDTO;
+import com.dto.UploadFileDTO;
 
 @Repository
 public class NoticeDAO {
@@ -18,19 +21,19 @@ public class NoticeDAO {
 	@Autowired
 	SqlSessionTemplate template;
 	
-	public void insert(NoticeDTO notice) {
+	public void insert(Notice notice) {
 		template.insert("NoticeMapper.insert", notice);
 	}
 
-	public NoticeDTO getNoticeByNo(Long noticeNum) {
+	public Notice getNoticeByNum(Long noticeNum) {
 		return template.selectOne("NoticeMapper.getNoticeByNum", noticeNum);
 	}
 
-	public List<NoticeDTO> getNoticeList() {
+	public List<Notice> getNoticeList() {
 		return template.selectList("NoticeMapper.getNoticeList");
 	}
 
-	public void update(NoticeDTO notice) {
+	public void update(Notice notice) {
 		template.update("NoticeMapper.update", notice);
 	}
 
@@ -38,12 +41,12 @@ public class NoticeDAO {
 		template.delete("NoticeMapper.delete", noticeNum);
 	}
 
-	public NoticeDTO getNoticeDetailsByNo(Long noticeNum) {
-		return template.selectOne("NoticeMapper.getNoticeDetailsByNum", noticeNum);
+	public NoticeDTO getNoticeDTOByNum(Long noticeNum) {
+		return template.selectOne("NoticeMapper.getNoticeDTOByNum", noticeNum);
 	}
 
-	public List<NoticeDTO> getNoticeDetailsList(PageRequestDTO page) {
-		return template.selectList("NoticeMapper.getNoticeDetailsList", page);
+	public List<NoticeDTO> getNoticeDTOList(PageRequestDTO page) {
+		return template.selectList("NoticeMapper.getNoticeDTOList", page);
 	}
 
 	public void increaseViews(Long noticeNum) {
@@ -54,12 +57,12 @@ public class NoticeDAO {
 		return template.selectOne("NoticeMapper.countNotice");
 	}
 	
-	public List<NoticeDTO> getNoticeDetailsListByMemberName(PageRequestDTO page, String memberName) {
+	public List<NoticeDTO> getNoticeDTOListByMemberName(PageRequestDTO page, String memberName) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("name", "%"+ memberName + "%");
-		return template.selectList("NoticeMapper.getNoticeDetailsListByMemberName", param);
+		return template.selectList("NoticeMapper.getNoticeDTOListByMemberName", param);
 	}
 	
 	public Integer countNoticeByMemberName(String memberName) {
@@ -67,24 +70,29 @@ public class NoticeDAO {
 		return template.selectOne("NoticeMapper.countNoticeByMemberName", memberName);
 	}
 	
-	public List<NoticeDTO> getNoticeDetailsListContentLike(PageRequestDTO page, String content) {
+	public List<NoticeDTO> getNoticeDTOListContentLike(PageRequestDTO page, String content) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("page", page.getPage());
 		param.put("size", page.getSize());
 		param.put("content", "%"+ content + "%");
-		return template.selectList("NoticeMapper.getNoticeDetailsListContentLike", param);
+		return template.selectList("NoticeMapper.getNoticeDTOListContentLike", param);
 	}
 	
 	public Integer countNoticeContentLike(String content) {
 		content = "%" + content + "%";
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
-
-
-
-	public List<NoticeDTO> getAllNotices(int member_num) {
-		System.out.println("member_num >>>>>>>>" + member_num);
-		return template.selectList("NoticeMapper.getNoticeList", member_num);
+	public void insertFile(Long noticeNum, UploadFileDTO file) {
+		NoticeUploadFileDTO jdbcFile = new NoticeUploadFileDTO(noticeNum, file.getOriginalFilename(), file.getStoreFilename());
+		template.insert("NoticeMapper.insertFile", jdbcFile);
+		file.setId(jdbcFile.getId());
 	}
-
+	
+	public List<UploadFileDTO> getFilesByNoticeNum(Long noticeNum) {
+		return template.selectList("NoticeMapper.getFilesByNoticeNum", noticeNum);
+	}
+	
+	public void deleteFile(Long fileId) {
+		template.delete("NoticeMapper.deleteFile", fileId);
+	}
 }

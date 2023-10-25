@@ -1,6 +1,10 @@
 package com.controller.notice;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class NoticeForm {
 	
@@ -11,6 +15,9 @@ public class NoticeForm {
 	
 	@NotBlank
 	private String content;
+
+	private List<MultipartFile> attachFiles;
+	
 	
 	public NoticeForm() {
 	}
@@ -41,5 +48,16 @@ public class NoticeForm {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+
+	public List<MultipartFile> getAttachFiles() {
+		return attachFiles;
+	}
+	
+	public void setAttachFiles(List<MultipartFile> attachFiles) {
+		this.attachFiles = attachFiles;
+	}
+
+
 	
 }

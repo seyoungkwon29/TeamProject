@@ -121,6 +121,11 @@ public class MailDAO {
 		int res = session.delete("deleteRecMail",mailRecDTO);
 	}
 
+	public List<MailDTO> homeReceiveMailList(int member_num) {
+		List<MailDTO> receiveList = session.selectList("homeReceiveMailList", member_num);
+		return receiveList;
+	}
+
 	
 	
 }

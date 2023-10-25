@@ -6,11 +6,15 @@
 <meta charset="UTF-8">
 <title>홈</title>
 
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
+
 <!-- link : css -->
 <link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 <link rel="stylesheet" type="text/css" href="resources/css/homePage.css">
 </head>
 <body>
+
 	<!-- 고정 메인 메뉴바 -->
 	<jsp:include page="common/menu.jsp" flush="true" />
 	<br>

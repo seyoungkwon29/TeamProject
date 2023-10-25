@@ -27,6 +27,7 @@
   	    reader.addEventListener("load", function () {
   	        img.src = this.result;
   	    });
+  	    
   	    img.onload = function () {
   	      // 이미지 크기를 가로 크기에 맞춰 조정
   	        var targetWidth = 150;

@@ -19,7 +19,7 @@
 <script src="resources/js/summernote-ko-KR.js"></script>
 
 <link rel="stylesheet" href="resources/css/summernote-lite.css">
-
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 </head>
 <body>
 	<jsp:include page="../common/menu.jsp" flush="true" />

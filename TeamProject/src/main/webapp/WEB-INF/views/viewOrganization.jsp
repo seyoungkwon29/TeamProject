@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/organization.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
 
 <title>조직도</title>
 </head>
