@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.dto.MemberDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <%   if (session.getAttribute("mesg") != null) { %>
 		<script type="text/javascript">
@@ -9,28 +10,30 @@
 		</script>
 <% session.removeAttribute("mesg"); } %>
  
-<% 
-	MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
-	int member_num = dto.getMember_num();
-	String member_name = dto.getMember_name();
-	String div_name = dto.getDiv_name();
-	String rank = dto.getRank();
-	String address = dto.getAddress();
-	String phone = dto.getPhone();
-	String mail = dto.getMail();
-	String hire_date = dto.getHire_date();
-	String retire_date = dto.getRetire_date();
-	String ssn = dto.getSsn();
-	String password = dto.getPassword();
-	String gender = dto.getGender();
-	String photo =dto.getPhoto();
-	int annual_leave = dto.getAnnual_leave();
-%>     
+<%
+ 	MemberDTO dto = (MemberDTO)session.getAttribute("login"); 
+ 	int member_num = dto.getMember_num();
+ 	String member_name = dto.getMember_name();
+ 	String div_name = dto.getDiv_name();
+ 	String rank = dto.getRank();
+ 	String address = dto.getAddress();
+ 	String phone = dto.getPhone();
+ 	String mail = dto.getMail();
+ 	String hire_date = dto.getHire_date();
+ 	String retire_date = dto.getRetire_date();
+ 	String ssn = dto.getSsn();
+ 	String password = dto.getPassword();
+ 	String gender = dto.getGender();
+ 	String photo =dto.getPhoto();
+ 	int annual_leave = dto.getAnnual_leave();
+ 	
+ 	String dir = (String)session.getAttribute("dir");
+
+ %>     
 <link href="resources/css/pwchange.css" rel="stylesheet">
 <link href="resources/css/photochange.css" rel="stylesheet">
 	
 	
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 
 	$(function() {
@@ -92,9 +95,7 @@
 			  <tbody><tr>
 			    <td class="tr-left">프로필 사진</td>
 			    <td class="tr-right">
-		    	 	
-				     <img class="mem-img" src="resources/memberphoto/<%=dto.getMember_num()%>.png" width="230" height="auto" /><br><br>
-<%-- 						<img class="mem-img" src="/profilepic/<%=dto.getPhoto()%>"><br><br>					     --%>
+					<img class="mem-img" src="/member/<%= photo %>.png" width="230" height="auto" /><br><br>
 	        		<a class="prof-button" id="profile_pic">프로필사진 변경</a> &nbsp;&nbsp;
 	       			<a class="prof-button" id="pw_change">비밀번호 변경</a>
 	     		</td>
