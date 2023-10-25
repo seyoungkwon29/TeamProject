@@ -14,7 +14,7 @@
 <jsp:include page="../common/liveNotification.jsp" flush="true" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
+	<jsp:include page="../common/menu.jsp" flush="true" />
 	<main class="mt6 w-100 center w-60-l">
 		<section class="mw8 center flex-auto">
 			<h1 class="f3">자유게시판</h1>
