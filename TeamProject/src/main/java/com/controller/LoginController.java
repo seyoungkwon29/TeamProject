@@ -43,15 +43,15 @@ public class LoginController {
 			HttpSession session) {
 		String dbPassword = memberService.getPassword(member_num); // db 비밀번호
 
-		String crytPassword; // 암호화된 비밀번호
+		String cryptPassword; // 암호화된 비밀번호
 		
 		// 입력한 비밀번호가 암호화 되어있지 않을 경우 암호화 실행
 		if (password.equalsIgnoreCase(dbPassword)) {
-			crytPassword = pwdEncoder.encode(dbPassword);
+			cryptPassword = pwdEncoder.encode(dbPassword);
 			MemberDTO temp = new MemberDTO();
 			temp.setMember_num(member_num);
-			temp.setPassword(crytPassword);
-			int num = memberService.setCrytPassword(temp);
+			temp.setPassword(cryptPassword);
+			int num = memberService.setCryptPassword(temp);
 			if (num != 0) {
 				System.out.println("비밀번호 암호화 성공");
 			}
