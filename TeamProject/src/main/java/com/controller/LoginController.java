@@ -46,7 +46,7 @@ public class LoginController {
 		String cryptPassword; // 암호화된 비밀번호
 		
 		// 입력한 비밀번호가 암호화 되어있지 않을 경우 암호화 실행
-		if (password.equalsIgnoreCase(dbPassword)) {
+		if (password.equals(dbPassword)) {
 			cryptPassword = pwdEncoder.encode(dbPassword);
 			MemberDTO temp = new MemberDTO();
 			temp.setMember_num(member_num);
