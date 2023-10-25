@@ -30,8 +30,6 @@ public class MemberController {
 	MemberService service;
 	@Autowired // 암호화 기능 API 추가
 	BCryptPasswordEncoder pwdEncoder;
-	@Autowired
-	private ServletContext servletContext;
 	
 	// 마이페이지
 	@RequestMapping("/loginCheck/myPage")
