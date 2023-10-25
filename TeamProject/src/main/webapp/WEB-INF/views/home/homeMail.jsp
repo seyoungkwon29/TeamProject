@@ -12,7 +12,7 @@
 			<th class="th-man">발신자</th>
 			<th class="th-time">받은 시간</th>
 		</tr>
-		<c:forEach var="mail" items="${recMailList}">
+		<c:forEach var="mail" items="${recMailList}" begin="0" end="2">
 			<tr>
 				<td><a href="viewMail?mail_num=${mail.getMail_num()}">${mail.mail_title}</a>
 				</td> <!-- 제목-->

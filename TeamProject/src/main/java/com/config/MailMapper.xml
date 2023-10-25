@@ -118,7 +118,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="homeReceiveMailList" parameterType="int" resultType="MailDTO">
 		SELECT *
-		FROM (
+		FROM 
+		(
 		    SELECT *
 		    FROM mail
 		    WHERE member_num != #{member_num} AND mail_num IN

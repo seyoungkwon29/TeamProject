@@ -25,26 +25,26 @@
 			<div class="flex flex-auto items-center justify-start center">
 				<spring:url var="newCommunityUrl" value="/communities/new"></spring:url>
 				<form:form action="${newCommunityUrl}" method="post" enctype="multipart/form-data" modelAttribute="communityForm" cssClass="flex flex-column flex-auto">
-					<div class="flex flex-column mb3">
-						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
-						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
+					<div class="flex flex-column mb3" style="margin-top: 15px;">
+						<form:label id="title" path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
+						<form:input id="title-input" path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
 						<form:errors path="title" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
-						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
+						<form:label id="t-content" path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
 						<textarea id="summernote" name="content"></textarea>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
-						<label for="files">첨부파일</label>
+						<label id="t-file" for="files">첨부파일</label>
 						<input name="files" type="file" multiple>
 					</div>
 					
-					<div class="flex flex-column mb3">
-						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>
+					<div class="flex flex-column mb3" style="margin-top: 15px;">
+						<button type="submit" id="write-button" class="button-reset b ba b--white white dim f5 dib w-100 mb3">작성</button>
 						<spring:url var="communityListUrl" value="/communities"/>
 						<a href="${communityListUrl}" class="link-reset flex w-100">
-							<input class="button-reset b ph3 pv3 ba b--black bg-transparent dim f5 dib w-100 tc" value="뒤로가기">
+							<input id="back-button" class="button-reset b ba b--black dim f5 dib w-100 tc" value="뒤로가기">
 						</a>
 					</div>
 				</form:form>
