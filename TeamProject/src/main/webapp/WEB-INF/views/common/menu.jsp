@@ -56,9 +56,9 @@
 		
 		<div class="total-bottom-ul">
 	        <ul>
-	            <li><a class="icon" href="#"><img
+	            <li><a class="icon" href="chatting"><img
 	                    src="resources/image/icon/alarm.png" alt="알람"></a></li>
-	            <li><a class="icon" href="#"><img
+	            <li><a class="icon" href="mailReceiveList"><img
 	                    src="resources/image/icon/mail.png" alt="메일"></a></li>
 	            <li><a class="icon" href="loginCheck/logout"><img
 	                    src="resources/image/icon/logout.png" alt="로그아웃"></a></li>
