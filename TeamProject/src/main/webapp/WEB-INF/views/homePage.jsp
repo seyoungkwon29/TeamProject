@@ -13,7 +13,13 @@
 <body>
 	<!-- 고정 메인 메뉴바 -->
 	<jsp:include page="common/menu.jsp" flush="true" />
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<span>${login.t_key}</span>
 	<jsp:include page="home/homePage.jsp" flush="true" />
-
 </body>
 </html>

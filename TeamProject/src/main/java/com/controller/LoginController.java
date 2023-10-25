@@ -43,7 +43,7 @@ public class LoginController {
     }
 	
 	// 로그인
-	@RequestMapping("login") // jsp에서 login으로 데이터 전달
+	@RequestMapping("/login") // jsp에서 login으로 데이터 전달
 	// session 사용할 경우 -> HttpSession import
 	public String login(
 			@RequestParam HashMap<String, String> map,

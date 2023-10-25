@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="createTodo" parameterType="TodoDTO" useGeneratedKeys="true" 
 	   	keyProperty="todo_num" keyColumn="todo_num">
 		INSERT INTO todo VALUES(
-			seq_todo_num.nextval,
+			#{todo_num},
 			#{todo_title},
 			#{status},
 			#{start_date},

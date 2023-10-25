@@ -84,7 +84,7 @@ public class NoticeDAO {
 
 	public List<NoticeDTO> getAllNotices(int member_num) {
 		System.out.println("member_num >>>>>>>>" + member_num);
-		return template.selectList("NoticeMapper.getAllNotices", member_num);
+		return template.selectList("NoticeMapper.getNoticeList", member_num);
 	}
 
 }

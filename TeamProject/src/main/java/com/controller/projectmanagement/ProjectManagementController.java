@@ -113,11 +113,10 @@ public class ProjectManagementController {
 	}
 	
 	@PostMapping("/deleteProject")
-	public void deleteProject(@RequestBody Map<String,Object> parameters) {
+	public int deleteProject(@RequestBody Map<String,Object> parameters) {
 		int project_num = (int)parameters.get("project_num");
-		System.out.println(project_num);
 		service.deleteProject(project_num);
-		System.out.println(project_num);
+		return project_num;
 	}
 	
 	
