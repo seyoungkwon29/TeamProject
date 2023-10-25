@@ -10,7 +10,7 @@
 
 <div class="menu-top-container">
 	<div class="top-brand">
-		<a href="/"><img class="menuTop-img" src="resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
+		<a href="/"><img class="menuTop-img" src="/resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
 	</div>
 	<div class="link-ul">
 		<ul>
@@ -50,18 +50,18 @@
 	
 	<div class="icon-container">
 		<div class="total-icon">
-			<span><img class="menu_img" src="resources/memberphoto/${login.member_num}.png" height ="23px"></span>
+			<span><img class="menu_img" src="/resources/memberphoto/${login.member_num}.png" height ="23px"></span>
 			<span class="mem_name">${login.member_name}</span>
 		</div>
 		
 		<div class="total-bottom-ul">
 	        <ul>
 	            <li><a class="icon" href="#"><img
-	                    src="resources/image/icon/alarm.png" alt="알람"></a></li>
-	            <li><a class="icon" href="#"><img
-	                    src="resources/image/icon/mail.png" alt="메일"></a></li>
+	                    src="/resources/image/icon/alarm.png" alt="알람"></a></li>
+	            <li><a class="icon" href="mailReceiveList"><img
+	                    src="/resources/image/icon/mail.png" alt="메일"></a></li>
 	            <li><a class="icon" href="loginCheck/logout"><img
-	                    src="resources/image/icon/logout.png" alt="로그아웃"></a></li>
+	                    src="/resources/image/icon/logout.png" alt="로그아웃"></a></li>
 	        </ul>
         </div>
     </div>

@@ -12,8 +12,8 @@
 			<th class="th-man">기안자</th>
 			<th class="th-time">기안일</th>
 		</tr>
-		
-		<c:forEach var="app" items="${appDocList}">
+
+		<c:forEach var="app" items="${appDocList}" begin="0" end="2">
 			<tr>
 				<td><a href="clickDocContent?type=app&docNo=${app.doc_no}&docStatus=${app.app_status}">
 					${app.doc_title}</a>

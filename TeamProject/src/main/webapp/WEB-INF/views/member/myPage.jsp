@@ -77,7 +77,6 @@
         var input = this.value.replace(/\D/g, ""); // 숫자만 남기도록 정규식 사용
         var formatted = input.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 하이픈 추가
         this.value = formatted;
-        console.log("버노잘들어갔나??")
     });
 	
 });//윈도우 end
@@ -85,7 +84,7 @@
 
 <div class="mypage-container">
 	<form action="loginCheck/update" method="post">
-	<input type="hidden" value="<%=member_num%>" " name="member_num">
+	<input type="hidden" value="<%=member_num%>" name="member_num">
 		<h1 style="margin: 0; color: #333; font-size: 30px; padding-bottom:60px;">마이 페이지</h1>
 
 		<div class="div-table-top" style="width: 100%;">

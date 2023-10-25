@@ -39,6 +39,7 @@
                 <value>classpath:com/config/ProjectMapper.xml</value>
                 <value>classpath:com/config/FileBoardMapper.xml</value>
                 <value>classpath:com/config/TodoMapper.xml</value>
+                <value>classpath:com/config/NotificationMapper.xml</value>
             </list>
         </property>
         <property name="typeAliases">
@@ -69,8 +70,9 @@
                 <value>com.dto.ProjectDTO</value>
                 <value>com.dto.FileBoardDTO</value>
                 <value>com.dto.TodoDTO</value>
-                
+                <value>com.dto.NotificationDTO</value>
                 <value>com.domain.Notice</value>
+
             </list>
         </property>
         <!-- Mybatis `jdbcTypeForNull` 설정 -->

@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>근태 관리</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="common/liveNotification.jsp" flush="true" />
 	<link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 	<link rel="stylesheet" href="resources/css/attendancePage.css">
 </head>

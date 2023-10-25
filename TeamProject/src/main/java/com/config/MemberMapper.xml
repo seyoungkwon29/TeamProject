@@ -7,7 +7,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="login" resultType="MemberDTO"  parameterType="HashMap">
 		select * from member where member_num = #{member_num} and password = #{password}
 	</select>
+	
+	<select id="getPassword" resultType="String" parameterType="Integer">
+		select password from member where member_num = #{member_num}
+	</select>
+	
+	<update id="setCrytPassword" parameterType="MemberDTO">
+		update member set password = #{password} where member_num = #{member_num}
+	</update>
 		
+	<select id="getMemberById" parameterType="Integer" resultType="MemberDTO">
+		select * from member where member_num = #{member_num}
+	</select>
+	
 	<select id="pwSearch" resultType="String" parameterType="MemberDTO">
 		select password from member 
 		where member_num = #{member_num}

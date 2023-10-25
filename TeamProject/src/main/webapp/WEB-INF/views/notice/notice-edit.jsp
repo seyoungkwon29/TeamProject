@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <title>공지사항/글 수정</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<jsp:include page="../common/liveNotification.jsp" flush="true" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
@@ -22,17 +24,17 @@
 				<spring:url var="updateNoticeUrl" value="/notices/${noticeForm.noticeNum}/edit"/>
 				<form:form action="${updateNoticeUrl}" method="post" enctype="multipart/form-data" modelAttribute="noticeForm" cssClass="flex flex-column flex-auto">
 					<div class="flex flex-column mb3">
-						<form:label path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
-						<form:input path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
+						<form:label id="title" path="title" cssClass="db lh-copy f5 mb2">제목</form:label>
+						<form:input id="title-input" path="title" cssClass="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 mb2"/>
 						<form:errors path="title" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
-						<form:label path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
+						<form:label id="t-content" path="content" cssClass="db lh-copy f5 mb2">내용</form:label>
 						<form:textarea id="summernote" path="content"/>
 						<form:errors path="content" cssClass="f6 dark-red db mb2"/>
 					</div>
 					<div class="flex flex-column mb3">
-						<label for="files" class="mb1">첨부파일</label>
+						<label id="t-file" for="files" class="mb1">첨부파일</label>
 						<div id="attach-files-list">
 						<c:forEach var="file" items="${noticeForm.attachFiles}">
 						<spring:url var="fileUrl" value="/notices/${noticeNum}/files/${file.originalFilename}"/>
@@ -45,10 +47,10 @@
 						<input name="files" type="file" multiple>
 					</div>
 					<div class="flex flex-column mb3">
-						<button type="submit" class="button-reset b ph3 pv3 ba b--white white bg-green dim f5 dib w-100 mb3">작성</button>
+						<button id="write-button" type="submit" class="button-reset b ba b--white white dim f5 dib w-100 mb3">작성</button>
 						<spring:url var="noticeDeatilsUrl" value="/notices/${noticeForm.noticeNum}"/>
 						<a href="${noticeDeatilsUrl}" class="link-reset flex w-100">
-							<input class="button-reset b ph3 pv3 ba b--black bg-transparent dim f5 dib w-100 tc" value="뒤로가기">
+							<input id="back-button" class="button-reset b ba b--black dim f5 dib w-100 tc" value="뒤로가기">
 						</a>
 					</div>
 				</form:form>

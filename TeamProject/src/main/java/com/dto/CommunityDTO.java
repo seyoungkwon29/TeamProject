@@ -98,4 +98,18 @@ public class CommunityDTO {
 	public void addFile(UploadFileDTO file) {
 		getFiles().add(file);
 	}
+	
+	public static CommunityDTO from(CommunityDTO community) {
+		
+		CommunityDTO communityDTO = new CommunityDTO(); 
+		communityDTO.setComNum(community.getComNum());
+		communityDTO.setMemberNum(community.getMemberNum());
+		communityDTO.setTitle(community.getTitle());
+		communityDTO.setContent(community.getContent());
+		communityDTO.setViews(community.getViews());
+		communityDTO.setCreatedAt(community.getCreatedAt());
+		communityDTO.setFiles(community.getFiles());
+		
+		return communityDTO;
+	}
 }

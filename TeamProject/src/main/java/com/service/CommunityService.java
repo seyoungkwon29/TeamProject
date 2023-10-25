@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.common.PageRequestDTO;
 import com.common.PageResponseDTO;
 import com.dao.CommunityDAO;
+import com.dao.MemberDAO;
 import com.dao.ReplyDAO;
 import com.dto.CommunityDTO;
+import com.dto.MemberDTO;
 import com.dto.ReplyDTO;
 import com.dto.UploadFileDTO;
 
@@ -23,6 +25,9 @@ public class CommunityService {
 	
 	@Autowired
     private ReplyDAO replyDao;
+	
+	@Autowired
+	private MemberDAO memberDao;
 
 	@Transactional(rollbackFor=Exception.class)
     public void save(CommunityDTO community) {
@@ -45,7 +50,11 @@ public class CommunityService {
         	 community.addFile(file);
          }
          
-         return community;
+         MemberDTO member = memberDao.readMember(community.getMemberNum().intValue());
+ 		 CommunityDTO communityDTO = CommunityDTO.from(community);
+ 		 communityDTO.setMemberName(member.getMember_name());
+         
+         return communityDTO;
     }
 
 	@Transactional(readOnly=true)
