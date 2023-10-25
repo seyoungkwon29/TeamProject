@@ -81,8 +81,8 @@ public class MemberDAO {
 		return session.selectOne("getPassword", member_num);
 	}
 
-	public int setCrytPassword(MemberDTO temp) {
-		return session.update("setCrytPassword", temp);
+	public int setCryptPassword(MemberDTO temp) {
+		return session.update("setCryptPassword", temp);
 	}
 
 	public MemberDTO getMemberById(int member_num) {
