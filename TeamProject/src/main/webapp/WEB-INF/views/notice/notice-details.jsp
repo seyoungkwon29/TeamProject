@@ -27,7 +27,7 @@
 						<p id="title-mv" class="dib mv0 mr2 f5"><small class="title-mr">조회수</small>${notice.views}</p>
 					</div>
 					<div id="title-content">
-						<p class="measure lh-copy">${notice.content}</p>
+						${notice.content}
 					</div>
 					<c:if test="${not empty notice.files}">
 					<div class="flex flex-column">
