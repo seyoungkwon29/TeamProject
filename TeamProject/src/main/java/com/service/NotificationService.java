@@ -13,9 +13,8 @@ import com.dto.NotificationDTO;
 public class NotificationService {
 	@Autowired
 	NotificationDAO dao;
-	public void saveNotification(int member_num, String content) {
-		NotificationDTO notiDTO = new NotificationDTO(member_num, content);
-		dao.saveNotification(notiDTO);
+	public void saveNotification(NotificationDTO notificationDTO) {
+		dao.saveNotification(notificationDTO);
 		
 	}
 	public int countNotification(int member_num) {
@@ -26,6 +25,10 @@ public class NotificationService {
 	public List<NotificationDTO> notReadingNotification(int member_num) {
 		List<NotificationDTO> notReadingNotiList = dao.countNotification(member_num);
 		return notReadingNotiList;
+	}
+	public void deleteNotification(int noti_num) {
+		dao.deleteNotification(noti_num);
+		
 	}
 	
 }

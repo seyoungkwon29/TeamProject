@@ -1,5 +1,6 @@
 package com.webSocket;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.dto.MemberDTO;
+import com.dto.NotificationDTO;
 import com.service.NotificationService;
 
 @Component
@@ -22,15 +24,29 @@ public class NotificationHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) {
+		
+		System.out.println("텍스트 메세지 핸들러 도착");
+		System.out.println("메시지 페이로드 : "+message.getPayload().toString());
+		
+		String originMessage = message.getPayload();
+		String strArr[] = originMessage.split(",");
+		String project_num = strArr[strArr.length-1];
+		
 		String msg = "프로젝트가 추가되었습니다.";
-		String[] projectMembers = message.getPayload().split(",");
+		System.out.println("========");
+		
+		String projectMembers[] = Arrays.copyOf(strArr, strArr.length-2);	
+		System.out.println(projectMembers.toString());
+
 		//알림 발송
 		for(String member_num : projectMembers) {
-			service.saveNotification(Integer.parseInt(member_num), msg);
+			NotificationDTO notiDTO = new NotificationDTO(Integer.parseInt(member_num), msg);
+			service.saveNotification(notiDTO);
+			System.out.println("방금 저장된 noti_num : " + notiDTO.getNoti_num());
 			if(isConnected(member_num)) {
 				WebSocketSession receiverWebSocketSession = members.get(member_num);
 				try {
-					receiverWebSocketSession.sendMessage(new TextMessage(msg));
+					receiverWebSocketSession.sendMessage(new TextMessage(msg+","+project_num+","+notiDTO.getNoti_num()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
