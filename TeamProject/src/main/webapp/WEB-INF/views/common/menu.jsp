@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <spring:url var="menuCss" value="/resources/css/menu.css" htmlEscape="true"/>
 <link rel="stylesheet" href="${menuCss}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <spring:url var="menuJs" value="/resources/js/menu.js" htmlEscape="true"/>
 <script src="${menuJs}"></script>
 
