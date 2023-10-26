@@ -223,4 +223,5 @@ $(document).ready(function(){
 	  background-color: #F1D031;
 	}	
 </style>
+
 <div id="toast"></div>

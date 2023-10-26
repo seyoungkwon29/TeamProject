@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<spring:url value="/resources/css/menu.css"/>">
 <link rel="stylesheet" href="<spring:url value="/resources/css/utility.css"/>">
+<!-- <link rel="stylesheet" href="/resources/css/notice2.css"> -->
 <title>공지사항</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <jsp:include page="../common/liveNotification.jsp" flush="true" />
@@ -17,28 +18,28 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/menu.jsp" flush="true" />
 	<main class="mt6 w-100 center w-60-l">
-		<section class="mw8 center flex-auto">
+		<section id="section-top" class="flex-auto">
 			<h1 class="f3">공지사항</h1>
 			<div id="search-bar" class="flex items-center justify-end">
 				<form:form action="" method="get" modelAttribute="searchCondition" cssClass="flex">
-					<form:select path="searchType">
+					<form:select path="searchType" id="search-type">
 						<form:options items="${searchTypes}" itemLabel="description" itemValue="type"/>
 					</form:select>
-					<form:input type="search" path="searchKeyword" cssClass="b ph3 pv2 input-reset ba b--black bg-transparent f6 dib"/>
-					<button class="b ph3 pv2 button-reset ba b--black bg-transparent f6 dib" type="submit">검색 </button>
+					<form:input type="search" path="searchKeyword" id="search-input" cssClass="b ph3 pv2 input-reset ba b--black bg-transparent f6 dib"/>
+					<button id="search-btn" class="b ph3 pv2 button-reset ba b--black bg-transparent f6 dib" type="submit">검색 </button>
 				</form:form>
 		      	<spring:url var="newNoticeUrl" value="/notices/new"/>
 				<a href="${newNoticeUrl}" class="link-reset">
-					<button class="b ph3 pv2 button-reset ba b--green white bg-green f6 dib" type="submit">작성</button>
+					<button id="write-btn" class="b ph3 pv2 button-reset ba b--green white bg-green f6 dib" type="submit">작성</button>
 				</a>
 			</div>
 		</section>
-		<section class="mw8 center flex-auto justify-center">
+		<section class="center flex-auto justify-center">
 			<div class="pv4">
 				<div class="overflow-auto">
-					<table class="f5 w-100 mw8 center">
+					<table id="table-list" class="f5 w-100 center">
 						<thead>
-							<tr>
+							<tr id="table-tr">
 								<th class="fw6 tl pv2 pr1 bg-white">글번호</th>
 								<th class="fw6 tl pv2 pr1 bg-white w-30">제목</th>
 								<th class="fw6 tc pv2 pr1 bg-white">작성자</th>
@@ -49,7 +50,7 @@
 						<tbody class="lh-copy">
 						<c:forEach var="notice" items="${pageResponse.items}">
 							<spring:url var="noticeDetailsUrl" value="/notices/${notice.noticeNum}"/>
-							<tr>
+							<tr id="table-tr">
 								<th class="pv2 pr1 tl">
 									<a href="${noticeDetailsUrl}" class="link-reset black dim">${notice.noticeNum}</a>
 								</th>
@@ -67,7 +68,7 @@
 			</div>
 		</section>
 
-		<section class="mw8 center flex-auto justify-center">
+		<section class="center flex-auto justify-center">
 			<nav class="center">
 			 	<ul class="list flex items-center justify-center">
 				  	<c:choose>

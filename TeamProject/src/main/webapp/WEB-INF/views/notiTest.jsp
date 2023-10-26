@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!doctype html>
@@ -18,5 +19,4 @@
 <script defer="defer" src="resources/vue-notiTest/js/app.c49916ec.js"></script>
 
 <link href="resources/vue-notiTest/css/app.b2d625b8.css" rel="stylesheet">
-	
 <div id="app"></div>
