@@ -21,5 +21,9 @@ public class NotificationDAO {
 		List<NotificationDTO> list = session.selectList("countNotification",member_num);
 		return list;
 	}
+	public void deleteNotification(int noti_num) {
+		int res = session.delete("deleteNotification",noti_num);
+//		System.out.println("삭제 확인 : " + res);
+	}
 	
 }
