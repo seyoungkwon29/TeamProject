@@ -63,6 +63,7 @@ public class ProjectDAO {
 	}
 
 	public void deleteProject(int project_num) {
+		session.delete("deleteProjectWithTodo",project_num);
 		session.delete("deleteProject",project_num);
 	}
 
