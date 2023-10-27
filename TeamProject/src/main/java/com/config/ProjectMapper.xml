@@ -102,7 +102,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
     
     
-     <delete id="deleteProject" parameterType="int">
+    <!-- 프로젝트 삭제시 프로젝트와 연관된 TODO들을 먼저 삭제해준다. -->
+    <delete id="deleteProjectWithTodo" parameterType="int">
+    	DELETE FROM todo WHERE todo_num IN (SELECT todo_num FROM project_todo WHERE project_num = #{project_num})
+    </delete>
+    <delete id="deleteProject" parameterType="int">
     	DELETE project WHERE project_num = #{project_num}
     </delete>
+    
+    
 </mapper>

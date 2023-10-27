@@ -28,6 +28,8 @@
 	<view-controller path="/passwordSearch" view-name="passwordSearch"/><!-- /meetingRoom.jsp -->
 	<view-controller path="/writeMail" view-name="mailForm"/><!-- /mailForm.jsp -->
 	<view-controller path="/writeSelfMail" view-name="selfMail"/><!-- /mailForm.jsp -->
+	<view-controller path="/fileBoardList" view-name="fileBoardList"/><!-- /mailForm.jsp -->
+	<view-controller path="/searchFileBoard" view-name="searchFileBoard"/><!-- /mailForm.jsp -->
 	
 	<!-- 회원전용처리 : interceptor Bean 생성  -->
 	<beans:bean id="loginCheckInterceptor" class="com.interceptor.LoginCheckInterceptor"></beans:bean>

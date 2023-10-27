@@ -63,6 +63,7 @@
                 <value>com.dto.AppFileDTO</value>
                 <value>com.dto.ApprovalDTO</value>
                 <value>com.dto.AppReferDTO</value>
+                <value>com.dto.AttachVO</value>
                 <value>com.dto.AppSearchConditionDTO</value>
                 <value>com.dto.UploadFileDTO</value>
                 <value>com.dto.CommunityUploadFileDTO</value>

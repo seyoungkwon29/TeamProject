@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dto.NotificationDTO;
@@ -24,9 +25,18 @@ public class NotificationController {
 	public String saveNotification(@RequestBody Map<String,Object> parameters) {
 		int member_num = (int)parameters.get("member_num");
 		String content = (String)parameters.get("msg");
-		service.saveNotification(member_num, content);
+		NotificationDTO notificationDTO = new NotificationDTO(member_num,content);
+		service.saveNotification(notificationDTO);
 		return "";
 	}
+	
+	@RequestMapping(value = "deleteNotification", method = RequestMethod.GET)
+	@ResponseBody
+	public String deleteNotification(@RequestParam int noti_num) {
+		service.deleteNotification(noti_num);
+		return "삭제완료";
+	}
+	
 
 	@RequestMapping(value = "countNotification", method = RequestMethod.GET)
 	public int countNotification(int member_num) {
@@ -46,3 +56,4 @@ public class NotificationController {
 		return "notiTest";
 	}
 }
+
