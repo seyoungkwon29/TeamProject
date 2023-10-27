@@ -1,9 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <link href="resources/css/appDraftList.css" rel="stylesheet">
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		  // 모든 링크 요소를 선택
+		  var links = $('.type a');
+	
+		  links.on('click', function() {
+		    // 클릭한 링크에 'active' 클래스 추가
+		    links.removeClass('active'); // 이전 링크에서 'active' 클래스 제거
+		    $(this).addClass('active'); // 현재 클릭한 링크에 'active' 클래스 추가
+		  });
+	});
+</script>
 	<div class="s-container">
 		<h1 id="h-title">결재 문서함</h1>
 		

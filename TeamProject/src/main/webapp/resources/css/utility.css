@@ -1934,7 +1934,7 @@ input[type="url"],
     margin-top: 24px;
     border: 2px solid #dededeab;
     width: 800px;
-    height: 300px;
+    min-height: 300px;
     border-radius: 11px;
     padding: 7px 15px 0px 20px;
     font-size: 14px;
@@ -1943,7 +1943,7 @@ input[type="url"],
 	margin-top: 24px;
     border: 2px solid #dededeab;
     width: 800px;
-    height: 230px;
+    min-height: 230px;
     border-radius: 11px;
     padding: 7px 15px 0px 20px;
     font-size: 14px;

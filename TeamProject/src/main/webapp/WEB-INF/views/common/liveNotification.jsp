@@ -48,10 +48,18 @@ $(document).ready(function(){
 		}
 		
 		ws.onmessage = function(data) {
-			var msg = data.data;			
+			console.log("onmessage 실행");
+			var msgArr = data.data.split(",");
+			console.log("msgArr : "+msgArr);
+			console.log("project_num : "+msgArr[1]);
+			console.log("noti_num : "+msgArr[2]);
+			
+			
 			//화면에 표시
-			if(msg != null && msg.trim() != ''){
-				toast(msg,"고정!");
+			if(msgArr[0] != null && msgArr[0].trim() != ''){
+				toast(msgArr[0],"고정!");
+				$("b").data("noti_num",msgArr[2]);
+				console.log($("b").data("noti_num"));
 			}
 			
 // 			//비동기 알림 갯수확인(실시간 알림 받았을 때)
@@ -119,8 +127,25 @@ $(document).ready(function(){
 			}
 		});
 	}
-
+	$("#toast").on("click", function() {
+	 	window.location.href = "projects";
+	});
+	
 	$("#toast").on("click", "b", function() {
+			$.ajax({
+				type: "get",
+				url: "deleteNotification",//서버 요청 주소
+				dataType:"text", //응답data타입 text, json, xml, html
+				data:{
+					noti_num:  $("b").data("noti_num")
+				},
+				success: function(data) {
+					console.log("sucess : ",data);
+				},
+				error: function(xhr,status, e){
+					console.log("데이터를 가져올 수 없습니따");
+				}//error
+			});//end ajax
 		$(this).closest('.toastWrap').remove();
 	})
 
@@ -198,4 +223,5 @@ $(document).ready(function(){
 	  background-color: #F1D031;
 	}	
 </style>
+
 <div id="toast"></div>

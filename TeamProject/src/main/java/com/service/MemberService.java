@@ -168,8 +168,8 @@ public class MemberService {
 		return dao.getPassword(member_num);
 	}
 
-	public int setCrytPassword(MemberDTO temp) {
-		return dao.setCrytPassword(temp);
+	public int setCryptPassword(MemberDTO temp) {
+		return dao.setCryptPassword(temp);
 	}
 
 	public MemberDTO getMemberById(int member_num) {

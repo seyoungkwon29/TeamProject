@@ -48,4 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM todo 
 		WHERE todo_num = #{todo_num}	
 	</delete>
+	
+	<!-- 프로젝트가 삭제될 때 프로젝트에 포함된 TODO가 같이 삭제되도록 하기 위함-->
+	<delete id="deleteTodoAtporjectTodo">
+		DELETE FROM project_todo
+	</delete>
+	
 </mapper>

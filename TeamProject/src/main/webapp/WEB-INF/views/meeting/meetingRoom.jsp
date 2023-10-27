@@ -18,7 +18,7 @@
 	} %>
 
 <div>
-	<h1 style="margin-top: 100px; margin-left: 400px; color: #333; font-size: 30px;">회의실 예약</h1>
+	<h1 class="h1-top">회의실 예약</h1>
 	
 	<div id="s-container">
 			
