@@ -93,7 +93,14 @@ $(document).ready(function() {
             event.preventDefault();
         }
     });
+    //date-picker 지난날짜 선택x
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var yyyy = today.getFullYear();
 
+      today = yyyy + '-' + mm + '-' + dd;
+      $('#roomRDate').attr('min', today);
 });
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -103,5 +110,6 @@ $(document).ready(function() {
         });
         calendar.render();
       });
+      
 
 </script>

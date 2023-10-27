@@ -184,7 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="countNoticeContentLike" parameterType = "String" resultType="java.lang.Integer">
-		SELECT COUNT(DISTINCT N.notice_num)
+		SELECT COUNT(DISTINCT n.notice_num)
 		FROM notice n
 		left outer join member m 
 		on n.member_num = m.member_num
@@ -209,10 +209,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT id, original_filename, store_filename
 		FROM notice_files
 		WHERE notice_num=#{noticeNum}
->>>>>>> branch 'main' of https://github.com/seyoungkwon29/TeamProject.git
 	</select>
-<<<<<<< HEAD
-	 -->
-	
 
 </mapper>

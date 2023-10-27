@@ -34,7 +34,6 @@
             <jsp:include page="homeMail.jsp" flush="true"/>
         </div>
     </div>
->>>>>>> branch 'main' of https://github.com/seyoungkwon29/TeamProject.git
 </div>
 
 <style>
