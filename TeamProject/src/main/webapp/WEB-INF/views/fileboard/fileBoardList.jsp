@@ -2,14 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<link href="resources/css/fileBoardList.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<jsp:include page="../common/liveNotification.jsp" flush="true" />
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <script>
 	function new_Post() {	/* 새글쓰기 */
-		var url="loginCheck/fileBoardPost";
+		var url="fileBoardPost";
 		location.href = url;
 	}
 	function searchBtn() { /* 검색하기 */

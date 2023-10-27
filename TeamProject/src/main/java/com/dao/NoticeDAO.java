@@ -82,7 +82,6 @@ public class NoticeDAO {
 		content = "%" + content + "%";
 		return template.selectOne("NoticeMapper.countNoticeContentLike", content);
 	}
-	
 	public void insertFile(Long noticeNum, UploadFileDTO file) {
 		NoticeUploadFileDTO jdbcFile = new NoticeUploadFileDTO(noticeNum, file.getOriginalFilename(), file.getStoreFilename());
 		template.insert("NoticeMapper.insertFile", jdbcFile);

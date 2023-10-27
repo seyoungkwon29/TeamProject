@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FileBoardMapper">
 
-		<!-- 시퀀스 추가 구문 create sequence file_board_no_seq start with 1 increment 
-		by 1 maxvalue 500 minvalue 1 cycle; -->
-		
 	<select id="fileBoardList" resultType="FileBoardDTO">
 		select
 		file_board_no,
@@ -53,7 +50,10 @@
 		file_board_no=#{file_board_no}
 	</select>
 
-	<insert id="fileBoardInsert" parameterType="FileBoardDTO">
+	<insert id="fileBoardInsert" parameterType="FileBoardDTO" useGeneratedKeys="true" keyProperty="file_board_no">
+		<selectKey order="BEFORE" keyProperty="file_board_no"  resultType="int">
+			SELECT FILE_BOARD_NO_SEQ.nextval FROM dual
+		</selectKey>
 		Insert into
 		FILE_BOARD (
 		file_board_no,
@@ -66,15 +66,15 @@
 		file_rename,
 		file_path
 		) values (
-		FILE_BOARD_NO_SEQ.nextval,
+		#{file_board_no},
 		#{member_num},
 		sysdate,
 		#{file_board_title},
 		#{file_board_content},
 		0,
-		'sample val',
-		'sample val',
-		'sample val'
+		#{file_name},
+		#{file_rename},
+		#{file_path}
 		)
 	</insert>
 
@@ -94,7 +94,6 @@
 		where file_board_no = #{file_board_no}
 	</delete>
 	
-	<!--조회수  -->
 	<update id="boardViews" parameterType="int">
 		UPDATE file_board
 		SET
@@ -102,7 +101,6 @@
 		WHERE file_board_no = #{file_board_no}
 	</update>
 	
-	<!-- 총 게시글 갯수 출력 -->
 	<select id="listCount" resultType="FileBoardDTO" parameterType="int">
 	<![CDATA[
 		SELECT * FROM file_board
@@ -110,11 +108,49 @@
 	]]>
 	</select>
 	
-	<!-- 총 검색 갯수 출력 -->
-<!-- 	<select id="listCount" resultType="FileBoardDTO" parameterType="int">
-	<![CDATA[
-		SELECT * FROM file_board
-		ORDER BY 1 DESC
-	]]>
-	</select> -->
+	<insert id="fileBoardAttachFileInsert" parameterType="AttachVO">
+		INSERT INTO attach (
+		atch_no,
+		atch_parent_no,
+		atch_category,
+		atch_file_name,
+		atch_original_name,
+		atch_file_size,
+		atch_fancy_size,
+		atch_content_type,
+		atch_path,
+		atch_down_hit,
+		atch_del_yn,
+		atch_reg_date
+		) VALUES (
+		file_board_attach_seq.nextval,
+		#{atch_parent_no},
+		#{atch_category},
+		#{atch_file_name},
+		#{atch_original_name},
+		#{atch_file_size},
+		#{atch_fancy_size},
+		#{atch_content_type},
+		#{atch_path},
+		0,
+		'N',
+		SYSDATE
+		)
+	</insert>
+	
+	<select id="fileBoardDetailAttachVO" resultType="AttachVO" parameterType="int">
+		select * from attach
+		where atch_parent_no=#{file_board_no}
+	</select>
+	
+	<select id="getAttach" resultType="AttachVO" parameterType="int">
+		select * from attach
+		where atch_no=#{atch_no}
+	</select>
+	
+	<update id="increaseDownHit" parameterType="int">
+    	UPDATE attach
+   		SET atch_down_hit = atch_down_hit+1
+     	WHERE atch_no = #{atch_no}
+	</update>
 </mapper>

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 상세 페이지</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -14,13 +16,11 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-
-<script src="resources/js/summernote-lite.js"></script>
 <script src="resources/js/summernote-ko-KR.js"></script>
 
-<link rel="stylesheet" href="resources/css/summernote-lite.css">
-<jsp:include page="../common/liveNotification.jsp" flush="true" />
+<!-- <script src="resources/js/summernote-lite.js"></script> -->
+<!-- <link rel="stylesheet" href="resources/css/summernote-lite.css"> -->
+
 </head>
 <body>
 	<jsp:include page="../common/menu.jsp" flush="true" />
@@ -51,6 +51,7 @@
 					class="form-control" id="writerNumber"
 					name="writerNumber" value="${fileBoardDetail.member_num}">
 			</div>
+
 			<!-- 파일업로드 -->
 			<div class="button">
 				<label class="label-title"  for="chooseFile">파일 첨부</label> <input type="file" id="chooseFile"
@@ -103,7 +104,8 @@ success : function(data) {
 	//항상 업로드된 파일의 url이 있어야 한다.
 	console.log("성공>>>>>>>>>>");
 	console.log(data.url);
-	$(editor).summernote('insertImage', data.url);
+	console.log($("editor"));
+	$("editor").summernote('insertImage', data.url);
 }
 });
 }
