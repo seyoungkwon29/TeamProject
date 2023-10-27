@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="resources/css/fileBoardList.css">
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -30,7 +31,7 @@
 			<input type="hidden" id="no" name="no" value="${fileBoardDetail.file_board_no}">
 			<div class="form-group">
 				<!-- 제목 -->
-				<label for="title">제목</label>
+				<label class="label-title" for="title">제목</label>
 				<!-- required 속성을 설정하면 필수입력 사항이된다. -->
 				<!-- pattern 속성을 이용한 정규표현식으로 데이터의 유효성 검사를 할 수 있다. -->
 				<input type="text" class="form-control" id="title"
@@ -39,20 +40,20 @@
 			</div>
 			<div class="form-group">
 				<!-- 내용 -->
-				<label for="content">내용</label>
+				<label class="label-title"  for="content">내용</label>
 				<!--  textarea 안에 있는 모든 글자는 그대로 나타난다. 공백문자, tag, enter -->
 				<textarea class="form-control" rows="5" id="summernote"
 					name="editor" value="">${fileBoardDetail.file_board_content}</textarea>
 			</div>
 			<div class="form-group">
 				<!-- 사번 -->
-				<label for="writer">사번</label><input type="text"
+				<label class="label-title" for="writer">사번</label><input type="text"
 					class="form-control" id="writerNumber"
 					name="writerNumber" value="${fileBoardDetail.member_num}">
 			</div>
 			<!-- 파일업로드 -->
 			<div class="button">
-				<label for="chooseFile"></label> <input type="file" id="chooseFile"
+				<label class="label-title"  for="chooseFile">파일 첨부</label> <input type="file" id="chooseFile"
 					name="chooseFile" accept="image/*" onchange="loadFile(this)">
 			</div>
 

@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.common.PageRequestDTO;
-import com.common.PageResponseDTO;
 import com.dto.AppDocumentDTO;
 import com.dto.CommunityDTO;
 import com.dto.MailDTO;

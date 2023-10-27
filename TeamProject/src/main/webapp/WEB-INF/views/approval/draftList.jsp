@@ -5,6 +5,19 @@
 <link href="resources/css/draftModal.css" rel="stylesheet">
 <link href="resources/css/appDraftList.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>	
+<script type="text/javascript">
+	$(document).ready(function() {
+		  //모든 링크 요소를 선택
+		  var links = $('.type a');
+	
+		  links.on('click', function() {
+				console.log("click");
+			    //클릭한 링크에 'active' 클래스 추가
+			    links.removeClass('active'); //이전 링크에서 'active' 클래스 제거
+			    $(this).addClass('active'); //현재 클릭한 링크에 'active' 클래스 추가
+		  });
+	});
+</script>
 
  <!-- 문서 보기  -->
 	<div class="s-container">

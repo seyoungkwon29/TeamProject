@@ -15,8 +15,7 @@
 
 
 <script defer="defer" src="resources/vue-notiTest/js/chunk-vendors.be68ef66.js"></script>
-<script defer="defer" src="resources/vue-notiTest/js/app.1dff40c8.js"></script>
+<script defer="defer" src="resources/vue-notiTest/js/app.c49916ec.js"></script>
 
 <link href="resources/vue-notiTest/css/app.b2d625b8.css" rel="stylesheet">
-	
 <div id="app"></div>
