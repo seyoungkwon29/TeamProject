@@ -36,8 +36,8 @@
 
 
 #sendChatting{
-	cursor: pointer;
-    width: 95%;
+    cursor: pointer;
+    width: 90%;
     min-height: 30px;
     border-radius: 1rem;
     margin-left: 8px;
@@ -273,5 +273,9 @@ padding: 5px 10px;
 
 .wrapper {
     display: flex; /* .other-msg와 .time-l을 일렬로 나열 */
-   align-items: center; /* 중앙에 정렬 */
+   	align-items: center; /* 중앙에 정렬 */
+}
+
+.me-conent{
+	margin: 0px 18px 0px 18px;
 }
