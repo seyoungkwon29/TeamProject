@@ -3,6 +3,10 @@ package com.controller.notification;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,17 +42,20 @@ public class NotificationController {
 	}
 	
 
-	@RequestMapping(value = "countNotification", method = RequestMethod.GET)
-	public int countNotification(int member_num) {
-		int noti_count = service.countNotification(member_num);
-		System.out.println("안읽은 메일 갯수 : " + noti_count);
-		return noti_count;
-	}
+//	@RequestMapping(value = "countNotification", method = RequestMethod.GET)
+//	@ResponseBody
+//	public int countNotification(int member_num) {
+//		int noti_count = service.countNotification(member_num);
+//		System.out.println("안읽은 메일 갯수 : " + noti_count);
+//		return noti_count;
+//	}
 	
-	@RequestMapping(value = "notReadingNotification", method = RequestMethod.GET)
-	public List<NotificationDTO> notReadingNotification(int member_num) {
-		List<NotificationDTO> list = service.notReadingNotification(member_num);
-		return list;
+	@RequestMapping(value = "notiListNotReading", method = RequestMethod.GET)
+	@ResponseBody
+	public List<NotificationDTO> notReadingNotification(HttpSession session) {
+//		session.removeAttribute("notReadingNotiList");
+		List<NotificationDTO> notReadingNotiList = service.notiListNotReading(session);
+		return notReadingNotiList;
 	}
 	
 	@RequestMapping("/notiTest")

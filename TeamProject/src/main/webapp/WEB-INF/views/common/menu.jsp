@@ -2,12 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <spring:url var="menuCss" value="/resources/css/menu.css" htmlEscape="true"/>
 <link rel="stylesheet" href="${menuCss}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <spring:url var="menuJs" value="/resources/js/menu.js" htmlEscape="true"/>
 <script src="${menuJs}"></script>
-
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	
+	
+})// end document.ready()
+</script>
 <div class="menu-top-container">
 	<div class="top-brand">
 		<a href="/"><img class="menuTop-img" src="/resources/image/EVERYWAREsmall.png" height ="50px" alt="" ></a>
@@ -53,15 +61,14 @@
 			<span><img class="menu_img" src="/member/${ login.photo }.png" height ="23px"></span>
 			<span class="mem_name">${login.member_name}</span>
 		</div>
-		
 		<div class="total-bottom-ul">
 	        <ul>
-	            <li><a class="icon" href="/chatting"><img
-	                    src="/resources/image/icon/alarm.png" alt="알람"></a></li>
-	            <li><a class="icon" href="/mailReceiveList"><img
-	                    src="/resources/image/icon/mail.png" alt="메일"></a></li>
-	            <li><a class="icon" href="/loginCheck/logout"><img
-	                    src="/resources/image/icon/logout.png" alt="로그아웃"></a></li>
+		        <li><a id="alarm" class="icon"><img src="/resources/image/icon/alarm.png" alt="알람" width="21px" height="21px"></a>
+  					<div id="notiList" style="display: none;" class="dropdown">
+					</div>
+				</li>
+	            <li><a id="mail" class="icon" href="/mailReceiveList"><img src="/resources/image/icon/mail.png" alt="메일" width="24px" height="24px"></a></li>
+	            <li><a class="icon" href="/loginCheck/logout"><img src="/resources/image/icon/logout.png" alt="로그아웃" width="24px" height="24px"></a></li>
 	        </ul>
         </div>
     </div>

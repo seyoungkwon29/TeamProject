@@ -14,9 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 	
-	<select id="countNotification" parameterType="int" resultType="NotificationDTO">
+	<select id="notiListNotReading" parameterType="int" resultType="NotificationDTO">
 		SELECT * FROM notification
 		WHERE member_num = #{member_num} AND noti_status = 'N'
+		ORDER BY noti_date
 	</select>
 	
 	<delete id="deleteNotification" parameterType="int">
