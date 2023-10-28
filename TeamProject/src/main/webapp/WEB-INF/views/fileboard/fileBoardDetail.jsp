@@ -51,7 +51,6 @@
 					class="form-control" id="writerNumber"
 					name="writerNumber" value="${fileBoardDetail.member_num}">
 			</div>
-
 			<!-- 파일업로드 -->
 			<div class="button">
 				<label class="label-title"  for="chooseFile">파일 첨부</label> <input type="file" id="chooseFile"
