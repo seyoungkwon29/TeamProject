@@ -146,12 +146,6 @@ $(document).ready(function() {
 
 </style>
 
-
-
-<script>
-
-    
-</script>
 </head>
 <body>
 <jsp:include page="common/menu.jsp" flush="true" />

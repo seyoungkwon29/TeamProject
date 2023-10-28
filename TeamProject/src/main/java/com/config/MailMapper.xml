@@ -131,5 +131,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE <![CDATA[ROWNUM <= 3]]>
 	</select>
 	
-	
+	<select id="countMailNotReading" resultType="mailDTO">
+		SELECT m.*
+		FROM mail_rec mr JOIN mail m ON mr.mail_num = m.mail_num
+		WHERE  mr.rec_num= #{member_num} AND mr.rec_status = 'N'
+	</select>
 </mapper>

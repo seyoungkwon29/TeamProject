@@ -3,6 +3,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	//비동기 안읽은 알림(화면이 로드 될 때)
 	var member_num = ${login.getMember_num()};
 
@@ -131,25 +132,27 @@ $(document).ready(function(){
 	 	window.location.href = "projects";
 	});
 	
-	$("#toast").on("click", "b", function() {
-			$.ajax({
-				type: "get",
-				url: "deleteNotification",//서버 요청 주소
-				dataType:"text", //응답data타입 text, json, xml, html
-				data:{
-					noti_num:  $("b").data("noti_num")
-				},
-				success: function(data) {
-					console.log("sucess : ",data);
-				},
-				error: function(xhr,status, e){
-					console.log("데이터를 가져올 수 없습니따");
-				}//error
-			});//end ajax
+	$("#toast").on("click", "b", function(event) {
+		event.stopPropagation();
+		$.ajax({
+			type: "get",
+			url: "deleteNotification",//서버 요청 주소
+			dataType:"text", //응답data타입 text, json, xml, html
+			data:{
+				noti_num:  $("b").data("noti_num")
+			},
+			success: function(data) {
+				console.log("sucess : ",data);
+			},
+			error: function(xhr,status, e){
+				console.log("데이터를 가져올 수 없습니따");
+			}//error
+		});//end ajax
 		$(this).closest('.toastWrap').remove();
-	})
-
-});
+	});
+	
+	
+}); //end Ready
 </script>
 
 
