@@ -53,8 +53,8 @@
 	margin-right: 35px; /*글자 사이 기준으로, 오른쪽으로 margin*/
 }
 
-.type.active a {
-	color: black;
+.type a:active {
+	color: #c0c0c0;
 	font-weight: bold;
 }
 

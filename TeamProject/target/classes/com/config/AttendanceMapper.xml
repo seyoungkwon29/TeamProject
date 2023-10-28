@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AttendanceMapper">
+
+	<!-- insert가 아닌 update인 이유 : 스케줄러를 통해 12am에 자동으로 insert -->
+	<update id="punchIn" parameterType="AttendanceDTO">
+		update attendance set 
+			att_start = #{att_start}, 
+			att_status = #{att_status}
+		where att_no = (select max(att_no) from attendance
+						where member_num = #{member_num})  
+	</update>
+	
+	<!-- 퇴근 -->
+	<update id="punchOut" parameterType="AttendanceDTO">
+		update attendance set 
+			att_fin = #{att_fin}, 
+			att_total = (
+					select
+						round((to_date(to_char(sysdate, 'HH24:MI:SS'),'HH24:MI:SS') - to_date(att_start, 'HH24:MI:SS')) * 24, 2)
+					from attendance where att_no = (
+											select max(att_no) 
+											from attendance where member_num = #{member_num}))
+					where att_no = (select max(att_no) from attendance where member_num = #{member_num})
+  	</update>
+  	
+	
+	<!-- 리스트 -->
+	<select id="viewAttList" parameterType="String" resultType="AttendanceDTO">
+		select att_no
+	        , member_num
+	        , to_char(att_date,'YYYY-MM-DD') as att_date
+	        , att_start
+	        , att_fin
+	        , att_total
+	        , att_status
+		from attendance
+		where member_num || to_char(att_date,'YYYY-MM') like #{memNum} || '%'
+		and att_no in(select att_no from attendance
+		where member_num || to_char(att_date,'YYYY-MM') like #{memNum} || '%'
+		and att_no in(select min(att_no) from attendance
+		where member_num || to_char(att_date,'YYYY-MM') like #{memNum} || '%'
+		group by
+		    to_char(att_date, 'YYYY-MM-DD'), member_num))
+		order by att_date desc
+	</select>
+	
+	
+</mapper>

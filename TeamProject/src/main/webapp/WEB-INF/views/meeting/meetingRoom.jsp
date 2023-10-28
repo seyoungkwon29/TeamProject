@@ -18,7 +18,7 @@
 	} %>
 
 <div>
-	<h1 style="margin-top: 100px; margin-left: 400px; color: #333; font-size: 30px;">회의실 예약</h1>
+	<h1 class="h1-top">회의실 예약</h1>
 	
 	<div id="s-container">
 			
@@ -93,7 +93,14 @@ $(document).ready(function() {
             event.preventDefault();
         }
     });
+    //date-picker 지난날짜 선택x
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+      var yyyy = today.getFullYear();
 
+      today = yyyy + '-' + mm + '-' + dd;
+      $('#roomRDate').attr('min', today);
 });
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -103,5 +110,6 @@ $(document).ready(function() {
         });
         calendar.render();
       });
+      
 
 </script>
