@@ -8,13 +8,12 @@
 }
 
 #f-title {	/* 타이틀 */
-    margin-top: 25px;
-    margin-bottom: 50px;
-    font-size: 30px;
+    margin-top: 47px;
+    margin-bottom: 10px;
+    font-size: 34px;
+    letter-spacing: 1px;
 }
-.f_title{
-	
-}     
+    
 
 .f-s-container{	/* 검색창 */
 	margin: 2px auto 0;
@@ -123,4 +122,3 @@
    	font-weight: 600;
    	text-decoration: none;
 }
-

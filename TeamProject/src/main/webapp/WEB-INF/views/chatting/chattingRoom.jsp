@@ -72,18 +72,20 @@
 					
 					<!-- 채팅 내용 -->
 					<c:if test="${contents.chat_type == 0 && contents.member_num == member.member_num}">
-					<p class='me'>
-					<span class='time-r'>${fn:substring(contents.chat_date, 11, 19)}</span>
-					<span class='my-msg'>${contents.chat_content}</span>
-					</p>
+					<div class='me-conent'>
+						<p class='me'>
+						<span class='time-r'>${fn:substring(contents.chat_date, 11, 19)}</span>
+						<span class='my-msg'>${contents.chat_content}</span>
+						</p>
+					</div>
 					</c:if>
 					<c:if test="${contents.chat_type == 0 && contents.member_num != member.member_num}">
 					<div class='others'>
-				    <span class='otherName'>${contents.div_name} ${contents.member_name} ${contents.rank}</span>
-				    <div class="wrapper">
-				        <span class='other-msg'>${contents.chat_content}</span>
-				        <span class='time-l'>${fn:substring(contents.chat_date, 11, 19)}</span>
-				    </div>
+					    <span class='otherName'>${contents.div_name} ${contents.member_name} ${contents.rank}</span>
+					    <div class="wrapper">
+					        <span class='other-msg'>${contents.chat_content}</span>
+					        <span class='time-l'>${fn:substring(contents.chat_date, 11, 19)}</span>
+					    </div>
 					</div>
 					</c:if>
 				</c:forEach>
