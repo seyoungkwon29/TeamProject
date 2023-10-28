@@ -364,7 +364,7 @@ public class MailController {
 	
 	@ResponseBody
 	@RequestMapping("countMailNotReading")
-	public List<MailDTO> notReadingMailCount(HttpSession session) {
+	public List<MailDTO> countMailNotReading(HttpSession session) {
 		List<MailDTO> list = service.countMailNotReading(session);
 		System.out.println("처리 완료");
 		return  list;

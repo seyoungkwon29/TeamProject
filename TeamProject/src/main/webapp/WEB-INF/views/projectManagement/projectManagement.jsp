@@ -12,10 +12,10 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <jsp:include page="../common/liveNotification.jsp" flush="true" />
 
-<script defer="defer" src="resources/vue-wbs/js/chunk-vendors.12c1ac12.js"></script>
-<script defer="defer" src="resources/vue-wbs/js/app.7e0eb870.js"></script>
+<script defer="defer" src="resources/vue-wbs/js/chunk-vendors.cd70ce66.js"></script>
+<script defer="defer" src="resources/vue-wbs/js/app.35016055.js"></script>
 <link href="resources/vue-wbs/css/chunk-vendors.0512666e.css" rel="stylesheet">
-<link href="resources/vue-wbs/css/app.2fb825d0.css" rel="stylesheet">
+<link href="resources/vue-wbs/css/app.ba7572cd.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="resources/css/menu.css">
 
