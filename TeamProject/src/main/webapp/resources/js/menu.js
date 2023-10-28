@@ -95,10 +95,9 @@ $(document).ready(function() {
     	//b태그가 클릭된 경우라면, 페이지이동 하지 않고 리스트만 리로드
     	if ($(event.target).is("b")) {
             event.preventDefault(); // b가 클릭되었을 때만 기본 동작을 막습니다.
-            
             $.ajax({
     			type: "get",
-    			url: "notReadingNotification",//서버 요청 주소
+    			url: "notiListNotReading",//서버 요청 주소
     			dataType:"json", //응답data타입 text, json, xml, html
     			success: function(data) {
     				var notiListDiv = $("#notiList");

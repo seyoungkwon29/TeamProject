@@ -53,9 +53,8 @@ public class NotificationController {
 	@RequestMapping(value = "notiListNotReading", method = RequestMethod.GET)
 	@ResponseBody
 	public List<NotificationDTO> notReadingNotification(HttpSession session) {
-//		session.removeAttribute("notReadingNotiList");
-		List<NotificationDTO> notReadingNotiList = service.notiListNotReading(session);
-		return notReadingNotiList;
+		List<NotificationDTO> notiListNotReading = service.notiListNotReading(session);
+		return notiListNotReading;
 	}
 	
 	@RequestMapping("/notiTest")
