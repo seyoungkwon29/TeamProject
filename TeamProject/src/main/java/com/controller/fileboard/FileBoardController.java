@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.common.ExcelDownload;
 import com.dto.AttachVO;
 import com.dto.FileBoardDTO;
 import com.dto.MemberDTO;
@@ -41,6 +43,15 @@ public class FileBoardController {
 	
 	@Autowired
 	FileBoardService service;
+	//엑셀다운로드
+	@RequestMapping("/excel/download")
+    public void fileBoardTitleListExcel(HttpServletResponse response , HttpServletRequest request) {
+		System.out.println("===============fileBoardTitleListExcel===================");
+		String localNow = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
+		System.out.println(localNow);
+		ExcelDownload.createXlsx(service.fileBoardTitleListExcel(), "FileBoard_"+localNow+".xlsx", response);
+		System.out.println("==============fileBoardTitleListExcel end==============");
+	}
 	
 	// 목록조회
 	@RequestMapping("fileBoardList")
