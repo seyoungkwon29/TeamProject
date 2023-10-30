@@ -10,7 +10,11 @@
 	function searchBtn() { /* 검색하기 */
 		var url = "searchFileBoard";
 		location.href = url;
-	} 
+	}
+	function excelDown() {
+		var url = "/excel/download";
+		location.href = url;
+	}
 </script>
 
 	<div class="f-container">
@@ -45,7 +49,7 @@
 		String searchVal = null;
 		if(session.getAttribute("searchField")!=null){
 			searchField = (String) session.getAttribute("searchField");
-			System.out.println("프론트에서 알립니다>>>searchField is :" + searchField);
+			System.out.println(">>>searchField is :" + searchField);
 		} 
 		if(session.getAttribute("searchVal")!=null){
 			searchVal = (String) session.getAttribute("searchVal");
@@ -56,7 +60,7 @@
 		<!-- <input type="hidden" name="buttionValue" value="1"> -->
 		<div>
 			<input type="button" class="f-btn" id="fileBoardPostBtn" onClick="new_Post()" value="새 글쓰기"></input>
-		
+			<button type="submit" class="f-btn" onclick="excelDown()">게시물엑셀다운로드</button>
 		</div>
 		
 		<!-- 테이블 -->
