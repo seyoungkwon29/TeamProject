@@ -6,7 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
 		SELECT t.*
 		FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
-		WHERE project_num = #{project_num} AND member_num = #{member_num}
+		WHERE project_num = #{project_num}
+		order by due_date asc
 	</select>
 	
 	<insert id="createTodo" parameterType="TodoDTO">
