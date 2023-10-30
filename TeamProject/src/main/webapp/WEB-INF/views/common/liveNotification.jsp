@@ -106,6 +106,7 @@ $(document).ready(function(){
 	  right: 10px;
 	  text-align: right;
 	  z-index: 1000;
+	  cursor: pointer;
 	}
 	
 	#toast .toastWrap {
