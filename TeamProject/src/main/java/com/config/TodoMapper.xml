@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
 		WHERE project_num = #{project_num} AND member_num = #{member_num}
 	</select>
-	
+
 	<insert id="createTodo" parameterType="TodoDTO">
 		INSERT INTO todo VALUES(
 			#{todo_num},

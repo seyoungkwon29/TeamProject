@@ -8,9 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <id column="project_num" property="project_num" />
 	  <result column="project_title" property="project_title" />
 	  <result column="project_manager" property="project_manager" />
+	  <result column="manager_num" property="member_num" />
 	  <result column="status" property="status" />
 	  <result column="start_date" property="start_date" />
 	  <result column="due_date" property="due_date" />
+	  
 	  <collection property="member_list" ofType="MemberDto">
 	  	<id column="member_num" property="member_num"/>
 	  	<result column="member_name" property="member_name"/>
@@ -22,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT			 		p.project_num
 								, p.project_title
 								, p.project_manager
+								, p.member_num as manager_num
 								, p.status
 								, p.start_date
 								, p.due_date
