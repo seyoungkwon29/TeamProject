@@ -118,12 +118,6 @@ public class ProjectService {
 		int project_num = (int)parameters.get("project_num");
 		List<MemberDTO> memberList = dao.participatedMemberList(project_num);
 		
-		//프로젝트 매니저 멤버 제거
-		ProjectDTO projectDTO = dao.selectProjectByProjectNum(project_num);
-		int PM_member_num = projectDTO.getMember_num();
-		
-		memberList.removeIf(member -> member.getMember_num() == PM_member_num); //리스트에서 프로젝트 매니저 요소 삭제
-		
 		return memberList;
 	}
 	

@@ -150,5 +150,6 @@ public class MailService {
 		List<MailDTO> list = dao.countMailNotReading(login.getMember_num());
 		return list;
 	}
+
 	
 }

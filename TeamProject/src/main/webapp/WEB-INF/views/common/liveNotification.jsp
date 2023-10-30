@@ -3,45 +3,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	//비동기 안읽은 알림(화면이 로드 될 때)
 	var member_num = ${login.getMember_num()};
-
-// 	$.ajax({
-// 		type: "get",
-// 		url: "notReadingNotification",//서버 요청 주소
-// 		dataType:"json", //응답data타입 text, json, xml, html
-// 		data:{
-// 			member_num:  member_num
-// 		},
-// 		success: function(data,status,xhr) {
-// 			for(var i=0; i<data.length; i++){
-// 				$("#notiList").append("<p>" + data[i].noti_content + "<button class='delBtn' data-num="+data[i].noti_num+">확인</button></p>");
-// 			}
-			
-// 		},
-// 		error: function(xhr,status, e){
-// 			console.log("데이터를 가져올 수 없습니따");
-// 		}//error
-// 	});//end ajax
-
-// 	//비동기 안읽은 알림 개수(화면이 로드 될 때)
-// 	$.ajax({
-// 		type: "get",
-// 		url: "countNotification",//서버 요청 주소
-// 		dataType:"text", //응답data타입 text, json, xml, html
-// 		data:{
-// 			member_num:  member_num
-// 		},
-// 		success: function(data,status,xhr) {
-// 			console.log("sucess : ",data);
-// 			$("#result").text(data+"개");
-// 		},
-// 		error: function(xhr,status, e){
-// 			console.log("데이터를 가져올 수 없습니따");
-// 		}//error
-// 	});//end ajax
-
 
 	function wsEvt() {
 		ws.onopen = function(data){
@@ -54,46 +16,23 @@ $(document).ready(function(){
 			console.log("msgArr : "+msgArr);
 			console.log("project_num : "+msgArr[1]);
 			console.log("noti_num : "+msgArr[2]);
-			
-			
 			//화면에 표시
 			if(msgArr[0] != null && msgArr[0].trim() != ''){
 				toast(msgArr[0],"고정!");
 				$("b").data("noti_num",msgArr[2]);
 				console.log($("b").data("noti_num"));
 			}
+		}//end onmessage
+	}//end wsEvt
 			
-// 			//비동기 알림 갯수확인(실시간 알림 받았을 때)
-// 			$.ajax({
-// 				type: "get",
-// 				url: "countNotification",//서버 요청 주소
-// 				dataType:"text", //응답data타입 text, json, xml, html
-// 				data:{
-// 					member_num:  member_num
-// 				},
-// 				success: function(data,status,xhr) {
-// 					console.log("sucess : ",data);
-// 					$("#result").text(data+"개");
-// 				},
-// 				error: function(xhr,status, e){
-// 					console.log("데이터를 가져올 수 없습니따");
-// 				}//error
-// 			});//end ajax
-
-		}//end onMessage
-	}//end wsEvt 
-
+			
+			var member = '${login.getMember_name()}'
+			console.log(member);
+			window.ws = new WebSocket("ws://"+location.host+"/notification");  //포트번호
+			console.log("ws : " + ws);
+			wsEvt();
+		
 	
-	
-	var member = '${login.getMember_name()}'
-	console.log(member);
-	window.ws = new WebSocket("ws://"+location.host+"/notification");  //포트번호
-	console.log("ws : " + ws);
-	wsEvt();
-	
-
-	
-
 /////////////////////////////////////////////////////
 	//토스트 메세지
 	function fillWidth(elem, timer, limit) {
@@ -149,8 +88,7 @@ $(document).ready(function(){
 			}//error
 		});//end ajax
 		$(this).closest('.toastWrap').remove();
-	});
-	
+	});//end toast click
 	
 }); //end Ready
 </script>
@@ -168,6 +106,7 @@ $(document).ready(function(){
 	  right: 10px;
 	  text-align: right;
 	  z-index: 1000;
+	  cursor: pointer;
 	}
 	
 	#toast .toastWrap {

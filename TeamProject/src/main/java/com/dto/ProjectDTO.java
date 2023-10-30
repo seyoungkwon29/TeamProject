@@ -1,5 +1,7 @@
 package com.dto;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 @Alias("ProjectDTO")
@@ -11,6 +13,7 @@ public class ProjectDTO {
 	private String due_date;
 	private String project_manager;
 	private int member_num;
+	private List<MemberDTO> member_list;
 	
 	public ProjectDTO() {
 		super();
@@ -71,10 +74,21 @@ public class ProjectDTO {
 		this.member_num = member_num;
 	}
 
+	public List<MemberDTO> getMember_list() {
+		return member_list;
+	}
+
+	public void setMember_list(List<MemberDTO> member_list) {
+		this.member_list = member_list;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectDTO [project_num=" + project_num + ", project_title=" + project_title + ", status=" + status
 				+ ", start_date=" + start_date + ", due_date=" + due_date + ", project_manager=" + project_manager
-				+ ", member_num=" + member_num + "]";
+				+ ", member_num=" + member_num + ", member_list=" + member_list + "]";
 	}
+
+	
+
 }
