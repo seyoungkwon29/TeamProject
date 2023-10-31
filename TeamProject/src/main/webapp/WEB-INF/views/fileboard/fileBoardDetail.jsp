@@ -26,7 +26,7 @@
 	<jsp:include page="../common/menu.jsp" flush="true" />
 	
 	<div class="container" style="margin:0 60px; position:absolute; left: 250px; padding-top: 130px;">
-		<h2>게시판 글 등록</h2>
+		<h2>자료함</h2>
 		<form action="form" method="post">
 			<input type="hidden" id="no" name="no" value="${fileBoardDetail.file_board_no}">
 			<div class="form-group">
