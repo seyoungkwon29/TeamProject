@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>자료함 상세보기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,7 +27,8 @@
 	<jsp:include page="../common/menu.jsp" flush="true" />
 	
 	<div class="container" style="margin:0 60px; position:absolute; left: 250px; padding-top: 130px;">
-		<h2>게시판 글 등록</h2>
+		<h2>자료함</h2>
+		<br>
 		<form action="form" method="post">
 			<input type="hidden" id="no" name="no" value="${fileBoardDetail.file_board_no}">
 			<div class="form-group">

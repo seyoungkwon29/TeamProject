@@ -26,7 +26,10 @@ $(document).ready(function() {
 			<li><a class="link" href="/myPage">마이 페이지</a></li>
 			<li><a class="link" href="/loginCheck/attendance/attendanceList">근태 관리</a></li>
 			<li><a class="link" href="/organization">조직도</a></li>
-			<li><a class="link" href="/projects?t_key=${login.getT_key()}">프로젝트 관리</a></li>
+			<li><a class="link" href="/projects?t_key=${login.getT_key()}">프로젝트 관리</a>
+				<div class="dropdown">
+					<a href="/download/todo/excel">내todo엑셀다운</a>
+				</div></li>
 			<li><a class="link" href="<spring:url value="/notices"/>">공지사항</a></li>
 			<li><a class="link" href="<spring:url value="/communities"/>">자유게시판</a></li>
 			<li><a class="link" href="/fileBoardList">자료함</a></li>
