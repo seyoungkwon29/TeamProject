@@ -116,9 +116,9 @@ $(document).ready(function(){
 	}
 	
 	.toast {
-	  border: 1px solid #F1D031;
-	  color: #444;
-	  background: #FFFFA3;
+	  border: 1px solid #55A582;
+	  color: white;
+	  background: #55A582;
 	  box-shadow: 0 2px 3px #999;
 	  padding: 18px 20px 15px 8px;
 	  text-align: left;

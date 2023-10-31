@@ -55,17 +55,19 @@ $(document).ready(function() {
 			success: function(data) {
 				var notiListDiv = $("#notiList");
 				notiListDiv.empty();
-				
-				for(var i=0; i<data.length; i++){
-					var link = $("<span></span>")
-									.attr("class","noti")
-									.data("noti_num", data[i].noti_num)
-									.text(data[i].noti_content);
-					link.append("<b></b>");
-									
-					notiListDiv.append(link);
-				}
-							
+				notiListDiv.append("<div>새로운 프로젝트가 없습니다.<div>");
+				if(data.length!=0){
+					notiListDiv.empty();
+					for(var i=0; i<data.length; i++){
+						var link = $("<span></span>")
+										.attr("class","noti")
+										.data("noti_num", data[i].noti_num)
+										.text(data[i].noti_content);
+						link.append("<b></b>");
+										
+						notiListDiv.append(link);
+					}
+				}			
 			},
 			error: function(xhr,status, e){
 				console.log("데이터를 가져올 수 없습니따");
@@ -101,18 +103,22 @@ $(document).ready(function() {
     			dataType:"json", //응답data타입 text, json, xml, html
     			success: function(data) {
     				var notiListDiv = $("#notiList");
-    				notiListDiv.empty();
-    				
-    				for(var i=0; i<data.length; i++){
-    					var link = $("<span></span>")
-										.attr("class","noti")
-										.data("noti_num", data[i].noti_num)
-										.text(data[i].noti_content);
-    					
-    					link.append("<b></b>");				
-    					notiListDiv.append(link);
-    				}
-    							
+    				if(data.length!=0){
+    					notiListDiv.empty();
+    					for(var i=0; i<data.length; i++){
+    						var link = $("<span></span>")
+    										.attr("class","noti")
+    										.data("noti_num", data[i].noti_num)
+    										.text(data[i].noti_content);
+    						link.append("<b></b>");
+    										
+    						notiListDiv.append(link);
+    					}
+    				} else {
+    					$("#alarm > img").attr("src","/resources/image/icon/alarm.png");
+        				notiListDiv.empty();
+        				notiListDiv.append("<div>새로운 프로젝트가 없습니다.<div>");
+    				}			
     			},
     			error: function(xhr,status, e){
     				console.log("데이터를 가져올 수 없습니따");
