@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dto.ProjectDTO;
 import com.dto.TodoDTO;
 
 @Repository
@@ -41,4 +42,9 @@ public class TodoDAO {
 		System.out.println("삭제 결과 : " + res);
 	}
 	
+	public List<ProjectDTO> getProjectList(int member_num) {
+		List<ProjectDTO> projectList = session.selectList("getProjectList",member_num);
+		System.out.println(projectList);
+		return projectList;
+	}
 }

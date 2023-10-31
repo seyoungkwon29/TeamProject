@@ -56,4 +56,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM project_todo
 	</delete>
 	
+	<!-- 내가 속해있는 프로젝트 정보 -->
+	<select id="getProjectList" parameterType="int" resultType="ProjectDTO">
+		select p.* from project p
+		join project_member pm on p.project_num = pm.project_num 
+		where pm.member_num=#{member_num}
+	</select>
 </mapper>
