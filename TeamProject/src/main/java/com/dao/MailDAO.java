@@ -126,6 +126,12 @@ public class MailDAO {
 		return receiveList;
 	}
 
+	public List<MailDTO> countMailNotReading(int member_num) {
+		List<MailDTO> list = session.selectList("countMailNotReading",member_num);
+		System.out.println("조회결과 : " + list.toString());
+		return list;
+	}
+
 	
 	
 }

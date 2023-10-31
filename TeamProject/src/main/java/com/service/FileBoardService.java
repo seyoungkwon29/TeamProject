@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dao.FileBoardDAO;
 import com.dto.AttachVO;
+import com.dto.ExcelDTO;
 import com.dto.FileBoardDTO;
 import com.dto.PageDTO;
 
@@ -23,6 +24,26 @@ public class FileBoardService {
 
 	@Autowired
 	FileBoardDAO dao;
+	
+	//엑셀다운
+	public List<ExcelDTO> fileBoardTitleListExcel() {
+		List<ExcelDTO> rtnList = new ArrayList<ExcelDTO>();
+		try { // fileList 조회
+			List<FileBoardDTO> list = dao.fileBoardList();
+			ExcelDTO eDTO = null;
+			for (FileBoardDTO fileDTO : list) {
+				eDTO = new ExcelDTO();
+				eDTO.setExcelNo(fileDTO.getFile_board_no());
+				eDTO.setExcelId(fileDTO.getMember_num());
+				eDTO.setExcelTitle(fileDTO.getFile_board_title());
+				rtnList.add(eDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return rtnList;
+	};
 	
 	// 목록조회
 	public List<FileBoardDTO> fileBoardList() {

@@ -360,9 +360,14 @@ public class MailController {
 			service.deleteRecMail(mailRecDTO);
 		}	
 		return null;
-
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("countMailNotReading")
+	public List<MailDTO> countMailNotReading(HttpSession session) {
+		List<MailDTO> list = service.countMailNotReading(session);
+		System.out.println("처리 완료");
+		return  list;
+	}
 	
 }
