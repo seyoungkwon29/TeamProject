@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE project_num = #{project_num}
 		order by due_date asc
 	</select>
-	
+
 	<insert id="createTodo" parameterType="TodoDTO">
 		INSERT INTO todo VALUES(
 			#{todo_num},

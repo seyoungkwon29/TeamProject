@@ -17,8 +17,8 @@ public class NotificationDAO {
 		int res = session.insert("saveNotification",notiDTO);
 //		System.out.println("결과값 : "+res);
 	}
-	public List<NotificationDTO> countNotification(int member_num) {
-		List<NotificationDTO> list = session.selectList("countNotification",member_num);
+	public List<NotificationDTO> notiListNotReading(int member_num) {
+		List<NotificationDTO> list = session.selectList("notiListNotReading",member_num);
 		return list;
 	}
 	public void deleteNotification(int noti_num) {

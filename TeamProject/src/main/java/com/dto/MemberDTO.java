@@ -2,7 +2,11 @@ package com.dto;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Alias("MemberDTO")
+@JsonInclude(Include.NON_NULL)
 public class MemberDTO {
 	
 	private int member_num;

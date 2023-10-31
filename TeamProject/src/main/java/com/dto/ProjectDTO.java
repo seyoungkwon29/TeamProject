@@ -102,6 +102,4 @@ public class ProjectDTO {
 				+ ", start_date=" + start_date + ", due_date=" + due_date + ", project_manager=" + project_manager
 				+ ", member_num=" + member_num + ", member_list=" + member_list + "]";
 	}
-	
-	
 }
