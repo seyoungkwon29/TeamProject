@@ -40,6 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			status = #{status},
 			start_date = #{start_date},
 			due_date = #{due_date},
+			member_name = #{member_name},
+			member_num = #{member_num},
 			content = #{content},
 			conversion_ratio = #{conversion_ratio},
 			top_task = #{top_task}

@@ -24,13 +24,8 @@ public class TodoService {
 //프로젝트에 맞는 나의 todoList 가져오기
 	public List<TodoDTO> getAllTodoList(Map<String, Object> parameters) {
 		int project_num = (int) parameters.get("project_num"); // 프로젝트 번호 파싱
-		String t_key = (String) parameters.get("t_key"); // 멤버정보 가져오기
-		MemberDTO loginMember = LoginConstant.memberMap.get(t_key);
-		int member_num = loginMember.getMember_num();
-
 		Map<String, Integer> map = new HashMap<>();
 		map.put("project_num", project_num);
-		map.put("member_num", member_num);
 
 		List<TodoDTO> todoList = dao.getAllTodoList(map);
 		return todoList;
@@ -42,7 +37,6 @@ public class TodoService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		TodoDTO todoDTO = objectMapper.convertValue(map, TodoDTO.class);
 
-		System.out.println("todoDTO : " + todoDTO);
 		dao.createTodo(todoDTO); // todoDTO에 todo_num의 값이 부여됨
 		int todo_num = todoDTO.getTodo_num();
 		addProjectTodo(project_num, todo_num);
@@ -59,7 +53,6 @@ public class TodoService {
 	}
 
 	public TodoDTO updateTodo(Map<String, Object> parameters) {
-
 		Map<String, Object> tempMap = (Map<String, Object>) parameters.get("todoDTO");
 		ObjectMapper objectMapper = new ObjectMapper();
 		TodoDTO todoDTO = objectMapper.convertValue(tempMap, TodoDTO.class);
