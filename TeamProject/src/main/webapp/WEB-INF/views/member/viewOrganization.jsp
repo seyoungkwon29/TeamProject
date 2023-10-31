@@ -149,7 +149,7 @@
      		<tr>
       			<th class="th-modal">메일</th>
       			
-      			<td class="th-left-modal"><div id="mail" style="margin-left: 13px;"></div></td>
+      			<td class="th-left-modal"><div id="mail_modal" style="margin-left: 13px;"></div></td>
       		</tr>
       	</table>
       </div>
@@ -173,7 +173,7 @@
 			$("#div").html(div);
 			$("#rank").html(rank);
 			$("#name").html(name);
-			$("#mail").html(mail);
+			$("#mail_modal").html(mail);
 			
 			$(".modal").css("display", "block");
 			
