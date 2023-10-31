@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 상세 페이지</title>
+<title>자료함</title>
 <meta name="viewport">
 <link rel="stylesheet" href="resources/css/menu.css">
 <link rel="stylesheet"
