@@ -27,6 +27,11 @@ public class ApprovalFileService {
 		return num;
 	}
 
+	public AppFileDTO fileDownload(int file_no) {
+		AppFileDTO fileDto = dao.fileDownload(file_no);
+		return fileDto;
+	}
+
 
 	
 }
