@@ -27,7 +27,7 @@
 	        dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
 	        dateString += ("0" + newDate.getSeconds()).slice(-2);
 
-	        /* $("#now").text(dateString); // 현재 시각 */
+	        $("#now").text(dateString); // 현재 시각 
 	        $("#att_start").val(dateString); // 출근 시각
 	        $("#att_fin").val(dateString); // 퇴근 시각
 	    }, 1000); // 1000밀리초  = 1초 (현재 시각 업데이트) 
