@@ -30,9 +30,10 @@ public class NotificationHandler extends TextWebSocketHandler {
 		
 		String originMessage = message.getPayload();
 		String strArr[] = originMessage.split(",");
-		String project_num = strArr[strArr.length-1];
+		String project_title = strArr[strArr.length-1];
+		String project_num = strArr[strArr.length-2];
 		
-		String msg = "프로젝트가 추가되었습니다.";
+		String msg = project_title + " 프로젝트가 추가되었습니다.";
 		System.out.println("========");
 		
 		String projectMembers[] = Arrays.copyOf(strArr, strArr.length-2);	

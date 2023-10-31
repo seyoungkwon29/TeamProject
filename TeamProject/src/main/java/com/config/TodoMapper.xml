@@ -3,13 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TodoMapper">
-    <select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
-        SELECT t.*
-        FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
-        WHERE project_num = #{project_num}
-        order by due_date asc
-    </select>
-	
+
+	<select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
+		SELECT t.*
+		FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
+		WHERE project_num = #{project_num}
+		order by due_date asc
+	</select>
+
 	<insert id="createTodo" parameterType="TodoDTO">
 		INSERT INTO todo VALUES(
 			#{todo_num},

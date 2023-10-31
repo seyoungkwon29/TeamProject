@@ -72,6 +72,7 @@ public class ProjectManagementController {
 		
 		MemberDTO loginMember = loginCheck(t_key);
 		list  = service.getAllProject(loginMember.getMember_num());
+		System.out.println("프로젝트 리스트>>"+list);
 		return list;
     }
 	

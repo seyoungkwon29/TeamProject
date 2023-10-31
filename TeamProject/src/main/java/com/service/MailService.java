@@ -145,10 +145,11 @@ public class MailService {
 
 	}
 
+	public List<MailDTO> countMailNotReading(HttpSession session) {
+		MemberDTO login = (MemberDTO)session.getAttribute("login");
+		List<MailDTO> list = dao.countMailNotReading(login.getMember_num());
+		return list;
+	}
 
-//	public List<MailDTO> selectMailRecDTOByMailNum(Map<String, Integer> map) {
-//		List<MailDTO>
-//		return null;
-//	}
 	
 }
