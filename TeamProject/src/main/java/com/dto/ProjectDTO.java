@@ -17,6 +17,7 @@ public class ProjectDTO {
 	
 	public ProjectDTO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public ProjectDTO(int project_num, String project_title, String status, String start_date, String due_date,
@@ -87,11 +88,9 @@ public class ProjectDTO {
 	public void setMember_num(int member_num) {
 		this.member_num = member_num;
 	}
-
 	public List<MemberDTO> getMember_list() {
 		return member_list;
 	}
-
 	public void setMember_list(List<MemberDTO> member_list) {
 		this.member_list = member_list;
 	}
@@ -102,4 +101,6 @@ public class ProjectDTO {
 				+ ", start_date=" + start_date + ", due_date=" + due_date + ", project_manager=" + project_manager
 				+ ", member_num=" + member_num + ", member_list=" + member_list + "]";
 	}
+	
+    
 }
