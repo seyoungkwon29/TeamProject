@@ -22,7 +22,7 @@
 		<span class="type"><a href="draftList?parameter=app&docStatus=예정">예정</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=진행">진행</a></span>
 		<span class="type"><a href="draftList?parameter=app&docStatus=반려">반려</a></span>
-		<span class="type"><a href="draftList?parameter=app&docStatus=완료"">완료</a></span>
+		<span class="type"><a href="draftList?parameter=app&docStatus=완료">완료</a></span>
 		
 		
 		<table class="t-List">

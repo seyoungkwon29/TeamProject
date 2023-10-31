@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 상세 페이지</title>
+<title>자료함 새글쓰기</title>
 <meta name="viewport">
 <link rel="stylesheet" href="resources/css/menu.css">
 <link rel="stylesheet"
@@ -30,7 +30,8 @@
 <div class="container"
 	style="margin: 0 60px; position: absolute; left: 250px; padding-top: 130px;">
 
-	<h2>게시판 글 등록</h2>
+	<h2>자료함</h2>
+	<br>
 	<form action="fileBoardInsert" method="post" enctype="multipart/form-data">
 		<!-- 
 			<input type="hidden" id="fileBoardDTO" name="fileBoardDTO" value=""> -->

@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dto.AppDocFormDTO;
 import com.dto.AppDocumentDTO;
@@ -64,9 +64,11 @@ public class SaveDocFormController {
 	//결재자, 참조자 모달창: 전체 멤버 정보 출력
 	@RequestMapping(value="/approverSelect", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ApprovalDTO> approverSelect(HttpSession session) {
+	public List<ApprovalDTO> approverSelect(HttpSession session) {		
+		//본인을 제외하고 멤버 정보 출력
+		int member_num = (int)((MemberDTO)session.getAttribute("login")).getMember_num();
 		
-		List<ApprovalDTO> list = service.selectAllMemberInfo();
+		List<ApprovalDTO> list = service.selectAllMemberInfo(member_num);
 		System.out.println("결재자 or 참조자 정보 출력 : " + list);
 		
 		return list; 
@@ -222,7 +224,7 @@ public class SaveDocFormController {
 			doc.setDoc_status("임시"); //임시 저장, 임시저장함의 임시저장, 반려 문서 임시 저장
 		} 
 
-		//기안 문서 저장
+		////////기안 문서 저장
         int docResult = service.saveDocForm(doc);
         System.out.println("문서 저장 완료 : " + docResult);
         
@@ -260,7 +262,7 @@ public class SaveDocFormController {
         }
 		System.out.println("파일 저장 완료? : " + fileResult);
         
-        //결재자 등록
+        /////////결재자 등록
         int appResult = 0;
 		String [] appArray = appMemNum.split(",");
 
@@ -308,7 +310,7 @@ public class SaveDocFormController {
 			}
 		}
 		
-		//참조자 등록
+		//////////참조자 등록
 		int refResult = 0;
 		if( !refMemNum.isEmpty() ) { //참조자가 있는 경우
 			String[] refArray = refMemNum.split(","); //배열에 참조자 넣기
@@ -337,6 +339,24 @@ public class SaveDocFormController {
 		return "redirect: draftList?parameter=" + returnResult; //기안, 결재, 임시 결재함 문서
 	}
 	
+	//파일 다운로드
+	@RequestMapping(value="appFileDownload")
+	public ModelAndView appFileDownload( @RequestParam int file_no, ModelAndView mav){
+		AppFileDTO fileDto = fService.fileDownload(file_no);
+		System.out.println("fileDto : " + fileDto);
+		String fileName = fileDto.getFile_name();
+		String fileReName = fileDto.getFile_rename();
+		String filePath = fileDto.getFile_path();
+		
+		System.out.println("file_no : " + file_no );
+			
+		mav.addObject("fileName", fileName);
+		mav.addObject("fileReName", fileReName);
+		mav.addObject("filePath", filePath);
+		mav.setViewName("fileDownView");
+		return mav;
+	}
+		
 	//임시 저장 수정 화면에서 선택했던 파일 삭제
 	@RequestMapping(value="uploadFileDelete", method=RequestMethod.GET)
 	public String uploadFileDelete(@RequestParam(value = "filePath", required = false) String file_path, 
