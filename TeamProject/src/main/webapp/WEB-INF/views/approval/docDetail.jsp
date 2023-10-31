@@ -122,9 +122,9 @@
 				<tr id="tr-title" class="tr-m">
 					<td class="td-1">파일첨부</td>
 					<td colspan="6" class="indent">
-							<a class="file-a-tag" href="resources/uploadFiles/${file.file_name}"download>${file.file_name}</a>
+							<a class="file-a-tag" href="/appFileDownload?file_no=${file.file_no}">${file.file_name}</a>
 					</td>
-				</tr>
+				</tr> 
 			</c:if>
 			
 	<!-- 문서 양식 : 휴가 신청서일 경우 -->
