@@ -12,7 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        RANK
 	    FROM
 	        MEMBER
+        WHERE
+        	MEMBER_NUM != #{member_num}
 	</select>
+
 	
 	<select id="selectHomeAppList" resultType="AppDocumentDTO">
        SELECT * FROM (
@@ -204,6 +207,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    WHERE
 	        DOC_NO = #{doc_no}
 	</select>
+	
+	<select id="fileDownload" resultType="AppFileDTO" parameterType="int"> <!-- 파일 찾아오기 -->
+	    SELECT
+	        *
+	    FROM
+	        APP_FILE
+	    WHERE
+	        FILE_NO = #{file_no}
+	</select>
+	
 	
 	<delete id="removeFile" parameterType="int"> <!-- 파일 삭제하기 -->
 	    DELETE FROM
