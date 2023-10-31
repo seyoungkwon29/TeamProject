@@ -3,13 +3,42 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProjectMapper">
-	<select id="getAllProject" resultType="ProjectDTO" parameterType="int">
-		SELECT * 
-		FROM project 
-		WHERE project_num in (
-			SELECT project_num FROM project_member
-			WHERE member_num = #{member_num})
-	</select>
+<resultMap id="projectMap" type="ProjectDTO">
+    <id column="project_num" property="project_num" />
+    <result column="project_title" property="project_title" />
+    <result column="project_manager" property="project_manager" />
+    <result column="status" property="status" />
+    <result column="start_date" property="start_date" />
+    <result column="due_date" property="due_date" />
+    <result column="manager_num" property="member_num" />
+    <collection property="member_list" ofType="MemberDTO">
+        <id column="member_num" property="member_num"/>
+        <result column="member_name" property="member_name"/>
+    </collection>
+</resultMap>
+
+
+    <select id="getAllProject" resultMap="projectMap" parameterType="int">
+        SELECT                    p.project_num
+                                , p.project_title
+                                , p.project_manager
+                                , p.member_num as manager_num
+                                , p.status
+                                , p.start_date
+                                , p.due_date
+                                , m.member_name
+                                , m.member_num
+            FROM                 project p
+            left outer join     project_member pm
+            on                    p.project_num = pm.project_num
+            left outer join     member m
+            on                     pm.member_num = m.member_num
+            WHERE                 p.project_num in (
+                                SELECT t.project_num  FROM project_member t
+                                WHERE t.member_num = #{member_num}
+            )
+            order by             p.project_num
+    </select>
 	
 	<select id="selectMembers" resultType="MemberDTO">
 		select * from member where member_num != #{member_num}
@@ -43,16 +72,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 select * from member where member_num = #{member_num}
 	</select>
 	
-	
 	<select id="participatedMemberList" parameterType="int" resultType="MemberDTO">
-		SELECT *
-		FROM member
-		WHERE member_num in(
-    		SELECT member_num 
-    		FROM project_member 
-    		WHERE project_num = #{project_num}
-		)
-	</select>
+        SELECT *
+        FROM member
+        WHERE member_num in(
+            SELECT member_num 
+            FROM project_member 
+            WHERE project_num = #{project_num}
+        )
+    </select>
 	<!-- 위의 프로젝트에 참여하는 인원 중 프로젝트 매니저는 리스트에서 제외하기 위한 용도의 SQL -->
 	<select id="selectProjectByProjectNum" resultType="ProjectDTO">
 		SELECT * 
