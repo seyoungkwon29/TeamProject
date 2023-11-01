@@ -140,6 +140,7 @@
 	$('.file_area').on('click','.btn_delete', function(){ 
 		$(this).closest('div').remove(); 
 		});
+	
 </script>
 </body>
 
