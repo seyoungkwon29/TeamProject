@@ -26,5 +26,10 @@ public class ApprovalFileDAO {
 		int num = session.delete("ApprovalMapper.removeFile", doc_no);
 		return num;
 	}
+
+	public AppFileDTO fileDownload(int file_no) {
+		AppFileDTO fileDto = session.selectOne("ApprovalMapper.fileDownload", file_no);
+		return fileDto;
+	}
 	
 }

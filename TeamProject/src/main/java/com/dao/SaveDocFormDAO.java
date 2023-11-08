@@ -19,8 +19,8 @@ public class SaveDocFormDAO {
 	@Autowired
 	SqlSessionTemplate session;
 	
-	public List<ApprovalDTO> selectAllMemberInfo() {
-		List<ApprovalDTO> list = session.selectList("ApprovalMapper.selectAllMemberInfo");
+	public List<ApprovalDTO> selectAllMemberInfo(int member_num) {
+		List<ApprovalDTO> list = session.selectList("ApprovalMapper.selectAllMemberInfo", member_num);
 		return list;
 	}
 

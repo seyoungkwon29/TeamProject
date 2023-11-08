@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TodoMapper">
+
 	<select id="getAllTodoList" parameterType="HashMap" resultType="TodoDTO">
 		SELECT t.*
 		FROM todo t JOIN project_todo pt ON t.todo_num = pt.todo_num
@@ -39,6 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			status = #{status},
 			start_date = #{start_date},
 			due_date = #{due_date},
+			member_name = #{member_name},
+			member_num = #{member_num},
 			content = #{content},
 			conversion_ratio = #{conversion_ratio},
 			top_task = #{top_task}
@@ -55,4 +58,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM project_todo
 	</delete>
 	
+	<!-- 내가 속해있는 프로젝트 정보 -->
+	<select id="getProjectList" parameterType="int" resultType="ProjectDTO">
+		select p.* from project p
+		join project_member pm on p.project_num = pm.project_num 
+		where pm.member_num=#{member_num}
+	</select>
 </mapper>

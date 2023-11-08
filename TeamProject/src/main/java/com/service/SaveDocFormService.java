@@ -30,8 +30,8 @@ public class SaveDocFormService {
 	}
 	
 	//모달: 전체 선택
-	public List<ApprovalDTO> selectAllMemberInfo() {
-		List<ApprovalDTO> list = dao.selectAllMemberInfo();
+	public List<ApprovalDTO> selectAllMemberInfo(int member_num) {
+		List<ApprovalDTO> list = dao.selectAllMemberInfo(member_num);
 		return list;
 	}
 

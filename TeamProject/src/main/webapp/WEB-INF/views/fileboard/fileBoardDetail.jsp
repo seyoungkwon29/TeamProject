@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>자료함 상세보기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,7 +27,8 @@
 	<jsp:include page="../common/menu.jsp" flush="true" />
 	
 	<div class="container" style="margin:0 60px; position:absolute; left: 250px; padding-top: 130px;">
-		<h2>게시판 글 등록</h2>
+		<h2>자료함</h2>
+		<br>
 		<form action="form" method="post">
 			<input type="hidden" id="no" name="no" value="${fileBoardDetail.file_board_no}">
 			<div class="form-group">
@@ -51,11 +53,20 @@
 					class="form-control" id="writerNumber"
 					name="writerNumber" value="${fileBoardDetail.member_num}">
 			</div>
-			<!-- 파일업로드 -->
-			<div class="button">
-				<label class="label-title"  for="chooseFile">파일 첨부</label> <input type="file" id="chooseFile"
-					name="chooseFile" accept="image/*" onchange="loadFile(this)">
-			</div>
+			<!-- 파일 -->
+			<table board="1">
+			<tr>
+		    <th>첨부파일</th>
+		    <td>
+		        <c:forEach var="f" items="${fileBoardDetail.attaches}" varStatus="st">
+		        <div> 파일 ${st.count} <a href="<c:url value='/attach/download/${f.atch_no}' />" target="_blank"> 
+		        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> ${f.atch_original_name}
+		        </a> Size : ${f.atch_fancy_size} Down : ${f.atch_down_hit}
+		        </div>
+		        </c:forEach>
+		    </td>
+			</tr>
+			</table>
 
 			<button type="submit" class="btn btn-default" onclick="javascript: form.action='fileBoardUpdate'">수정</button>
 			<button type="submit" class="btn btn-default" onclick="javascript: form.action='fileBoardDelete'">삭제</button>
