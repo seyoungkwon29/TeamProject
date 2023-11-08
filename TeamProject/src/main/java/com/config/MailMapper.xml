@@ -3,7 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MailMapper">
-	<insert id="mailSendProcess" parameterType="MailDTO">
+	<insert id="insertMail" parameterType="MailDTO" useGeneratedKeys="true" 
+	   	keyProperty="mail_num" keyColumn="mail_num">
 		INSERT INTO mail VALUES(
 			mail_mailnum_seq.nextval,
 			#{mail_title},

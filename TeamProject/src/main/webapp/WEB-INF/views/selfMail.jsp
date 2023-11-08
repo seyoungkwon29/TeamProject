@@ -39,7 +39,7 @@ $("#mailWriteForm").submit(checkMail);  //submit은 폼의 아이디를 가지�
 <body>
 <jsp:include page="common/menu.jsp" flush="true" />
 <div class="selfMailFormContainer">
-<form action="sendSelfMailProcess" method="post" enctype="multipart/form-data" id="mailWriteForm">
+<form action="sendMailProcess" method="post" enctype="multipart/form-data" id="mailWriteForm">
 		<h1 style="margin: 0;color: #333; padding-bottom: 20px; font-size: 30px;">내게 쓰기</h1>
 		
 		<div style="border:1px solid #8080806b;">

@@ -61,9 +61,8 @@ public class HomeController {
 		model.addAttribute("communityList", communityList);
 		
 		// 메일 목록
-		
 		List<MailDTO> mailList = mailService.homeReceiveMailList(member.getMember_num());
-		mailService.receiveMailList(request, session);
+		mailService.receiveMailList("1", member);
 		
         return "homePage";
     }

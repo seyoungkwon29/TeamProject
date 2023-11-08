@@ -36,12 +36,11 @@
 	<!-- 회원전용처리 : interceptor 주소 처리 -->
 	<interceptors>
 		<interceptor>
-			<mapping path="/"/>
+		<!-- 회원 전용 메뉴만 인터셉터 처리를 하는게 효율적임 -->
+			<mapping path="/**"/>
 			<mapping path="/loginCheck/**"/>
-			<mapping path="/notices/**"/>
-			<mapping path="/communities/**"/>
 			<exclude-mapping path="/login"/>
-			<exclude-mapping path="/api/**"/>
+<!-- 			<exclude-mapping path="/api/**"/> -->
 			<exclude-mapping path="/resources/**"/>
 			<beans:ref bean="loginCheckInterceptor"/>
 		</interceptor>
