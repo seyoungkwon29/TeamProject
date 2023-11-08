@@ -21,7 +21,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		log.debug("RequestURI={}",request.getRequestURI());
 		HttpSession session = request.getSession();
-
+		
 		if (session.getAttribute("login") == null) {
 
 			String contextPath = request.getContextPath();
@@ -29,9 +29,9 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 			String redirectURI = contextPath + redirectPath;
 			log.debug("RedirectURI={}", redirectURI);
 			response.sendRedirect(redirectURI);
-
+			
 			return false;
-		}
+		}	
 		
 		return true;
 	}

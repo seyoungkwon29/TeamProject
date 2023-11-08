@@ -49,7 +49,7 @@ $(document).ready(function() {
 				<div class="dropdown">
 					<a href="/writeMail">메일쓰기</a>			
 					<a href="/mailReceiveList">받은 메일함</a>
-					<a href="/mailSendList">보낸 메일함</a>
+					<a href="/mailSentList">보낸 메일함</a>
 					<a href="/mailSelfList">내게 쓴 메일함</a>
 				</div>
 			</li>

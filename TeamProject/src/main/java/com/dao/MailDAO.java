@@ -19,13 +19,10 @@ public class MailDAO {
 	SqlSessionTemplate session;
 	
 	//DB에 보낸 메일정보를 저장
-	public int mailSendProcess1(MailDTO mailDto) {;
-		
-		session.insert("mailSendProcess",mailDto);
-		
-		//가장 최근에 저장된 이메일 고유번호
-		int recentEmailNum = session.selectOne("recentEmailNum");
-		return recentEmailNum;
+	public int insertMail(MailDTO mailDto) {;
+		//저장결과 확인
+		int res = session.insert("insertMail",mailDto);
+		return res;
 	}
 	
 	//이메일주소를 사용한 사용자 정보 찾기
