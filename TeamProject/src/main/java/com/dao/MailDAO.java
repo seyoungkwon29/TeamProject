@@ -18,18 +18,19 @@ public class MailDAO {
 	@Autowired
 	SqlSessionTemplate session;
 	
+	//페이징처리를 위한 변수 저장
+	private void setPaging(PageDTO pageDTO, List<MailDTO> list, int allListSize) {
+		pageDTO.setMailDTOList(list);
+		pageDTO.setListCnt(allListSize);
+	}
+	
 	//DB에 보낸 메일정보를 저장
-	public int insertMail(MailDTO mailDto) {;
+	public int sendMail(MailDTO mailDto) {;
 		//저장결과 확인
-		int res = session.insert("insertMail",mailDto);
+		int res = session.insert("sendMail",mailDto);
 		return res;
 	}
 	
-	//이메일주소를 사용한 사용자 정보 찾기
-	public MemberDTO selectByEmail(String email) {
-		MemberDTO receiver = session.selectOne("selectByEmail",email);
-		return receiver;
-	}
 	
 	//자신을 제외한 모든 멤버리스트
 	public List<MemberDTO> selectAllMemberListExceptMe(int user_num) {
@@ -37,15 +38,14 @@ public class MailDAO {
 		return list;
 	}
 
-	//이메일들을 사용해서 멤버번호 리스트 찾기
-	public List<Integer> findMemberNumByEmail(String[] addressList) {
+	//메일주소 리스트로 멤버번호 리스트 찾기
+	public List<Integer> findMemberNumByMailAddress(String[] addressList) {
 		List<Integer> rec_numList = new ArrayList<>();
 		for(int i=0; i<addressList.length; i++) {
 			String email = addressList[i];
-			int rec_num = session.selectOne("findMemberNumByEmail",email);
+			int rec_num = session.selectOne("findMemberNumByMailAddress",email);
 			rec_numList.add(rec_num);
 		}
-		System.out.println(rec_numList.toString());
 		return rec_numList;
 	}
 
@@ -59,10 +59,9 @@ public class MailDAO {
 		pageDTO.setPage(Integer.parseInt(page));
 		int offset = (pageDTO.getPage()-1)*pageDTO.getListSize();
 		//전체 메일개수 확인용 
-		List<MailDTO> tempList = session.selectList("receiveMailList", member_num);
+		List<MailDTO> allList = session.selectList("receiveMailList", member_num);
 		List<MailDTO> list = session.selectList("receiveMailList", member_num, new RowBounds(offset, pageDTO.getListSize()));
-		pageDTO.setMailDTOList(list);
-		pageDTO.setListCnt(tempList.size());
+		setPaging(pageDTO, list, allList.size());
 		
 		return pageDTO;
 	}
@@ -71,12 +70,10 @@ public class MailDAO {
 		PageDTO pageDTO = new PageDTO();
 		pageDTO.setPage(Integer.parseInt(page));
 		int offset = (pageDTO.getPage()-1)*pageDTO.getListSize();
-		
 		//전체 메일개수 확인용 
-		List<MailDTO> tempList = session.selectList("sentMailList", member_num);
+		List<MailDTO> allList = session.selectList("sentMailList", member_num);
 		List<MailDTO> list = session.selectList("sentMailList", member_num, new RowBounds(offset,pageDTO.getListSize()));
-		pageDTO.setMailDTOList(list);
-		pageDTO.setListCnt(tempList.size());
+		setPaging(pageDTO, list, allList.size());
 		
 		return pageDTO;
 	}
@@ -97,10 +94,9 @@ public class MailDAO {
 		int offset = (pageDTO.getPage()-1)*pageDTO.getListSize();
 		
 		//전체 메일개수 확인용 
-		List<MailDTO> tempList = session.selectList("selfMailList", member_num);
+		List<MailDTO> allList = session.selectList("selfMailList", member_num);
 		List<MailDTO> list = session.selectList("selfMailList", member_num, new RowBounds(offset, pageDTO.getListSize()));
-		pageDTO.setMailDTOList(list);
-		pageDTO.setListCnt(tempList.size());
+		setPaging(pageDTO, list, allList.size());
 		
 		return pageDTO;
 	}

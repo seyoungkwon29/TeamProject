@@ -91,7 +91,7 @@ public class PageDTO {
 
 	public void setRange(int range) {
 		this.range = range;
-	}
+	}	
 
 	public int getStartPage() {
 		return startPage;

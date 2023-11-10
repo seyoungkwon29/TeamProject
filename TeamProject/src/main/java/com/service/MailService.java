@@ -34,53 +34,8 @@ public class MailService {
 		super();
 	}
 	
-//메일 보내기
-	public String insertMail(MailDTO mailDto, String addressListStr, MultipartFile multipartFile) {
-		System.out.println("multipartfile : " + multipartFile.isEmpty());
-		if(!multipartFile.isEmpty()) {
-			saveFile(mailDto, multipartFile);
-		}
-		int res1 = dao.insertMail(mailDto);
-		
-		System.out.println(mailDto);
-		System.out.println("인서트 결과 : "+res1);
-
-		//최근 메일 고유번호
-		int recentEmailNum = mailDto.getMail_num();
-		//DB에 넘겨줄 MailRecDto
-		MailRecDTO mailRecDto = new MailRecDTO();
-		mailRecDto.setMail_num(recentEmailNum);
-		
-		//Mail_Rec테이블 insert (MappingTable -- 받은 사람들 저장하기)
-		String msg = "메일전송이 완료되었습니다!";
-		if(addressListStr != null) {
-			String addressList[] = addressListStr.split(" ");
-			List<Integer> rec_numList = dao.findMemberNumByEmail(addressList);
-			
-			int res = 0;
-			for(int i=0; i<rec_numList.size(); i++) {
-				mailRecDto.setRec_num(rec_numList.get(i));
-				mailRecDto.setMail_receiver(addressList[i]);
-				res += dao.insertReceiveTable(mailRecDto); //insert 작업
-			}
-			
-			if(res != rec_numList.size()) {
-				msg = "다시 시도해주세요";
-				return "redirect:writeMail";
-			}
-		} 
-		//내게쓰기인 경우
-		else if(addressListStr == null) {
-			mailRecDto.setRec_num(mailDto.getMember_num());
-			mailRecDto.setMail_receiver(mailDto.getMail_sender());
-			dao.insertReceiveTable(mailRecDto); //insert 작업
-		}
-		
-		return msg;
-	}
-	
 //첨부파일  저장
-	public void saveFile(MailDTO mailDto, MultipartFile multipartFile) {
+	private void saveFile(MailDTO mailDto, MultipartFile multipartFile) {
 		String realPath = "C:/mail_upload";
 		String mail_fileName = multipartFile.getOriginalFilename(); //사용자 지정 파일 이름
 		UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
@@ -97,12 +52,55 @@ public class MailService {
 			System.out.println("IO에러");
 		}
 	}
-	
-//메일주소로 유저찾기
-	public MemberDTO selectByEmail(String email) {
-		MemberDTO receiver = dao.selectByEmail(email);
-		return receiver;
+//페이징처리를 위한 변수 저장
+	private void setPaging(PageDTO pageDTO,String page) {
+		pageDTO.setRange((pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1);
+		pageDTO.pageInfo(Integer.parseInt(page), pageDTO.getRange(), pageDTO.getListCnt());
 	}
+	
+	
+//메일 보내기
+	public String sendMail(MailDTO mailDto, String addressListStr, MultipartFile multipartFile) {
+		System.out.println("multipartfile : " + multipartFile.isEmpty());
+		if(!multipartFile.isEmpty()) {
+			saveFile(mailDto, multipartFile);
+		}
+		dao.sendMail(mailDto);
+
+		//보낸 메일 고유번호
+		int recentMailNum = mailDto.getMail_num();
+		//DB에 넘겨줄 MailRecDto
+		MailRecDTO mailRecDto = new MailRecDTO();
+		mailRecDto.setMail_num(recentMailNum);
+		
+		//Mail_Rec테이블 insert (MappingTable -- 받은 사람들 저장하기)
+		String msg = "메일전송이 완료되었습니다!";
+		if(addressListStr != null) {
+			String addressList[] = addressListStr.split(" ");
+			List<Integer> rec_numList = dao.findMemberNumByMailAddress(addressList);
+			
+			int res = 0;
+			for(int i=0; i<rec_numList.size(); i++) {
+				mailRecDto.setRec_num(rec_numList.get(i));
+				mailRecDto.setMail_receiver(addressList[i]);
+				res += dao.insertReceiveTable(mailRecDto); //insert 작업
+			}
+			
+			if(res != rec_numList.size()) {
+				msg = "다시 시도해주세요";
+				return "redirect:writeMail";
+			}
+		} 
+		//내게쓰기인 경우
+		else if(addressListStr == null) {
+			mailRecDto.setRec_num(mailDto.getMember_num());
+			mailRecDto.setMail_receiver(mailDto.getMail_sender()); //보내는 사람이 받는 사람이기 떄문
+			dao.insertReceiveTable(mailRecDto); //insert 작업
+		}
+		return msg;
+	}
+	
+
 	
 //주소록(나를 제외한 유저 리스트)
 	public List<MemberDTO> selectAllMemberListExceptMe(MemberDTO loginDto) {
@@ -111,7 +109,6 @@ public class MailService {
 		return list;
 	}
 	
-	
 //받은 메일함 조회
 	public Map<String, Object> receiveMailList(String page, MemberDTO loginDto) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -119,9 +116,8 @@ public class MailService {
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
 		PageDTO pageDTO =  dao.receiveMailList(member_num, page);
-		//페이징 처리 객체 계산
-		int range = (pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1;
-		pageDTO.pageInfo(Integer.parseInt(page), range, pageDTO.getListCnt());
+		//페이징 처리
+		setPaging(pageDTO, page);
 		
 		//메일 수신여부 확인을 위한 MailRecDTO 리스트, //보낸사람 정보
 		List<MemberDTO> memberDTOList = new ArrayList<>();
@@ -148,9 +144,8 @@ public class MailService {
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
 		PageDTO pageDTO = dao.sentMailList(member_num, page);
-		//페이징 처리 객체 계산
-		int range = (pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1;
-		pageDTO.pageInfo(Integer.parseInt(page), range, pageDTO.getListCnt());
+		//페이징 처리
+		setPaging(pageDTO, page);
 		
 		//받는사람 : 홍길동 외 n명 처리
 		List<Integer> firstRecMemberNum = new ArrayList<>(); //홍길동 
@@ -180,10 +175,8 @@ public class MailService {
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
 		PageDTO pageDTO = dao.selfMailList(member_num, page);
-		//페이징 처리 객체 계산
-		int range = (pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1;
-		pageDTO.pageInfo(Integer.parseInt(page), range, pageDTO.getListCnt());
-		
+		//페이징 처리
+		setPaging(pageDTO, page);
 		
 		//메일 확인여부 확인을 위한 MailRecDTO 리스트
 		List<MailRecDTO> mailRecDTOList = new ArrayList<>();
