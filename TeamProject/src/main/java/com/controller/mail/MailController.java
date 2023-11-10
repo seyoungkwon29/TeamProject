@@ -36,14 +36,16 @@ public class MailController {
 	@Autowired
 	MemberService mService;
 	
+	private MemberDTO getUserInfoBySession(HttpSession session) {
+		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
+		return loginDto;
+	}
 	
 	@RequestMapping(value = "/sendMailProcess", method = RequestMethod.POST)
-	public String sendMail(HttpSession session,
-			HttpServletRequest request,
-			@RequestParam("mail_file") MultipartFile multipartFile) {
-		
+	public String sendMail(HttpSession session, HttpServletRequest request,
+							@RequestParam("mail_file") MultipartFile multipartFile) {
 		//사용자 정보
-		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
+		MemberDTO loginDto = getUserInfoBySession(session);
 		
 		//메일 받는 사람들
 		String addressListStr = request.getParameter("mail_receiver");
@@ -61,7 +63,7 @@ public class MailController {
 		mailDto.setMail_sender(mail_sender);
 		mailDto.setMember_num(member_num);
 
-		String msg = service.insertMail(mailDto, addressListStr, multipartFile);
+		String msg = service.sendMail(mailDto, addressListStr, multipartFile);
 		session.setAttribute("msg", msg);	
 		return "redirect:writeMail";
 	}
@@ -70,7 +72,7 @@ public class MailController {
 //메일 주소록
 	@RequestMapping("/mailAddressBook")
 	public String mailAddressBook(HttpSession session, HttpServletRequest request) {
-		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
+		MemberDTO loginDto = getUserInfoBySession(session);
 		List<MemberDTO> list = service.selectAllMemberListExceptMe(loginDto);
 		request.setAttribute("memberList", list);
 		return "mail_addressBook";
@@ -79,7 +81,7 @@ public class MailController {
 //받은 메일함 조회
 	@RequestMapping("mailReceiveList")
 	public String MailReceiveList(HttpServletRequest request, HttpSession session) {
-		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
+		MemberDTO loginDto = getUserInfoBySession(session);
 		String page = request.getParameter("page");
 		Map<String, Object> map = service.receiveMailList(page, loginDto);
 		
@@ -99,7 +101,7 @@ public class MailController {
 //보낸 메일함 조회
 	@RequestMapping("mailSentList")
 	public String mailSentList(HttpServletRequest request, HttpSession session) {
-		MemberDTO login = (MemberDTO)session.getAttribute("login");
+		MemberDTO login = getUserInfoBySession(session);
 		String page = request.getParameter("page");
 		Map<String, Object> map = service.sentMailList(page, login);
 		
@@ -119,9 +121,9 @@ public class MailController {
 //내게 쓴 메일함 조회
 	@RequestMapping("mailSelfList")
 	public String mailSelfList(HttpServletRequest request, HttpSession session) {
-		MemberDTO login = (MemberDTO)session.getAttribute("login");
+		MemberDTO loginDto = getUserInfoBySession(session);
 		String page = request.getParameter("page");
-		Map<String, Object> map = service.selfMailList(login, page);
+		Map<String, Object> map = service.selfMailList(loginDto, page);
 		
 		List<MailRecDTO> mailRecDTOList = (List<MailRecDTO>)map.get("mailRecDTOList");
 		PageDTO pageDTO = (PageDTO)map.get("pageDTO");
@@ -137,9 +139,9 @@ public class MailController {
 //메일 상세보기
 	@RequestMapping("/viewMail")
 	public String viewMail(@RequestParam int mail_num, HttpSession session) {
-		MemberDTO memberDTO =(MemberDTO)session.getAttribute("login");
+		MemberDTO loginDto = getUserInfoBySession(session);
 		
-		Map<String,Object> map = service.viewMail(mail_num, memberDTO);
+		Map<String,Object> map = service.viewMail(mail_num, loginDto);
 		MailDTO mailDTO = (MailDTO)map.get("mailDTO");
 		List<MemberDTO> RecMemberList = (List<MemberDTO>)map.get("RecMemberList");
 		MemberDTO mailSender = (MemberDTO)map.get("mailSender");
@@ -171,9 +173,9 @@ public class MailController {
 	@ResponseBody
 	@RequestMapping(value = "deleteMail", method = RequestMethod.POST)
 	public String deleteMail(@RequestParam String[] list, HttpSession session){
-		MemberDTO login = (MemberDTO)session.getAttribute("login");
-		int member_num = login.getMember_num();
-		service.deleteRecMail(login, list);
+		MemberDTO loginDto = getUserInfoBySession(session);
+		int member_num = loginDto.getMember_num();
+		service.deleteRecMail(loginDto, list);
 		
 		return null;
 	}

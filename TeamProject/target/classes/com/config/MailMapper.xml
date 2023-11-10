@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MailMapper">
-	<insert id="insertMail" parameterType="MailDTO" useGeneratedKeys="true" 
+	<insert id="sendMail" parameterType="MailDTO" useGeneratedKeys="true" 
 	   	keyProperty="mail_num" keyColumn="mail_num">
 		INSERT INTO mail VALUES(
 			mail_mailnum_seq.nextval,
@@ -36,16 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<select id="selectByEmail" parameterType="String" resultType="MemberDTO">
-		SELECT * FROM member WHERE mail = #{email}
-	</select>
-	
-	
 	<select id="selectAllMemberListExceptMe" resultType="MemberDTO" parameterType="int">
 		SELECT * FROM member WHERE member_num NOT IN(#{user_num}) ORDER BY div_name
 	</select>
 	
-	<select id="findMemberNumByEmail" parameterType="String" resultType="int">
+	<select id="findMemberNumByMailAddress" parameterType="String" resultType="int">
 		SELECT MEMBER_NUM FROM member WHERE mail = #{email}
 	</select>
 	
