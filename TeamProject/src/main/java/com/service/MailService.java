@@ -3,6 +3,7 @@ package com.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,38 +35,14 @@ public class MailService {
 		super();
 	}
 	
-//첨부파일  저장
-	private void saveFile(MailDTO mailDto, MultipartFile multipartFile) {
-		String realPath = "C:/mail_upload";
-		String mail_fileName = multipartFile.getOriginalFilename(); //사용자 지정 파일 이름
-		UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
-		String mail_fileReName = uuid+"_"+mail_fileName; //식별자 이름 + 사용자 지정파일 이름으로 파일이름 중복 방지
-		mailDto.setMail_fileName(mail_fileName);
-		mailDto.setMail_filePath(realPath);
-		mailDto.setMail_fileReName(mail_fileReName);
-		//파일 I.O처리
-		File saveFile = new File(realPath,mail_fileReName);
-		try {
-			multipartFile.transferTo(saveFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("IO에러");
-		}
-	}
-//페이징처리를 위한 변수 저장
-	private void setPaging(PageDTO pageDTO,String page) {
-		pageDTO.setRange((pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1);
-		pageDTO.pageInfo(Integer.parseInt(page), pageDTO.getRange(), pageDTO.getListCnt());
-	}
-	
-	
+
 //메일 보내기
-	public String sendMail(MailDTO mailDto, String addressListStr, MultipartFile multipartFile) {
-		System.out.println("multipartfile : " + multipartFile.isEmpty());
-		if(!multipartFile.isEmpty()) {
-			saveFile(mailDto, multipartFile);
+	public String sendMail(MailDTO mailDto, String addressListStr, MultipartFile attachmentFile) {
+		System.out.println("attachmentFile : " + attachmentFile.isEmpty());
+		if(!attachmentFile.isEmpty()) {
+			saveFile(mailDto, attachmentFile);
 		}
-		dao.sendMail(mailDto);
+		dao.saveMail(mailDto);
 
 		//보낸 메일 고유번호
 		int recentMailNum = mailDto.getMail_num();
@@ -75,31 +52,56 @@ public class MailService {
 		
 		//Mail_Rec테이블 insert (MappingTable -- 받은 사람들 저장하기)
 		String msg = "메일전송이 완료되었습니다!";
-		if(addressListStr != null) {
-			String addressList[] = addressListStr.split(" ");
-			List<Integer> rec_numList = dao.findMemberNumByMailAddress(addressList);
-			
-			int res = 0;
-			for(int i=0; i<rec_numList.size(); i++) {
-				mailRecDto.setRec_num(rec_numList.get(i));
-				mailRecDto.setMail_receiver(addressList[i]);
-				res += dao.insertReceiveTable(mailRecDto); //insert 작업
-			}
-			
-			if(res != rec_numList.size()) {
-				msg = "다시 시도해주세요";
-				return "redirect:writeMail";
-			}
-		} 
+		int res = 0;
+		int resCheck = 0;
+
 		//내게쓰기인 경우
-		else if(addressListStr == null) {
+		if(addressListStr == null) {
 			mailRecDto.setRec_num(mailDto.getMember_num());
 			mailRecDto.setMail_receiver(mailDto.getMail_sender()); //보내는 사람이 받는 사람이기 떄문
-			dao.insertReceiveTable(mailRecDto); //insert 작업
+			dao.saveReceiveTable(mailRecDto); //insert 작업
+			return msg;
 		}
+		
+		if(addressListStr != null) {
+			List<String>addressList = Arrays.asList(addressListStr.split(" "));
+			List<Integer> rec_numList = dao.findMemberNumByMailAddress(addressList);
+			resCheck = rec_numList.size();
+			
+			for(int i=0; i<rec_numList.size(); i++) {
+				mailRecDto.setRec_num(rec_numList.get(i));
+				mailRecDto.setMail_receiver(addressList.get(i));
+				res += dao.saveReceiveTable(mailRecDto); //insert 작업
+			}
+			return msg;
+		}
+		
+		if(res != resCheck) {
+			msg = "다시 시도해주세요";
+			return "redirect:writeMail";
+		}
+		
 		return msg;
 	}
 	
+//첨부파일  저장
+	private void saveFile(MailDTO mailDto, MultipartFile attachmentFile) {
+		String realPath = "C:/mail_upload";
+		String mail_fileName = attachmentFile.getOriginalFilename(); //사용자 지정 파일 이름
+		UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
+		String mail_fileReName = uuid+"_"+mail_fileName; //식별자 이름 + 사용자 지정파일 이름으로 파일이름 중복 방지
+		mailDto.setMail_fileName(mail_fileName);
+		mailDto.setMail_filePath(realPath);
+		mailDto.setMail_fileReName(mail_fileReName);
+		//파일 I.O처리
+		File saveFile = new File(realPath,mail_fileReName);
+		try {
+			attachmentFile.transferTo(saveFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("IO에러");
+		}
+	}
 
 	
 //주소록(나를 제외한 유저 리스트)
@@ -136,7 +138,12 @@ public class MailService {
 		map.put("memberDTOList", memberDTOList);
 		return map;
 	}	
-
+	//페이징처리를 위한 변수 저장
+		private void setPaging(PageDTO pageDTO,String page) {
+			pageDTO.setRange((pageDTO.getPage()-1)/pageDTO.getRangeSize() + 1);
+			pageDTO.pageInfo(Integer.parseInt(page), pageDTO.getRange(), pageDTO.getListCnt());
+		}
+	
 //보낸 메일함 조회
 	public Map<String, Object> sentMailList(String page, MemberDTO login) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -216,16 +223,16 @@ public class MailService {
 		map.put("RecMemberList",RecMemberList);
 		MemberDTO mailSender = Mdao.myPage(mailDTO.getMember_num()); //보낸사람 사번으로 멤버찾기
 		map.put("mailSender", mailSender);
+		
 		//해당 메일 읽음 여부 수정하기
 		MailRecDTO tempMailRecDTO = new MailRecDTO();
 		tempMailRecDTO.setRec_num(memberDTO.getMember_num());
 		tempMailRecDTO.setMail_num(mail_num);
 		MailRecDTO mailRecDTO = selectMailRecDTOByMailNumAndMemberNum(tempMailRecDTO);
-		if(mailRecDTO == null || mailRecDTO.getRec_status().equals("Y")) { //null인 경우는 보낸 메일 볼 때에 해당됨
-	
-		} else {
-			checkMail(mailRecDTO);	
-		}
+		if(mailRecDTO != null && mailRecDTO.getRec_status().equals("N")) { //null인 경우는 보낸 메일 볼 때에 해당됨
+			checkMail(mailRecDTO);
+		} 
+
 		return map;
 	}
 	

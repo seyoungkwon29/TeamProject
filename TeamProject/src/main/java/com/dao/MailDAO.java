@@ -25,9 +25,9 @@ public class MailDAO {
 	}
 	
 	//DB에 보낸 메일정보를 저장
-	public int sendMail(MailDTO mailDto) {;
+	public int saveMail(MailDTO mailDto) {;
 		//저장결과 확인
-		int res = session.insert("sendMail",mailDto);
+		int res = session.insert("saveMail",mailDto);
 		return res;
 	}
 	
@@ -39,18 +39,15 @@ public class MailDAO {
 	}
 
 	//메일주소 리스트로 멤버번호 리스트 찾기
-	public List<Integer> findMemberNumByMailAddress(String[] addressList) {
+	public List<Integer> findMemberNumByMailAddress(List<String> addressList) {
 		List<Integer> rec_numList = new ArrayList<>();
-		for(int i=0; i<addressList.length; i++) {
-			String email = addressList[i];
-			int rec_num = session.selectOne("findMemberNumByMailAddress",email);
-			rec_numList.add(rec_num);
-		}
+		
+		addressList.forEach(address -> rec_numList.add(session.selectOne("findMemberNumByMailAddress",address)) );
 		return rec_numList;
 	}
 
-	public int insertReceiveTable(MailRecDTO mailRecDTO) {
-		int res = session.insert("insertReceiveTable",mailRecDTO);
+	public int saveReceiveTable(MailRecDTO mailRecDTO) {
+		int res = session.insert("saveReceiveTable",mailRecDTO);
 		return res;
 	}
 
@@ -121,7 +118,7 @@ public class MailDAO {
 
 	public List<MailDTO> countMailNotReading(int member_num) {
 		List<MailDTO> list = session.selectList("countMailNotReading",member_num);
-		System.out.println("조회결과 : " + list.toString());
+//		System.out.println("조회결과 : " + list.toString());
 		return list;
 	}
 

@@ -68,7 +68,7 @@ $(".btn_addressBook").click(function() {
 	<h1 style="margin: 0; color: #333; padding-bottom: 20px; font-size: 30px;">메일 쓰기</h1>
 
 	<div class="mail-top-container">
-	<form action="sendMailProcess" method="post" enctype="multipart/form-data" id="mailWriteForm">
+	<form action="sendMail" method="post" enctype="multipart/form-data" id="mailWriteForm">
 		<div class="mailHeader">
 				<div>
 					<button type="submit" class="mail-send-btn">

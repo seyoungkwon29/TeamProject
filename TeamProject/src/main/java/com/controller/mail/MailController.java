@@ -3,6 +3,7 @@ package com.controller.mail;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,12 +42,12 @@ public class MailController {
 		return loginDto;
 	}
 	
-	@RequestMapping(value = "/sendMailProcess", method = RequestMethod.POST)
+	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
 	public String sendMail(HttpSession session, HttpServletRequest request,
 							@RequestParam("mail_file") MultipartFile multipartFile) {
 		//사용자 정보
 		MemberDTO loginDto = getUserInfoBySession(session);
-		
+
 		//메일 받는 사람들
 		String addressListStr = request.getParameter("mail_receiver");
 		
