@@ -30,12 +30,19 @@ import com.dto.PageDTO;
 import com.service.MailService;
 import com.service.MemberService;
 
-@Controller
+import lombok.RequiredArgsConstructor;
+
+
+@Controller("MailController")
+@RequiredArgsConstructor
 public class MailController {
-	@Autowired
-	MailService service;
-	@Autowired
-	MemberService mService;
+	private final MailService service; //생성자 주입 활용
+	private final MemberService mService;
+	
+	public MailController(MailService service, MemberService mService) {
+		this.service = service;
+		this.mService = mService;
+	}
 	
 	private MemberDTO getUserInfoBySession(HttpSession session) {
 		MemberDTO loginDto = (MemberDTO)session.getAttribute("login");
