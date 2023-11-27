@@ -13,11 +13,18 @@ import com.dto.MailRecDTO;
 import com.dto.MemberDTO;
 import com.dto.PageDTO;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository("MailDAO")
+@RequiredArgsConstructor
 public class MailDAO {
-	@Autowired
-	SqlSessionTemplate session;
 	
+	private final SqlSessionTemplate session;
+	
+	public MailDAO(SqlSessionTemplate session) {
+		this.session = session;
+	}
+
 	//페이징처리를 위한 변수 저장
 	private void setPaging(PageDTO pageDTO, List<MailDTO> list, int allListSize) {
 		pageDTO.setMailDTOList(list);

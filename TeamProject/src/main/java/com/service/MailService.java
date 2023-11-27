@@ -14,8 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.controller.mail.MailController;
 import com.dao.MailDAO;
 import com.dao.MemberDAO;
 import com.dto.MailDTO;
@@ -23,25 +25,24 @@ import com.dto.MailRecDTO;
 import com.dto.MemberDTO;
 import com.dto.PageDTO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service("MailService")
+@RequiredArgsConstructor
 public class MailService {
-	@Autowired
-	MailDAO dao;
 	
-	@Autowired
-	MemberDAO Mdao;
+	private final MailDAO dao;
+	private final MemberDAO Mdao;
 	
-	public MailService() {
-		super();
+	public MailService(MailDAO dao, MemberDAO Mdao) {
+		this.dao = dao;
+		this.Mdao = Mdao;
 	}
-	
 
 //메일 보내기
+	@Transactional
 	public String sendMail(MailDTO mailDto, String addressListStr, MultipartFile attachmentFile) {
-		System.out.println("attachmentFile : " + attachmentFile.isEmpty());
-		if(!attachmentFile.isEmpty()) {
-			saveFile(mailDto, attachmentFile);
-		}
+		
 		dao.saveMail(mailDto);
 
 		//보낸 메일 고유번호
@@ -81,11 +82,15 @@ public class MailService {
 			return "redirect:writeMail";
 		}
 		
+		//첨부파일 저장
+		if(!attachmentFile.isEmpty()) {
+			saveAttachmentFile(mailDto, attachmentFile);
+		}
 		return msg;
 	}
 	
 //첨부파일  저장
-	private void saveFile(MailDTO mailDto, MultipartFile attachmentFile) {
+	private void saveAttachmentFile(MailDTO mailDto, MultipartFile attachmentFile) {
 		String realPath = "C:/mail_upload";
 		String mail_fileName = attachmentFile.getOriginalFilename(); //사용자 지정 파일 이름
 		UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
@@ -105,6 +110,7 @@ public class MailService {
 
 	
 //주소록(나를 제외한 유저 리스트)
+	@Transactional(readOnly = true)
 	public List<MemberDTO> selectAllMemberListExceptMe(MemberDTO loginDto) {
 		int user_num = loginDto.getMember_num();
 		List<MemberDTO> list = dao.selectAllMemberListExceptMe(user_num);
@@ -112,6 +118,7 @@ public class MailService {
 	}
 	
 //받은 메일함 조회
+	@Transactional(readOnly = true)
 	public Map<String, Object> receiveMailList(String page, MemberDTO loginDto) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int member_num = loginDto.getMember_num();
@@ -145,6 +152,7 @@ public class MailService {
 		}
 	
 //보낸 메일함 조회
+	@Transactional(readOnly = true)
 	public Map<String, Object> sentMailList(String page, MemberDTO login) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int member_num = login.getMember_num();
@@ -176,6 +184,7 @@ public class MailService {
 	}
 	
 //내게 쓴 메일함 조회
+	@Transactional(readOnly = true)
 	public Map<String, Object> selfMailList(MemberDTO login, String page ) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int member_num = login.getMember_num();
@@ -199,13 +208,14 @@ public class MailService {
 
 	}
 	
-
+	@Transactional(readOnly = true)
 	public List<MailRecDTO> selectMailRecDTOByMailNum(int mail_num) {
 		List<MailRecDTO> list = dao.selectMailRecDTOByMailNum(mail_num);
 		return list;
 	}
 
 //메일 상세보기
+	@Transactional(readOnly = true)
 	public Map<String,Object>viewMail(int mail_num, MemberDTO memberDTO) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		
@@ -231,26 +241,28 @@ public class MailService {
 		MailRecDTO mailRecDTO = selectMailRecDTOByMailNumAndMemberNum(tempMailRecDTO);
 		if(mailRecDTO != null && mailRecDTO.getRec_status().equals("N")) { //null인 경우는 보낸 메일 볼 때에 해당됨
 			checkMail(mailRecDTO);
-		} 
-
+		}
 		return map;
 	}
 	
-
+	@Transactional(readOnly = true)
 	public MailDTO selectMailDTOByMailNum(int mail_num) {
 		MailDTO mailDTO = dao.selectMailDTOByMailNum(mail_num);
 		return mailDTO;
 	}
-
+	
+	@Transactional
 	public void checkMail(MailRecDTO mailRecDTO) {
 		dao.checkMail(mailRecDTO);
 	}
 
+	@Transactional(readOnly = true)
 	public MailRecDTO selectMailRecDTOByMailNumAndMemberNum(MailRecDTO mailRecDto) {
 		MailRecDTO mailRecDTO = dao.selectMailRecDTOByMailNumAndMemberNum(mailRecDto);
 		return mailRecDTO;
 	}
-
+	
+	@Transactional
 	public void deleteRecMail(MemberDTO login, String[] list) {
 		int member_num = login.getMember_num();
 		
@@ -264,17 +276,17 @@ public class MailService {
 	}
 	
 
-	
+	@Transactional(readOnly = true)
 	public List<MailDTO> homeReceiveMailList(int member_num) {
 		List<MailDTO> receiveList = dao.homeReceiveMailList(member_num);
 		return receiveList;
 
 	}
 
+	@Transactional(readOnly = true)
 	public List<MailDTO> countMailNotReading(MemberDTO login) {
 		List<MailDTO> list = dao.countMailNotReading(login.getMember_num());
 		return list;
 	}
-
 	
 }
