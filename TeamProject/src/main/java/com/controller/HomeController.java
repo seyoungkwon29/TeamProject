@@ -62,7 +62,8 @@ public class HomeController {
 		
 		// 메일 목록
 		List<MailDTO> mailList = mailService.homeReceiveMailList(member.getMember_num());
-		mailService.receiveMailList("1", member);
+		session.setAttribute("recMailList", mailList);
+//		mailService.receiveMailList("1", member);
 		
         return "homePage";
     }

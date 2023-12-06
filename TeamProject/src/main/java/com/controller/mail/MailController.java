@@ -58,6 +58,11 @@ public class MailController {
 		//메일 받는 사람들
 		String addressListStr = request.getParameter("mail_receiver");
 		
+		List<String> addressList = new ArrayList<String>();
+		if(addressListStr != null) {
+			addressList = Arrays.asList(addressListStr.split(" "));
+		}
+		
 		//데이터 파싱
 		String mail_title = request.getParameter("mail_title");
 		String mail_content = request.getParameter("mail_content");
@@ -71,7 +76,7 @@ public class MailController {
 		mailDto.setMail_sender(mail_sender);
 		mailDto.setMember_num(member_num);
 
-		String msg = service.sendMail(mailDto, addressListStr, multipartFile);
+		String msg = service.sendMail(mailDto, addressList, multipartFile);
 		session.setAttribute("msg", msg);	
 		return "redirect:writeMail";
 	}

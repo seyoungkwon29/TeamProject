@@ -9,15 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.controller.mail.MailController;
 import com.dao.MailDAO;
 import com.dao.MemberDAO;
 import com.dto.MailDTO;
@@ -31,66 +26,89 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MailService {
 	
-	private final MailDAO dao;
-	private final MemberDAO Mdao;
+	private final MailDAO mailRepository; 
+	private  final MemberDAO memberRepository;
 	
-	public MailService(MailDAO dao, MemberDAO Mdao) {
-		this.dao = dao;
-		this.Mdao = Mdao;
+	//이클립스에서는 @RequiredArgsConstructor 쓰더라도 생성자가 필요한듯,,
+	public MailService(MailDAO mailRepository, MemberDAO memberRepository) {
+		this.mailRepository = mailRepository;
+		this.memberRepository = memberRepository;
 	}
 
+	private final String SUCCESS_MESSAGE = "메일전송이 완료되었습니다.";
+	private final String FAIL_MESSAGE = "메일전송이 실패했습니다.";
+	
 //메일 보내기
 	@Transactional
-	public String sendMail(MailDTO mailDto, String addressListStr, MultipartFile attachmentFile) {
-		
-		dao.saveMail(mailDto);
+	public String sendMail(MailDTO mailDto, List<String> addressList, MultipartFile attachmentFile) {
+		//DB에 넘겨줄 MailRecDto(수신자 정보 객체)
+		MailRecDTO mailRecDto = saveMail(mailDto);
+		//내게쓰기인 경우
+		boolean isSendToMe = checkSendToMe(addressList);
+		try {
+			if(isSendToMe) {
+				sendMailToMe(mailDto, mailRecDto);
+				saveAttachmentFile(mailDto, attachmentFile);
+				return SUCCESS_MESSAGE;
+			} 
+			else {   
+				sendMailToAnother(addressList, mailRecDto);
+				saveAttachmentFile(mailDto, attachmentFile);
+				return SUCCESS_MESSAGE;
+			}
+		} 
+		catch (Exception e) {
+			return FAIL_MESSAGE;
+		}
+	}
+	
+	
+	private MailRecDTO saveMail(MailDTO mailDto) {
+		mailRepository.saveMail(mailDto);
 
 		//보낸 메일 고유번호
 		int recentMailNum = mailDto.getMail_num();
-		//DB에 넘겨줄 MailRecDto
+		//DB에 넘겨줄 MailRecDto(수신자 정보 객체)
 		MailRecDTO mailRecDto = new MailRecDTO();
 		mailRecDto.setMail_num(recentMailNum);
-		
-		//Mail_Rec테이블 insert (MappingTable -- 받은 사람들 저장하기)
-		String msg = "메일전송이 완료되었습니다!";
-		int res = 0;
-		int resCheck = 0;
-
-		//내게쓰기인 경우
-		if(addressListStr == null) {
-			mailRecDto.setRec_num(mailDto.getMember_num());
-			mailRecDto.setMail_receiver(mailDto.getMail_sender()); //보내는 사람이 받는 사람이기 떄문
-			dao.saveReceiveTable(mailRecDto); //insert 작업
-			return msg;
+		return mailRecDto;
+	}
+	
+//내게 메일쓰기
+	private void sendMailToMe(MailDTO mailDto, MailRecDTO mailRecDto) {
+		mailRecDto.setRec_num(mailDto.getMember_num());
+		mailRecDto.setMail_receiver(mailDto.getMail_sender()); //보내는 사람이 받는 사람이기 떄문
+		mailRepository.saveReceiveTable(mailRecDto); //insert 작업
+	}
+	
+//보낸사람 주소가 있는지 확인
+	private boolean checkSendToMe(List<String> addressList) {
+		if(addressList.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	private void sendMailToAnother(List<String> addressList, MailRecDTO mailRecDto) {
+		List<Integer> recipients_NumList = mailRepository.findMemberNumByMailAddress(addressList);
+		int numberOfRecipients = recipients_NumList.size();
+		saveRecipients(numberOfRecipients, recipients_NumList, addressList, mailRecDto);
+	}
+	
+	private void saveRecipients(int numberOfRecipients, List<Integer> rec_numList, List<String>addressList, MailRecDTO mailRecDto) {
+		for(int i=0; i<numberOfRecipients; i++) {
+			mailRecDto.setRec_num(rec_numList.get(i));
+			mailRecDto.setMail_receiver(addressList.get(i));
+			mailRepository.saveReceiveTable(mailRecDto); //insert 작업
 		}
 		
-		if(addressListStr != null) {
-			List<String>addressList = Arrays.asList(addressListStr.split(" "));
-			List<Integer> rec_numList = dao.findMemberNumByMailAddress(addressList);
-			resCheck = rec_numList.size();
-			
-			for(int i=0; i<rec_numList.size(); i++) {
-				mailRecDto.setRec_num(rec_numList.get(i));
-				mailRecDto.setMail_receiver(addressList.get(i));
-				res += dao.saveReceiveTable(mailRecDto); //insert 작업
-			}
-			return msg;
-		}
-		
-		if(res != resCheck) {
-			msg = "다시 시도해주세요";
-			return "redirect:writeMail";
-		}
-		
-		//첨부파일 저장
-		if(!attachmentFile.isEmpty()) {
-			saveAttachmentFile(mailDto, attachmentFile);
-		}
-		return msg;
 	}
 	
 //첨부파일  저장
 	private void saveAttachmentFile(MailDTO mailDto, MultipartFile attachmentFile) {
+		if(attachmentFile.isEmpty()) {
+			return;
+		}
 		String realPath = "C:/mail_upload";
 		String mail_fileName = attachmentFile.getOriginalFilename(); //사용자 지정 파일 이름
 		UUID uuid = UUID.randomUUID(); //파일 이름 중복 방지를 위한 식별자 
@@ -113,7 +131,7 @@ public class MailService {
 	@Transactional(readOnly = true)
 	public List<MemberDTO> selectAllMemberListExceptMe(MemberDTO loginDto) {
 		int user_num = loginDto.getMember_num();
-		List<MemberDTO> list = dao.selectAllMemberListExceptMe(user_num);
+		List<MemberDTO> list = mailRepository.selectAllMemberListExceptMe(user_num);
 		return list;
 	}
 	
@@ -124,7 +142,7 @@ public class MailService {
 		int member_num = loginDto.getMember_num();
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
-		PageDTO pageDTO =  dao.receiveMailList(member_num, page);
+		PageDTO pageDTO =  mailRepository.receiveMailList(member_num, page);
 		//페이징 처리
 		setPaging(pageDTO, page);
 		
@@ -136,8 +154,8 @@ public class MailService {
 		
 		for(MailDTO m : pageDTO.getMailDTOList()) {
 			mailRecDTO.setMail_num(m.getMail_num());
-			mailRecDTOList.add(dao.selectMailRecDTOByMailNumAndMemberNum(mailRecDTO));
-			memberDTOList.add(Mdao.myPage(m.getMember_num()));
+			mailRecDTOList.add(mailRepository.selectMailRecDTOByMailNumAndMemberNum(mailRecDTO));
+			memberDTOList.add(memberRepository.myPage(m.getMember_num()));
 		}
 		
 		map.put("pageDTO", pageDTO);
@@ -158,7 +176,7 @@ public class MailService {
 		int member_num = login.getMember_num();
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
-		PageDTO pageDTO = dao.sentMailList(member_num, page);
+		PageDTO pageDTO = mailRepository.sentMailList(member_num, page);
 		//페이징 처리
 		setPaging(pageDTO, page);
 		
@@ -170,12 +188,12 @@ public class MailService {
 		for(int i=0; i<pageDTO.getMailDTOList().size(); i++) {
 			int mail_num = pageDTO.getMailDTOList().get(i).getMail_num();
 			
-			List<MailRecDTO> list = dao.selectMailRecDTOByMailNum(mail_num);
+			List<MailRecDTO> list = mailRepository.selectMailRecDTOByMailNum(mail_num);
 			recMemberCount.add(list.size()-1);
 			firstRecMemberNum.add(list.get(0).getRec_num());
 		}
 		for(int i=0; i<firstRecMemberNum.size(); i++) {
-			firstRecMember.add(Mdao.myPage(firstRecMemberNum.get(i)));
+			firstRecMember.add(memberRepository.myPage(firstRecMemberNum.get(i)));
 		}
 		map.put("pageDTO", pageDTO);
 		map.put("firstRecMember", firstRecMember);
@@ -190,7 +208,7 @@ public class MailService {
 		int member_num = login.getMember_num();
 		if(page == null) { page = "1"; }
 		//페이징 처리를 위한 객체
-		PageDTO pageDTO = dao.selfMailList(member_num, page);
+		PageDTO pageDTO = mailRepository.selfMailList(member_num, page);
 		//페이징 처리
 		setPaging(pageDTO, page);
 		
@@ -200,7 +218,7 @@ public class MailService {
 		mailRecDTO.setRec_num(member_num);
 		for(MailDTO m : pageDTO.getMailDTOList()) {
 			mailRecDTO.setMail_num(m.getMail_num());
-			mailRecDTOList.add(dao.selectMailRecDTOByMailNumAndMemberNum(mailRecDTO));
+			mailRecDTOList.add(mailRepository.selectMailRecDTOByMailNumAndMemberNum(mailRecDTO));
 		}
 		map.put("mailRecDTOList", mailRecDTOList);
 		map.put("pageDTO", pageDTO);
@@ -210,7 +228,7 @@ public class MailService {
 	
 	@Transactional(readOnly = true)
 	public List<MailRecDTO> selectMailRecDTOByMailNum(int mail_num) {
-		List<MailRecDTO> list = dao.selectMailRecDTOByMailNum(mail_num);
+		List<MailRecDTO> list = mailRepository.selectMailRecDTOByMailNum(mail_num);
 		return list;
 	}
 
@@ -223,15 +241,15 @@ public class MailService {
 		MailDTO mailDTO = selectMailDTOByMailNum(mail_num);
 		map.put("mailDTO", mailDTO);
 		//넘어온 메일번호로 해당메일 수신자들 사번 찾기(수신자 리스트를 뽑기 위함)
-		List<MailRecDTO> mailRecList = dao.selectMailRecDTOByMailNum(mail_num);
+		List<MailRecDTO> mailRecList = mailRepository.selectMailRecDTOByMailNum(mail_num);
 		
 		//수신자들 사번리스트(mailRecList)으로 받은사람들 MemberDTO로 전환
 		List<MemberDTO> RecMemberList = new ArrayList<>(); //
 		for(MailRecDTO m : mailRecList) {
-			RecMemberList.add(Mdao.myPage(m.getRec_num()));
+			RecMemberList.add(memberRepository.myPage(m.getRec_num()));
 		}
 		map.put("RecMemberList",RecMemberList);
-		MemberDTO mailSender = Mdao.myPage(mailDTO.getMember_num()); //보낸사람 사번으로 멤버찾기
+		MemberDTO mailSender = memberRepository.myPage(mailDTO.getMember_num()); //보낸사람 사번으로 멤버찾기
 		map.put("mailSender", mailSender);
 		
 		//해당 메일 읽음 여부 수정하기
@@ -247,18 +265,18 @@ public class MailService {
 	
 	@Transactional(readOnly = true)
 	public MailDTO selectMailDTOByMailNum(int mail_num) {
-		MailDTO mailDTO = dao.selectMailDTOByMailNum(mail_num);
+		MailDTO mailDTO = mailRepository.selectMailDTOByMailNum(mail_num);
 		return mailDTO;
 	}
 	
 	@Transactional
 	public void checkMail(MailRecDTO mailRecDTO) {
-		dao.checkMail(mailRecDTO);
+		mailRepository.checkMail(mailRecDTO);
 	}
 
 	@Transactional(readOnly = true)
 	public MailRecDTO selectMailRecDTOByMailNumAndMemberNum(MailRecDTO mailRecDto) {
-		MailRecDTO mailRecDTO = dao.selectMailRecDTOByMailNumAndMemberNum(mailRecDto);
+		MailRecDTO mailRecDTO = mailRepository.selectMailRecDTOByMailNumAndMemberNum(mailRecDto);
 		return mailRecDTO;
 	}
 	
@@ -271,21 +289,22 @@ public class MailService {
 		for(int i=0; i<list.length; i++) {
 			int mail_num = Integer.parseInt(list[i]);
 			mailRecDTO.setMail_num(mail_num);			
-			dao.deleteRecMail(mailRecDTO);
+			mailRepository.deleteRecMail(mailRecDTO);
 		}	
 	}
 	
 
 	@Transactional(readOnly = true)
 	public List<MailDTO> homeReceiveMailList(int member_num) {
-		List<MailDTO> receiveList = dao.homeReceiveMailList(member_num);
+		List<MailDTO> receiveList = mailRepository.homeReceiveMailList(member_num);
+		
 		return receiveList;
 
 	}
 
 	@Transactional(readOnly = true)
 	public List<MailDTO> countMailNotReading(MemberDTO login) {
-		List<MailDTO> list = dao.countMailNotReading(login.getMember_num());
+		List<MailDTO> list = mailRepository.countMailNotReading(login.getMember_num());
 		return list;
 	}
 	
