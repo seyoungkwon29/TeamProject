@@ -297,7 +297,8 @@
         <version>1.2</version>
     </dependency>
 	<!-- 메일 api end-->
-		<!-- Test -->
+	
+<!-- Test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
